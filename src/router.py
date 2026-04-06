@@ -1,0 +1,135 @@
+
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import List, Optional, Dict, Any
+
+@dataclass
+class PerceptionResult:
+    intent: str
+    misconception_tag: Optional[str] = None
+    cognitive_state: str = "认知僵局"
+    risk_flag: bool = False
+    confidence: float = 0.0
+
+@dataclass
+class SessionMemory:
+    session_id: str
+    topic: Optional[str] = None
+    current_state: str = "S0"
+    current_misconception: Optional[str] = None
+    turn_count: int = 0
+    history_summary: str = ""
+    used_strategies: List[str] = field(default_factory=list)
+    recent_states: List[str] = field(default_factory=list)
+    risk_events: List[str] = field(default_factory=list)
+    resolved: bool = False
+
+@dataclass
+class RouteDecision:
+    state: str
+    state_name: str
+    strategy: Optional[str]
+    need_guardrail: bool
+    next_goal: str
+    meta: Dict[str, Any] = field(default_factory=dict)
+
+STATE_NAMES = {
+    "S0": "Listen_And_Analyze",
+    "S1": "Guardrail_Check",
+    "S2": "Refusal_And_Guidance",
+    "S3": "Misconception_Diagnosis",
+    "S4": "Cognitive_Conflict",
+    "S5": "Scaffolding_Guidance",
+    "S6": "Verification_Deepening",
+}
+COGNITIVE_SOLID = {"固守错误概念", "坚持错误", "错误概念稳定"}
+COGNITIVE_SHAKING = {"开始动摇", "认知僵局", "表达模糊", "困惑", "卡住"}
+COGNITIVE_NEAR = {"接近正确", "已基本掌握", "基本正确"}
+MISCONCEPTION_TO_TOPIC = {
+    "M-ELE-001": "电学",
+    "M-ELE-002": "电学",
+    "M-BUO-001": "浮力",
+    "M-BUO-002": "浮力",
+}
+STATE_STRATEGIES = {
+    "S2": [None],
+    "S4": ["Assumption_Probing", "Consequence_Exploration"],
+    "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding"],
+    "S6": ["Evidence_Seeking", "Consequence_Exploration"],
+}
+STRATEGY_GOALS = {
+    None: "拒绝直接代答，并将对话重定向回引导式学习路径。",
+    "Clarification": "澄清学生表述中的模糊概念，找准真正的认知问题。",
+    "Assumption_Probing": "暴露学生结论背后的隐含前提，制造认知冲突。",
+    "Evidence_Seeking": "引导学生用现象、实验或理由支持自己的判断。",
+    "Consequence_Exploration": "把学生当前解释继续推演，检验其后果是否合理。",
+    "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
+}
+
+def _normalize_cognitive_state(cognitive_state: str) -> str:
+    if cognitive_state in COGNITIVE_SOLID:
+        return "solid"
+    if cognitive_state in COGNITIVE_SHAKING:
+        return "shaking"
+    if cognitive_state in COGNITIVE_NEAR:
+        return "near"
+    return "shaking"
+
+def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
+    candidates = STATE_STRATEGIES.get(state, [None])
+    last = memory.used_strategies[-1] if memory.used_strategies else None
+    for c in candidates:
+        if c != last:
+            return c
+    return candidates[0] if candidates else None
+
+def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDecision:
+    memory.turn_count += 1
+    memory.current_state = "S1"
+    if perception.risk_flag:
+        decision = RouteDecision(
+            state="S2", state_name=STATE_NAMES["S2"], strategy=None,
+            need_guardrail=True, next_goal=STRATEGY_GOALS[None],
+            meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent}
+        )
+        memory.current_state = decision.state
+        memory.recent_states.append(decision.state)
+        if perception.intent:
+            memory.risk_events.append(perception.intent)
+        return decision
+    memory.current_state = "S3"
+    norm = _normalize_cognitive_state(perception.cognitive_state)
+    if perception.misconception_tag:
+        memory.current_misconception = perception.misconception_tag
+        memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, memory.topic)
+    if perception.misconception_tag is not None and norm == "solid":
+        target = "S4"
+    elif norm == "shaking":
+        target = "S5"
+    elif norm == "near":
+        target = "S6"
+    else:
+        target = "S5"
+    if len(memory.recent_states) >= 2 and memory.recent_states[-2:] == ["S4", "S4"] and target == "S4":
+        target = "S5"
+    strategy = _choose_strategy(target, memory)
+    decision = RouteDecision(
+        state=target, state_name=STATE_NAMES[target], strategy=strategy,
+        need_guardrail=False, next_goal=STRATEGY_GOALS[strategy],
+        meta={"from":"S3","intent":perception.intent,"misconception_tag":perception.misconception_tag,
+              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"topic":memory.topic}
+    )
+    memory.current_state = decision.state
+    memory.recent_states.append(decision.state)
+    if strategy is not None:
+        memory.used_strategies.append(strategy)
+    return decision
+
+def update_after_turn(memory: SessionMemory, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
+    memory.history_summary = history_summary if history_summary is not None else final_reply[:120]
+    if understanding_verified:
+        memory.resolved = True
+    memory.recent_states = memory.recent_states[-10:]
+    memory.used_strategies = memory.used_strategies[-10:]
+    memory.risk_events = memory.risk_events[-10:]
+    return memory
