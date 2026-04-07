@@ -19,4 +19,10 @@ class SessionLogger:
         with self.session_log_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
+    def warning(self, msg: str):
+        print(f"[WARNING] {msg}")
+
+    def error(self, msg: str):
+        print(f"[ERROR] {msg}")
+
 logger_instance = SessionLogger()

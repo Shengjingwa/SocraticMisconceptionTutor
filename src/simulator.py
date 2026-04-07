@@ -88,7 +88,8 @@ def run_simulation() -> None:
                     session_id = f"sim_{v}_{p['profile_id']}_{m['id']}_{uuid.uuid4().hex[:6]}"
                     print(f"[{current_session}/{total_sessions}] Starting session: {session_id}")
                     
-                    app = SocraticTutorApp(session_id=session_id, system_version=v)
+                    app = SocraticTutorApp(session_id=session_id)
+                    app.system_version = v
                     app.student_profile = p['profile_id']
                     app.memory.topic = m['topic']
                     app.memory.current_misconception = m['id']
