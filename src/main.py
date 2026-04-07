@@ -34,7 +34,17 @@ class SocraticTutorApp:
             "memory": self.memory
         }
         
-        final_state = app_graph.invoke(initial_state)
+        try:
+            final_state = app_graph.invoke(initial_state)
+        except Exception as e:
+            logger_instance.error(f"Global exception during graph execution: {e}")
+            return {
+                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0},
+                "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
+                "generation": {"raw_reply": "抱歉，系统遇到了一些问题，请稍后再试。", "final_reply": "抱歉，系统遇到了一些问题，请稍后再试。"},
+                "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
+                "guardrail": {"guardrail_triggered": False, "guardrail_reason": None}
+            }
         
         perception = final_state["perception"]
         decision = final_state["decision"]

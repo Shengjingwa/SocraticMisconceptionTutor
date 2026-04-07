@@ -34,6 +34,12 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     decision = state["decision"]
     generation = state["generation"]
     
+    retries = decision.meta.get("guardrail_retries", 0)
+    if retries >= 3:
+        generation["final_reply"] = "为了确保准确性，我建议我们先从基础概念开始梳理。你能告诉我你目前最确定的部分是什么吗？"
+        guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
+        return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation}
+
     is_already_safe = decision.need_guardrail or decision.state == "S2"
     guardrail_result = apply_guardrails(
         user_input=user_input, 
@@ -44,13 +50,15 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     )
     
     if guardrail_result["guardrail_triggered"] and not is_already_safe:
+        new_meta = decision.meta.copy()
+        new_meta["guardrail_retries"] = retries + 1
         new_decision = RouteDecision(
             state="S2",
             state_name="Refusal_And_Guidance",
             strategy=None,
             need_guardrail=True,
             next_goal=decision.next_goal,
-            meta=decision.meta
+            meta=new_meta
         )
         return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
         

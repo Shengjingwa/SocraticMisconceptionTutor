@@ -7,14 +7,19 @@ from typing import Any, Dict, List, Optional
 from router import RouteDecision, SessionMemory
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 def _load_json(filename: str) -> Any:
     path = DATA_DIR / filename
-    if path.exists():
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+    try:
+        if path.exists():
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        from logger import logger_instance
+        logger_instance.error(f"Failed to load JSON {filename}: {e}")
     return []
 
 # Load data
@@ -68,7 +73,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
     llm = ChatOpenAI(
         model='deepseek-chat',
-        api_key=os.environ.get("DEEPSEEK_API_KEY", "dummy_key"),
+        api_key=os.environ.get("DEEPSEEK_API_KEY"),
         base_url='https://api.deepseek.com'
     )
     
@@ -77,8 +82,21 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         HumanMessage(content=user_input)
     ]
     
-    response = llm.invoke(messages)
-    reply_text = response.content
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        reraise=True
+    )
+    def _invoke_llm():
+        return llm.invoke(messages)
+
+    try:
+        response = _invoke_llm()
+        reply_text = response.content
+    except Exception as e:
+        from logger import logger_instance
+        logger_instance.error(f"LLM generation failed: {e}")
+        reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
     
     return {
         "raw_reply": reply_text,
