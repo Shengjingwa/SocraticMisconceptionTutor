@@ -9,11 +9,9 @@ SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from classifiers import classify_input
-from generator import generate_reply
-from router import SessionMemory, route_state, update_after_turn
-from guardrails import apply_guardrails
+from router import SessionMemory, update_after_turn
 from logger import logger_instance
+from graph import app_graph
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"
@@ -31,27 +29,17 @@ class SocraticTutorApp:
         self.answer_leakage_count = 0
 
     def step(self, user_input: str) -> Dict[str, Any]:
-        perception = classify_input(user_input, history_summary=self.memory.history_summary)
-        decision = route_state(perception, self.memory)
-        generation = generate_reply(user_input=user_input, decision=decision, memory=self.memory, history_summary=self.memory.history_summary)
+        initial_state = {
+            "user_input": user_input,
+            "memory": self.memory
+        }
         
-        # 应用护栏
-        is_already_safe = decision.need_guardrail or decision.state == "S2"
-        guardrail_result = apply_guardrails(
-            user_input=user_input, 
-            intent=perception.intent, 
-            generated_text=generation["final_reply"], 
-            misconception_tag=perception.misconception_tag,
-            is_already_safe=is_already_safe
-        )
-
-        if guardrail_result["guardrail_triggered"] and not is_already_safe:
-            # 如果触发护栏且当前不是安全状态，则重置为S2拒绝与引导状态并重新生成
-            decision.state = "S2"
-            decision.state_name = "Refusal_And_Guidance"
-            decision.strategy = None
-            decision.need_guardrail = True
-            generation = generate_reply(user_input=user_input, decision=decision, memory=self.memory, history_summary=self.memory.history_summary)
+        final_state = app_graph.invoke(initial_state)
+        
+        perception = final_state["perception"]
+        decision = final_state["decision"]
+        generation = final_state["generation"]
+        guardrail_result = final_state["guardrail_result"]
 
         understanding_verified = decision.state == "S6" and not decision.need_guardrail
         update_after_turn(self.memory, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)

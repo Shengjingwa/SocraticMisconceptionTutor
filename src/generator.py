@@ -1,9 +1,12 @@
 from __future__ import annotations
 import json
 import random
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from router import RouteDecision, SessionMemory
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage, HumanMessage
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -16,11 +19,9 @@ def _load_json(filename: str) -> Any:
 
 # Load data
 misconceptions_data = _load_json("misconceptions.json")
-strategy_templates_data = _load_json("strategy_templates.json")
 knowledge_chunks_data = _load_json("knowledge_chunks.json")
 
 MISCONCEPTIONS = {item["id"]: item for item in misconceptions_data}
-STRATEGY_TEMPLATES = {item["strategy_name"]: item for item in strategy_templates_data}
 KNOWLEDGE_CHUNKS = {item["misconception_tag"]: item for item in knowledge_chunks_data}
 
 REFUSAL_REDIRECT_TEMPLATES = [
@@ -65,32 +66,26 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "assembled_prompt": assembled_prompt
         }
 
-    strategy_item = STRATEGY_TEMPLATES.get(decision.strategy, {})
-    template = _pick_one(strategy_item.get("template_bank", [])) or _pick_one(strategy_item.get("fallback_templates", []), default="我们先一步一步想。")
+    llm = ChatOpenAI(
+        model='deepseek-chat',
+        api_key=os.environ.get("DEEPSEEK_API_KEY", "dummy_key"),
+        base_url='https://api.deepseek.com'
+    )
     
-    main_text = template
+    messages = [
+        SystemMessage(content=json.dumps(assembled_prompt, ensure_ascii=False)),
+        HumanMessage(content=user_input)
+    ]
     
-    extension = ""
-    if decision.state == "S4":
-        counterexample = _pick_one(knowledge.get("counterexamples", []))
-        if counterexample:
-            extension = f" 如果你愿意，可以顺便检查这个情况：{counterexample}"
-    elif decision.state == "S5":
-        core_point = _pick_one(knowledge.get("core_science_points", []))
-        if core_point:
-            extension = f" 先给你一个小支架：{core_point}"
-    elif decision.state == "S6":
-        verification_q = _pick_one(knowledge.get("verification_questions", []))
-        if verification_q:
-            extension = f" 再验证一步：{verification_q}"
-            
-    final_reply = (main_text + extension).strip()
+    response = llm.invoke(messages)
+    reply_text = response.content
+    
     return {
-        "raw_reply": main_text, 
-        "final_reply": final_reply, 
-        "reply_type": _reply_type_from_state(decision.state), 
-        "knowledge_used": misconception.get("misconception_name"), 
-        "state": decision.state, 
+        "raw_reply": reply_text,
+        "final_reply": reply_text,
+        "reply_type": _reply_type_from_state(decision.state),
+        "knowledge_used": misconception.get("misconception_name"),
+        "state": decision.state,
         "strategy": decision.strategy,
         "assembled_prompt": assembled_prompt
     }
