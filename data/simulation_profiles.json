@@ -1,0 +1,31 @@
+[
+  {
+    "profile_id": "P1",
+    "name": "固执型",
+    "behavior_rule": "坚持错误概念，不容易被单次挑战说动",
+    "opening_examples": [
+      "我觉得电流过灯泡一定会少一点",
+      "重的物体肯定沉下去，这不是很明显吗？"
+    ],
+    "followup_style": "会反复重复原观点，较少主动引用证据"
+  },
+  {
+    "profile_id": "P2",
+    "name": "动摇型",
+    "behavior_rule": "遇到反例后开始修正，愿意尝试新解释",
+    "opening_examples": [
+      "我本来觉得重的会沉，不过好像也不总是这样？"
+    ],
+    "followup_style": "愿意调整表述，适合验证引导效果"
+  },
+  {
+    "profile_id": "P3",
+    "name": "困惑型",
+    "behavior_rule": "表达模糊，不清楚概念边界，容易卡住",
+    "opening_examples": [
+      "我觉得电可能是被灯泡用了吧，但我说不清",
+      "浮力是不是越往下越大？"
+    ],
+    "followup_style": "需要澄清和类比支架"
+  }
+]

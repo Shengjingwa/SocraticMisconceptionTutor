@@ -12,6 +12,7 @@ if str(SRC_DIR) not in sys.path:
 from classifiers import classify_input
 from generator import generate_reply
 from router import SessionMemory, route_state, update_after_turn
+from guardrails import apply_guardrails
 from logger import logger_instance
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,9 +34,28 @@ class SocraticTutorApp:
         perception = classify_input(user_input, history_summary=self.memory.history_summary)
         decision = route_state(perception, self.memory)
         generation = generate_reply(user_input=user_input, decision=decision, memory=self.memory, history_summary=self.memory.history_summary)
+        
+        # 应用护栏
+        is_already_safe = decision.need_guardrail or decision.state == "S2"
+        guardrail_result = apply_guardrails(
+            user_input=user_input, 
+            intent=perception.intent, 
+            generated_text=generation["final_reply"], 
+            misconception_tag=perception.misconception_tag,
+            is_already_safe=is_already_safe
+        )
+
+        if guardrail_result["guardrail_triggered"] and not is_already_safe:
+            # 如果触发护栏且当前不是安全状态，则重置为S2拒绝与引导状态并重新生成
+            decision.state = "S2"
+            decision.state_name = "Refusal_And_Guidance"
+            decision.strategy = None
+            decision.need_guardrail = True
+            generation = generate_reply(user_input=user_input, decision=decision, memory=self.memory, history_summary=self.memory.history_summary)
+
         understanding_verified = decision.state == "S6" and not decision.need_guardrail
         update_after_turn(self.memory, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
-        
+
         turn_log = {
             "timestamp": _timestamp(),
             "session_id": self.memory.session_id,
@@ -51,26 +71,29 @@ class SocraticTutorApp:
             "sentiment_pred": "Confused",
             "current_state": decision.state,
             "strategy_used": decision.strategy,
-            "guardrail_triggered": decision.need_guardrail,
-            "guardrail_reason": "Risk Flag" if decision.need_guardrail else None,
+            "guardrail_triggered": decision.need_guardrail or guardrail_result["guardrail_triggered"],
+            "guardrail_reason": guardrail_result.get("guardrail_reason") or ("Risk Flag" if decision.need_guardrail else None),
             "raw_reply": generation["raw_reply"],
             "final_reply": generation["final_reply"],
-            "answer_leakage_flag": False,
-            "out_of_boundary_flag": False,
+            "answer_leakage_flag": guardrail_result.get("answer_leakage_flag", False),
+            "out_of_boundary_flag": guardrail_result.get("guardrail_reason") == "Off_Topic",
             "state_transition_success": True,
             "turn_end_resolved_flag": self.memory.resolved,
             "notes": ""
         }
         logger_instance.log_turn(turn_log)
-        
-        if decision.need_guardrail:
+
+        if turn_log["guardrail_triggered"]:
             self.guardrail_trigger_count += 1
-            
+        if turn_log["answer_leakage_flag"]:
+            self.answer_leakage_count += 1
+
         return {
             "perception": {"intent": perception.intent, "misconception_tag": perception.misconception_tag, "cognitive_state": perception.cognitive_state, "risk_flag": perception.risk_flag, "confidence": perception.confidence},
             "decision": {"state": decision.state, "state_name": decision.state_name, "strategy": decision.strategy, "need_guardrail": decision.need_guardrail, "next_goal": decision.next_goal, "meta": decision.meta},
             "generation": generation,
             "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
+            "guardrail": guardrail_result
         }
 
     def end_session(self, termination_reason: str = "resolved") -> None:
