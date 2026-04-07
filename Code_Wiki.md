@@ -1,120 +1,91 @@
-# 项目 Code Wiki：苏格拉底式对话教育智能体 (MVP)
+# 项目 Code Wiki：苏格拉底式对话教育智能体
 
 ## 1. 项目概述
+本项目是一个面向初中物理（聚焦电学与浮力）的苏格拉底式对话教育智能体。该系统旨在通过引导式提问、制造认知冲突和提供认知支架，帮助学生纠正典型的物理迷思概念（Misconceptions）。
 
-本项目是一个面向初中物理典型迷思概念（以电学与浮力为例）的**苏格拉底式对话教育智能体原型（MVP）**。该系统旨在通过引导式提问、制造认知冲突和提供认知支架，帮助学生克服物理学习中的迷思概念。
-本项目采用有限状态机（FSM）严格控制对话和教学流程，避免了大型语言模型（LLM）常见的过早给出答案、教学逻辑漂移等问题。
-
----
-
-## 2. 整体架构
-
-系统采用了典型的**“感知-决策-生成” (Perception-Decision-Generation)** 三层架构流水线，并通过基于规则的状态机串联：
-
-1. **输入感知层 (Perception)**：接收学生输入，通过正则和关键字匹配识别意图、提取迷思概念标签、评估认知状态和风险。
-2. **路由决策层 (Routing/Decision)**：根据感知结果和当前会话记忆，基于 V1 版教学状态机（7个状态 S0-S6）决定下一个教学状态和应采用的教学策略。
-3. **回复生成层 (Generation)**：基于决策结果，结合内置的学科知识库和策略模板，生成符合当前教学状态的回复。
-4. **日志记录 (Logging)**：在每轮对话结束后，将状态、意图、置信度及回复数据结构化落盘，用于后续论文的数据分析和评估。
+核心架构基于 **LangGraph + 状态机（FSM）**，对话工作流严格遵循“感知 (Perception) -> 决策 (Decision) -> 生成 (Generation) -> 护栏 (Guardrail)”的流水线设计。系统底层基于 DeepSeek 大模型（通过 `langchain_openai` 调用），并支持多版本运行模式（Baseline、FSM、FSM+Guardrail）以进行消融实验。
 
 ---
 
-## 3. 核心模块与职责
+## 2. 项目整体架构
+系统采用模块化设计，核心处理流水线如下：
 
-项目的核心逻辑集中在 `src/` 目录下的 Python 脚本中：
+1. **输入感知 (Perception)**：自然语言理解（NLU）模块利用 LLM 的结构化输出能力，提取用户的意图、认知状态及具体的错误概念标签。
+2. **决策路由 (Decision/Routing)**：基于状态机（FSM），结合 NLU 解析结果和历史对话状态（S0-S6），决定下一轮教学的引导状态和干预策略（如认知冲突、支架引导等）。
+3. **回复生成 (Generation)**：结合当前状态机指令，检索本地知识切片（核心知识点、反例、类比），组装 Prompt 并调用 LLM 生成苏格拉底式提问。
+4. **安全护栏 (Guardrail)**：输入端防范直接求答案或偏题，输出端防止大模型直接“泄露答案”，若触发拦截则通过条件边触发重新生成循环。
+5. **仿真与评估闭环**：内置由 LLM 驱动的“模拟初中生”模块进行自动化对弈测试，并自动计算准确率、纠正率等核心评测指标。
 
-- **`main.py`**：项目入口与主控模块。负责组装各模块、运行交互式命令行对话（CLI）、维护 `SocraticTutorApp` 实例，以及将对话状态和日志写入文件。
-- **`router.py`**：核心路由与状态机管理模块。定义了 `SessionMemory` 会话记忆，实现了状态机流转逻辑（`route_state`），控制教学流向认知冲突（S4）、支架引导（S5）或验证深化（S6）。
-- **`classifiers.py`**：输入分类与意图识别模块。通过预设的正则表达式和关键词列表（Heuristics），对学生的输入进行多维度分类（意图、迷思概念、认知状态、直接索要答案的风险等）。
-- **`generator.py`**：回复生成模块。内置了各迷思概念的科学核心点、反例、类比及策略模板。负责将 `router.py` 选定的教学策略实例化为具体的自然语言回复。
-- **`logger.py`**：日志工具（在 `main.py` 中有简易实现），负责保存 `.jsonl` 格式的对话日志。
-- *注：`evaluator.py`, `guardrails.py`, `simulator.py` 目前为空文件，是为后续扩展评估、安全护栏增强和批量模拟对话预留的占位模块。*
+---
+
+## 3. 主要模块职责 (`src/` 目录)
+
+- **`main.py`**：应用主入口。定义系统主类，负责管理会话记忆、调度 LangGraph 工作流、执行日志记录，并提供交互式终端聊天界面。
+- **`graph.py`**：工作流引擎。利用 LangGraph 定义核心状态图节点（分类、路由、生成、护栏），并配置条件边以支持护栏拦截时的重新生成。
+- **`classifiers.py`**：自然语言理解（NLU）模块。利用 LLM 识别用户意图、认知状态及错误概念标签。
+- **`router.py`**：状态机与决策模块。根据 NLU 结果和历史状态决定下一步引导策略。
+- **`generator.py`**：回复生成模块。结合策略和 `data/` 目录中的知识切片，组装 Prompt 生成最终的启发式回复。
+- **`guardrails.py`**：安全护栏模块。负责输入与输出双向检测，确保教学过程的启发性而非直接灌输。
+- **`simulator.py`**：仿真实验模块。利用 LLM 扮演具有特定错误概念的“模拟初中生”，与智能体进行批量对话。
+- **`evaluator.py`**：指标计算模块。解析实验日志，计算迷思概念识别准确率、认知纠正率、护栏拦截率等核心指标并生成 CSV 报告。
+- **`logger.py`** & **`state.py`**：分别负责日志文件落盘以及 LangGraph 全局数据状态 (`GraphState`) 的类型定义。
 
 ---
 
 ## 4. 关键类与函数说明
 
-### 4.1 核心类 (Classes)
-- **`SocraticTutorApp`** (`main.py`)
-  - **职责**：封装了整个对话智能体的上下文。
-  - **核心方法**：`step(user_input)` 执行单轮对话推理流水线；`chat()` 启动控制台持续交互循环。
-- **`SessionMemory`** (`router.py`)
-  - **职责**：数据类 (Dataclass)，用于记录单次会话状态。
-  - **属性**：保存 `session_id`, `current_state`, `current_misconception`（当前迷思）, `turn_count`（轮次）, `used_strategies`（已用策略）, `recent_states` 等。
-- **`PerceptionResult` & `RouteDecision`** (`router.py`)
-  - **职责**：数据契约类，分别表示感知模块的输出结果和路由模块的决策结果。
+### 4.1 核心类
+- **`SocraticTutorApp`** (`src/main.py`)：智能体会话管理核心类，其 `step()` 方法执行单轮的状态图调用。
+- **`SimulatedStudent`** (`src/simulator.py`)：封装了模拟初中生人格的 Prompt 和对话逻辑，用于自动化仿真对弈。
 
-### 4.2 核心函数 (Functions)
-- **`classify_input(user_input, history_summary)`** (`classifiers.py`)
-  - **功能**：综合调用多个子预测函数（如 `predict_intent`, `predict_misconception` 等），输出 `PerceptionResult`。
-- **`route_state(perception, memory)`** (`router.py`)
-  - **功能**：实现状态机流转的核心业务逻辑。例如当存在风险标记时转入 S2（拒绝代答），当学生认知“固守错误”时转入 S4（制造冲突）。
-- **`generate_reply(user_input, decision, memory, ...)`** (`generator.py`)
-  - **功能**：基于策略模板（如 `Clarification`）和学科知识点（如 `DEFAULT_KNOWLEDGE`）渲染最终回复字符串，并附加验证性或支架性追问。
+### 4.2 核心函数与实例
+- **`app_graph`** (`src/graph.py`)：编译后的 LangGraph 状态图实例，是串联各个子模块的处理中枢。
+- **`classify_input`** (`src/classifiers.py`)：调用 LLM 提取结构化信息，返回 `PerceptionResult`。
+- **`route_state`** (`src/router.py`)：执行状态转换逻辑，返回下一步的 `RouteDecision` 决策信息。
+- **`generate_reply`** (`src/generator.py`)：根据策略路由结果和本地 JSON 教学资源组装提示词，返回最终生成的回复。
+- **`apply_guardrails`** (`src/guardrails.py`)：执行输入意图校验和输出的正则表达式匹配，判定是否需要拦截或重新生成。
 
 ---
 
-## 5. 状态机与教学策略设计
+## 5. 依赖关系
 
-系统基于 `docs/state_machine_v1.md` 设定的 7 个核心状态运行：
-- **S0 (Listen_And_Analyze)**：接收输入并分析。
-- **S1 (Guardrail_Check)**：检查高风险输入（如直接索要答案）。
-- **S2 (Refusal_And_Guidance)**：拒绝代答并引导。
-- **S3 (Misconception_Diagnosis)**：诊断迷思并分流。
-- **S4 (Cognitive_Conflict)**：制造认知冲突（策略：澄清、挑战假设、后果探索）。
-- **S5 (Scaffolding_Guidance)**：提供理解支架（策略：类比支架、提供科学核心点）。
-- **S6 (Verification_Deepening)**：验证与深化（策略：变式提问）。
-
-**支持的迷思概念**：
-- 电学：`M-ELE-001` (电流消耗模型), `M-ELE-002` (单极模型/无闭合回路)。
-- 浮力：`M-BUO-001` (重物必沉), `M-BUO-002` (浮力只由深度决定)。
+项目主要依赖以下第三方 Python 库：
+- **核心框架**：`langgraph`, `langchain-openai`, `langchain-core`
+- **数据与类型校验**：`pydantic`（用于约束大模型输出 JSON 的字段格式）
+- **大模型服务**：项目默认向 `https://api.deepseek.com` 发送请求，采用 `deepseek-chat` 模型。
 
 ---
 
-## 6. 依赖关系
+## 6. 运行与使用方式
 
-- **内部依赖**：项目内部模块高度解耦，数据流向清晰 (`main` -> `classifiers` -> `router` -> `generator`)。
-- **外部依赖**：当前 MVP 版本采用纯规则和模板实现，**无任何第三方 Python 包依赖**（如 `requests`, `openai`, `langchain` 等），全部基于 Python 标准库（`json`, `re`, `dataclasses`, `pathlib` 等）构建。
+### 6.1 环境准备
+运行前必须在终端中配置 DeepSeek 的 API Key 作为环境变量（否则系统可能返回 Mock 数据或调用失败）：
+```bash
+export DEEPSEEK_API_KEY="你的真实_API_KEY"
+```
 
----
-
-## 7. 运行与使用方式
-
-### 7.1 启动交互式对话
-直接运行 `main.py` 即可进入控制台交互模式：
+### 6.2 交互式对话体验
+在终端启动苏格拉底式辅导助教，你可以扮演学生直接输入物理问题（输入 `exit` 退出）：
 ```bash
 python src/main.py
 ```
-输入 `exit`、`quit` 或 `q` 可退出程序。
 
-### 7.2 运行 Demo 测试
-`main.py` 中包含一个 `demo()` 函数，可用于对预设的测试用例进行批量测试：
-在 `src/main.py` 中将 `if __name__ == "__main__":` 块下的代码修改为调用 `demo()` 并执行即可。
+### 6.3 运行批量仿真实验
+自动启动模拟学生与智能体的批量对话对弈，用于测试不同版本下的系统表现，日志会存入 `logs/` 目录：
+```bash
+python src/simulator.py
+```
 
-### 7.3 查看日志
-交互过程中产生的所有日志会被记录在项目根目录的 `logs/` 文件夹中（如 `logs/interactive_main.jsonl`），日志包含每轮的意图预测、状态跳转、采用策略及回复文本，方便后续数据分析。
+### 6.4 生成评测指标报告
+基于仿真实验生成的日志，计算多维度评估数据，结果将导出至 `results/summary_metrics.csv`：
+```bash
+python src/evaluator.py
+```
 
----
-
-## 8. 目录结构说明
-
-```text
-/workspace/
-├── src/                    # 核心源代码目录
-│   ├── main.py             # 入口文件与交互循环
-│   ├── router.py           # 状态机路由与内存管理
-│   ├── classifiers.py      # 用户输入分类器（规则引擎）
-│   ├── generator.py        # 话术与回复生成器
-│   ├── logger.py           # 日志工具模块
-│   ├── evaluator.py        # （待开发）评估模块
-│   ├── guardrails.py       # （待开发）安全护栏模块
-│   └── simulator.py        # （待开发）对话模拟器
-├── data/                   # 配置文件与静态数据（目前供参考）
-│   ├── knowledge_chunks.json
-│   ├── misconceptions.json
-│   └── ...
-├── docs/                   # 项目说明与学术设计文档
-│   ├── state_machine_v1.md # FSM 状态机 V1 核心设计文档
-│   ├── scope_freeze.md     # 论文范围冻结声明
-│   └── ...
-└── logs/                   # 运行生成的 jsonl 日志文件目录
+### 6.5 运行基础模块测试
+根目录下包含部分用于调试子模块的快速测试脚本：
+```bash
+python test_run.py         # 检查应用初始化与导包情况
+python test_graph.py       # 测试工作流图执行与护栏拦截逻辑
+python test_classifier.py  # 测试意图分类模块
 ```
