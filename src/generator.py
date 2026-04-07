@@ -66,19 +66,23 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "assembled_prompt": assembled_prompt
         }
 
-    llm = ChatOpenAI(
-        model='deepseek-chat',
-        api_key=os.environ.get("DEEPSEEK_API_KEY", "dummy_key"),
-        base_url='https://api.deepseek.com'
-    )
-    
-    messages = [
-        SystemMessage(content=json.dumps(assembled_prompt, ensure_ascii=False)),
-        HumanMessage(content=user_input)
-    ]
-    
-    response = llm.invoke(messages)
-    reply_text = response.content
+    api_key = os.environ.get("DEEPSEEK_API_KEY", "dummy_key")
+    if not api_key or api_key == "dummy_key":
+        reply_text = "这是Mocked response（没有检测到有效的API KEY）。"
+    else:
+        llm = ChatOpenAI(
+            model='deepseek-chat',
+            api_key=api_key,
+            base_url='https://api.deepseek.com'
+        )
+        
+        messages = [
+            SystemMessage(content=json.dumps(assembled_prompt, ensure_ascii=False)),
+            HumanMessage(content=user_input)
+        ]
+        
+        response = llm.invoke(messages)
+        reply_text = response.content
     
     return {
         "raw_reply": reply_text,

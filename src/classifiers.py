@@ -33,9 +33,19 @@ class NLUOutput(BaseModel):
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
 def classify_input(user_input: str, history_summary: str = "") -> PerceptionResult:
+    api_key = os.getenv("DEEPSEEK_API_KEY", "dummy_key")
+    if not api_key or api_key == "dummy_key":
+        return PerceptionResult(
+            intent="Misconception_Expression",
+            misconception_tag="M-ELE-001",
+            cognitive_state="固守错误概念",
+            risk_flag=False,
+            confidence=1.0
+        )
+
     llm = ChatOpenAI(
         model="deepseek-chat",
-        api_key=os.getenv("DEEPSEEK_API_KEY"),
+        api_key=api_key,
         base_url="https://api.deepseek.com"
     )
     

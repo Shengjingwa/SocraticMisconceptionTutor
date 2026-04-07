@@ -21,9 +21,9 @@ def _timestamp() -> str:
     return datetime.now().isoformat(timespec="seconds")
 
 class SocraticTutorApp:
-    def __init__(self, session_id: str = "session_demo") -> None:
+    def __init__(self, session_id: str = "session_demo", system_version: str = "FSM+Guardrail") -> None:
         self.memory = SessionMemory(session_id=session_id)
-        self.system_version = "FSM+Guardrail"
+        self.system_version = system_version
         self.student_profile = "P_Unknown"
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
@@ -31,15 +31,24 @@ class SocraticTutorApp:
     def step(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
             "user_input": user_input,
-            "memory": self.memory
+            "memory": self.memory,
+            "system_version": self.system_version
         }
         
         final_state = app_graph.invoke(initial_state)
         
-        perception = final_state["perception"]
-        decision = final_state["decision"]
-        generation = final_state["generation"]
-        guardrail_result = final_state["guardrail_result"]
+        # Extract variables based on version
+        if self.system_version == "Baseline":
+            generation = final_state["generation"]
+            # Mock other fields for Baseline logging
+            perception = type('obj', (object,), {'intent': 'Unknown', 'misconception_tag': 'Unknown', 'cognitive_state': 'Unknown', 'risk_flag': False, 'confidence': 0.0})()
+            decision = type('obj', (object,), {'state': 'S_Baseline', 'state_name': 'Baseline', 'strategy': 'baseline', 'need_guardrail': False, 'next_goal': '', 'meta': {}})()
+            guardrail_result = {"guardrail_triggered": False, "guardrail_reason": None, "answer_leakage_flag": False}
+        else:
+            perception = final_state["perception"]
+            decision = final_state["decision"]
+            generation = final_state["generation"]
+            guardrail_result = final_state["guardrail_result"]
 
         understanding_verified = decision.state == "S6" and not decision.need_guardrail
         update_after_turn(self.memory, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
