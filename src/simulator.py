@@ -4,6 +4,7 @@ import uuid
 from typing import Dict, Any, List
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+import config
 
 from main import SocraticTutorApp
 
@@ -12,16 +13,15 @@ class SimulatedStudent:
         self.profile = profile
         self.misconception = misconception
         
-        import os
-        self.api_key = os.environ.get("DEEPSEEK_API_KEY")
+        self.api_key = config.DEEPSEEK_API_KEY
         self.is_mock = not self.api_key
         
         if not self.is_mock:
             self.llm = ChatOpenAI(
-                model="deepseek-chat", 
+                model=config.LLM_MODEL, 
                 temperature=0.7,
                 api_key=self.api_key,
-                base_url="https://api.deepseek.com"
+                base_url=config.LLM_BASE_URL
             )
         self.history: List[Any] = []
         self._setup_system_prompt()
