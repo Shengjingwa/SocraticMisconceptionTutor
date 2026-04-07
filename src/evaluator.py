@@ -2,14 +2,17 @@ import json
 import csv
 from collections import defaultdict
 
-def evaluate():
+import os
+
+def evaluate() -> None:
+    base_dir = os.path.dirname(__file__)
     turn_logs = []
-    with open('logs/turn_logs.jsonl', 'r') as f:
+    with open(os.path.join(base_dir, '..', 'logs', 'turn_logs.jsonl'), 'r') as f:
         for line in f:
             turn_logs.append(json.loads(line))
             
     session_logs = []
-    with open('logs/session_summary.jsonl', 'r') as f:
+    with open(os.path.join(base_dir, '..', 'logs', 'session_summary.jsonl'), 'r') as f:
         for line in f:
             session_logs.append(json.loads(line))
 
@@ -86,20 +89,22 @@ def evaluate():
             "Abnormal Termination Rate": f"{abnormal_rate:.2%}"
         })
 
-    import os
-    os.makedirs('results', exist_ok=True)
-    with open('results/summary_metrics.csv', 'w', newline='', encoding='utf-8') as f:
+    base_dir = os.path.dirname(__file__)
+    results_dir = os.path.join(base_dir, '..', 'results')
+    os.makedirs(results_dir, exist_ok=True)
+    with open(os.path.join(results_dir, 'summary_metrics.csv'), 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=results[0].keys())
         writer.writeheader()
         writer.writerows(results)
     
     print("Metrics calculated and saved to results/summary_metrics.csv")
 
-def sample_audit():
+def sample_audit() -> None:
     import random
+    base_dir = os.path.dirname(__file__)
     sessions_by_version = {"Baseline": [], "FSM": [], "FSM+Guardrail": []}
     
-    with open('logs/session_summary.jsonl', 'r') as f:
+    with open(os.path.join(base_dir, '..', 'logs', 'session_summary.jsonl'), 'r') as f:
         for line in f:
             session = json.loads(line)
             sessions_by_version[session['system_version']].append(session['session_id'])
@@ -111,7 +116,7 @@ def sample_audit():
             sampled_ids.update(random.sample(sessions_by_version[v], min(2, len(sessions_by_version[v]))))
             
     audit_rows = []
-    with open('logs/turn_logs.jsonl', 'r') as f:
+    with open(os.path.join(base_dir, '..', 'logs', 'turn_logs.jsonl'), 'r') as f:
         for line in f:
             turn = json.loads(line)
             if turn['session_id'] in sampled_ids:
@@ -129,7 +134,9 @@ def sample_audit():
     audit_rows.sort(key=lambda x: (x["Session ID"], x["Turn ID"]))
     
     if audit_rows:
-        with open('results/manual_audit.csv', 'w', newline='', encoding='utf-8') as f:
+        results_dir = os.path.join(base_dir, '..', 'results')
+        os.makedirs(results_dir, exist_ok=True)
+        with open(os.path.join(results_dir, 'manual_audit.csv'), 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=audit_rows[0].keys())
             writer.writeheader()
             writer.writerows(audit_rows)

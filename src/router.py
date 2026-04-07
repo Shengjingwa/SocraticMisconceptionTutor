@@ -76,7 +76,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     memory.current_state = "S1"
     if perception.risk_flag:
         decision = RouteDecision(
-            state="S2", state_name=STATE_NAMES["S2"], strategy=None,
+            state="S2", state_name=STATE_NAMES.get("S2", "Unknown_State"), strategy=None,
             need_guardrail=True, next_goal=STRATEGY_GOALS[None],
             meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent}
         )
@@ -101,10 +101,13 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
         
     if len(memory.recent_states) >= 2 and memory.recent_states[-2:] == ["S4", "S4"] and target == "S4":
         target = "S5"
+    elif len(memory.recent_states) >= 3 and memory.recent_states[-3:] == [target, target, target] and target != "S4":
+        target = "S5"
+
     strategy = _choose_strategy(target, memory)
     decision = RouteDecision(
-        state=target, state_name=STATE_NAMES[target], strategy=strategy,
-        need_guardrail=False, next_goal=STRATEGY_GOALS[strategy],
+        state=target, state_name=STATE_NAMES.get(target, "Unknown_State"), strategy=strategy,
+        need_guardrail=False, next_goal=STRATEGY_GOALS.get(strategy, "未知目标"),
         meta={"from":"S3","intent":perception.intent,"misconception_tag":perception.misconception_tag,
               "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"topic":memory.topic}
     )

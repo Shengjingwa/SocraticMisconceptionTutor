@@ -1,8 +1,10 @@
+from langchain_core.messages import SystemMessage, HumanMessage
 import os
 from typing import Optional, Literal
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from router import PerceptionResult
 
 class NLUOutput(BaseModel):
@@ -33,19 +35,9 @@ class NLUOutput(BaseModel):
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
 def classify_input(user_input: str, history_summary: str = "") -> PerceptionResult:
-    api_key = os.getenv("DEEPSEEK_API_KEY", "dummy_key")
-    if not api_key or api_key == "dummy_key":
-        return PerceptionResult(
-            intent="Misconception_Expression",
-            misconception_tag="M-ELE-001",
-            cognitive_state="固守错误概念",
-            risk_flag=False,
-            confidence=1.0
-        )
-
     llm = ChatOpenAI(
         model="deepseek-chat",
-        api_key=api_key,
+        api_key=os.getenv("DEEPSEEK_API_KEY"),
         base_url="https://api.deepseek.com"
     )
     
@@ -77,27 +69,54 @@ def classify_input(user_input: str, history_summary: str = "") -> PerceptionResu
 
 请分析用户的输入，并输出对应的字段。"""
 
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("human", "历史对话摘要: {history_summary}\n用户输入: {user_input}")
-    ])
-    
-    chain = prompt | structured_llm
-    
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+        reraise=True
+    )
+    def _invoke_chain():
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=f"历史对话摘要: {history_summary}\n用户输入: {user_input}")
+        ]
+        return structured_llm.invoke(messages)
+
     try:
-        result = chain.invoke({
-            "history_summary": history_summary,
-            "user_input": user_input
-        })
+        result = _invoke_chain()
     except Exception as e:
-        # Fallback in case of API failure
-        return PerceptionResult(
-            intent="Knowledge_Inquiry",
-            misconception_tag=None,
-            cognitive_state="认知僵局",
-            risk_flag=False,
-            confidence=0.0
-        )
+        from logger import logger_instance
+        logger_instance.warning(f"Structured NLU parsing failed, falling back to raw parsing: {e}")
+        try:
+            import json
+            messages = [
+                SystemMessage(content=system_prompt + "\n请只输出JSON格式的结果，不要包含其他任何字符。"),
+                HumanMessage(content=f"历史对话摘要: {history_summary}\n用户输入: {user_input}")
+            ]
+            raw_response = llm.invoke(messages)
+            raw_text = raw_response.content.strip()
+            if raw_text.startswith("```json"):
+                raw_text = raw_text[7:]
+            if raw_text.endswith("```"):
+                raw_text = raw_text[:-3]
+            raw_text = raw_text.strip()
+            data = json.loads(raw_text)
+            
+            return PerceptionResult(
+                intent=data.get("intent", "Knowledge_Inquiry"),
+                misconception_tag=data.get("misconception_tag"),
+                cognitive_state=data.get("cognitive_state", "认知僵局"),
+                risk_flag=data.get("intent") == "Direct_Answer_Seek",
+                confidence=float(data.get("confidence", 0.0))
+            )
+        except Exception as fallback_e:
+            logger_instance.error(f"Fallback NLU parsing failed: {fallback_e}")
+            return PerceptionResult(
+                intent="Knowledge_Inquiry",
+                misconception_tag=None,
+                cognitive_state="认知僵局",
+                risk_flag=False,
+                confidence=0.0
+            )
     
     # Calculate risk_flag based on intent
     risk_flag = result.intent == "Direct_Answer_Seek"

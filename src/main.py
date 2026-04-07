@@ -21,9 +21,9 @@ def _timestamp() -> str:
     return datetime.now().isoformat(timespec="seconds")
 
 class SocraticTutorApp:
-    def __init__(self, session_id: str = "session_demo", system_version: str = "FSM+Guardrail") -> None:
+    def __init__(self, session_id: str = "session_demo") -> None:
         self.memory = SessionMemory(session_id=session_id)
-        self.system_version = system_version
+        self.system_version = "FSM+Guardrail"
         self.student_profile = "P_Unknown"
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
@@ -31,24 +31,25 @@ class SocraticTutorApp:
     def step(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
             "user_input": user_input,
-            "memory": self.memory,
-            "system_version": self.system_version
+            "memory": self.memory
         }
         
-        final_state = app_graph.invoke(initial_state)
+        try:
+            final_state = app_graph.invoke(initial_state)
+        except Exception as e:
+            logger_instance.error(f"Global exception during graph execution: {e}")
+            return {
+                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0},
+                "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
+                "generation": {"raw_reply": "抱歉，系统遇到了一些问题，请稍后再试。", "final_reply": "抱歉，系统遇到了一些问题，请稍后再试。"},
+                "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
+                "guardrail": {"guardrail_triggered": False, "guardrail_reason": None}
+            }
         
-        # Extract variables based on version
-        if self.system_version == "Baseline":
-            generation = final_state["generation"]
-            # Mock other fields for Baseline logging
-            perception = type('obj', (object,), {'intent': 'Unknown', 'misconception_tag': 'Unknown', 'cognitive_state': 'Unknown', 'risk_flag': False, 'confidence': 0.0})()
-            decision = type('obj', (object,), {'state': 'S_Baseline', 'state_name': 'Baseline', 'strategy': 'baseline', 'need_guardrail': False, 'next_goal': '', 'meta': {}})()
-            guardrail_result = {"guardrail_triggered": False, "guardrail_reason": None, "answer_leakage_flag": False}
-        else:
-            perception = final_state["perception"]
-            decision = final_state["decision"]
-            generation = final_state["generation"]
-            guardrail_result = final_state["guardrail_result"]
+        perception = final_state["perception"]
+        decision = final_state["decision"]
+        generation = final_state["generation"]
+        guardrail_result = final_state["guardrail_result"]
 
         understanding_verified = decision.state == "S6" and not decision.need_guardrail
         update_after_turn(self.memory, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)

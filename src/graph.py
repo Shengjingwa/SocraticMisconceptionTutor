@@ -1,45 +1,11 @@
-from langgraph.graph import StateGraph, END, START
+from langgraph.graph import StateGraph, END
 from typing import Dict, Any
-from langchain_openai import ChatOpenAI
 
 from state import GraphState
 from classifiers import classify_input
 from router import route_state, RouteDecision
 from generator import generate_reply
 from guardrails import apply_guardrails
-
-def baseline_node(state: GraphState) -> Dict[str, Any]:
-    user_input = state["user_input"]
-    memory = state["memory"]
-    memory.turn_count += 1
-    
-    import os
-    api_key = os.environ.get("DEEPSEEK_API_KEY", "dummy_key")
-    if not api_key or api_key == "dummy_key":
-        response_content = "Mocked baseline response"
-    else:
-        # Simple direct LLM call for baseline
-        llm = ChatOpenAI(
-            model="deepseek-chat", 
-            temperature=0.7,
-            api_key=api_key,
-            base_url="https://api.deepseek.com"
-        )
-        
-        # Construct a simple prompt including history
-        history_text = memory.history_summary
-        prompt = f"你是一个苏格拉底式的物理老师。请根据以下对话历史，回复学生的最新问题。\n\n历史对话摘要：\n{history_text}\n\n学生：{user_input}\n老师："
-        
-        response = llm.invoke(prompt)
-        response_content = response.content
-        
-    generation = {
-        "final_reply": response_content,
-        "raw_reply": response_content,
-        "strategy": "baseline",
-        "thought": "Direct LLM generation"
-    }
-    return {"generation": generation}
 
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -67,18 +33,13 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     perception = state["perception"]
     decision = state["decision"]
     generation = state["generation"]
-    system_version = state.get("system_version", "FSM+Guardrail")
     
-    if system_version == "FSM":
-        # Skip guardrails, always safe
-        guardrail_result = {
-            "is_safe": True,
-            "guardrail_triggered": False,
-            "reason": "Guardrail skipped in FSM version",
-            "modified_reply": None
-        }
-        return {"guardrail_result": guardrail_result, "regeneration_required": False}
-        
+    retries = decision.meta.get("guardrail_retries", 0)
+    if retries >= 3:
+        generation["final_reply"] = "为了确保准确性，我建议我们先从基础概念开始梳理。你能告诉我你目前最确定的部分是什么吗？"
+        guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
+        return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation}
+
     is_already_safe = decision.need_guardrail or decision.state == "S2"
     guardrail_result = apply_guardrails(
         user_input=user_input, 
@@ -89,13 +50,15 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     )
     
     if guardrail_result["guardrail_triggered"] and not is_already_safe:
+        new_meta = decision.meta.copy()
+        new_meta["guardrail_retries"] = retries + 1
         new_decision = RouteDecision(
             state="S2",
             state_name="Refusal_And_Guidance",
             strategy=None,
             need_guardrail=True,
             next_goal=decision.next_goal,
-            meta=decision.meta
+            meta=new_meta
         )
         return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
         
@@ -106,30 +69,15 @@ def check_guardrail(state: GraphState) -> str:
         return "generate"
     return END
 
-def route_entry(state: GraphState) -> str:
-    version = state.get("system_version", "FSM+Guardrail")
-    if version == "Baseline":
-        return "baseline"
-    return "classify"
-
 workflow = StateGraph(GraphState)
 
-workflow.add_node("baseline", baseline_node)
 workflow.add_node("classify", classify_node)
 workflow.add_node("route", route_node)
 workflow.add_node("generate", generate_node)
 workflow.add_node("guardrail", guardrail_node)
 
-workflow.add_conditional_edges(
-    START,
-    route_entry,
-    {
-        "baseline": "baseline",
-        "classify": "classify"
-    }
-)
+workflow.set_entry_point("classify")
 
-workflow.add_edge("baseline", END)
 workflow.add_edge("classify", "route")
 workflow.add_edge("route", "generate")
 workflow.add_edge("generate", "guardrail")

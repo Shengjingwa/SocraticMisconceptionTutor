@@ -13,8 +13,8 @@ class SimulatedStudent:
         self.misconception = misconception
         
         import os
-        self.api_key = os.environ.get("DEEPSEEK_API_KEY", "dummy_key")
-        self.is_mock = not self.api_key or self.api_key == "dummy_key"
+        self.api_key = os.environ.get("DEEPSEEK_API_KEY")
+        self.is_mock = not self.api_key
         
         if not self.is_mock:
             self.llm = ChatOpenAI(
@@ -66,10 +66,12 @@ class SimulatedStudent:
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 
-def run_simulation():
-    with open("data/simulation_profiles.json", "r", encoding="utf-8") as f:
+def run_simulation() -> None:
+    import os
+    base_dir = os.path.dirname(__file__)
+    with open(os.path.join(base_dir, '..', 'data', 'simulation_profiles.json'), 'r', encoding='utf-8') as f:
         profiles = json.load(f)
-    with open("data/misconceptions.json", "r", encoding="utf-8") as f:
+    with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]

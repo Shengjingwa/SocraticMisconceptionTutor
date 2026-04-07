@@ -1,0 +1,13 @@
+- [x] 全局异常捕获机制：`src/main.py` 中 `app_graph.invoke` 的调用被 `try-except` 块包裹，并返回清晰的错误信息。
+- [x] NLU日志记录：`src/classifiers.py` 的异常捕获中，确实包含了 `logger.error()` 记录原始的解析错误。
+- [x] JSON 读取容错：`src/generator.py` 和 `src/guardrails.py` 读取本地 JSON 文件时增加了 `try-except`（捕获 `FileNotFoundError` 和 `json.JSONDecodeError`），未直接抛出异常崩溃。
+- [x] LLM 重试与限流：`src/generator.py` 和 `src/classifiers.py` 的 API 调用添加了重试或限流处理（如使用 `tenacity` 库）。
+- [x] 死循环阻断机制：`src/graph.py` 中的护栏重试（`guardrail_node`）有明确的次数限制或退出机制，超过最大重试次数将直接返回安全话术并解除 `regeneration_required` 标志。
+- [x] 状态机防卡死：`src/router.py` 针对 S3/S5 等易卡死状态，引入了最大轮次判断机制，能成功向安全退出状态（如 S5）流转。
+- [x] 字典安全访问：`src/router.py` 实例化 `RouteDecision` 时的 `STATE_NAMES` 字典访问已使用安全的 `.get()` 或显式的异常处理，消除了潜在的 `KeyError`。
+- [x] Pydantic 容错与预处理：`src/classifiers.py` 对模型枚举输出的识别具备容错能力（如去除了不必要的空白字符或进行了模糊映射）。
+- [x] 提示词注入防护：项目中不再使用直接将 `user_input` 作为系统提示词 f-string 拼接的用法，转为标准的 `SystemMessage` / `HumanMessage` 结构隔离指令。
+- [x] 鲁棒的护栏规则：`src/guardrails.py` 已经将精确的硬编码字符串（如“正确答案是”）修改为更灵活的正则表达式或模糊字符串匹配，防止微小字眼变动绕过拦截。
+- [x] 消除硬编码密钥：所有使用 `"dummy_key"` 的地方已被清理，API Key 使用环境变量或集中配置，未发生重复硬编码现象。
+- [x] 绝对路径修复：`src/evaluator.py` 和 `src/simulator.py` 中读取 `logs/` 目录的逻辑已经修改为基于 `__file__` 寻找项目根目录的绝对路径构建方式。
+- [x] 类型提示补全：`src/evaluator.py` 和 `src/simulator.py` 中的类方法（例如 `run_simulation()`、`evaluate()`）和主函数已经补充了返回类型提示（如 `-> None` 等）。

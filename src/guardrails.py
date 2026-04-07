@@ -6,9 +6,13 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 def _load_json(filename: str) -> Any:
     path = DATA_DIR / filename
-    if path.exists():
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
+    try:
+        if path.exists():
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        from logger import logger_instance
+        logger_instance.error(f"Failed to load JSON {filename}: {e}")
     return []
 
 misconceptions_data = _load_json("misconceptions.json")
@@ -40,10 +44,19 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
         if phrase in generated_text:
             return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
     
-    # 检查常见的直接结论提示词
-    direct_conclusion_keywords = ["正确答案是", "标准结论", "所以你错了", "不对，因为", "事实是", "标准答案"]
-    if any(kw in generated_text for kw in direct_conclusion_keywords):
-         return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
+    import re
+    # 检查常见的直接结论提示词，使用正则表达式以允许中间的空格或微小变体
+    direct_conclusion_patterns = [
+        r"正确答案\s*是",
+        r"标准\s*结论",
+        r"所以\s*你\s*错\s*了",
+        r"不对\s*，\s*因为",
+        r"事实\s*是",
+        r"标准\s*答案"
+    ]
+    for pattern in direct_conclusion_patterns:
+        if re.search(pattern, generated_text):
+             return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
 
     return {"blocked": False, "reason": None, "answer_leakage": False}
 
