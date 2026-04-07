@@ -12,7 +12,7 @@ class SimulatedStudent:
     def __init__(self, profile: Dict[str, Any], misconception: Dict[str, Any]):
         self.profile = profile
         self.misconception = misconception
-        
+
         self.api_key = config.DEEPSEEK_API_KEY
         self.is_mock = not self.api_key
         
