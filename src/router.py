@@ -42,9 +42,6 @@ STATE_NAMES = {
     "S5": "Scaffolding_Guidance",
     "S6": "Verification_Deepening",
 }
-COGNITIVE_SOLID = {"固守错误概念", "坚持错误", "错误概念稳定"}
-COGNITIVE_SHAKING = {"开始动摇", "认知僵局", "表达模糊", "困惑", "卡住"}
-COGNITIVE_NEAR = {"接近正确", "已基本掌握", "基本正确"}
 MISCONCEPTION_TO_TOPIC = {
     "M-ELE-001": "电学",
     "M-ELE-002": "电学",
@@ -65,15 +62,6 @@ STRATEGY_GOALS = {
     "Consequence_Exploration": "把学生当前解释继续推演，检验其后果是否合理。",
     "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
 }
-
-def _normalize_cognitive_state(cognitive_state: str) -> str:
-    if cognitive_state in COGNITIVE_SOLID:
-        return "solid"
-    if cognitive_state in COGNITIVE_SHAKING:
-        return "shaking"
-    if cognitive_state in COGNITIVE_NEAR:
-        return "near"
-    return "shaking"
 
 def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
     candidates = STATE_STRATEGIES.get(state, [None])
@@ -98,18 +86,19 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
             memory.risk_events.append(perception.intent)
         return decision
     memory.current_state = "S3"
-    norm = _normalize_cognitive_state(perception.cognitive_state)
     if perception.misconception_tag:
         memory.current_misconception = perception.misconception_tag
         memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, memory.topic)
-    if perception.misconception_tag is not None and norm == "solid":
+        
+    if perception.misconception_tag is not None and perception.cognitive_state in ["固守错误概念", "认知冲突触发"]:
         target = "S4"
-    elif norm == "shaking":
+    elif perception.cognitive_state == "认知僵局":
         target = "S5"
-    elif norm == "near":
+    elif perception.cognitive_state in ["新概念探索", "概念掌握验证"]:
         target = "S6"
     else:
-        target = "S5"
+        target = "S3"
+        
     if len(memory.recent_states) >= 2 and memory.recent_states[-2:] == ["S4", "S4"] and target == "S4":
         target = "S5"
     strategy = _choose_strategy(target, memory)

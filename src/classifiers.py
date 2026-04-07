@@ -67,9 +67,9 @@ def predict_cognitive_state(user_input: str, intent: str, misconception_tag: Opt
     if misconception_tag is not None and _contains_any(text, ["肯定", "一定", "当然", "本来就", "绝对", "就是这样"]):
         return "固守错误概念"
     if _contains_any(text, SHAKING_HINTS):
-        return "开始动摇"
+        return "认知冲突触发"
     if _contains_any(text, NEAR_CORRECT_HINTS):
-        return "接近正确"
+        return "新概念探索"
     return "固守错误概念" if misconception_tag is not None else "认知僵局"
 
 def detect_risk_flag(user_input: str, intent: Optional[str] = None) -> bool:
