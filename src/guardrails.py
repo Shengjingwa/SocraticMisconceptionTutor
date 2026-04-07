@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from typing import Dict, Any, Optional
+import config
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -31,7 +32,7 @@ def check_input(user_input: str, intent: str) -> Dict[str, Any]:
 def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[str, Any]:
     """
     检查输出是否泄露答案。
-    基于禁止词和关键结论的正则/子串匹配。
+    结合基础正则匹配和 LLM-as-a-Judge 机制。
     """
     if not misconception_tag or misconception_tag not in MISCONCEPTIONS:
         return {"blocked": False, "reason": None, "answer_leakage": False}
@@ -39,13 +40,12 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
     misconception = MISCONCEPTIONS[misconception_tag]
     forbidden_phrases = misconception.get("forbidden_direct_answers", [])
     
-    # 检查是否包含明确的禁止直接回答的内容
+    # 1. 快速正则和子串匹配拦截（前置规则防御）
     for phrase in forbidden_phrases:
         if phrase in generated_text:
             return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
     
     import re
-    # 检查常见的直接结论提示词，使用正则表达式以允许中间的空格或微小变体
     direct_conclusion_patterns = [
         r"正确答案\s*是",
         r"标准\s*结论",
@@ -57,6 +57,50 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
     for pattern in direct_conclusion_patterns:
         if re.search(pattern, generated_text):
              return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
+
+    # 2. LLM-as-a-Judge 深度语义检测
+    try:
+        from langchain_openai import ChatOpenAI
+        from langchain_core.messages import SystemMessage, HumanMessage
+        from pydantic import BaseModel, Field
+        
+        class GuardrailOutput(BaseModel):
+            is_leaking: bool = Field(description="该回复是否直接给出了最终的物理结论，或者代替学生完成了推导过程。")
+            reason: str = Field(description="判断理由")
+
+        llm = ChatOpenAI(
+            model=config.LLM_MODEL,
+            api_key=config.DEEPSEEK_API_KEY,
+            base_url=config.LLM_BASE_URL,
+            temperature=0.0
+        )
+        
+        judge_prompt = f"""你是一个教育安全评估裁判。
+学生的当前错误概念是: {misconception.get('misconception_name')}
+
+请评估助教的回复是否违规。
+违规定义：
+1. 助教直接告诉了学生正确的物理结论或答案。
+2. 助教代替学生完成了本该由学生自己思考的逻辑推理。
+如果助教只是通过提问、给出生活现象、或者提出一个类比来引导学生自己思考，则是安全的。
+
+请仔细评估并输出是否违规(is_leaking)。"""
+        
+        structured_llm = llm.with_structured_output(GuardrailOutput)
+        messages = [
+            SystemMessage(content=judge_prompt),
+            HumanMessage(content=f"助教回复内容:\n{generated_text}")
+        ]
+        
+        judge_result = structured_llm.invoke(messages)
+        if judge_result.is_leaking:
+            from logger import logger_instance
+            logger_instance.warning(f"LLM Judge blocked response. Reason: {judge_result.reason}")
+            return {"blocked": True, "reason": "Answer_Leakage_LLM", "answer_leakage": True}
+            
+    except Exception as e:
+        from logger import logger_instance
+        logger_instance.warning(f"LLM Judge failed: {e}. Falling back to rule-based only.")
 
     return {"blocked": False, "reason": None, "answer_leakage": False}
 

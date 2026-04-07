@@ -10,7 +10,7 @@ from guardrails import apply_guardrails
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     memory = state["memory"]
-    perception = classify_input(user_input, history_summary=memory.history_summary)
+    perception = classify_input(user_input, messages=memory.messages)
     return {"perception": perception}
 
 def route_node(state: GraphState) -> Dict[str, Any]:

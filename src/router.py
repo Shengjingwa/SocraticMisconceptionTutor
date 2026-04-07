@@ -19,6 +19,7 @@ class SessionMemory:
     current_misconception: Optional[str] = None
     turn_count: int = 0
     history_summary: str = ""
+    messages: List[Dict[str, str]] = field(default_factory=list)
     used_strategies: List[str] = field(default_factory=list)
     recent_states: List[str] = field(default_factory=list)
     risk_events: List[str] = field(default_factory=list)
@@ -85,23 +86,29 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
         if perception.intent:
             memory.risk_events.append(perception.intent)
         return decision
+        
     memory.current_state = "S3"
     if perception.misconception_tag:
         memory.current_misconception = perception.misconception_tag
         memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, memory.topic)
         
-    if perception.misconception_tag is not None and perception.cognitive_state in ["固守错误概念", "认知冲突触发"]:
-        target = "S4"
-    elif perception.cognitive_state == "认知僵局":
-        target = "S5"
-    elif perception.cognitive_state in ["新概念探索", "概念掌握验证"]:
-        target = "S6"
-    else:
-        target = "S3"
+    # State Transition Matrix based on Cognitive State
+    transition_map = {
+        "固守错误概念": "S4",
+        "认知冲突触发": "S4",
+        "认知僵局": "S5",
+        "新概念探索": "S6",
+        "概念掌握验证": "S6"
+    }
+    
+    target = transition_map.get(perception.cognitive_state, "S3")
+    if target == "S4" and perception.misconception_tag is None:
+        target = "S3" # Cannot do cognitive conflict without knowing the misconception
         
-    if len(memory.recent_states) >= 2 and memory.recent_states[-2:] == ["S4", "S4"] and target == "S4":
+    # Anti-loop heuristics
+    if target == "S4" and memory.recent_states.count("S4") >= 2:
         target = "S5"
-    elif len(memory.recent_states) >= 3 and memory.recent_states[-3:] == [target, target, target] and target != "S4":
+    elif target != "S4" and memory.recent_states[-3:] == [target] * 3:
         target = "S5"
 
     strategy = _choose_strategy(target, memory)
@@ -117,7 +124,9 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
         memory.used_strategies.append(strategy)
     return decision
 
-def update_after_turn(memory: SessionMemory, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
+def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
+    memory.messages.append({"role": "user", "content": user_input})
+    memory.messages.append({"role": "assistant", "content": final_reply})
     memory.history_summary = history_summary if history_summary is not None else final_reply[:120]
     if understanding_verified:
         memory.resolved = True
