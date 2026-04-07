@@ -1,9 +1,7 @@
 from langchain_core.messages import SystemMessage, HumanMessage
-import os
 from typing import Optional, Literal, List, Dict
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from router import PerceptionResult
 import config
@@ -113,11 +111,11 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
             data = json.loads(raw_text)
             
             return PerceptionResult(
-                intent=data.get("intent", "Knowledge_Inquiry"),
+                intent=data.get("intent") or "Knowledge_Inquiry",
                 misconception_tag=data.get("misconception_tag"),
-                cognitive_state=data.get("cognitive_state", "认知僵局"),
+                cognitive_state=data.get("cognitive_state") or "认知僵局",
                 risk_flag=data.get("intent") == "Direct_Answer_Seek",
-                confidence=float(data.get("confidence", 0.0))
+                confidence=float(data.get("confidence") or 0.0)
             )
         except Exception as fallback_e:
             logger_instance.error(f"Fallback NLU parsing failed: {fallback_e}")

@@ -49,7 +49,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     # 构建自然语言系统提示词
     core_points = "\n- ".join(knowledge.get("core_science_points", []))
     counterexamples = "\n- ".join(knowledge.get("counterexamples", []))
-    analogies = "\n- ".join([a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict)])
+    analogies = "\n- ".join([a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict) and a.get("analogy")])
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
 

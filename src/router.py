@@ -51,12 +51,14 @@ MISCONCEPTION_TO_TOPIC = {
 }
 STATE_STRATEGIES = {
     "S2": [None],
+    "S3": [None],
     "S4": ["Assumption_Probing", "Consequence_Exploration"],
     "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding"],
     "S6": ["Evidence_Seeking", "Consequence_Exploration"],
 }
 STRATEGY_GOALS = {
-    None: "拒绝直接代答，并将对话重定向回引导式学习路径。",
+    None: "引导学生进一步明确自己的想法或提供更多细节。",
+    "S2_None": "拒绝直接代答，并将对话重定向回引导式学习路径。",
     "Clarification": "澄清学生表述中的模糊概念，找准真正的认知问题。",
     "Assumption_Probing": "暴露学生结论背后的隐含前提，制造认知冲突。",
     "Evidence_Seeking": "引导学生用现象、实验或理由支持自己的判断。",
@@ -78,7 +80,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     if perception.risk_flag:
         decision = RouteDecision(
             state="S2", state_name=STATE_NAMES.get("S2", "Unknown_State"), strategy=None,
-            need_guardrail=True, next_goal=STRATEGY_GOALS[None],
+            need_guardrail=True, next_goal=STRATEGY_GOALS["S2_None"],
             meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent}
         )
         memory.current_state = decision.state
@@ -108,8 +110,12 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     # Anti-loop heuristics
     if target == "S4" and memory.recent_states.count("S4") >= 2:
         target = "S5"
-    elif target != "S4" and memory.recent_states[-3:] == [target] * 3:
-        target = "S5"
+    elif target != "S4" and target != "S6" and memory.recent_states[-3:] == [target] * 3:
+        # 强制打破连续相同的非验证状态循环，推进到下一步或者退回澄清
+        if target == "S5":
+            target = "S6" # 如果在提供支架上卡住，尝试推进到验证环节看学生反应
+        else:
+            target = "S5" # 其他状态卡住，退回到提供支架
 
     strategy = _choose_strategy(target, memory)
     decision = RouteDecision(
