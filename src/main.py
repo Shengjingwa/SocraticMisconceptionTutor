@@ -52,7 +52,7 @@ class SocraticTutorApp:
         guardrail_result = final_state["guardrail_result"]
 
         understanding_verified = decision.state == "S6" and not decision.need_guardrail
-        update_after_turn(self.memory, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
+        update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
 
         turn_log = {
             "timestamp": _timestamp(),

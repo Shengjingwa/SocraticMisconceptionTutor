@@ -1,11 +1,12 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 import os
-from typing import Optional, Literal
+from typing import Optional, Literal, List, Dict
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from router import PerceptionResult
+import config
 
 class NLUOutput(BaseModel):
     intent: Literal[
@@ -34,17 +35,20 @@ class NLUOutput(BaseModel):
     
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
-def classify_input(user_input: str, history_summary: str = "") -> PerceptionResult:
+def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> PerceptionResult:
+    if messages is None:
+        messages = []
+        
     llm = ChatOpenAI(
-        model="deepseek-chat",
-        api_key=os.getenv("DEEPSEEK_API_KEY"),
-        base_url="https://api.deepseek.com"
+        model=config.LLM_MODEL,
+        api_key=config.DEEPSEEK_API_KEY,
+        base_url=config.LLM_BASE_URL
     )
     
     structured_llm = llm.with_structured_output(NLUOutput)
     
     system_prompt = """你是一个专门用于物理辅导对话的自然语言理解(NLU)模块。
-你的任务是根据用户的输入和历史对话摘要，提取出用户的意图、错误概念、认知状态以及你的置信度。
+你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态以及你的置信度。
 
 可用的错误概念标签(Misconception):
 - M-ELE-001: 认为电流在电路中会被消耗(如灯泡用掉电流)
@@ -69,17 +73,22 @@ def classify_input(user_input: str, history_summary: str = "") -> PerceptionResu
 
 请分析用户的输入，并输出对应的字段。"""
 
+    # Format history
+    history_text = "\n".join([f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}" for m in messages[-config.MAX_HISTORY_TURNS:]])
+    if not history_text:
+        history_text = "无"
+
     @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=10),
+        stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+        wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
         reraise=True
     )
     def _invoke_chain():
-        messages = [
+        prompt_messages = [
             SystemMessage(content=system_prompt),
-            HumanMessage(content=f"历史对话摘要: {history_summary}\n用户输入: {user_input}")
+            HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}")
         ]
-        return structured_llm.invoke(messages)
+        return structured_llm.invoke(prompt_messages)
 
     try:
         result = _invoke_chain()
@@ -88,17 +97,19 @@ def classify_input(user_input: str, history_summary: str = "") -> PerceptionResu
         logger_instance.warning(f"Structured NLU parsing failed, falling back to raw parsing: {e}")
         try:
             import json
-            messages = [
+            import re
+            prompt_messages = [
                 SystemMessage(content=system_prompt + "\n请只输出JSON格式的结果，不要包含其他任何字符。"),
-                HumanMessage(content=f"历史对话摘要: {history_summary}\n用户输入: {user_input}")
+                HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}")
             ]
-            raw_response = llm.invoke(messages)
+            raw_response = llm.invoke(prompt_messages)
             raw_text = raw_response.content.strip()
-            if raw_text.startswith("```json"):
-                raw_text = raw_text[7:]
-            if raw_text.endswith("```"):
-                raw_text = raw_text[:-3]
-            raw_text = raw_text.strip()
+            
+            # Use regex to find JSON block
+            json_match = re.search(r'\{[\s\S]*\}', raw_text)
+            if json_match:
+                raw_text = json_match.group(0)
+            
             data = json.loads(raw_text)
             
             return PerceptionResult(

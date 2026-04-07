@@ -6,8 +6,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from router import RouteDecision, SessionMemory
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+import config
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -45,16 +46,38 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     knowledge = KNOWLEDGE_CHUNKS.get(memory.current_misconception, {})
     misconception = MISCONCEPTIONS.get(memory.current_misconception, {})
     
-    # 组装受控生成提示（5个Prompt部件）
+    # 构建自然语言系统提示词
+    core_points = "\n- ".join(knowledge.get("core_science_points", []))
+    counterexamples = "\n- ".join(knowledge.get("counterexamples", []))
+    analogies = "\n- ".join([a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict)])
+
+    system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
+
+【当前教学状态】
+状态阶段: {decision.state_name} ({decision.state})
+你的当前目标: {decision.next_goal}
+采用的引导策略: {decision.strategy}
+
+【可参考的知识点(仅供引导参考，请勿直接剧透)】
+核心科学知识点: 
+- {core_points if core_points else '无'}
+
+可用的反例: 
+- {counterexamples if counterexamples else '无'}
+
+可用的类比: 
+- {analogies if analogies else '无'}
+
+【安全护栏规则 - 必须绝对遵守】
+1. 绝不直接给出最终结论或标准答案。
+2. 绝不代替学生完成关键的逻辑推理过程。
+3. 只能通过提问、制造矛盾（认知冲突）或提供类比来进行引导。
+4. 回复必须简短、自然，符合日常口语习惯（1-3句话即可）。"""
+
     assembled_prompt = {
         "role_identity": "你是引导思考的初中物理苏格拉底式助教",
         "current_state_instruction": f"当前状态: {decision.state_name} ({decision.state}) - {decision.next_goal}",
         "current_strategy_instruction": f"当前策略: {decision.strategy}",
-        "knowledge_snippets": {
-            "core_points": knowledge.get("core_science_points", []),
-            "counterexamples": knowledge.get("counterexamples", []),
-            "analogies": [a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict)],
-        },
         "guardrail_rules": "禁泄露规则: 绝不直接给出最终结论，绝不代替学生完成关键推理，只使用提问或类比进行引导。"
     }
 
@@ -72,19 +95,24 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         }
 
     llm = ChatOpenAI(
-        model='deepseek-chat',
-        api_key=os.environ.get("DEEPSEEK_API_KEY"),
-        base_url='https://api.deepseek.com'
+        model=config.LLM_MODEL,
+        api_key=config.DEEPSEEK_API_KEY,
+        base_url=config.LLM_BASE_URL
     )
     
-    messages = [
-        SystemMessage(content=json.dumps(assembled_prompt, ensure_ascii=False)),
-        HumanMessage(content=user_input)
-    ]
+    # 组装对话历史
+    history_messages = []
+    for msg in memory.messages[-config.MAX_HISTORY_TURNS:]:
+        if msg["role"] == "user":
+            history_messages.append(HumanMessage(content=msg["content"]))
+        else:
+            history_messages.append(AIMessage(content=msg["content"]))
+            
+    messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
     
     @retry(
-        stop=stop_after_attempt(3),
-        wait=wait_exponential(multiplier=1, min=2, max=10),
+        stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+        wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
         reraise=True
     )
     def _invoke_llm():
