@@ -43,7 +43,7 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
         base_url=config.LLM_BASE_URL
     )
     
-    structured_llm = llm.with_structured_output(NLUOutput)
+    structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")
     
     system_prompt = """你是一个专门用于物理辅导对话的自然语言理解(NLU)模块。
 你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态以及你的置信度。
@@ -69,7 +69,7 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
 - 新概念探索: 开始向正确的方向思考
 - 概念掌握验证: 已经理解，需要验证
 
-请分析用户的输入，并输出对应的字段。"""
+请分析用户的输入，并务必返回JSON格式的结果。"""
 
     # Format history
     history_text = "\n".join([f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}" for m in messages[-config.MAX_HISTORY_TURNS:]])

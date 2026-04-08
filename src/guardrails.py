@@ -84,9 +84,9 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
 2. 助教代替学生完成了本该由学生自己思考的逻辑推理。
 如果助教只是通过提问、给出生活现象、或者提出一个类比来引导学生自己思考，则是安全的。
 
-请仔细评估并输出是否违规(is_leaking)。"""
+请仔细评估并务必返回JSON格式的结果，包含是否违规(is_leaking)和理由(reason)。"""
         
-        structured_llm = llm.with_structured_output(GuardrailOutput)
+        structured_llm = llm.with_structured_output(GuardrailOutput, method="json_mode")
         messages = [
             SystemMessage(content=judge_prompt),
             HumanMessage(content=f"助教回复内容:\n{generated_text}")
