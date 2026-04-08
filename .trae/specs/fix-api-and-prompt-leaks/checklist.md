@@ -1,0 +1,3 @@
+- [x] `src/classifiers.py` 中使用了 `method="json_mode"` 并附带了 Pydantic Schema 或 `PydanticOutputParser`，修复了 HTTP 400 错误。
+- [x] `src/guardrails.py` 中使用了 `method="json_mode"` 并附带了 Pydantic Schema 或 `PydanticOutputParser`，修复了 HTTP 400 错误。
+- [x] `src/generator.py` 中 `system_prompt` 明确添加了限制使用生硬教学提示词的指令（如“小支架”、“反例”、“类比”等必须自然转化为对话），且无泄露痕迹。
