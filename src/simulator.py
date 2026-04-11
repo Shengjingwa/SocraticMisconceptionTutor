@@ -35,6 +35,7 @@ class SimulatedStudent:
 
 请严格按照你的性格特点和迷思概念与老师对话。
 不要轻易给出正确答案，除非老师的引导真的说服了你（取决于你的性格：固执型很难被单次挑战说动，动摇型遇到反例容易开始修正，困惑型需要澄清和类比）。
+除非老师拿出了让你无法反驳的具体物理现象或严密的逻辑推导，否则不要轻易说自己懂了。如果老师只是提问，请顺着你的错误思路继续回答，不要马上附和老师。
 如果老师问你问题，请以学生的口吻简短回答（1-2句话即可，符合初中生日常说话习惯）。
 千万不要跳出角色，不要说自己是AI模型。
 """
@@ -100,7 +101,7 @@ def run_simulation() -> None:
                         user_input = student.generate_opening()
                         print(f"Student Opening: {user_input}")
                         
-                        max_turns = 6
+                        max_turns = 10
                         turn = 0
                         resolved = False
                         
