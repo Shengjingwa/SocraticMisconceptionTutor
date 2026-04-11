@@ -73,11 +73,11 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
 - Hypothesis_Put_Forward: 提出假设
 
 认知状态(Cognitive State)包括:
-- 认知僵局: 卡壳，不知道怎么做
+- 认知僵局: 卡壳，不知道怎么做，或者只是含糊地说“我懂了”但没有给出具体解释
 - 固守错误概念: 坚持错误的物理想法
 - 认知冲突触发: 开始怀疑自己的错误想法
 - 新概念探索: 开始向正确的方向思考
-- 概念掌握验证: 已经理解，需要验证
+- 概念掌握验证: 已经理解，需要验证（注意：学生不仅要表示同意或懂了，还**必须**用自己的话给出了正确的物理机制解释或推理，否则不能选此项！）
 
 ### Few-Shot 示例 ###
 【示例1】
@@ -99,6 +99,11 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
 历史对话: 助教: 你能总结一下串联电路里各处的电流大小吗？
 当前用户输入: "我懂了，串联电路里处处电流都相等！"
 输出: {"intent": "Knowledge_Inquiry", "misconception_tag": "M-ELE-001", "cognitive_state": "概念掌握验证", "confidence": 0.95}
+
+【示例5】
+历史对话: 助教: 你觉得水管里的水流过水车后，水变少了吗？
+当前用户输入: "哦，原来是这样，我懂了！"
+输出: {"intent": "Cognitive_Stuck", "misconception_tag": "M-ELE-001", "cognitive_state": "认知僵局", "confidence": 0.85}
 
 请分析用户的输入，并务必返回JSON格式的结果。"""
 
