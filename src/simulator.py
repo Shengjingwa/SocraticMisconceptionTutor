@@ -76,7 +76,7 @@ def run_simulation() -> None:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = 3  # 为了避免API限速，这里设定为3次（总计108组对话）
+    num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
     
     total_sessions = len(misconceptions) * len(profiles) * len(versions) * num_runs
     current_session = 0
