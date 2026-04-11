@@ -52,8 +52,7 @@ class SocraticTutorApp:
         guardrail_result = final_state["guardrail_result"]
 
         previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
-        understanding_verified = (perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")
-        
+        understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
         update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
 
         turn_log = {

@@ -101,7 +101,7 @@ def run_simulation() -> None:
                         user_input = student.generate_opening()
                         print(f"Student Opening: {user_input}")
                         
-                        max_turns = 10
+                        max_turns = max(10, 6)
                         turn = 0
                         resolved = False
                         
