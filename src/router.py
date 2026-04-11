@@ -68,11 +68,33 @@ STRATEGY_GOALS = {
 
 def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
     candidates = STATE_STRATEGIES.get(state, [None])
+    if not candidates or candidates == [None]:
+        return None
+        
+    recent_states = memory.recent_states
+    
+    # 启发式动态推荐规则 1: 如果在 S5 (Scaffolding) 状态卡住多次，优先使用类比支架
+    if state == "S5":
+        if len(recent_states) >= 2 and recent_states[-1] == "S5" and recent_states[-2] == "S5":
+            return "Analogical_Scaffolding"
+        # 刚从认知冲突(S4)转移过来，先尝试澄清
+        if len(recent_states) >= 1 and recent_states[-1] == "S4":
+            return "Clarification"
+            
+    # 启发式动态推荐规则 2: 在 S4 (Cognitive Conflict) 状态，逐步深入
+    if state == "S4":
+        # 连续处于认知冲突时，尝试推演后果
+        if len(recent_states) >= 1 and recent_states[-1] == "S4":
+            return "Consequence_Exploration"
+        # 首次进入认知冲突，暴露隐含前提
+        return "Assumption_Probing"
+        
+    # 启发式动态推荐规则 3: 默认避免连续使用同一策略
     last = memory.used_strategies[-1] if memory.used_strategies else None
     for c in candidates:
         if c != last:
             return c
-    return candidates[0] if candidates else None
+    return candidates[0]
 
 def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDecision:
     memory.turn_count += 1

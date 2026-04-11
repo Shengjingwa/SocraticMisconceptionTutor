@@ -37,6 +37,16 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
     if messages is None:
         messages = []
         
+    if not config.DEEPSEEK_API_KEY:
+        # Mock mode if API key is missing
+        return PerceptionResult(
+            intent="Knowledge_Inquiry",
+            misconception_tag="M-ELE-001",
+            cognitive_state="认知僵局",
+            risk_flag=False,
+            confidence=0.8
+        )
+        
     llm = ChatOpenAI(
         model=config.LLM_MODEL,
         api_key=config.DEEPSEEK_API_KEY,
@@ -68,6 +78,27 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
 - 认知冲突触发: 开始怀疑自己的错误想法
 - 新概念探索: 开始向正确的方向思考
 - 概念掌握验证: 已经理解，需要验证
+
+### Few-Shot 示例 ###
+【示例1】
+历史对话: 无
+当前用户输入: "灯泡亮了是因为它把电流吃掉了吗？"
+输出: {"intent": "Misconception_Expression", "misconception_tag": "M-ELE-001", "cognitive_state": "固守错误概念", "confidence": 0.95}
+
+【示例2】
+历史对话: 助教: 那你觉得如果水压越大浮力越大，为什么深海里的石头不会浮上来呢？
+当前用户输入: "呃……好像也是哦，那到底是怎么回事啊？我不知道了。"
+输出: {"intent": "Cognitive_Stuck", "misconception_tag": "M-BUO-002", "cognitive_state": "认知冲突触发", "confidence": 0.90}
+
+【示例3】
+历史对话: 助教: 回想一下我们刚刚讨论的阿基米德原理，排开的水的体积决定了什么？
+当前用户输入: "嗯，所以浮力只和排开的水的体积有关，和深度没有关系，对吧？"
+输出: {"intent": "Hypothesis_Put_Forward", "misconception_tag": "M-BUO-002", "cognitive_state": "新概念探索", "confidence": 0.85}
+
+【示例4】
+历史对话: 助教: 你能总结一下串联电路里各处的电流大小吗？
+当前用户输入: "我懂了，串联电路里处处电流都相等！"
+输出: {"intent": "Knowledge_Inquiry", "misconception_tag": "M-ELE-001", "cognitive_state": "概念掌握验证", "confidence": 0.95}
 
 请分析用户的输入，并务必返回JSON格式的结果。"""
 

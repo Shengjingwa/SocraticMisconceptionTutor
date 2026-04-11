@@ -1,0 +1,4 @@
+- [x] `src/classifiers.py` 中包含 `认知僵局`、`概念掌握验证` 等相关的 Few-shot 示例，用于提高 NLU 的分类准确率。
+- [x] `src/main.py` 中 `SocraticTutorApp` 包含了一个名为 `astep` 的异步方法，且功能与同步版本等效。
+- [x] `src/router.py` 中的 `_choose_strategy` 方法根据历史（如连续停留在某状态的次数）引入了启发式的动态推荐，而非单纯的随机。
+- [x] `src/llm_judge.py` 成功创建并能够读取现有的 `turn_logs.jsonl`，调用 LLM 对对话进行打分，并生成包含分数的 `evaluation_results.json` 结果。
