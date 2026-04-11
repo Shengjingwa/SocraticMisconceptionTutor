@@ -37,6 +37,16 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
     if messages is None:
         messages = []
         
+    if not config.DEEPSEEK_API_KEY:
+        # Mock mode if API key is missing
+        return PerceptionResult(
+            intent="Knowledge_Inquiry",
+            misconception_tag="M-ELE-001",
+            cognitive_state="认知僵局",
+            risk_flag=False,
+            confidence=0.8
+        )
+        
     llm = ChatOpenAI(
         model=config.LLM_MODEL,
         api_key=config.DEEPSEEK_API_KEY,

@@ -95,6 +95,19 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "assembled_prompt": assembled_prompt
         }
 
+    if not config.DEEPSEEK_API_KEY:
+        # Mock mode if API key is missing
+        reply_text = f"（Mocked teacher response）我看到你现在的状态是 {decision.state_name}，我们在探讨 {misconception.get('misconception_name', '这个概念')}。你能再多说说你的想法吗？"
+        return {
+            "raw_reply": reply_text,
+            "final_reply": reply_text,
+            "reply_type": _reply_type_from_state(decision.state),
+            "knowledge_used": misconception.get("misconception_name"),
+            "state": decision.state,
+            "strategy": decision.strategy,
+            "assembled_prompt": assembled_prompt
+        }
+
     llm = ChatOpenAI(
         model=config.LLM_MODEL,
         api_key=config.DEEPSEEK_API_KEY,
