@@ -127,6 +127,7 @@ def run_simulation() -> None:
                     app.student_profile = p['profile_id']
                     app.memory.topic = m['topic']
                     app.memory.current_misconception = m['id']
+                    app.misconception_init = m['misconception_name']
                     
                     student = SimulatedStudent(p, m)
                     
@@ -134,7 +135,7 @@ def run_simulation() -> None:
                         user_input = student.generate_opening()
                         print(f"Student Opening: {user_input}")
                         
-                        max_turns = max(10, 6)
+                        max_turns = 10
                         turn = 0
                         resolved = False
                         

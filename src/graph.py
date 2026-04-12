@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, END, START
 from typing import Dict, Any
 
 from state import GraphState
@@ -16,8 +16,8 @@ def classify_node(state: GraphState) -> Dict[str, Any]:
 def route_node(state: GraphState) -> Dict[str, Any]:
     perception = state["perception"]
     memory = state["memory"]
-    decision = route_state(perception, memory)
-    return {"decision": decision}
+    decision, new_memory = route_state(perception, memory)
+    return {"decision": decision, "memory": new_memory}
 
 def generate_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -28,18 +28,14 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
     # 这里我们不用在 graph state 返回里清空，因为如果再次进入 guardrail 并且 safe, guardrail node 会置 False。
     return {"generation": generation}
 
-def route_after_route(state: GraphState) -> str:
+def route_start(state: GraphState) -> str:
     system_version = state.get("system_version", "FSM+Guardrail")
     if system_version == "Baseline":
         return "baseline"
-    return "generate"
+    return "classify"
 
 def route_after_generate(state: GraphState) -> str:
-    system_version = state.get("system_version", "FSM+Guardrail")
-    # 只在 FSM+Guardrail 版本使用护栏
-    if system_version == "FSM+Guardrail":
-        return "guardrail"
-    return "end"
+    return "guardrail"
 
 def route_after_guardrail(state: GraphState) -> str:
     if state.get("regeneration_required", False):
@@ -51,9 +47,10 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     perception = state["perception"]
     decision = state["decision"]
     generation = state["generation"]
+    system_version = state.get("system_version", "FSM+Guardrail")
     
     retries = decision.meta.get("guardrail_retries", 0)
-    if retries >= 3:
+    if retries >= 2:
         generation["final_reply"] = "为了确保准确性，我建议我们先从基础概念开始梳理。你能告诉我你目前最确定的部分是什么吗？"
         guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation}
@@ -66,6 +63,10 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         misconception_tag=perception.misconception_tag,
         is_already_safe=is_already_safe
     )
+
+    if system_version != "FSM+Guardrail":
+        guardrail_result["guardrail_triggered"] = False
+        return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
     if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_meta = decision.meta.copy()
@@ -111,8 +112,7 @@ def baseline_node(state: GraphState) -> Dict[str, Any]:
     return {
         "perception": perception,
         "decision": decision,
-        "generation": generation,
-        "guardrail_result": {"guardrail_triggered": False, "guardrail_reason": None}
+        "generation": generation
     }
 
 workflow = StateGraph(GraphState)
@@ -123,18 +123,17 @@ workflow.add_node("generate", generate_node)
 workflow.add_node("guardrail", guardrail_node)
 workflow.add_node("baseline", baseline_node)
 
-workflow.set_entry_point("classify")
-
-workflow.add_edge("classify", "route")
-
 workflow.add_conditional_edges(
-    "route",
-    route_after_route,
+    START,
+    route_start,
     {
         "baseline": "baseline",
-        "generate": "generate"
+        "classify": "classify"
     }
 )
+
+workflow.add_edge("classify", "route")
+workflow.add_edge("route", "generate")
 
 workflow.add_conditional_edges(
     "generate",
@@ -154,6 +153,6 @@ workflow.add_conditional_edges(
     }
 )
 
-workflow.add_edge("baseline", END)
+workflow.add_edge("baseline", "guardrail")
 
 app_graph = workflow.compile()

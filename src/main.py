@@ -25,9 +25,61 @@ class SocraticTutorApp:
         self.memory = SessionMemory(session_id=session_id, topic=topic)
         self.system_version = system_version
         self.student_profile = student_profile
+        self.misconception_init = None
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
         logger_instance.info(f"Initialized Session {session_id} on {topic} for {student_profile} with version {system_version}")
+
+    def _process_graph_result(self, final_state: Dict[str, Any], user_input: str) -> Dict[str, Any]:
+        perception = final_state["perception"]
+        decision = final_state["decision"]
+        generation = final_state["generation"]
+        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
+
+        understanding_verified = (
+            (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8)
+        )
+        self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
+
+        turn_log = {
+            "timestamp": _timestamp(),
+            "session_id": self.memory.session_id,
+            "turn_id": self.memory.turn_count,
+            "system_version": self.system_version,
+            "student_profile": self.student_profile,
+            "topic": self.memory.topic,
+            "misconception_gt": self.misconception_init,
+            "student_input": user_input,
+            "intent_pred": perception.intent,
+            "misconception_pred": perception.misconception_tag,
+            "cognitive_state_pred": perception.cognitive_state,
+            "sentiment_pred": getattr(perception, "sentiment", "Confused"),
+            "current_state": decision.state,
+            "strategy_used": decision.strategy,
+            "guardrail_triggered": decision.need_guardrail or guardrail_result["guardrail_triggered"],
+            "guardrail_reason": guardrail_result.get("guardrail_reason") or ("Risk Flag" if decision.need_guardrail else None),
+            "raw_reply": generation["raw_reply"],
+            "final_reply": generation["final_reply"],
+            "answer_leakage_flag": guardrail_result.get("answer_leakage_flag", False),
+            "out_of_boundary_flag": guardrail_result.get("guardrail_reason") == "Off_Topic",
+            "state_transition_success": decision.state in ["S0", "S1", "S2", "S3", "S4", "S5", "S6"],
+            "turn_end_resolved_flag": self.memory.resolved,
+            "notes": ""
+        }
+        logger_instance.log_turn(turn_log)
+
+        if turn_log["guardrail_triggered"]:
+            self.guardrail_trigger_count += 1
+        if turn_log["answer_leakage_flag"]:
+            self.answer_leakage_count += 1
+
+        return {
+            "perception": {"intent": perception.intent, "misconception_tag": perception.misconception_tag, "cognitive_state": perception.cognitive_state, "risk_flag": perception.risk_flag, "confidence": perception.confidence, "sentiment": getattr(perception, "sentiment", "Confused")},
+            "decision": {"state": decision.state, "state_name": decision.state_name, "strategy": decision.strategy, "need_guardrail": decision.need_guardrail, "next_goal": decision.next_goal, "meta": decision.meta},
+            "generation": generation,
+            "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
+            "guardrail": guardrail_result
+        }
 
     def step(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
@@ -41,61 +93,14 @@ class SocraticTutorApp:
         except Exception as e:
             logger_instance.error(f"Global exception during graph execution: {e}")
             return {
-                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0},
+                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
                 "generation": {"raw_reply": "抱歉，系统遇到了一些问题，请稍后再试。", "final_reply": "抱歉，系统遇到了一些问题，请稍后再试。"},
                 "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
                 "guardrail": {"guardrail_triggered": False, "guardrail_reason": None}
             }
         
-        perception = final_state["perception"]
-        decision = final_state["decision"]
-        generation = final_state["generation"]
-        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
-
-        previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
-        understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
-        update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
-
-        turn_log = {
-            "timestamp": _timestamp(),
-            "session_id": self.memory.session_id,
-            "turn_id": self.memory.turn_count,
-            "system_version": self.system_version,
-            "student_profile": self.student_profile,
-            "topic": self.memory.topic,
-            "misconception_gt": self.memory.current_misconception,
-            "student_input": user_input,
-            "intent_pred": perception.intent,
-            "misconception_pred": perception.misconception_tag,
-            "cognitive_state_pred": perception.cognitive_state,
-            "sentiment_pred": "Confused",
-            "current_state": decision.state,
-            "strategy_used": decision.strategy,
-            "guardrail_triggered": decision.need_guardrail or guardrail_result["guardrail_triggered"],
-            "guardrail_reason": guardrail_result.get("guardrail_reason") or ("Risk Flag" if decision.need_guardrail else None),
-            "raw_reply": generation["raw_reply"],
-            "final_reply": generation["final_reply"],
-            "answer_leakage_flag": guardrail_result.get("answer_leakage_flag", False),
-            "out_of_boundary_flag": guardrail_result.get("guardrail_reason") == "Off_Topic",
-            "state_transition_success": True,
-            "turn_end_resolved_flag": self.memory.resolved,
-            "notes": ""
-        }
-        logger_instance.log_turn(turn_log)
-
-        if turn_log["guardrail_triggered"]:
-            self.guardrail_trigger_count += 1
-        if turn_log["answer_leakage_flag"]:
-            self.answer_leakage_count += 1
-
-        return {
-            "perception": {"intent": perception.intent, "misconception_tag": perception.misconception_tag, "cognitive_state": perception.cognitive_state, "risk_flag": perception.risk_flag, "confidence": perception.confidence},
-            "decision": {"state": decision.state, "state_name": decision.state_name, "strategy": decision.strategy, "need_guardrail": decision.need_guardrail, "next_goal": decision.next_goal, "meta": decision.meta},
-            "generation": generation,
-            "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
-            "guardrail": guardrail_result
-        }
+        return self._process_graph_result(final_state, user_input)
 
     async def astep(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
@@ -109,61 +114,14 @@ class SocraticTutorApp:
         except Exception as e:
             logger_instance.error(f"Global exception during async graph execution: {e}")
             return {
-                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0},
+                "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
                 "generation": {"raw_reply": "抱歉，系统遇到了一些问题，请稍后再试。", "final_reply": "抱歉，系统遇到了一些问题，请稍后再试。"},
                 "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
                 "guardrail": {"guardrail_triggered": False, "guardrail_reason": None}
             }
         
-        perception = final_state["perception"]
-        decision = final_state["decision"]
-        generation = final_state["generation"]
-        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
-
-        previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
-        understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
-        update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
-
-        turn_log = {
-            "timestamp": _timestamp(),
-            "session_id": self.memory.session_id,
-            "turn_id": self.memory.turn_count,
-            "system_version": self.system_version,
-            "student_profile": self.student_profile,
-            "topic": self.memory.topic,
-            "misconception_gt": self.memory.current_misconception,
-            "student_input": user_input,
-            "intent_pred": perception.intent,
-            "misconception_pred": perception.misconception_tag,
-            "cognitive_state_pred": perception.cognitive_state,
-            "sentiment_pred": "Confused",
-            "current_state": decision.state,
-            "strategy_used": decision.strategy,
-            "guardrail_triggered": decision.need_guardrail or guardrail_result["guardrail_triggered"],
-            "guardrail_reason": guardrail_result.get("guardrail_reason") or ("Risk Flag" if decision.need_guardrail else None),
-            "raw_reply": generation["raw_reply"],
-            "final_reply": generation["final_reply"],
-            "answer_leakage_flag": guardrail_result.get("answer_leakage_flag", False),
-            "out_of_boundary_flag": guardrail_result.get("guardrail_reason") == "Off_Topic",
-            "state_transition_success": True,
-            "turn_end_resolved_flag": self.memory.resolved,
-            "notes": ""
-        }
-        logger_instance.log_turn(turn_log)
-
-        if turn_log["guardrail_triggered"]:
-            self.guardrail_trigger_count += 1
-        if turn_log["answer_leakage_flag"]:
-            self.answer_leakage_count += 1
-
-        return {
-            "perception": {"intent": perception.intent, "misconception_tag": perception.misconception_tag, "cognitive_state": perception.cognitive_state, "risk_flag": perception.risk_flag, "confidence": perception.confidence},
-            "decision": {"state": decision.state, "state_name": decision.state_name, "strategy": decision.strategy, "need_guardrail": decision.need_guardrail, "next_goal": decision.next_goal, "meta": decision.meta},
-            "generation": generation,
-            "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
-            "guardrail": guardrail_result
-        }
+        return self._process_graph_result(final_state, user_input)
 
     def end_session(self, termination_reason: str = "resolved") -> None:
         summary_log = {
@@ -171,7 +129,7 @@ class SocraticTutorApp:
             "system_version": self.system_version,
             "student_profile": self.student_profile,
             "topic": self.memory.topic,
-            "misconception_gt": self.memory.current_misconception,
+            "misconception_gt": self.misconception_init,
             "turn_count": self.memory.turn_count,
             "first_detected_misconception": self.memory.current_misconception,
             "resolved_flag": self.memory.resolved,

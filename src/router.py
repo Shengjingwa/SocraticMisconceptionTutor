@@ -1,7 +1,8 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any, Callable
+from typing import List, Optional, Dict, Any, Callable, Tuple
+from pydantic import BaseModel, Field
 
 @dataclass
 class PerceptionResult:
@@ -12,18 +13,17 @@ class PerceptionResult:
     risk_flag: bool = False
     confidence: float = 0.0
 
-@dataclass
-class SessionMemory:
+class SessionMemory(BaseModel):
     session_id: str
     topic: Optional[str] = None
     current_state: str = "S0"
     current_misconception: Optional[str] = None
     turn_count: int = 0
     history_summary: str = ""
-    messages: List[Dict[str, str]] = field(default_factory=list)
-    used_strategies: List[str] = field(default_factory=list)
-    recent_states: List[str] = field(default_factory=list)
-    risk_events: List[str] = field(default_factory=list)
+    messages: List[Dict[str, str]] = Field(default_factory=list)
+    used_strategies: List[str] = Field(default_factory=list)
+    recent_states: List[str] = Field(default_factory=list)
+    risk_events: List[str] = Field(default_factory=list)
     resolved: bool = False
 
 @dataclass
@@ -154,25 +154,26 @@ def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
             return c
     return candidates[0]
 
-def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDecision:
-    memory.turn_count += 1
-    memory.current_state = "S1"
+def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[RouteDecision, SessionMemory]:
+    new_memory = memory.model_copy(deep=True)
+    new_memory.turn_count += 1
+    new_memory.current_state = "S1"
     if perception.risk_flag:
         decision = RouteDecision(
             state="S2", state_name=STATE_NAMES.get("S2", "Unknown_State"), strategy=None,
             need_guardrail=True, next_goal=STRATEGY_GOALS["S2_None"],
             meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent,"sentiment":perception.sentiment}
         )
-        memory.current_state = decision.state
-        memory.recent_states.append(decision.state)
+        new_memory.current_state = decision.state
+        new_memory.recent_states.append(decision.state)
         if perception.intent:
-            memory.risk_events.append(perception.intent)
-        return decision
+            new_memory.risk_events.append(perception.intent)
+        return decision, new_memory
         
-    memory.current_state = "S3"
+    new_memory.current_state = "S3"
     if perception.misconception_tag:
-        memory.current_misconception = perception.misconception_tag
-        memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, memory.topic)
+        new_memory.current_misconception = perception.misconception_tag
+        new_memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, new_memory.topic)
         
     # State Transition Matrix based on Cognitive State
     transition_map = {
@@ -186,28 +187,30 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     target = transition_map.get(perception.cognitive_state, "S3")
     
     # 应用声明式转移与防死循环规则
-    target = apply_transition_rules(target, perception, memory)
+    target = apply_transition_rules(target, perception, new_memory)
 
-    strategy = _choose_strategy(target, memory)
+    strategy = _choose_strategy(target, new_memory)
     decision = RouteDecision(
         state=target, state_name=STATE_NAMES.get(target, "Unknown_State"), strategy=strategy,
         need_guardrail=False, next_goal=STRATEGY_GOALS.get(strategy, "未知目标"),
         meta={"from":"S3","intent":perception.intent,"misconception_tag":perception.misconception_tag,
-              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,"topic":memory.topic}
+              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,"topic":new_memory.topic}
     )
-    memory.current_state = decision.state
-    memory.recent_states.append(decision.state)
+    new_memory.current_state = decision.state
+    new_memory.recent_states.append(decision.state)
     if strategy is not None:
-        memory.used_strategies.append(strategy)
-    return decision
+        new_memory.used_strategies.append(strategy)
+    return decision, new_memory
 
 def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
-    memory.messages.append({"role": "user", "content": user_input})
-    memory.messages.append({"role": "assistant", "content": final_reply})
-    memory.history_summary = history_summary if history_summary is not None else final_reply[:120]
+    new_memory = memory.model_copy(deep=True)
+    new_memory.messages.append({"role": "user", "content": user_input})
+    new_memory.messages.append({"role": "assistant", "content": final_reply})
+    added_summary = history_summary if history_summary is not None else final_reply[:120]
+    new_memory.history_summary = (new_memory.history_summary + " " + added_summary).strip()[:1000]
     if understanding_verified:
-        memory.resolved = True
-    memory.recent_states = memory.recent_states[-10:]
-    memory.used_strategies = memory.used_strategies[-10:]
-    memory.risk_events = memory.risk_events[-10:]
-    return memory
+        new_memory.resolved = True
+    new_memory.recent_states = new_memory.recent_states[-10:]
+    new_memory.used_strategies = new_memory.used_strategies[-10:]
+    new_memory.risk_events = new_memory.risk_events[-10:]
+    return new_memory
