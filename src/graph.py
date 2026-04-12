@@ -79,15 +79,16 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
 
 def baseline_node(state: GraphState) -> Dict[str, Any]:
     from generator import generate_reply
+    from router import PerceptionResult, RouteDecision
     user_input = state["user_input"]
     memory = state["memory"]
-    
+
     # 填充假的 perception 和 decision
-    perception = type('obj', (object,), {"intent": "Unknown", "misconception_tag": memory.current_misconception, "cognitive_state": "新概念探索", "risk_flag": False, "confidence": 0.0})
-    decision = type('obj', (object,), {"state": "S5", "state_name": "Scaffolding_Guidance", "strategy": "General_Reply", "need_guardrail": False, "next_goal": None, "meta": {}})
-    
-    generation = generate_reply(user_input, memory, decision.state, decision.strategy)
-    
+    perception = PerceptionResult(intent="Unknown", misconception_tag=memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
+    decision = RouteDecision(state="S5", state_name="Scaffolding_Guidance", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
+
+    generation = generate_reply(user_input, decision, memory)
+
     return {
         "perception": perception,
         "decision": decision,

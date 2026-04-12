@@ -25,4 +25,7 @@ class SessionLogger:
     def error(self, msg: str):
         print(f"[ERROR] {msg}")
 
+    def info(self, msg: str):
+        print(f"[INFO] {msg}")
+
 logger_instance = SessionLogger()

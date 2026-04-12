@@ -51,7 +51,7 @@ class SocraticTutorApp:
         perception = final_state["perception"]
         decision = final_state["decision"]
         generation = final_state["generation"]
-        guardrail_result = final_state["guardrail_result"]
+        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
         previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
         understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
@@ -119,7 +119,7 @@ class SocraticTutorApp:
         perception = final_state["perception"]
         decision = final_state["decision"]
         generation = final_state["generation"]
-        guardrail_result = final_state["guardrail_result"]
+        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
         previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
         understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
