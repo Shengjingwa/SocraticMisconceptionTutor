@@ -60,6 +60,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     counterexamples = "\n- ".join(knowledge.get("counterexamples", []))
     analogies = "\n- ".join([a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict) and a.get("analogy")])
 
+    sentiment = decision.meta.get("sentiment", "")
+    empathy_scaffolding = ""
+    if sentiment in ["焦虑/挫败", "困惑"]:
+        empathy_scaffolding = "\n\n【情感支架】\n检测到学生当前处于焦虑、挫败或困惑的情绪状态。请在回复的开头，先用简短、自然的话语进行共情和鼓励（例如：“没关系，这个问题确实有点绕”、“卡在这里很正常”等），然后再进行提问或引导。"
+
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
 
 【当前教学状态】
@@ -85,7 +90,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 5. 绝不要向学生暴露“反例”、“类比”、“知识点”、“支架”、“策略”等教学设计术语，必须将它们自然地转化为对话。
 6. 当学生表现出困惑或多次卡壳时，绝不要重复相同的反问，必须提供一个具体的生活类比（如水流、跑步、木块等）或将问题拆解为更小的分步提问。
 7. 绝对不要在回复中包含任何内部思考过程、策略说明或动作提示（如括号内的心理活动）。如果需要思考，请将思考过程写在 <think>...</think> 标签内。
-8. 每次回复只能提出一个清晰的问题，严禁自问自答，严禁同时抛出多个维度的变量（如同时混杂重量、形状和体积）。"""
+8. 每次回复只能提出一个清晰的问题，严禁自问自答，严禁同时抛出多个维度的变量（如同时混杂重量、形状和体积）。{empathy_scaffolding}"""
 
     assembled_prompt = {
         "role_identity": "你是引导思考的初中物理苏格拉底式助教",
@@ -130,6 +135,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     
     # 组装对话历史
     history_messages = []
+    
+    if len(memory.messages) > config.MAX_HISTORY_TURNS and history_summary:
+        summary_prompt = f"【早期对话总结】\n{history_summary}\n\n【近期对话】"
+        history_messages.append(SystemMessage(content=summary_prompt))
+
     for msg in memory.messages[-config.MAX_HISTORY_TURNS:]:
         if msg["role"] == "user":
             history_messages.append(HumanMessage(content=msg["content"]))

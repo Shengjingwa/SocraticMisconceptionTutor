@@ -1,13 +1,14 @@
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Callable
 
 @dataclass
 class PerceptionResult:
     intent: str
     misconception_tag: Optional[str] = None
     cognitive_state: str = "认知僵局"
+    sentiment: str = "平静"
     risk_flag: bool = False
     confidence: float = 0.0
 
@@ -66,6 +67,60 @@ STRATEGY_GOALS = {
     "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
 }
 
+@dataclass
+class TransitionRule:
+    """声明式状态转移与防环规则"""
+    condition: Callable[[str, PerceptionResult, SessionMemory], bool]
+    action: Callable[[str], str]
+    description: str
+
+TRANSITION_RULES = [
+    # 基础转移规则：如果目标是S4但缺失错误概念标签，降级为S3
+    TransitionRule(
+        condition=lambda target, p, m: target == "S4" and p.misconception_tag is None,
+        action=lambda target: "S3",
+        description="Cannot do cognitive conflict without knowing the misconception"
+    )
+]
+
+ANTI_LOOP_RULES = [
+    # 防环规则1：S4死循环防备 (近期连续多次S4) -> 强制转移到S5
+    TransitionRule(
+        condition=lambda target, p, m: target == "S4" and m.recent_states.count("S4") >= 2,
+        action=lambda target: "S5",
+        description="Break S4 loop"
+    ),
+    # 防环规则2：S5死循环防备 -> 退回S4重新激发思考
+    TransitionRule(
+        condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
+        action=lambda target: "S4",
+        description="Break S5 loop"
+    ),
+    # 防环规则3：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
+    TransitionRule(
+        condition=lambda target, p, m: target not in ("S4", "S6") and m.recent_states[-3:] == [target] * 3,
+        action=lambda target: "S5",
+        description="Break other loops"
+    )
+]
+
+def apply_transition_rules(initial_target: str, perception: PerceptionResult, memory: SessionMemory) -> str:
+    """应用声明式的防环与转移规则"""
+    target = initial_target
+    
+    # 1. 应用基础转移规则
+    for rule in TRANSITION_RULES:
+        if rule.condition(target, perception, memory):
+            target = rule.action(target)
+            
+    # 2. 应用防死循环规则（互斥，匹配一条即止）
+    for rule in ANTI_LOOP_RULES:
+        if rule.condition(target, perception, memory):
+            target = rule.action(target)
+            break
+            
+    return target
+
 def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
     candidates = STATE_STRATEGIES.get(state, [None])
     if not candidates or candidates == [None]:
@@ -106,7 +161,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
         decision = RouteDecision(
             state="S2", state_name=STATE_NAMES.get("S2", "Unknown_State"), strategy=None,
             need_guardrail=True, next_goal=STRATEGY_GOALS["S2_None"],
-            meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent}
+            meta={"from":"S1","reason":"risk_flag=true","intent":perception.intent,"sentiment":perception.sentiment}
         )
         memory.current_state = decision.state
         memory.recent_states.append(decision.state)
@@ -129,25 +184,16 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     }
     
     target = transition_map.get(perception.cognitive_state, "S3")
-    if target == "S4" and perception.misconception_tag is None:
-        target = "S3" # Cannot do cognitive conflict without knowing the misconception
-        
-    # Anti-loop heuristics
-    if target == "S4" and memory.recent_states.count("S4") >= 2:
-        target = "S5"
-    elif target != "S4" and target != "S6" and memory.recent_states[-3:] == [target] * 3:
-        # 强制打破连续相同的非验证状态循环，推进到下一步或者退回澄清
-        if target == "S5":
-            target = "S4" # 退回认知冲突，重新激发思考
-        else:
-            target = "S5" # 其他状态卡住，退回到提供支架
+    
+    # 应用声明式转移与防死循环规则
+    target = apply_transition_rules(target, perception, memory)
 
     strategy = _choose_strategy(target, memory)
     decision = RouteDecision(
         state=target, state_name=STATE_NAMES.get(target, "Unknown_State"), strategy=strategy,
         need_guardrail=False, next_goal=STRATEGY_GOALS.get(strategy, "未知目标"),
         meta={"from":"S3","intent":perception.intent,"misconception_tag":perception.misconception_tag,
-              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"topic":memory.topic}
+              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,"topic":memory.topic}
     )
     memory.current_state = decision.state
     memory.recent_states.append(decision.state)
