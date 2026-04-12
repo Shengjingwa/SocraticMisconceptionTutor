@@ -4,6 +4,7 @@ import uuid
 from typing import Dict, Any, List
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from tenacity import retry, stop_after_attempt, wait_exponential
 import config
 
 from main import SocraticTutorApp
@@ -50,12 +51,26 @@ class SimulatedStudent:
             return mock_resp
             
         prompt = f"请结合你的迷思概念（{self.misconception['misconception_name']}），给出你的第一句话（自然地提出你的错误观点或疑问）。一句话即可。"
-        # 直接调用，不将这个prompt存入历史，只存生成的回复
         temp_history = self.history + [HumanMessage(content=prompt)]
-        response = self.llm.invoke(temp_history)
-        
-        self.history.append(AIMessage(content=response.content))
-        return response.content
+
+        @retry(
+            stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+            wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+            reraise=True
+        )
+        def _invoke_llm():
+            return self.llm.invoke(temp_history)
+
+        try:
+            response = _invoke_llm()
+            reply_text = response.content
+        except Exception as e:
+            from logger import logger_instance
+            logger_instance.error(f"Simulated student failed to generate opening: {e}")
+            reply_text = f"老师，我不明白 {self.misconception['misconception_name']} 这个概念，能解释一下吗？"
+
+        self.history.append(AIMessage(content=reply_text))
+        return reply_text
 
     def reply(self, teacher_message: str) -> str:
         if self.is_mock:
@@ -64,8 +79,23 @@ class SimulatedStudent:
             return mock_resp
             
         self.history.append(HumanMessage(content=f"老师说：{teacher_message}\n请根据你的性格和迷思概念回复（1-2句话）："))
-        response = self.llm.invoke(self.history)
-        reply_text = response.content
+
+        @retry(
+            stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+            wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+            reraise=True
+        )
+        def _invoke_llm():
+            return self.llm.invoke(self.history)
+
+        try:
+            response = _invoke_llm()
+            reply_text = response.content
+        except Exception as e:
+            from logger import logger_instance
+            logger_instance.error(f"Simulated student failed to reply: {e}")
+            reply_text = "老师，网络有点卡，你能再解释一下吗？"
+
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 

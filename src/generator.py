@@ -138,6 +138,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             
     messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
     
+    guardrail_feedback = decision.meta.get("guardrail_feedback")
+    if guardrail_feedback:
+        feedback_prompt = f"【系统安全警告】你上一次的回复因违反安全规则被拦截，拦截理由是：{guardrail_feedback}。\n请重新组织语言，坚决避免直接给出最终结论或代替学生推理，而是通过提问或类比来引导学生。请确保你的回复符合当前状态的要求：{decision.state_name} ({decision.strategy})。"
+        messages.append(SystemMessage(content=feedback_prompt))
+    
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),

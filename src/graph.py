@@ -70,14 +70,28 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_meta = decision.meta.copy()
         new_meta["guardrail_retries"] = retries + 1
-        new_decision = RouteDecision(
-            state="S2",
-            state_name="Refusal_And_Guidance",
-            strategy=None,
-            need_guardrail=True,
-            next_goal=decision.next_goal,
-            meta=new_meta
-        )
+        
+        if guardrail_result.get("answer_leakage_flag", False):
+            # 柔性护栏：不改变原始教学状态，将拦截理由作为反馈要求重新生成
+            new_meta["guardrail_feedback"] = guardrail_result.get("guardrail_reason", "Answer Leakage")
+            new_decision = RouteDecision(
+                state=decision.state,
+                state_name=decision.state_name,
+                strategy=decision.strategy,
+                need_guardrail=False,
+                next_goal=decision.next_goal,
+                meta=new_meta
+            )
+        else:
+            # 硬拦截（如输入包含不当意图未被前置拦截时）
+            new_decision = RouteDecision(
+                state="S2",
+                state_name="Refusal_And_Guidance",
+                strategy=None,
+                need_guardrail=True,
+                next_goal=decision.next_goal,
+                meta=new_meta
+            )
         return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
 
     return {"guardrail_result": guardrail_result, "regeneration_required": False}
