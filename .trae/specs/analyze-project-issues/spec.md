@@ -1,24 +1,21 @@
 # Analyze Project Issues Spec
 
 ## Why
-用户需要对当前项目的代码、架构及现有实现中存在的问题进行全面评估，以便为后续的优化和重构提供参考。本任务明确仅进行问题分析，不包含任何代码修改。
+根据 `/workspace/docs/PROJECT_ISSUES.md` 提供的一份外部（针对极早期原型的）评估报告，其指出的诸多问题（如：只有 `test.ipynb`、无依赖管理、无状态机、纯 RAG 检索生成等）反映的是该项目经历一系列大规模重构**之前**的早期形态。为了明确哪些指控在当前（最新）的架构下依然真实存在，哪些已经是过时信息，需要进行全盘梳理，并制定针对真实存在缺陷的短中长期解决清单。
 
 ## What Changes
-- 扫描项目源代码，评估代码质量、潜在的 Bug 和可维护性问题。
-- 分析系统架构，特别是 LangGraph 工作流和 FSM 状态机结合的合理性。
-- 检查各个核心模块（如输入分类器、状态路由、生成器等）的鲁棒性和边界条件处理。
-- 检查项目技术债（如硬编码、缺失的模块等）。
-- 生成并输出一份全面的分析总结。
-- **无任何代码修改**。
+- 通过阅读源码，核对 `PROJECT_ISSUES.md` 中指出的“无状态管理”、“无自动化测试”、“纯向量检索”、“缺乏依赖说明”等问题。
+- 梳理出项目中**仍未解决或新出现的真实问题**（例如缺乏人类学生实验、学生模型粒度不够、未做知识泛化测试）。
+- 产出一份结构化的短中长期修复与演进计划，供后续开发迭代参考。
 
 ## Impact
-- Affected specs: 无
-- Affected code: 无代码变更，仅产出分析结果。
+- Affected specs: 无直接代码修改，仅产出分析和计划文档。
+- Affected code: 无
 
 ## ADDED Requirements
-### Requirement: Project Analysis
-The system SHALL provide a comprehensive analysis of existing issues in the project without altering any source code.
+### Requirement: 诊断与路线图规划
+The system SHALL provide 针对过时外部评估报告的过滤甄别，并基于项目最新形态输出有效的工程与教育学演进方案。
 
-#### Scenario: Success case
-- **WHEN** the analysis task is executed
-- **THEN** a detailed report highlighting architecture flaws, code quality issues, and technical debt is generated.
+#### Scenario: 成功规划
+- **WHEN** 任务执行完毕
+- **THEN** 用户获得一份清晰的问题真伪判别报告，以及包含短期（Quick wins）、中期（Refactoring）、长期（Advanced Features）的改进方案清单。
