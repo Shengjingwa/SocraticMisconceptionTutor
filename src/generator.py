@@ -15,8 +15,9 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 def _clean_reply(text: str) -> str:
     """清理回复文本，去掉思考标签和括号内的动作提示。"""
-    # 去除 <think> 标签及其内容
-    text = re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL)
+    # 尝试去除 <think> 标签及其内容。如果大模型忘记闭合标签，尝试匹配到“回复：”或“回答：”
+    if "<think>" in text:
+        text = re.sub(r'<think>.*?(?:</think>|回复：|回答：|回复:|回答:)', '', text, flags=re.DOTALL)
     # 去除括号包裹的内容（中文或英文括号），例如（思考一下）、(确认学生意图)
     text = re.sub(r'[（\(].*?[）\)]', '', text)
     return text.strip()
