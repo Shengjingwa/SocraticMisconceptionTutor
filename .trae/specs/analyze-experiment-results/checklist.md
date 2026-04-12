@@ -1,6 +1,0 @@
-- [x] 实验分析报告包含对 `Identification Accuracy` 差距原因的解释。
-- [x] 实验分析报告包含对 `Cognitive Correction Rate` 偏低及上升原因的解释。
-- [x] 实验分析报告包含对 `Avg Turns` 对话轮数较短原因的探讨。
-- [x] 实验分析报告包含对 `Refusal Success Rate` 和 `Guardrail Interception Rate` 的评估分析。
-- [x] 实验分析报告包含对零泄露和高状态流转率的原因说明。
-- [x] 最终文件保存在 `docs/experiment_analysis.md` 中。

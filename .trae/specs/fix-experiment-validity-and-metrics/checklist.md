@@ -1,4 +1,0 @@
-- [ ] `src/state.py` 中的 `GraphState` 增加了 `system_version` 字段，并在 `src/main.py` 和 `src/graph.py` 中被传递并用于逻辑控制。
-- [ ] 消融实验版本（Baseline, FSM, FSM+Guardrail）在执行底层 LangGraph 时会激活不同的控制流，从而产生真实的指标差异。
-- [ ] 学生模拟器的提示词已修改，包含对抗性指令（如随机索要答案或偏题），能够激活护栏机制（Guardrail）。
-- [ ] `src/router.py` 中针对 `S5` 连续卡壳的防死循环策略已被修改为回退到 `S4` 以制造认知冲突，避免生硬地跳至 `S6`。

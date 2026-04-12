@@ -1,7 +1,0 @@
-- [x] `docs/experiment_versions.md` 文件已创建并包含详细的三个对比版本定义。
-- [x] 系统代码（如 `main.py` / `graph.py`）已重构，支持三种版本（Baseline, FSM, FSM+Guardrail）的切换与隔离运行。
-- [x] `src/simulator.py` 已实现，并成功利用大模型扮演特定画像的学生，完成自动化多轮对话测试。
-- [x] 已成功跑完 108 或 180 组仿真对话，且 `logs/` 目录下生成了包含三种版本数据的完整 `turn_logs.jsonl` 和 `session_summary.jsonl`。
-- [x] `src/evaluator.py` 脚本已实现，成功读取日志文件并计算出 8 项核心指标。
-- [x] `results/summary_metrics.csv` 已成功生成，包含版本对比数据，字段名符合设计模板。
-- [x] `results/manual_audit.csv`（或 Markdown 模板）已准备就绪，包含随机抽样的对话记录。
