@@ -9,14 +9,14 @@ if not DASHSCOPE_API_KEY and DEEPSEEK_API_KEY:
 
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
-TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen-plus")
-JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3")
+TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen3.6-plus")
+JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
 
 # Legacy fallback for older code
 LLM_MODEL = os.environ.get("LLM_MODEL", TUTOR_MODEL)
 
-# Default kwargs for ChatOpenAI (remove enable_thinking as it causes errors with qwen)
-DEFAULT_LLM_KWARGS = {}
+# Default kwargs for ChatOpenAI
+DEFAULT_LLM_KWARGS = {"model_kwargs": {}, "extra_body": {"enable_thinking": True}}
 
 # Retry Configuration for Tenacity
 RETRY_MIN_WAIT = 2

@@ -1,0 +1,3 @@
+- [x] `config.py` 中已正确设置 `TUTOR_MODEL` 为 `qwen3.6-plus` 和 `JUDGE_MODEL` 为 `deepseek-v3.2`。
+- [x] 各个模块中实例化大模型时（例如 `ChatOpenAI`），均正确携带了 `model_kwargs={"enable_thinking": True}` 参数。
+- [x] 成功使用阿里云百炼 API Key `sk-6b719e16c7d047b7afaf97bd64b02501` 完成了简单的调用测试，确保运行正常。
