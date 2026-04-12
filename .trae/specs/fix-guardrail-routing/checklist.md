@@ -1,3 +1,0 @@
-- [x] `src/graph.py` 中的 `workflow.add_conditional_edges` 已经修改为 `route -> generate -> guardrail -> generate(if retry)` 的顺序。
-- [x] `src/graph.py` 中 `guardrail_node` 函数被修复，在 `answer_leakage_flag` 触发时强制重新生成。
-- [x] `src/classifiers.py` 中已经将 `Off_Topic` 加入到了 `risk_flag=True` 的触发条件中。
