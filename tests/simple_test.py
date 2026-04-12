@@ -3,13 +3,12 @@ import sys
 from pathlib import Path
 
 # 添加项目根目录到 sys.path，以便导入 src 模块
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
 
 # 设置 DeepSeek API 密钥
 os.environ["DEEPSEEK_API_KEY"] = "sk-b8ad0a83bb8e4083bebd65be5645e7df"
 
-from src.main import SocraticTutorApp
+from main import SocraticTutorApp
 
 def main():
     print("Initializing SocraticTutorApp...")

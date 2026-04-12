@@ -100,20 +100,6 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "guardrail_rules": "禁泄露规则: 绝不直接给出最终结论，绝不代替学生完成关键推理，只使用提问或类比进行引导。"
     }
 
-    if decision.need_guardrail or decision.state == "S2":
-        follow_up = _pick_one(knowledge.get("verification_questions", []), default="你先说说：你现在最确定的那一步推理是什么？")
-        raw_reply = _pick_one(REFUSAL_REDIRECT_TEMPLATES).format(follow_up=follow_up)
-        final_reply = _clean_reply(raw_reply)
-        return {
-            "raw_reply": raw_reply,
-            "final_reply": final_reply,
-            "reply_type": "refusal_and_guidance",
-            "knowledge_used": misconception.get("misconception_name"),
-            "state": decision.state,
-            "strategy": decision.strategy,
-            "assembled_prompt": assembled_prompt
-        }
-
     if not config.DEEPSEEK_API_KEY:
         # Mock mode if API key is missing
         reply_text = f"（Mocked teacher response）我看到你现在的状态是 {decision.state_name}，我们在探讨 {misconception.get('misconception_name', '这个概念')}。你能再多说说你的想法吗？"
@@ -149,6 +135,10 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             
     messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
     
+    if decision.need_guardrail or decision.state == "S2":
+        redirect_prompt = "【重定向指令】学生刚刚试图直接索要答案或偏离主题。请用自然、委婉的口吻拒绝直接给出结论，或将话题拉回当前的物理讨论，并提出一个简单的引导问题。"
+        messages.append(SystemMessage(content=redirect_prompt))
+    
     guardrail_feedback = decision.meta.get("guardrail_feedback")
     if guardrail_feedback:
         feedback_prompt = f"【系统安全警告】你上一次的回复因违反安全规则被拦截，拦截理由是：{guardrail_feedback}。\n请重新组织语言，坚决避免直接给出最终结论或代替学生推理，而是通过提问或类比来引导学生。请确保你的回复符合当前状态的要求：{decision.state_name} ({decision.strategy})。"
@@ -168,7 +158,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     except Exception as e:
         from logger import logger_instance
         logger_instance.error(f"LLM generation failed: {e}")
-        reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
+        if decision.state == "S2" or decision.need_guardrail:
+            follow_up = _pick_one(knowledge.get("verification_questions", []), default="你先说说：你现在最确定的那一步推理是什么？")
+            reply_text = _pick_one(REFUSAL_REDIRECT_TEMPLATES).format(follow_up=follow_up)
+        else:
+            reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
 
     final_reply = _clean_reply(reply_text)
 

@@ -1,0 +1,3 @@
+- [x] 根目录不再包含 `are in the directory`, `diff_output.txt`, `test.ipynb`, `fix_misconceptions.py` 等临时文件
+- [x] `data/` 目录中只包含核心代码实际读取的数据（如 `misconceptions.json`, `knowledge_chunks.json`, `simulation_profiles.json`）
+- [x] 所有的 `test_*.py` 测试脚本都已被妥善归置在 `tests/` 目录下，且未被破坏其运行所需的环境变量导入逻辑

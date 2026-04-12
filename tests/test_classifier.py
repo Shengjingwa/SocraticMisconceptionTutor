@@ -1,8 +1,8 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath("src"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
 
-from src.classifiers import classify_input
+from classifiers import classify_input
 
 import sys
 import logging

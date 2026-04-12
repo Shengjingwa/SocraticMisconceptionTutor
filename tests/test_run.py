@@ -1,6 +1,9 @@
+import sys
 import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'src'))
+
 os.environ["DEEPSEEK_API_KEY"] = "dummy_key"
-from src.main import SocraticTutorApp
+from main import SocraticTutorApp
 try:
     app = SocraticTutorApp()
     print("App loaded successfully.")
