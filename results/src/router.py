@@ -83,6 +83,9 @@ def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
             
     # 启发式动态推荐规则 2: 在 S4 (Cognitive Conflict) 状态，逐步深入
     if state == "S4":
+        # 刚从 S5 卡壳退回来的情况，尝试推演后果
+        if len(recent_states) >= 1 and recent_states[-1] == "S5":
+            return "Consequence_Exploration"
         # 连续处于认知冲突时，尝试推演后果
         if len(recent_states) >= 1 and recent_states[-1] == "S4":
             return "Consequence_Exploration"
@@ -135,7 +138,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> RouteDec
     elif target != "S4" and target != "S6" and memory.recent_states[-3:] == [target] * 3:
         # 强制打破连续相同的非验证状态循环，推进到下一步或者退回澄清
         if target == "S5":
-            target = "S6" # 如果在提供支架上卡住，尝试推进到验证环节看学生反应
+            target = "S4" # 退回认知冲突，重新激发思考
         else:
             target = "S5" # 其他状态卡住，退回到提供支架
 

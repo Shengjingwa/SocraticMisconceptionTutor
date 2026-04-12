@@ -28,6 +28,19 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
     # 这里我们不用在 graph state 返回里清空，因为如果再次进入 guardrail 并且 safe, guardrail node 会置 False。
     return {"generation": generation}
 
+def route_to_next(state: GraphState) -> str:
+    system_version = state.get("system_version", "FSM+Guardrail")
+    if system_version == "Baseline":
+        return "baseline"
+        
+    decision = state["decision"]
+    if system_version == "FSM":
+        return "generate"
+        
+    if decision.need_guardrail:
+        return "guardrail"
+    return "generate"
+
 def guardrail_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     perception = state["perception"]
@@ -64,10 +77,23 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         
     return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
-def check_guardrail(state: GraphState) -> str:
-    if state.get("regeneration_required", False):
-        return "generate"
-    return END
+def baseline_node(state: GraphState) -> Dict[str, Any]:
+    from generator import generate_reply
+    user_input = state["user_input"]
+    memory = state["memory"]
+    
+    # 填充假的 perception 和 decision
+    perception = type('obj', (object,), {"intent": "Unknown", "misconception_tag": memory.current_misconception, "cognitive_state": "新概念探索", "risk_flag": False, "confidence": 0.0})
+    decision = type('obj', (object,), {"state": "S5", "state_name": "Scaffolding_Guidance", "strategy": "General_Reply", "need_guardrail": False, "next_goal": None, "meta": {}})
+    
+    generation = generate_reply(user_input, memory, decision.state, decision.strategy)
+    
+    return {
+        "perception": perception,
+        "decision": decision,
+        "generation": generation,
+        "guardrail_result": {"guardrail_triggered": False, "guardrail_reason": None}
+    }
 
 workflow = StateGraph(GraphState)
 
@@ -75,20 +101,23 @@ workflow.add_node("classify", classify_node)
 workflow.add_node("route", route_node)
 workflow.add_node("generate", generate_node)
 workflow.add_node("guardrail", guardrail_node)
+workflow.add_node("baseline", baseline_node)
 
 workflow.set_entry_point("classify")
 
 workflow.add_edge("classify", "route")
-workflow.add_edge("route", "generate")
-workflow.add_edge("generate", "guardrail")
 
 workflow.add_conditional_edges(
-    "guardrail",
-    check_guardrail,
+    "route",
+    route_to_next,
     {
-        "generate": "generate",
-        END: END
+        "baseline": "baseline",
+        "guardrail": "guardrail",
+        "generate": "generate"
     }
 )
+workflow.add_edge("guardrail", "generate")
+workflow.add_edge("generate", END)
+workflow.add_edge("baseline", END)
 
 app_graph = workflow.compile()
