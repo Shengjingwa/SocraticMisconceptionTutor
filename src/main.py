@@ -21,15 +21,17 @@ def _timestamp() -> str:
     return datetime.now().isoformat(timespec="seconds")
 
 class SocraticTutorApp:
-    def __init__(self, session_id: str = "session_demo") -> None:
-        self.memory = SessionMemory(session_id=session_id)
-        self.system_version = "FSM+Guardrail"
-        self.student_profile = "P_Unknown"
+    def __init__(self, session_id: str, system_version: str = "FSM+Guardrail", student_profile: str = "Unknown", topic: str = "Unknown"):
+        self.memory = SessionMemory(session_id=session_id, topic=topic)
+        self.system_version = system_version
+        self.student_profile = student_profile
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
+        logger_instance.info(f"Initialized Session {session_id} on {topic} for {student_profile} with version {system_version}")
 
     def step(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
+            "system_version": self.system_version,
             "user_input": user_input,
             "memory": self.memory
         }
@@ -49,7 +51,7 @@ class SocraticTutorApp:
         perception = final_state["perception"]
         decision = final_state["decision"]
         generation = final_state["generation"]
-        guardrail_result = final_state["guardrail_result"]
+        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
         previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
         understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)
@@ -97,6 +99,7 @@ class SocraticTutorApp:
 
     async def astep(self, user_input: str) -> Dict[str, Any]:
         initial_state = {
+            "system_version": self.system_version,
             "user_input": user_input,
             "memory": self.memory
         }
@@ -116,7 +119,7 @@ class SocraticTutorApp:
         perception = final_state["perception"]
         decision = final_state["decision"]
         generation = final_state["generation"]
-        guardrail_result = final_state["guardrail_result"]
+        guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
         previous_state = self.memory.recent_states[-2] if len(self.memory.recent_states) >= 2 else None
         understanding_verified = ((perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")) or (decision.state == "S6" and not decision.need_guardrail)

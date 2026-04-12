@@ -5,6 +5,8 @@ class GraphState(TypedDict):
     """
     LangGraph 状态管理，包含会话的长期记忆及当前对话轮次的各个中间状态。
     """
+    system_version: str
+    
     # 长期会话状态
     memory: SessionMemory
     

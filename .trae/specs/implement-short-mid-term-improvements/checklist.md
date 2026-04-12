@@ -1,0 +1,5 @@
+- [x] `guardrails.py` 中的 LLM Judge 拥有 Tenacity 重试机制，能够抵御偶发的网络错误
+- [x] 长对话时，早期摘要 `history_summary` 成功拼接到 Prompt 的上下文中
+- [x] `classifiers.py` 能成功识别学生的 `sentiment`，并传递至路由和生成模块
+- [x] 当学生表现出“焦虑/挫败”时，大模型生成的回复包含鼓励与共情的文本前缀
+- [x] `router.py` 的路由逻辑完成重构，使用更声明式的防死循环和状态跳转配置，且原有的仿真测试集运行依然通过

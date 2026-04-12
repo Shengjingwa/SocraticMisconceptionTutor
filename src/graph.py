@@ -10,7 +10,7 @@ from guardrails import apply_guardrails
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     memory = state["memory"]
-    perception = classify_input(user_input, messages=memory.messages)
+    perception = classify_input(user_input, messages=memory.messages, history_summary=memory.history_summary)
     return {"perception": perception}
 
 def route_node(state: GraphState) -> Dict[str, Any]:
@@ -28,6 +28,24 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
     # 这里我们不用在 graph state 返回里清空，因为如果再次进入 guardrail 并且 safe, guardrail node 会置 False。
     return {"generation": generation}
 
+def route_after_route(state: GraphState) -> str:
+    system_version = state.get("system_version", "FSM+Guardrail")
+    if system_version == "Baseline":
+        return "baseline"
+    return "generate"
+
+def route_after_generate(state: GraphState) -> str:
+    system_version = state.get("system_version", "FSM+Guardrail")
+    # 只在 FSM+Guardrail 版本使用护栏
+    if system_version == "FSM+Guardrail":
+        return "guardrail"
+    return "end"
+
+def route_after_guardrail(state: GraphState) -> str:
+    if state.get("regeneration_required", False):
+        return "generate"
+    return "end"
+
 def guardrail_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     perception = state["perception"]
@@ -42,32 +60,60 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
 
     is_already_safe = decision.need_guardrail or decision.state == "S2"
     guardrail_result = apply_guardrails(
-        user_input=user_input, 
-        intent=perception.intent, 
-        generated_text=generation["final_reply"], 
+        user_input=user_input,
+        intent=perception.intent,
+        generated_text=generation["final_reply"],
         misconception_tag=perception.misconception_tag,
         is_already_safe=is_already_safe
     )
-    
-    if guardrail_result["guardrail_triggered"] and not is_already_safe:
+
+    if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_meta = decision.meta.copy()
         new_meta["guardrail_retries"] = retries + 1
-        new_decision = RouteDecision(
-            state="S2",
-            state_name="Refusal_And_Guidance",
-            strategy=None,
-            need_guardrail=True,
-            next_goal=decision.next_goal,
-            meta=new_meta
-        )
-        return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
         
+        if guardrail_result.get("answer_leakage_flag", False):
+            # 柔性护栏：不改变原始教学状态，将拦截理由作为反馈要求重新生成
+            new_meta["guardrail_feedback"] = guardrail_result.get("guardrail_reason", "Answer Leakage")
+            new_decision = RouteDecision(
+                state=decision.state,
+                state_name=decision.state_name,
+                strategy=decision.strategy,
+                need_guardrail=False,
+                next_goal=decision.next_goal,
+                meta=new_meta
+            )
+        else:
+            # 硬拦截（如输入包含不当意图未被前置拦截时）
+            new_decision = RouteDecision(
+                state="S2",
+                state_name="Refusal_And_Guidance",
+                strategy=None,
+                need_guardrail=True,
+                next_goal=decision.next_goal,
+                meta=new_meta
+            )
+        return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
+
     return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
-def check_guardrail(state: GraphState) -> str:
-    if state.get("regeneration_required", False):
-        return "generate"
-    return END
+def baseline_node(state: GraphState) -> Dict[str, Any]:
+    from generator import generate_reply
+    from router import PerceptionResult, RouteDecision
+    user_input = state["user_input"]
+    memory = state["memory"]
+
+    # 填充假的 perception 和 decision
+    perception = PerceptionResult(intent="Unknown", misconception_tag=memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
+    decision = RouteDecision(state="S5", state_name="Scaffolding_Guidance", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
+
+    generation = generate_reply(user_input, decision, memory)
+
+    return {
+        "perception": perception,
+        "decision": decision,
+        "generation": generation,
+        "guardrail_result": {"guardrail_triggered": False, "guardrail_reason": None}
+    }
 
 workflow = StateGraph(GraphState)
 
@@ -75,20 +121,39 @@ workflow.add_node("classify", classify_node)
 workflow.add_node("route", route_node)
 workflow.add_node("generate", generate_node)
 workflow.add_node("guardrail", guardrail_node)
+workflow.add_node("baseline", baseline_node)
 
 workflow.set_entry_point("classify")
 
 workflow.add_edge("classify", "route")
-workflow.add_edge("route", "generate")
-workflow.add_edge("generate", "guardrail")
+
+workflow.add_conditional_edges(
+    "route",
+    route_after_route,
+    {
+        "baseline": "baseline",
+        "generate": "generate"
+    }
+)
+
+workflow.add_conditional_edges(
+    "generate",
+    route_after_generate,
+    {
+        "guardrail": "guardrail",
+        "end": END
+    }
+)
 
 workflow.add_conditional_edges(
     "guardrail",
-    check_guardrail,
+    route_after_guardrail,
     {
         "generate": "generate",
-        END: END
+        "end": END
     }
 )
+
+workflow.add_edge("baseline", END)
 
 app_graph = workflow.compile()

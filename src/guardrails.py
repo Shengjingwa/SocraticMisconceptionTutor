@@ -63,6 +63,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
         from langchain_openai import ChatOpenAI
         from langchain_core.messages import SystemMessage, HumanMessage
         from pydantic import BaseModel, Field
+        from tenacity import retry, wait_exponential, stop_after_attempt
         
         class GuardrailOutput(BaseModel):
             is_leaking: bool = Field(description="该回复是否直接给出了最终的物理结论，或者代替学生完成了推导过程。")
@@ -92,7 +93,15 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
             HumanMessage(content=f"助教回复内容:\n{generated_text}")
         ]
         
-        judge_result = structured_llm.invoke(messages)
+        @retry(
+            stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+            wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+            reraise=True
+        )
+        def _invoke_judge():
+            return structured_llm.invoke(messages)
+            
+        judge_result = _invoke_judge()
         if judge_result.is_leaking:
             from logger import logger_instance
             logger_instance.warning(f"LLM Judge blocked response. Reason: {judge_result.reason}")
