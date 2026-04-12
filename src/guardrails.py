@@ -70,10 +70,11 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
             reason: str = Field(description="判断理由")
 
         llm = ChatOpenAI(
-            model=config.LLM_MODEL,
-            api_key=config.DEEPSEEK_API_KEY,
+            model=config.TUTOR_MODEL,
+            api_key=config.DASHSCOPE_API_KEY,
             base_url=config.LLM_BASE_URL,
-            temperature=0.0
+            temperature=0.0,
+            **config.DEFAULT_LLM_KWARGS
         )
         
         judge_prompt = f"""你是一个教育安全评估裁判。

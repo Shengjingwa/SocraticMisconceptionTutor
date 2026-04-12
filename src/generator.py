@@ -114,7 +114,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "assembled_prompt": assembled_prompt
         }
 
-    if not config.DEEPSEEK_API_KEY:
+    if not config.DASHSCOPE_API_KEY:
         # Mock mode if API key is missing
         reply_text = f"（Mocked teacher response）我看到你现在的状态是 {decision.state_name}，我们在探讨 {misconception.get('misconception_name', '这个概念')}。你能再多说说你的想法吗？"
         final_reply = _clean_reply(reply_text)
@@ -129,9 +129,10 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         }
 
     llm = ChatOpenAI(
-        model=config.LLM_MODEL,
-        api_key=config.DEEPSEEK_API_KEY,
-        base_url=config.LLM_BASE_URL
+        model=config.TUTOR_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
     )
     
     # 组装对话历史

@@ -44,7 +44,7 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None, histo
     if messages is None:
         messages = []
         
-    if not config.DEEPSEEK_API_KEY:
+    if not config.DASHSCOPE_API_KEY:
         # Mock mode if API key is missing
         return PerceptionResult(
             intent="Knowledge_Inquiry",
@@ -56,9 +56,10 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None, histo
         )
         
     llm = ChatOpenAI(
-        model=config.LLM_MODEL,
-        api_key=config.DEEPSEEK_API_KEY,
-        base_url=config.LLM_BASE_URL
+        model=config.TUTOR_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
     )
     
     structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")

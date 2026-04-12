@@ -14,15 +14,16 @@ class SimulatedStudent:
         self.profile = profile
         self.misconception = misconception
 
-        self.api_key = config.DEEPSEEK_API_KEY
+        self.api_key = config.DASHSCOPE_API_KEY
         self.is_mock = not self.api_key
         
         if not self.is_mock:
             self.llm = ChatOpenAI(
-                model=config.LLM_MODEL, 
+                model=config.TUTOR_MODEL, 
                 temperature=0.7,
                 api_key=self.api_key,
-                base_url=config.LLM_BASE_URL
+                base_url=config.LLM_BASE_URL,
+                **config.DEFAULT_LLM_KWARGS
             )
         self.history: List[Any] = []
         self._setup_system_prompt()

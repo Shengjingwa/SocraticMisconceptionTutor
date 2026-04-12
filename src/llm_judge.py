@@ -17,14 +17,15 @@ class EvaluationOutput(BaseModel):
     reasoning: str = Field(description="打分的具体理由")
 
 def evaluate_session(session_id: str, messages: list) -> EvaluationOutput:
-    if not config.DEEPSEEK_API_KEY:
+    if not config.DASHSCOPE_API_KEY:
         print("未配置 DEEPSEEK_API_KEY，使用 Mock 结果")
         return EvaluationOutput(socratic_degree=3, teaching_effectiveness=3, reasoning="Mock evaluation due to missing API key")
 
     llm = ChatOpenAI(
-        model=config.LLM_MODEL,
-        api_key=config.DEEPSEEK_API_KEY,
-        base_url=config.LLM_BASE_URL
+        model=config.JUDGE_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
     )
     
     structured_llm = llm.with_structured_output(EvaluationOutput, method="json_mode")

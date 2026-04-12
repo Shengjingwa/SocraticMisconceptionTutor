@@ -6,8 +6,8 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-# 设置 DeepSeek API 密钥
-os.environ["DEEPSEEK_API_KEY"] = "sk-b8ad0a83bb8e4083bebd65be5645e7df"
+# 设置 API 密钥
+os.environ["DASHSCOPE_API_KEY"] = os.environ.get("DASHSCOPE_API_KEY", "sk-b8ad0a83bb8e4083bebd65be5645e7df")
 
 from src.main import SocraticTutorApp
 

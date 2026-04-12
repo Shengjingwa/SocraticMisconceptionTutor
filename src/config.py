@@ -1,9 +1,22 @@
 import os
 
 # LLM Configuration
+DASHSCOPE_API_KEY = os.environ.get("DASHSCOPE_API_KEY", "")
+# 为了兼容以前的代码，如果没设置 DASHSCOPE，可以回退找 DEEPSEEK
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
-LLM_MODEL = os.environ.get("LLM_MODEL", "deepseek-chat")
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
+if not DASHSCOPE_API_KEY and DEEPSEEK_API_KEY:
+    DASHSCOPE_API_KEY = DEEPSEEK_API_KEY
+
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+
+TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen-plus")
+JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3")
+
+# Legacy fallback for older code
+LLM_MODEL = os.environ.get("LLM_MODEL", TUTOR_MODEL)
+
+# Default kwargs for ChatOpenAI (remove enable_thinking as it causes errors with qwen)
+DEFAULT_LLM_KWARGS = {}
 
 # Retry Configuration for Tenacity
 RETRY_MIN_WAIT = 2
