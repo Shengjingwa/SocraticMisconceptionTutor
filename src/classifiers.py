@@ -164,7 +164,7 @@ def classify_input(user_input: str, messages: List[Dict[str, str]] = None) -> Pe
             )
     
     # Calculate risk_flag based on intent
-    risk_flag = result.intent == "Direct_Answer_Seek"
+    risk_flag = result.intent in ["Direct_Answer_Seek", "Off_Topic"]
     
     return PerceptionResult(
         intent=result.intent,

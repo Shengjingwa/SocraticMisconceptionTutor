@@ -28,18 +28,23 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
     # 这里我们不用在 graph state 返回里清空，因为如果再次进入 guardrail 并且 safe, guardrail node 会置 False。
     return {"generation": generation}
 
-def route_to_next(state: GraphState) -> str:
+def route_after_route(state: GraphState) -> str:
     system_version = state.get("system_version", "FSM+Guardrail")
     if system_version == "Baseline":
         return "baseline"
-        
-    decision = state["decision"]
-    if system_version == "FSM":
-        return "generate"
-        
-    if decision.need_guardrail:
-        return "guardrail"
     return "generate"
+
+def route_after_generate(state: GraphState) -> str:
+    system_version = state.get("system_version", "FSM+Guardrail")
+    # 只在 FSM+Guardrail 版本使用护栏
+    if system_version == "FSM+Guardrail":
+        return "guardrail"
+    return "end"
+
+def route_after_guardrail(state: GraphState) -> str:
+    if state.get("regeneration_required", False):
+        return "generate"
+    return "end"
 
 def guardrail_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -55,14 +60,14 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
 
     is_already_safe = decision.need_guardrail or decision.state == "S2"
     guardrail_result = apply_guardrails(
-        user_input=user_input, 
-        intent=perception.intent, 
-        generated_text=generation["final_reply"], 
+        user_input=user_input,
+        intent=perception.intent,
+        generated_text=generation["final_reply"],
         misconception_tag=perception.misconception_tag,
         is_already_safe=is_already_safe
     )
-    
-    if guardrail_result["guardrail_triggered"] and not is_already_safe:
+
+    if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_meta = decision.meta.copy()
         new_meta["guardrail_retries"] = retries + 1
         new_decision = RouteDecision(
@@ -74,7 +79,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
             meta=new_meta
         )
         return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True}
-        
+
     return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
 def baseline_node(state: GraphState) -> Dict[str, Any]:
@@ -110,15 +115,31 @@ workflow.add_edge("classify", "route")
 
 workflow.add_conditional_edges(
     "route",
-    route_to_next,
+    route_after_route,
     {
         "baseline": "baseline",
-        "guardrail": "guardrail",
         "generate": "generate"
     }
 )
-workflow.add_edge("guardrail", "generate")
-workflow.add_edge("generate", END)
+
+workflow.add_conditional_edges(
+    "generate",
+    route_after_generate,
+    {
+        "guardrail": "guardrail",
+        "end": END
+    }
+)
+
+workflow.add_conditional_edges(
+    "guardrail",
+    route_after_guardrail,
+    {
+        "generate": "generate",
+        "end": END
+    }
+)
+
 workflow.add_edge("baseline", END)
 
 app_graph = workflow.compile()
