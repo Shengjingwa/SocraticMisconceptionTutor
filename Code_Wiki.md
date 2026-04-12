@@ -1,91 +1,123 @@
-# 项目 Code Wiki：苏格拉底式对话教育智能体
+# 项目代码维基 (Code Wiki) - 苏格拉底式对话教育智能体
 
-## 1. 项目概述
-本项目是一个面向初中物理（聚焦电学与浮力）的苏格拉底式对话教育智能体。该系统旨在通过引导式提问、制造认知冲突和提供认知支架，帮助学生纠正典型的物理迷思概念（Misconceptions）。
+## 1. 项目整体架构 (Overall Architecture)
 
-核心架构基于 **LangGraph + 状态机（FSM）**，对话工作流严格遵循“感知 (Perception) -> 决策 (Decision) -> 生成 (Generation) -> 护栏 (Guardrail)”的流水线设计。系统底层基于 DeepSeek 大模型（通过 `langchain_openai` 调用），并支持多版本运行模式（Baseline、FSM、FSM+Guardrail）以进行消融实验。
+本项目是一个面向初中物理典型迷思概念（如电学、浮力）的**苏格拉底式对话教育智能体**。
+系统采用基于大语言模型（LLM）和有限状态机（FSM）相结合的混合架构，并通过 **LangGraph** 实现了模块化、高可控的图工作流调度。
 
----
+整个对话流程被抽象为一个有向图（StateGraph），每次用户输入都会经历以下核心流水线流转：
+1. **感知 (Classify)**：NLU 意图识别与情感分析。
+2. **决策 (Route)**：基于规则与 FSM 的对话状态路由。
+3. **生成 (Generate)**：基于当前策略和情感支架生成苏格拉底式的引导回复。
+4. **护栏 (Guardrail)**：LLM-as-a-Judge 判别是否存在直接给出答案（泄漏）等风险。若存在，则将反馈作为条件，循环回“生成”节点进行重写（柔性护栏机制）。
 
-## 2. 项目整体架构
-系统采用模块化设计，核心处理流水线如下：
-
-1. **输入感知 (Perception)**：自然语言理解（NLU）模块利用 LLM 的结构化输出能力，提取用户的意图、认知状态及具体的错误概念标签。
-2. **决策路由 (Decision/Routing)**：基于状态机（FSM），结合 NLU 解析结果和历史对话状态（S0-S6），决定下一轮教学的引导状态和干预策略（如认知冲突、支架引导等）。
-3. **回复生成 (Generation)**：结合当前状态机指令，检索本地知识切片（核心知识点、反例、类比），组装 Prompt 并调用 LLM 生成苏格拉底式提问。
-4. **安全护栏 (Guardrail)**：输入端防范直接求答案或偏题，输出端防止大模型直接“泄露答案”，若触发拦截则通过条件边触发重新生成循环。
-5. **仿真与评估闭环**：内置由 LLM 驱动的“模拟初中生”模块进行自动化对弈测试，并自动计算准确率、纠正率等核心评测指标。
+近期经过重构后，项目的模型调用已全面迁移至阿里云百炼 API（`qwen3.6-plus` 用于教学与模拟学生，`deepseek-v3.2` 用于打分），并启用了深度思考（`enable_thinking`）能力以增强推理。同时，状态管理升级为不可变的 Pydantic BaseModel，确保了架构的幂等性与安全性。
 
 ---
 
-## 3. 主要模块职责 (`src/` 目录)
+## 2. 主要模块职责 (Main Module Responsibilities)
 
-- **`main.py`**：应用主入口。定义系统主类，负责管理会话记忆、调度 LangGraph 工作流、执行日志记录，并提供交互式终端聊天界面。
-- **`graph.py`**：工作流引擎。利用 LangGraph 定义核心状态图节点（分类、路由、生成、护栏），并配置条件边以支持护栏拦截时的重新生成。
-- **`classifiers.py`**：自然语言理解（NLU）模块。利用 LLM 识别用户意图、认知状态及错误概念标签。
-- **`router.py`**：状态机与决策模块。根据 NLU 结果和历史状态决定下一步引导策略。
-- **`generator.py`**：回复生成模块。结合策略和 `data/` 目录中的知识切片，组装 Prompt 生成最终的启发式回复。
-- **`guardrails.py`**：安全护栏模块。负责输入与输出双向检测，确保教学过程的启发性而非直接灌输。
-- **`simulator.py`**：仿真实验模块。利用 LLM 扮演具有特定错误概念的“模拟初中生”，与智能体进行批量对话。
-- **`evaluator.py`**：指标计算模块。解析实验日志，计算迷思概念识别准确率、认知纠正率、护栏拦截率等核心指标并生成 CSV 报告。
-- **`logger.py`** & **`state.py`**：分别负责日志文件落盘以及 LangGraph 全局数据状态 (`GraphState`) 的类型定义。
+### 核心业务逻辑 (`src/`)
+*   **`main.py`**: 系统入口。定义了 `SocraticTutorApp` 核心类，负责会话管理、记忆更新、调用 LangGraph 工作流以及本地日志记录，同时提供交互式 Demo。
+*   **`graph.py`**: 编排层。使用 LangGraph 定义并编译了 `workflow = StateGraph(GraphState)`。负责注册节点（classify, route, generate, guardrail）和条件边（如 Baseline 的旁路分流、护栏的重试循环）。
+*   **`classifiers.py`**: 感知层（NLU）。利用大模型的结构化输出能力，将用户的非结构化文本解析为 `意图(Intent)`、`错误概念(Misconception)`、`认知状态(Cognitive State)` 以及 `情绪(Sentiment)`。
+*   **`router.py`**: 决策层（FSM）。维护对话状态（S0-S6），包含基于 `TransitionRule` 的声明式防死循环与状态流转规则，根据分类结果输出具体的引导策略和下一步目标。
+*   **`generator.py`**: 生成层。负责拼装包含知识点、反例、类比和系统指令的 System Prompt，并依据情感状态（如“焦虑/挫败”）动态注入【情感支架】，调用大模型生成苏格拉底式的提问回复。并包含了鲁棒的 `<think>` 标签清理逻辑。
+*   **`guardrails.py`**: 安全层。综合应用正则匹配与 LLM-as-a-Judge，拦截偏题请求和助教的“答案泄露”行为。
+*   **`state.py`**: 数据模型层。定义了 LangGraph 在各节点间流转的全局状态类型 `GraphState`。
+*   **`config.py`**: 配置层。集中管理 API 密钥、模型名称（`TUTOR_MODEL`, `JUDGE_MODEL`）、百炼 API URL、思考参数配置与 Tenacity 重试（Retry）配置。
+*   **`logger.py`**: 日志层。基于 Python 标准 `logging` 模块实现，包含文件轮转（RotatingFileHandler）及会话级（`session_summary.jsonl`）和轮次级（`turn_logs.jsonl`）的结构化 JSONL 落盘。
 
----
+### 评估与测试层
+*   **`simulator.py`**: 高逼真度自动化仿真模块。内置 `SimulatedStudent`，模拟带有特定人格和错误物理观念的初中生，与系统进行对抗性自动对话。
+*   **`evaluator.py`**: 定量评估模块。解析日志并计算认知纠正率、平均对话轮数、护栏拦截率等指标。
+*   **`llm_judge.py`**: 定性评估模块。作为教育学专家裁判，对历史对话的“苏格拉底度”和“教学有效性”进行 1-5 分的打分和点评。
+*   **`tests/` 目录**: 包含各类功能测试（如 `run_simple_test.py` 快速验证大模型链路、`simple_test.py` 测试偏题情感支架等）。
 
-## 4. 关键类与函数说明
-
-### 4.1 核心类
-- **`SocraticTutorApp`** (`src/main.py`)：智能体会话管理核心类，其 `step()` 方法执行单轮的状态图调用。
-- **`SimulatedStudent`** (`src/simulator.py`)：封装了模拟初中生人格的 Prompt 和对话逻辑，用于自动化仿真对弈。
-
-### 4.2 核心函数与实例
-- **`app_graph`** (`src/graph.py`)：编译后的 LangGraph 状态图实例，是串联各个子模块的处理中枢。
-- **`classify_input`** (`src/classifiers.py`)：调用 LLM 提取结构化信息，返回 `PerceptionResult`。
-- **`route_state`** (`src/router.py`)：执行状态转换逻辑，返回下一步的 `RouteDecision` 决策信息。
-- **`generate_reply`** (`src/generator.py`)：根据策略路由结果和本地 JSON 教学资源组装提示词，返回最终生成的回复。
-- **`apply_guardrails`** (`src/guardrails.py`)：执行输入意图校验和输出的正则表达式匹配，判定是否需要拦截或重新生成。
+### 数据层 (`data/`)
+*   `misconceptions.json`: 预定义的物理错误概念（如 M-ELE-001 电流消耗论）。
+*   `knowledge_chunks.json`: 对应的正确物理知识、核心反例与类比支架。
+*   `simulation_profiles.json`: 模拟学生的性格画像配置。
 
 ---
 
-## 5. 依赖关系
+## 3. 关键类与函数说明 (Key Classes and Functions)
 
-项目主要依赖以下第三方 Python 库：
-- **核心框架**：`langgraph`, `langchain-openai`, `langchain-core`
-- **数据与类型校验**：`pydantic`（用于约束大模型输出 JSON 的字段格式）
-- **大模型服务**：项目默认向 `https://api.deepseek.com` 发送请求，采用 `deepseek-chat` 模型。
+### 3.1 核心数据结构 (Data Structures)
+*   **`GraphState`** (`state.py`): TypedDict，包含 `memory`, `user_input`, `perception`, `decision`, `generation`, `guardrail_result`, `regeneration_required`，是贯穿整个 LangGraph 生命周期的状态总线。
+*   **`PerceptionResult`** (`router.py`): NLU 解析结果容器，包含 `intent`, `misconception_tag`, `cognitive_state`, `sentiment`, `risk_flag`, `confidence`。
+*   **`RouteDecision`** (`router.py`): 路由决策容器，包含下发给生成器的 `state`（如 S4 认知冲突）、`strategy`（如 推演后果）、`need_guardrail`、`next_goal` 以及透传信息的 `meta`。
+*   **`SessionMemory`** (`router.py`): 继承自 `pydantic.BaseModel` 的不可变状态对象，管理单次会话的长期记忆，记录对话历史列表、历史累加摘要（`history_summary`）、近期状态流转列表等，以应对长文本截断和死循环检测。每次更新均返回深拷贝新实例以确保幂等性。
+
+### 3.2 关键函数 (Key Functions)
+*   **`classify_input(user_input, messages, history_summary)`** (`classifiers.py`):
+    调用 LLM 返回 `NLUOutput` JSON。若失败，采用基于正则的 Fallback 机制提取，保证系统鲁棒性。
+*   **`apply_transition_rules(target, perception, memory)`** (`router.py`):
+    使用 `TRANSITION_RULES` 和 `ANTI_LOOP_RULES` 声明式规则列表，处理状态流转和破解“S4/S5 死循环”。
+*   **`generate_reply(user_input, decision, memory, history_summary)`** (`generator.py`):
+    组装包含核心科学知识点、反例、类比的 Prompt。如果检测到反馈包含 `guardrail_feedback`，则注入要求重新生成的系统警告；如果检测到学生有负面情感，则注入【情感支架】。内置 `_clean_reply` 负责安全剥离 `<think>` 推理过程。
+*   **`apply_guardrails(...)`** (`guardrails.py`):
+    包含 `check_input`（拦截违规意图）和 `check_output`（检测大模型是否泄露答案）。`check_output` 具备基于 Tenacity 的 `@retry` 机制以应对网络抖动。
 
 ---
 
-## 6. 运行与使用方式
+## 4. 依赖关系与数据流 (Dependencies & Data Flow)
 
-### 6.1 环境准备
-运行前必须在终端中配置 DeepSeek 的 API Key 作为环境变量（否则系统可能返回 Mock 数据或调用失败）：
-```bash
-export DEEPSEEK_API_KEY="你的真实_API_KEY"
+### 4.1 第三方依赖
+*   `langgraph`: 用于定义图工作流节点和边。
+*   `langchain_openai`: 统一的 LLM 调用接口（配置对接阿里云百炼 API）。
+*   `pydantic`: 提供结构化解析的数据模型定义（NLUOutput, GuardrailOutput, SessionMemory）。
+*   `tenacity`: 为网络调用（大模型请求、护栏验证、模拟学生生成等）提供指数退避重试（Retry）机制。
+
+### 4.2 核心图数据流向
+```mermaid
+graph TD
+    A[用户输入] --> COND{是否为 Baseline?}
+    COND -- 是 --> B_Base(baseline_node: 跳过NLU与路由)
+    COND -- 否 --> B(classify_node: 提取意图与情感)
+    B --> C(route_node: FSM状态跳转与防环决策)
+    B_Base --> D
+    C --> D(generate_node: 拼装Prompt并生成苏格拉底式提问)
+    D --> E(guardrail_node: 安全性与答案泄露校验)
+    E -- 拦截并附带Feedback --> D
+    E -- 安全通过 / Baseline --> F[更新记忆并返回输出]
 ```
 
-### 6.2 交互式对话体验
-在终端启动苏格拉底式辅导助教，你可以扮演学生直接输入物理问题（输入 `exit` 退出）：
+---
+
+## 5. 项目运行方式 (How to Run)
+
+### 5.1 环境变量配置
+本项目已全面对接阿里云百炼平台，默认启用深度思考参数。在运行任何脚本前，请配置百炼的 API Key：
+```bash
+export DASHSCOPE_API_KEY="sk-xxxxxx"
+```
+
+### 5.2 运行交互式 Demo
+以控制台聊天的形式启动应用，体验苏格拉底式对话：
 ```bash
 python src/main.py
 ```
 
-### 6.3 运行批量仿真实验
-自动启动模拟学生与智能体的批量对话对弈，用于测试不同版本下的系统表现，日志会存入 `logs/` 目录：
+### 5.3 运行轻量级连通性测试
+用于验证所有模块（包括大模型、NLU、生成、护栏等）是否正常协同工作，避免运行大规模耗时仿真：
+```bash
+python tests/simple_test.py
+python tests/run_simple_test.py
+```
+或执行具体的异常情况验证：
+```bash
+python tests/test_s2_off_topic.py
+```
+
+### 5.4 运行大规模批量仿真 (Simulation)
+利用 `SimulatedStudent` 进行不同错误概念和学生画像的对抗性对话测试：
 ```bash
 python src/simulator.py
 ```
-
-### 6.4 生成评测指标报告
-基于仿真实验生成的日志，计算多维度评估数据，结果将导出至 `results/summary_metrics.csv`：
+测试完成后，可通过以下命令评估指标和生成日志：
 ```bash
 python src/evaluator.py
+python src/llm_judge.py
 ```
-
-### 6.5 运行基础模块测试
-根目录下包含部分用于调试子模块的快速测试脚本：
-```bash
-python test_run.py         # 检查应用初始化与导包情况
-python test_graph.py       # 测试工作流图执行与护栏拦截逻辑
-python test_classifier.py  # 测试意图分类模块
-```
+运行产生的数据和分析报告将保存至 `logs/` 和 `results/` 目录下，常规系统日志保存于 `logs/app.log`。
