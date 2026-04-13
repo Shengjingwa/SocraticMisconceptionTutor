@@ -68,7 +68,8 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         generated_text=generation["final_reply"],
         misconception_tag=perception.misconception_tag,
         is_already_safe=is_already_safe,
-        consecutive_triggers=memory.consecutive_guardrail_triggers
+        consecutive_triggers=memory.consecutive_guardrail_triggers,
+        current_state=decision.state
     )
 
     if system_version != "FSM+Guardrail":

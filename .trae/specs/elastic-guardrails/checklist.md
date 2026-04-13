@@ -1,0 +1,4 @@
+- [x] `src/guardrails.py` 中 `apply_guardrails` 和 `check_output` 接收 `current_state` 参数。
+- [x] `src/tutor_graph.py` 中的 `guardrail_node` 正确传递了 `decision.state`。
+- [x] `src/guardrails.py` 中根据 `current_state` (S2/S4 或 S5 僵局) 动态注入了弹性或严格的 LLM Judge 提示词。
+- [x] `tests/simple_test.py` 执行成功，无异常抛出。

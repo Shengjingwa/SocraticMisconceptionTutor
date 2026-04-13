@@ -29,7 +29,7 @@ def check_input(user_input: str, intent: str) -> Dict[str, Any]:
         return {"blocked": True, "reason": "Off_Topic"}
     return {"blocked": False, "reason": None}
 
-def check_output(generated_text: str, misconception_tag: Optional[str], consecutive_triggers: int = 0) -> Dict[str, Any]:
+def check_output(generated_text: str, misconception_tag: Optional[str], consecutive_triggers: int = 0, current_state: str = "S0") -> Dict[str, Any]:
     """
     检查输出是否泄露答案。
     结合基础正则匹配和 LLM-as-a-Judge 机制。
@@ -78,7 +78,11 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         )
         
         extra_instruction = ""
-        if consecutive_triggers >= 3:
+        if current_state in ["S2", "S4"]:
+            extra_instruction = "\n注意：【严格模式】绝对禁止提供任何实质性的正确答案或完整解题步骤。"
+        elif current_state == "S5" and consecutive_triggers >= 2:
+            extra_instruction = "\n注意：【弹性模式】由于当前对话陷入僵局（护栏连续触发 >= 2 次），请大幅放宽判定标准，允许助教给出较多的知识铺垫和部分推导过程，只要不直接给出最终核心结论即可。"
+        elif consecutive_triggers >= 3:
             extra_instruction = "\n注意：由于当前对话陷入僵局（护栏连续拦截多次），请适当放宽判定标准，允许助教给出更多提示和部分推导过程，只要不直接给出最终核心结论即可。"
 
         judge_prompt = f"""你是一个教育安全评估裁判。
@@ -120,7 +124,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
 
     return {"blocked": False, "reason": None, "answer_leakage": False}
 
-def apply_guardrails(user_input: str, intent: str, generated_text: str, misconception_tag: Optional[str], is_already_safe: bool = False, consecutive_triggers: int = 0) -> Dict[str, Any]:
+def apply_guardrails(user_input: str, intent: str, generated_text: str, misconception_tag: Optional[str], is_already_safe: bool = False, consecutive_triggers: int = 0, current_state: str = "S0") -> Dict[str, Any]:
     """
     综合应用输入和输出护栏。
     is_already_safe: 如果路由层已经判断需要护栏并且生成了安全回复，则直接通过输入护栏。
@@ -134,7 +138,7 @@ def apply_guardrails(user_input: str, intent: str, generated_text: str, misconce
                 "answer_leakage_flag": False
             }
 
-    out_check = check_output(generated_text, misconception_tag, consecutive_triggers)
+    out_check = check_output(generated_text, misconception_tag, consecutive_triggers, current_state)
     if out_check["blocked"]:
         return {
             "guardrail_triggered": True,
