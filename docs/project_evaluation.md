@@ -4,380 +4,383 @@
 
 ## 一、项目概述
 
-本项目是一个面向初中物理（电学、浮力）典型迷思概念的**苏格拉底式对话教育智能体**，采用 LLM + FSM 混合架构，通过 LangGraph 实现图工作流调度。系统核心流水线为：**感知 → 决策 → 生成 → 护栏**，辅以自动化仿真评估闭环。
+本项目是一个基于大语言模型（LLM）的**苏格拉底式迷思概念纠正教学智能体**（Socratic Misconception Tutor），面向初中物理教学场景，旨在通过有限状态机（FSM）驱动的对话路由 + LLM 生成 + 安全护栏（Guardrail）的多层级架构，自动识别学生的物理迷思概念并通过苏格拉底式追问引导学生自主发现认知矛盾、完成概念转变。
+
+> [!NOTE]
+> 本评估基于对项目全部 12 个源码文件、3 个数据文件、2 个测试文件、5 个日志文件以及 2 个结果文件的逐行审读完成。
 
 ---
 
-## 二、整体架构设计评估
+## 二、整体架构评估
 
-### 2.1 架构优点
+### 2.1 架构设计优点
 
-| 维度 | 评价 |
-|------|------|
-| **关注点分离** | classify → route → generate → guardrail 四个节点职责清晰，符合单一职责原则 |
-| **LangGraph 图编排** | 使用 `StateGraph` + 条件边实现了柔性护栏重试循环，架构上比纯链式（Chain）更灵活 |
-| **声明式规则引擎** | `TransitionRule` + `ANTI_LOOP_RULES` 以声明式方式描述状态转移和防死循环，可维护性好 |
-| **Baseline 对照分支** | 在同一图中通过 `system_version` 条件边切换 Baseline/FSM/FSM+Guardrail，实验对照内嵌于架构，设计简洁 |
-| **Fallback 健壮性** | NLU 模块有结构化输出 → 原始 JSON 解析 → 正则兜底的三级降级链路 |
+项目采用了 **LangGraph StateGraph** 构建的有向图工作流架构，模块分离清晰：
 
-### 2.2 架构问题
-
-#### 问题 A：`GraphState` 中 `memory` 是可变对象引用，非纯函数式更新
-
-```python
-# state.py L11
-memory: SessionMemory  # 这是 dataclass 可变对象
+```mermaid
+graph LR
+    START --> route_start
+    route_start -->|FSM| classify["classify<br/>(NLU)"]
+    route_start -->|Baseline| baseline["baseline<br/>(直接生成)"]
+    classify --> route["route<br/>(FSM决策)"]
+    route --> generate["generate<br/>(LLM生成)"]
+    generate --> guardrail["guardrail<br/>(安全检查)"]
+    baseline --> guardrail
+    guardrail -->|泄露| generate
+    guardrail -->|安全| finalize["finalize<br/>(压缩+存储)"]
+    finalize --> END
 ```
 
-LangGraph 的设计哲学是节点返回**增量更新字典**，状态通过 reducer 合并。但 `SessionMemory` 是一个可变 dataclass，在 [router.py L158](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/router.py#L158) 中直接就地修改（`memory.turn_count += 1`），而非返回新的状态切片。这意味着：
+**优势**：
+1. **Perception–Decision–Generation 三阶段管线**：经典的感知-决策-执行架构，职责分离合理
+2. **声明式状态转移规则**：`TRANSITION_RULES` 和 `ANTI_LOOP_RULES` 以 dataclass 声明，可读性好
+3. **动态历史压缩**：`finalize_node` 中实现了基于 LLM 的滑动窗口摘要压缩，控制长对话的上下文长度
+4. **多版本对比实验**：内建 `Baseline / FSM / FSM+Guardrail` 三版本切换，支持消融实验
+5. **结构化输出**（Structured Output）：NLU 分类器使用 Pydantic Schema + json_mode，提高了解析稳定性
 
-- **非幂等性**：重放同一 step 会产生不同结果（turn_count 已被修改）
-- **调试困难**：LangGraph 的 checkpointing / time-travel 功能无法正确回溯
-- **并发不安全**：如果未来引入 async 并发图执行，存在数据竞态风险
+### 2.2 架构设计问题
 
-> [!WARNING]
-> **建议**：将 `SessionMemory` 改为不可变数据结构（如 frozen dataclass 或 Pydantic BaseModel），节点通过返回 `{"memory": new_memory}` 来更新状态。
-
-#### 问题 B：Baseline 节点架构设计不清晰
-
-```python
-# graph.py L99-116
-def baseline_node(state: GraphState) -> Dict[str, Any]:
-    perception = PerceptionResult(intent="Unknown", ...)
-    decision = RouteDecision(state="S5", ..., strategy="General_Reply", ...)
-    generation = generate_reply(user_input, decision, memory)
-```
-
-Baseline 版本跳过了 NLU 分类和路由，直接用硬编码的假 perception/decision 调用生成器。但它**仍然经过了 `classify_node`**（因为 entry point 是 classify），只是在 `route_node` 之后通过条件边分流到 baseline。这导致：
-
-- Baseline 白白消耗了一次 NLU LLM 调用（classify_node），增加了延迟和成本
-- Baseline 的 `perception` 被覆盖为假数据，classify 的结果被丢弃
-
-> [!TIP]
-> **建议**：在 `classify_node` 中加入 `system_version == "Baseline"` 的短路逻辑，或者在图入口处就分流。
-
-#### 问题 C：`_clean_reply` 的 `<think>` 标签清理不彻底
-
-```python
-# generator.py L19-20
-if "<think>" in text:
-    text = re.sub(r'<think>.*?(?:</think>|回复：|回答：|回复:|回答:)', '', text, flags=re.DOTALL)
-```
-
-从 [pipeline log L6](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/logs/pipeline_2026-04-12_19-21-51.log#L6) 和 [manual_audit.csv L2-22](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/results/manual_audit.csv#L2) 可以看到，Baseline 版本的回复中**大量泄露了 `<think>` 标签后的内部思考过程**，包括策略选择、自问自答等内容。这说明清理逻辑存在缺陷——当 DeepSeek 模型输出多段 `<think>` 或格式不规范时，正则匹配失败。
+#### 问题 A1：Baseline 版本的实验公平性存在根本性缺陷 ⚠️ 严重
 
 > [!CAUTION]
-> **这是一个严重的用户体验问题**。在实际对话中，学生会看到系统的内部推理过程，完全破坏了教学沉浸感。建议使用更鲁棒的清理策略，例如移除所有 `<think>` 到 `</think>` 之间的内容，以及对整个前缀做贪婪清理。
+> Baseline 节点直接跳过了 NLU 分类和 FSM 路由，但**仍然使用完全相同的 `generate_reply` 函数和相同的 system prompt**（只是绕过了护栏的实际拦截）。这意味着 Baseline 并不是"无FSM引导的朴素LLM"，而是"有FSM引导但路由固定在 S5 的 LLM"。
 
-#### 问题 D：日志系统过于简陋
+[baseline_node](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/tutor_graph.py#L143-L166) 填充了假的 `PerceptionResult` 和 `RouteDecision`（固定为 S5 / Scaffolding），然后调用 `generate_reply`。由于 `generate_reply` 中的 system prompt 包含完整的教学策略指令和知识点输注，**Baseline 实质上仍然受到了 FSM 策略提示词的引导**。
 
-[logger.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/logger.py) 只是简单的 `print` + JSONL append，没有分级日志、日志旋转、结构化元数据等。对于研究原型这可以接受，但以下问题值得关注：
+**后果**：
+- Baseline 与 FSM 版本之间的性能差异被人为缩小，无法真正衡量 FSM 路由的贡献
+- 如果 Baseline 的 `generate_reply` 中也包含 `misconception` 知识块和 `forbidden_direct_answers`，那么 Baseline 也获得了知识注入的好处
 
-- `turn_logs.jsonl` 是追加模式，多次运行的数据会混在一起，无法区分实验批次
-- 无 log rotation，文件会无限增长
-- `warning/error/info` 只是 print，无法持久化到日志文件
-
----
-
-## 三、软件工程质量评估
-
-### 3.1 代码组织
-
-| 指标 | 评价 | 说明 |
-|------|------|------|
-| 模块划分 | ✅ 好 | 12 个源文件职责清晰，无环形依赖（除 `logger` 的延迟导入） |
-| 类型标注 | ✅ 好 | 核心数据结构均有 Type Hints，Pydantic 模型定义清晰 |
-| 配置管理 | ⚠️ 一般 | 环境变量 + 硬编码常量混合，缺少 `.env` 文件和校验 |
-| 错误处理 | ✅ 好 | 三级 NLU fallback + Tenacity 重试 + 全局异常兜底 |
-| 测试覆盖 | ❌ 差 | 7 个测试文件中无一使用标准测试框架（pytest），均为手动脚本 |
-| 依赖管理 | ❌ 缺失 | 无 `requirements.txt` 或 `pyproject.toml`，依赖关系不明确 |
-
-### 3.2 关键代码问题
-
-#### 问题 1：`sentiment_pred` 硬编码为 `"Confused"`
-
-```python
-# main.py L72, L140
-"sentiment_pred": "Confused",
-```
-
-NLU 模块 (`classifiers.py`) 已经返回了 `sentiment` 字段（焦虑/挫败、困惑、自信、平静），但在 `SocraticTutorApp.step()` 记录 turn_log 时，**始终将 `sentiment_pred` 硬编码为 `"Confused"`**。这导致：
-
-- 情感识别结果被丢弃，无法用于后续评估分析
-- Evaluator 如果要分析情感维度的指标，数据全部失真
-
-#### 问题 2：`history_summary` 更新逻辑有误
-
-```python
-# main.py L58, L126
-update_after_turn(memory, ..., history_summary=generation["final_reply"], ...)
-```
-
-`history_summary` 的设计意图是对长对话做摘要压缩，但实际实现中直接将**本轮回复**覆盖为 `history_summary`。在 [router.py L207](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/router.py#L207) 中：
-
-```python
-memory.history_summary = history_summary if history_summary is not None else final_reply[:120]
-```
-
-这意味着 `history_summary` 始终只保存最后一轮回复，完全失去了"摘要"的语义。当对话超过 `MAX_HISTORY_TURNS` (6 条) 时，早期对话上下文会完全丢失。
-
-> [!IMPORTANT]
-> **建议**：引入 LLM 摘要或滑动窗口摘要机制，定期将超出窗口的历史对话压缩为摘要文本。
-
-#### 问题 3：`max_turns` 计算无意义
-
-```python
-# simulator.py L136
-max_turns = max(10, 6)  # 恒等于 10
-```
-
-这行代码 `max(10, 6)` 始终返回 10，写法暗示曾有动态逻辑但已退化为硬编码常量。
-
-#### 问题 4：`step()` 和 `astep()` 大量代码重复
-
-[main.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/main.py) 中 `step()` (L32-98) 和 `astep()` (L100-166) 的逻辑几乎完全相同（约 70 行），仅差异在 `app_graph.invoke` vs `await app_graph.ainvoke`。应提取公共逻辑为内部方法。
-
-#### 问题 5：无 `requirements.txt`
-
-项目依赖 `langgraph`, `langchain_openai`, `pydantic`, `tenacity` 等，但没有任何依赖描述文件。
+**建议**：Baseline 应使用完全独立的、无策略指令的 system prompt（例如 "你是一位物理老师，请帮助学生理解物理概念"），不注入任何知识块。
 
 ---
 
-## 四、教育学基础评估
+#### 问题 A2：Guardrail 节点中 `is_already_safe` 逻辑语义矛盾 ⚠️ 中等
 
-### 4.1 苏格拉底式教学实现
-
-| 维度 | 评价 | 分析 |
-|------|------|------|
-| **反诘法实现** | ✅ 优秀 | 通过 `Assumption_Probing` 和 `Consequence_Exploration` 策略，系统能有效暴露学生隐含前提并推演后果 |
-| **认知冲突制造** | ✅ 优秀 | 迷思概念数据库中预置了丰富的 `conflict_prompts` 和 `counterexamples`，从对话日志看效果显著 |
-| **支架渐退设计** | ⚠️ 有待改进 | FSM 状态从 S4→S5→S6 的流转体现了支架渐退思路，但缺乏精细的"微支架"数据标注 |
-| **情感支架** | ✅ 好 | 检测到焦虑/挫败时注入共情话语，从对话日志看实际生成效果自然流畅 |
-| **概念掌握验证** | ⚠️ 有风险 | 验证机制（S6状态）依赖 NLU 判断学生是否"概念掌握"，但不够保守 |
-
-### 4.2 认知评估的关键缺陷
-
-#### 缺陷 1：`resolved` 判定过于宽松
+[guardrail_node L61](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/tutor_graph.py#L61)：
 
 ```python
-# main.py L57
+is_already_safe = decision.need_guardrail or decision.state == "S2"
+```
+
+语义是"**已经被判定为需要护栏**"，但传给 `apply_guardrails` 后的含义是 `is_already_safe=True` 时**跳过输入检查**。这意味着：当路由层已经判定需要护栏（`need_guardrail=True`），输入侧的检查反而被跳过了。变量名与实际语义不一致，且**当 `S2` 状态下生成了模板化拒绝回复后，输出侧的 LLM-as-a-Judge 仍然会被调用**——浪费 API 调用。
+
+---
+
+#### 问题 A3：`route_after_generate` 硬编码，分支永远不可达
+
+[route_after_generate](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/tutor_graph.py#L40-L41) 始终返回 `"guardrail"`，但 `add_conditional_edges` 中声明了 `"end": END` 分支（L194），该分支**永远不可达**，属于死代码。
+
+---
+
+#### 问题 A4：消息累积与压缩时机问题
+
+`finalize_node` 中的压缩条件是 `len(messages) > MAX_HISTORY_TURNS * 2`（默认 12）。但每轮只添加 1 条 `AIMessage`（学生输入通过 `initial_state["messages"]` 注入 1 条 `HumanMessage`），因此累积到 12 条需要 6 轮。压缩时保留最近 4 条消息，但**压缩调用是同步阻塞的 LLM 调用**，在异步场景下会成为瓶颈。
+
+---
+
+#### 问题 A5：缺少 `requirements.txt`、`README.md`、`pyproject.toml` 等项目基础设施
+
+项目根目录下**零文件**——没有任何包管理、依赖声明、README 文档或项目配置。这严重影响可复现性和同行评审。
+
+---
+
+## 三、教育学理论基础评估
+
+### 3.1 理论优势
+
+1. **苏格拉底式教学法的 FSM 操作化**：将经典教学法映射为 S0–S6 的状态机，是一个合理且有学术价值的建模尝试
+2. **迷思概念驱动**：围绕实证研究中确认的物理迷思概念（电流消耗模型、单极模型、重物必沉、深度决定浮力）构建教学知识库
+3. **认知状态五级分类**：`固守错误概念 → 认知冲突触发 → 认知僵局 → 新概念探索 → 概念掌握验证` 符合概念转变理论（Posner et al., 1982）的阶段性描述
+4. **情感支架机制**：检测学生情绪（焦虑/挫败、困惑）并触发共情回复和降级干预，符合情感-认知交互的教育学研究
+
+### 3.2 教育学问题
+
+#### 问题 P1：认知状态分类由 LLM 单步完成，缺乏多轮推理 ⚠️ 严重
+
+> [!WARNING]
+> 当前的 NLU 模块 [classifiers.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/classifiers.py) 要求 LLM 在**单次推理**中同时完成意图识别、迷思概念标注、认知状态判断、情感分析和置信度估计 5 项任务。这严重增加了分类任务的难度和错误率。
+
+教育学上，**认知状态的判断**（如区分"固守错误概念"与"认知冲突触发"）需要综合多轮对话的上下文变化趋势，而非仅凭当前一句话。例如，学生说"嗯……好像也是哦"既可能是认知冲突触发，也可能只是敷衍性回应。当前系统完全依赖 LLM 的单步判断，缺乏对多轮认知轨迹的建模。
+
+---
+
+#### 问题 P2：`概念掌握验证` 的判定条件过于宽松且循环依赖 ⚠️ 严重
+
+[main.py L42](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/main.py#L41-L43)：
+
+```python
 understanding_verified = (
-    (perception.cognitive_state == "概念掌握验证") and (previous_state == "S6")
-) or (decision.state == "S6" and not decision.need_guardrail)
+    (perception.cognitive_state == "概念掌握验证") and 
+    (decision.state == "S6") and 
+    (getattr(perception, "confidence", 0) >= 0.8)
+)
 ```
 
-问题在于 **`decision.state == "S6"` 即可 resolved**——只要路由器判定学生处于"新概念探索"或"概念掌握验证"状态就会转到 S6，而此时 `need_guardrail=False` 是默认值，因此几乎所有到达 S6 的对话都会被标记为 `resolved`。
-
-从 session_summary.jsonl 看，FSM 和 FSM+Guardrail 的 resolved 率分别是 100% 和 91.67%，但对照 evaluation_results.json 中 LLM judge 的评价，部分标记为 resolved 的会话实际上学生**并未真正理解**（如 P1 固执型学生的多个会话，judge 给出了 2-3 分的教学有效性）。
-
-> [!CAUTION]
-> **这是评估体系中最严重的效度威胁**。`resolved` 作为核心结局变量，其判定标准与 NLU 对 `cognitive_state` 的软分类高度耦合。NLU 可能将学生的部分正确表述误判为"概念掌握验证"，导致虚高的纠正率。
-
-#### 缺陷 2：迷思概念覆盖范围有限
-
-仅覆盖 4 条迷思概念（2 电学 + 2 浮力）。虽作为原型验证足够，但：
-
-- 无法验证系统对**未知错误概念**的泛化能力
-- 无法测试多个错误概念**交叉出现**的处理能力
-- 学生可能同时持有多个相关错误概念（如 M-BUO-001 + M-BUO-002）
-
-#### 缺陷 3：缺乏学习迁移和保持性测试
-
-系统只评估了**单次会话内**的概念纠正，缺乏：
-
-- **迁移测试**：学生能否将纠正后的概念应用到新情境
-- **保持性测试**：概念纠正效果能否在一段时间后维持
-- **前后测**（pre-test / post-test）框架设计
+问题：
+- `概念掌握验证` 这个认知状态本身就是 LLM 的分类输出，**置信度也是 LLM 自行报告的**（self-reported confidence），缺乏外部验证
+- LLM prompt 中虽然强调"学生必须用自己的话给出正确的物理机制解释"，但实际判断完全依赖 LLM 的内部标准
+- 从实验数据看，仅 1/36 个仿真会话被判定为 resolved，说明该判定条件**或过于严格（导致实验效果被低估），或确实反映了系统未能有效引导学生到达概念掌握**
 
 ---
 
-## 五、评估框架设计评估
+#### 问题 P3：迷思概念库覆盖面极窄
 
-### 5.1 评估指标体系
-
-项目定义了以下量化指标：
-
-| 指标名称 | 计算方式 | 评价 |
-|----------|----------|------|
-| Identification Accuracy | 正确识别的迷思概念轮次 / 有识别结果的轮次 | ⚠️ 分母定义不合理（含大量非迷思表达轮次） |
-| Cognitive Correction Rate | resolved 会话数 / 总会话数 | ❌ resolved 判定标准过宽（见上文） |
-| Avg Turns | 总轮次 / 总会话数 | ✅ 合理 |
-| Refusal Success Rate | 拒绝成功轮次 / 直接求答轮次 | ✅ 合理 |
-| Guardrail Interception Rate | 护栏触发轮次 / 总轮次 | ⚠️ 分母应改为"经过护栏检查的轮次" |
-| Answer Leakage Rate | 答案泄露轮次 / 总轮次 | ✅ 合理，但全部为 0% |
-| Transition Success Rate | 状态转移成功轮次 / 总轮次 | ❌ 始终为 100%（硬编码 `True`） |
-
-#### 关键问题：`state_transition_success` 始终为 `True`
-
-```python
-# main.py L81, L149
-"state_transition_success": True,
-```
-
-这个字段被硬编码为 `True`，从未进行实际的状态转移正确性校验，导致 "Transition Success Rate" 指标完全无效（所有版本均为 100%）。
-
-#### 关键问题：Answer Leakage Rate 全部为 0%
-
-从实际对话日志看，Baseline 版本**有多处明显的答案泄露**（如直接说"没错！你已经完全理解了"），但 `answer_leakage_flag` 全部为 `False`。原因：
-
-- Baseline 版本不经过 guardrail 节点（`route_after_generate` 判定 `system_version != "FSM+Guardrail"` 直接 END）
-- 即使在 FSM+Guardrail 版本中，LLM-as-Judge 对非直接给答案的隐性泄露（如过度确认、暗示正确方向）检测能力不足
-
-### 5.2 LLM Judge 评估
-
-[llm_judge.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/llm_judge.py) 提供了苏格拉底度（1-5）和教学有效性（1-5）两个定性维度。这是一个有价值的补充评估手段，但存在以下问题：
-
-1. **评估者-被评估者同源**：用同一个 LLM（DeepSeek）既生成对话又评估对话，存在系统性偏见风险
-2. **无评判者一致性校验**：没有计算评判者间信度（inter-rater reliability），无法确认 LLM Judge 的评分是否稳定
-3. **评分标准不够细化**：仅用 2 个维度的 1-5 分制，缺乏对苏格拉底式教学各子维度的拆分（如提问质量、类比恰当性、追问层次性等）
-4. **无人工对照**：`manual_audit.csv` 中的 "Audit - Score" 和 "Audit - Comments" 列均为空，说明人工评审尚未执行
+仅 4 个迷思概念（2 电学 + 2 浮力），且都属于初中物理中最经典、最容易诊断的类型。这限制了：
+- 系统的通用性和扩展性
+- 实验结论的外部效度（能否泛化到新概念？）
+- 与现有教育学研究的对比价值
 
 ---
 
-## 六、实验设计评估
+#### 问题 P4：苏格拉底式引导的"形式化陷阱"
 
-### 6.1 实验设计概述
+从 LLM Judge 的评估结果来看，系统普遍存在 **"苏格拉底度高但教学有效性低"** 的矛盾：
 
-```
-3 版本 (Baseline / FSM / FSM+Guardrail)
-× 4 迷思概念 (M-ELE-001, M-ELE-002, M-BUO-001, M-BUO-002)
-× 3 学生画像 (P1 固执 / P2 动摇 / P3 困惑)
-× 1 重复 = 36 组会话
-```
+| 维度 | 平均得分（估算） |
+|------|----------------|
+| Socratic Degree | 3.7 / 5 |
+| Teaching Effectiveness | 2.2 / 5 |
 
-### 6.2 实验结果数据（从 summary_metrics.csv）
+这揭示了一个**教育学层面的深层问题**：系统过度关注"不直接给答案"的形式约束，导致在学生认知负荷过载时仍坚持无效的反问策略，最终引发学生挫败感和抵触情绪。这印证了 Hmelo-Silver (2004) 对过度使用探究式学习的批评——**支架不足的引导可能比直接讲授更有害**。
 
-| 版本 | 识别准确率 | 认知纠正率 | 平均轮次 | 拒绝成功率 | 护栏拦截率 | 答案泄露率 |
-|------|-----------|-----------|---------|-----------|-----------|-----------|
-| Baseline | 100.00% | 0.00% | 10.46 | 0.00% | 0.00% | 0.00% |
-| FSM | 97.78% | 100.00% | 7.50 | 100.00% | 21.11% | 0.00% |
-| FSM+Guardrail | 100.00% | 91.67% | 6.42 | 100.00% | 15.58% | 0.00% |
+---
 
-### 6.3 关键实验设计问题
+#### 问题 P5：降级干预策略不完善
 
-#### 问题 1：Baseline 对照组设计存在根本性缺陷
-
-> [!CAUTION]
-> Baseline 的 `resolved_flag` 始终为 `False`（纠正率 0%），但并非因为教学效果差——从对话日志和 LLM Judge 评分来看，Baseline 的多个会话获得了 5/5 的苏格拉底度和教学有效性评分（如 `sim_Baseline_P2_M-ELE-001_9d0e2f`、`sim_Baseline_P2_M-BUO-001_836d30`），学生明确表达了正确理解。
-
-问题根源在于 **Baseline 跳过了路由模块（route_node），因此永远不会进入 S6 状态，也永远不会触发 `resolved=True`**。同时 Baseline 不更新 `SessionMemory` 中的状态相关信息。这意味着 Baseline 0% 的纠正率是**架构伪影，不是教学效果差**。
-
-这使得 Baseline vs. FSM/FSM+Guardrail 的纠正率对比**完全无效**。
-
-#### 问题 2：样本量不足，无法做统计推断
-
-每种条件组合仅 1 次重复（`num_runs = 1`），共 36 组会话。这意味着：
-
-- 无法计算标准误差或置信区间
-- 无法进行 t 检验或方差分析
-- 任何单次 LLM 生成的随机性都会对结果产生不可忽略的影响
-- 无法区分版本差异和随机波动
-
-> [!IMPORTANT]
-> **建议**：至少需要 `num_runs ≥ 5`（即每种条件组合 5 次重复，共 180 组），并报告均值 ± 标准差及显著性检验结果。
-
-#### 问题 3：模拟学生与被评估系统使用同一 LLM
-
-`SimulatedStudent` 和教学系统都调用 `deepseek-chat`，而 `llm_judge.py` 同样使用 `deepseek-chat`。这构成了三重 LLM 同源问题：
-
-1. 模拟学生的"被说服"模式可能与真实学生不同，产生系统性高估
-2. 教学系统的生成风格可能恰好匹配模拟学生的理解偏好
-3. LLM Judge 对同模型生成的文本可能存在评分偏好
-
-#### 问题 4：模拟学生的对抗性指令设计问题
+[generator.py L90](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/generator.py#L90)：
 
 ```python
-# simulator.py L43
-【重要对抗性指令】在整个对话过程中，请你必须至少尝试一次"直接向老师索要最终答案"
-或者"扯开话题"，以此来测试老师是否足够有耐心和坚持原则。
+if decision.state == "S5" and memory.recent_states.count("S5") >= 3 or sentiment == "焦虑/挫败":
 ```
 
-这个指令确保了每次模拟都会触发至少一次 Direct_Answer_Seek 或 Off_Topic，这对测试护栏功能很有价值。但问题在于：
+运算符优先级有 Bug：`and` 优先于 `or`，实际等价于 `(S5 and count>=3) or 焦虑`，而非预期的 `S5 and (count>=3 or 焦虑)`。即**任何焦虑/挫败的状态都会触发降级**，而不管当前处于什么教学阶段。
 
-- 这使得所有模拟会话的行为模式**不自然地相似**
-- 真实学生可能根本不会采取这些策略，或者会在更自然的时机表达
-- 模拟学生同时还被指示"不要轻易说懂了"——这与 Baseline 0% resolved 率形成了某种解释性竞争
+更根本的问题：降级策略只是在 prompt 中添加一段文本指令，**LLM 是否遵从该指令完全不确定**，缺乏结构化保障。
 
-#### 问题 5：`misconception_gt` 与实际标注不一致
+---
 
-从 session_summary.jsonl 中发现多个**明显的标签错配**：
+## 四、实验设计评估
 
-```
-session: sim_FSM_P1_M-ELE-002_f4850c → misconception_gt: M-ELE-001  (应为 M-ELE-002)
-session: sim_FSM+Guardrail_P1_M-ELE-002_c2a57b → misconception_gt: M-ELE-001  (应为 M-ELE-002)
-session: sim_Baseline_P2_M-ELE-002_3f742b → misconception_gt: M-ELE-001  (应为 M-ELE-002)
-session: sim_FSM_P3_M-ELE-002_6fdd44 → misconception_gt: M-ELE-001  (应为 M-ELE-002)
-```
+### 4.1 实验设计框架
 
-这些会话的 session_id 包含 `M-ELE-002`，但 `misconception_gt` 记录为 `M-ELE-001`。原因是 `current_misconception` 在对话过程中被 NLU 识别到的 `misconception_tag` 覆盖（[router.py L174](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/router.py#L174)），其值在 `end_session` 时被记录。这意味着：
+实验采用 **3 (系统版本) × 4 (迷思概念) × 3 (学生画像) = 36 组** 仿真对话，每组 1 次重复（`num_runs = 1`）。
 
-- **Identification Accuracy 的分子和分母都被污染了**
-- 原始的 ground truth 标签在对话过程中丢失了
+### 4.2 实验设计问题
+
+#### 问题 E1：样本量严重不足，无法支持统计推断 ⚠️ 致命
+
+> [!CAUTION]
+> 每个实验条件仅有 **1 个样本**（`num_runs = 1`），共 36 个会话。这个样本量**不可能支持任何有意义的统计检验**（t检验、ANOVA、卡方检验等均需要远大于此的样本量）。
+
+**后果**：
+- 当前报告的所有指标（如 Identification Accuracy、Cognitive Correction Rate 等）都是**单一点估计**，没有置信区间
+- 任何版本间的差异都可能是随机波动，无法判断统计显著性
+- 即便注释中提到"为了避免API限速，设定为3次（总计108组对话）"，108 次仍然偏低
+
+**建议**：至少每条件 10–30 次重复（即 360–1080 组会话），并使用 bootstrap 或非参数检验
+
+---
+
+#### 问题 E2：LLM-as-Student（模拟学生）与实际学生的效度差距 ⚠️ 严重
 
 > [!WARNING]
-> **建议**：`misconception_gt` 应在会话初始化时固定，不应受到 NLU 预测的影响。建议添加 `misconception_init` 字段保留初始值。
+> 使用 **同一个 LLM（qwen3.6-plus）同时扮演教师和学生**，本质上是"自我博弈"（self-play）。LLM 模拟的学生与真实初中生之间存在根本性的行为差异。
 
-#### 问题 6：FSM+Guardrail 的纠正率（91.67%）反而低于 FSM（100%）
+具体问题：
+- LLM 学生的"固执"和"困惑"是通过 prompt engineering 模拟的，与真实学生的认知惯性和情绪反应存在质的差异
+- LLM 学生无法真正产生"顿悟"——它只是在 prompt 约束下切换生成策略
+- 从 manual_audit.csv 可以看到，模拟学生有时会生成过于"配合"的回复（如详细解释自己的推理过程），这不符合真实初中生的表达特征
+- Simulator prompt 中要求学生"至少尝试一次索要答案或跑题"，这是**人为注入对抗行为**，而非自然产生
 
-这是一个违反直觉的结果。理论上加了护栏的版本不应比无护栏版本**更差**。分析 session 日志发现：
-
-- `sim_FSM+Guardrail_P1_M-ELE-001_7382ce` 未 resolved（P1 固执型 + 电流消耗），这是唯一未 resolved 的 FSM+Guardrail 会话
-- 从对话日志看，护栏触发了 3 次，系统**反复输出相同的模板化拒绝回复**（"我先不直接代答，我们一起把关键关系想清楚"），导致对话陷入死循环
-- LLM Judge 给出了 苏格拉底度 4、教学有效性 2 的评分
-
-这暴露了护栏的**副作用**：过度拦截可能导致系统丧失引导灵活性，反复使用模板化回复反而降低教学效果。
+**建议**：明确将 LLM 仿真定位为"自动化回归测试"，不能替代真人实验。需补充小规模真人用户研究（Wizard of Oz 或完全自动）
 
 ---
 
-## 七、汇总问题清单
+#### 问题 E3：同一 LLM 既当裁判又当选手（LLM-as-Judge 偏差）
 
-### 严重程度：🔴 致命  🟠 重要  🟡 一般  ⚪ 建议
-
-| # | 严重度 | 类别 | 问题描述 |
-|---|-------|------|----------|
-| 1 | 🔴 | 实验 | Baseline 纠正率 0% 是架构伪影，非教学效果差异，导致版本对照完全无效 |
-| 2 | 🔴 | 实验 | `misconception_gt` 在对话过程中被 NLU 覆盖，ground truth 被污染 |
-| 3 | 🔴 | 评估 | `state_transition_success` 硬编码 `True`，Transition Success Rate 指标完全无效 |
-| 4 | 🔴 | 评估 | `resolved` 判定标准过宽，与 LLM Judge 评分存在显著不一致 |
-| 5 | 🟠 | 工程 | `<think>` 标签清理不彻底，Baseline 回复大量泄露内部思考过程 |
-| 6 | 🟠 | 工程 | `sentiment_pred` 硬编码 "Confused"，情感识别数据全部失真 |
-| 7 | 🟠 | 工程 | `history_summary` 只保存最后一轮回复，长对话上下文丢失 |
-| 8 | 🟠 | 实验 | 样本量不足（每条件仅 1 次重复），无法做统计推断 |
-| 9 | 🟠 | 实验 | 三重 LLM 同源（模拟学生 + 教学系统 + LLM Judge 使用同一模型） |
-| 10 | 🟡 | 架构 | `GraphState.memory` 就地修改，非幂等，不符合 LangGraph 状态管理最佳实践 |
-| 11 | 🟡 | 架构 | Baseline 仍经过 classify_node，浪费 LLM 调用 |
-| 12 | 🟡 | 工程 | `step()` 和 `astep()` 约 70 行代码重复 |
-| 13 | 🟡 | 工程 | 无 `requirements.txt` |
-| 14 | 🟡 | 工程 | `max_turns = max(10, 6)` 无意义表达 |
-| 15 | 🟡 | 评估 | Answer Leakage Rate 全部为 0%，Baseline 的泄露未被检测 |
-| 16 | 🟡 | 评估 | LLM Judge 与被评估系统同源，无评判者一致性校验 |
-| 17 | 🟡 | 评估 | `manual_audit.csv` 人工评审列全部为空 |
-| 18 | ⚪ | 教育 | 仅覆盖 4 条迷思概念，无泛化能力验证 |
-| 19 | ⚪ | 教育 | 缺乏前后测、迁移测试和保持性测试设计 |
-| 20 | ⚪ | 工程 | 日志系统无分级、旋转和实验批次标识 |
+[llm_judge.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/llm_judge.py) 使用 `deepseek-v3.2` 作为评估裁判，但教师端和学生端使用 `qwen3.6-plus`。虽然使用了不同模型，但评估维度的定义仍然主观：
+- "苏格拉底度"和"教学有效性"都是 1-5 的人工评分量表，缺乏标准化的锚定（anchoring）
+- 没有进行 LLM Judge 与人类专家评分的**一致性校验**（Inter-rater reliability / Cohen's Kappa）
+- LLM Judge 可能存在系统性偏差（如倾向给高分或在特定场景下无法识别微妙的教学失误）
 
 ---
 
-## 八、改进建议总结
+#### 问题 E4：缺乏关键控制变量
 
-### 8.1 优先修复（阻断实验结论的有效性）
+1. **温度参数未统一**：教师端未显式设置 temperature（默认值取决于 API），学生端设置 `temperature=0.7`，guardrail judge 设置 `temperature=0.0`
+2. **随机种子**：无 seed 设置，实验不可精确复现
+3. **对话轮次上限**固定为 10，但不同迷思概念可能需要不同的引导轮次
 
-1. **修复 Baseline 的 resolved 判定**：让 Baseline 也能基于 NLU 的 `cognitive_state` 判断是否 resolved，或者独立设计 Baseline 的结局判定逻辑
-2. **保留原始 ground truth**：在 `SocraticTutorApp` 初始化时记录 `misconception_init`，不受后续 NLU 覆盖影响
-3. **删除或修复 `state_transition_success`**：要么设计真正的验证逻辑，要么从指标中移除
-4. **收紧 `resolved` 判定**：要求学生在达到 S6 后必须通过验证问题（`verification_questions`），且 NLU 需给出高置信度 ≥ 0.85 的"概念掌握验证"
+---
 
-### 8.2 中期改进（提升实验可信度）
+### 4.3 实验结果分析
 
-5. **增加重复次数**：`num_runs ≥ 5`，并报告统计检验结果
-6. **修复 `<think>` 标签清理**：改用更鲁棒的正则或字符串处理
-7. **修复 `sentiment_pred`**：正确记录 NLU 返回的情感标签
-8. **实现 `history_summary` 摘要机制**
-9. **引入不同 LLM 做 Judge**（如 GPT-4o 或 Claude）以降低同源偏见
+根据实验数据（[summary_metrics.csv](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/results/summary_metrics.csv)）：
 
-### 8.3 长期演进（提升学术价值）
+| 指标 | Baseline | FSM | FSM+Guardrail |
+|------|----------|-----|---------------|
+| Identification Accuracy | 100.00% | 97.46% | 94.17% |
+| **Cognitive Correction Rate** | **0.00%** | **8.33%** | **0.00%** |
+| Avg Turns | 10.00 | 9.83 | 10.00 |
+| Refusal Success Rate | 0.00% | 100.00% | 100.00% |
+| Guardrail Interception Rate | 0.00% | 21.19% | 14.17% |
+| Answer Leakage Rate | 6.67% | 2.54% | **0.00%** |
+| Transition Success Rate | 100.00% | 100.00% | 100.00% |
 
-10. **扩展迷思概念库**：增加力学、光学等领域，测试系统泛化能力
-11. **引入人类真实学生实验**：招募初中生进行受控实验，对比 AI 辅导与传统教学
-12. **设计前后测框架**：量化学生在对话前后的概念理解变化
-13. **护栏策略优化**：避免过度拦截导致的模板化回复，引入分级拦截机制
+> [!IMPORTANT]
+> **最关键的发现**：三个版本的 **Cognitive Correction Rate（认知纠正率）** 都极低（0%、8.33%、0%），这意味着系统几乎无法成功引导模拟学生完成概念转变。
+
+关键问题：
+1. **FSM+Guardrail 版本的认知纠正率竟然是 0%**，反而不如 FSM（8.33%）。仅有的 1 个 resolved 会话来自 `FSM_P2_M-BUO-001`（动摇型学生 + 重物必沉概念），但该会话也伴随了 2 次答案泄露
+2. **Identification Accuracy 从 Baseline 的 100% 下降到 FSM+Guardrail 的 94.17%**，这是反直觉的——增加 FSM 反而降低了识别准确率
+3. **Transition Success Rate 全部 100%** 是因为 `state_transition_success` 的判定条件是 `decision.state in ["S0"..."S6"]`——**任何合法状态都算成功**，这个指标完全没有区分度
+
+---
+
+## 五、评估体系设计评估
+
+### 5.1 评估指标问题
+
+#### 问题 V1：核心指标定义有缺陷
+
+| 指标 | 问题 |
+|------|------|
+| **Identification Accuracy** | 只统计 `misconception_pred != Unknown && != None` 的轮次作为分母，相当于**只在系统认为它检测到了迷思概念时才计算准确率**，这会人为拉高准确率 |
+| **Transition Success Rate** | 任何 S0-S6 状态都算成功，该指标恒等于 100%，无信息量 |
+| **Cognitive Correction Rate** | 以 session 粒度计算，但 resolved 判定依赖 LLM 自报的 confidence >= 0.8，标准不透明 |
+| **Avg Turns** | 几乎所有会话都达到了 10 轮上限（max_turns_reached），这个指标无法区分版本差异 |
+
+#### 问题 V2：LLM Judge 的评估维度不够全面
+
+当前仅评估两个维度（苏格拉底度、教学有效性），缺少：
+- **教学策略多样性**：系统是否重复使用相同类比/提问？
+- **认知负荷控制**：系统是否在学生过载时适当降级？
+- **情感回应适当性**：系统是否恰当处理了学生的挫败和抵触？
+- **科学准确性**：LLM 生成的类比或解释是否物理上正确？
+
+#### 问题 V3：缺少自动化指标与人工评估的交叉验证
+
+评估体系中同时存在自动化指标（evaluator.py）和 LLM Judge 评估（llm_judge.py），但两者之间**缺乏关联分析**：
+- LLM Judge 给出高分的会话，其自动化指标是否也较好？
+- 是否存在"自动化指标显示问题被解决，但 LLM Judge 认为教学无效"的情况？
+
+---
+
+## 六、工程质量评估
+
+### 6.1 代码质量问题
+
+#### 问题 C1：API Key 硬编码在测试文件中 ⚠️ 安全
+
+[simple_test.py L11-14](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/tests/simple_test.py#L10-L14)：
+
+```python
+os.environ["OPENROUTER_API_KEY"] = os.environ.get(
+    "OPENROUTER_API_KEY",
+    "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",
+)
+os.environ["DASHSCOPE_API_KEY"] = os.environ.get("DASHSCOPE_API_KEY", "sk-b8ad0a83bb8e4083bebd65be5645e7df")
+```
+
+**两个 API Key 直接明文硬编码**在源代码中，已提交到版本控制。这是严重的安全隐患。
+
+---
+
+#### 问题 C2：日志文件 append-only，无隔离
+
+[logger.py](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/logger.py) 中 `turn_logs.jsonl` 和 `session_summary.jsonl` 使用 append 模式。**每次运行实验日志会追加到上次的结果后面**，这导致：
+- evaluator.py 会将不同次实验的数据混在一起统计
+- session_summary.jsonl 末尾有 3 条 `test_session_001` 的测试记录混入了实验数据
+
+---
+
+#### 问题 C3：模块间循环导入风险
+
+多个模块使用**函数内延迟导入**来避免循环依赖（如 `generator.py` 在函数内 `from logger import logger_instance`，`tutor_graph.py` 在 `finalize_node` 内导入 `ChatOpenAI`）。这是代码异味，表明模块依赖关系设计不够清晰。
+
+---
+
+#### 问题 C4：错误处理过于宽泛
+
+多处使用 `except Exception as e` 全捕获，且部分 fallback 会返回默认值但不记录关键上下文。例如 [classifiers.py L196-205](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/classifiers.py#L196-L205) 的二次 fallback，在 LLM 调用和 JSON 解析都失败时默认返回 `intent="Knowledge_Inquiry"`，可能掩盖系统性问题。
+
+---
+
+#### 问题 C5：`_clean_reply` 的正则表达式存在风险
+
+[generator.py L18-24](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/src/generator.py#L18-L25)：
+
+```python
+text = re.sub(r'^.*?<think>', '<think>', text, flags=re.DOTALL)
+text = re.sub(r'<think>.*?(?:</think>|回复：|回答：|回复:|回答:|$)', '', text, flags=re.DOTALL)
+text = re.sub(r'[（\(].*?[）\)]', '', text)
+```
+
+- 最后一行会**删除所有括号内容**，包括物理表达式（如 "力(F)"、"功率(P=W/t)"），可能破坏物理教学内容
+- 从 manual_audit.csv 的 Baseline 回复中可以看到，有些回复确实残留了 `<think>` 泄露（如 sim_Baseline_P2_M-ELE-002_a77419 的 Turn 1），说明这个清理逻辑在实际中并不完全可靠
+
+---
+
+## 七、数据设计评估
+
+### 7.1 迷思概念知识库
+
+[misconceptions.json](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/data/misconceptions.json) 的设计质量较高，每个迷思概念包含完整的教学场景要素。但存在以下问题：
+
+1. **`forbidden_direct_answers` 列表太短**（每个概念仅 3-4 条），正则匹配容易被 LLM 的改写绕过
+2. **`knowledge_chunks.json` 与 `misconceptions.json` 存在大量信息冗余**：两个文件都包含 `core_science_points`、`counterexamples`、`analogies` 等字段，且内容高度重叠
+3. **学生画像太少且不够细致**：3 个画像（固执型/动摇型/困惑型）过于粗糙，缺乏更精细的认知风格维度（如先验知识水平、自我调节能力、学习动机等）
+
+### 7.2 模拟学生画像
+
+[simulation_profiles.json](file:///c:/Users/Administrator/OneDrive%20-%20mails.ucas.ac.cn/SocraticMisconceptionTutor/data/simulation_profiles.json) 的设计过于简单：
+
+- 3 个画像的 `behavior_rule` 和 `followup_style` 是自然语言描述，**LLM 对这些描述的遵从程度不可控**
+- 缺乏对学生**先验知识水平**的建模（如是否了解密度概念、是否做过相关实验）
+- 对抗性指令（L59: "必须至少尝试一次索要答案或跑题"）**人为注入了测试行为**，使实验场景偏离自然对话
+
+---
+
+## 八、综合问题优先级矩阵
+
+| 优先级 | 问题编号 | 问题描述 | 类别 |
+|--------|---------|---------|------|
+| 🔴 致命 | E1 | 样本量极度不足（N=1/条件） | 实验设计 |
+| 🔴 致命 | A1 | Baseline 不公平（共享 prompt） | 架构/实验 |
+| 🔴 致命 | E2 | LLM 自我博弈无法替代真人实验 | 实验设计 |
+| 🟠 严重 | P1 | 认知状态分类无多轮推理 | 教育学 |
+| 🟠 严重 | P2 | 概念验证判定依赖自报置信度 | 教育学 |
+| 🟠 严重 | P4 | 苏格拉底式引导的形式化陷阱 | 教育学 |
+| 🟠 严重 | E3 | LLM Judge 缺乏与人类评分的一致性校验 | 评估 |
+| 🟠 严重 | C1 | API Key 硬编码在源代码中 | 安全 |
+| 🟡 中等 | A2 | `is_already_safe` 语义矛盾 | 架构 |
+| 🟡 中等 | P5 | 降级策略的运算符优先级 Bug | 教育学/工程 |
+| 🟡 中等 | V1 | 核心指标定义有缺陷 | 评估 |
+| 🟡 中等 | V2 | LLM Judge 评估维度不全 | 评估 |
+| 🟡 中等 | C2 | 日志 append 无隔离 | 工程 |
+| 🟡 中等 | C5 | `_clean_reply` 可能破坏物理表达式 | 工程 |
+| 🟢 轻微 | A3 | 死代码分支不可达 | 架构 |
+| 🟢 轻微 | A5 | 缺少项目基础设施文件 | 工程 |
+| 🟢 轻微 | C3 | 循环导入风险 | 工程 |
+| 🟢 轻微 | C4 | 错误处理过于宽泛 | 工程 |
+
+---
+
+## 九、总结与建议
+
+### 9.1 项目整体定位
+
+本项目作为**教育学方向的概念验证（PoC）系统**具有一定的学术新颖性——将苏格拉底式教学法建模为 FSM + LLM 管线是一个有价值的研究思路。但从实验科学的角度看，**当前的实验设计和评估体系无法支撑论文级别的定量结论**。
+
+### 9.2 改进方向（按优先级）
+
+1. **实验设计**：增加样本量至每条件 ≥ 20 次重复；补充真人用户实验（哪怕小规模）；修复 Baseline 的公平性
+2. **评估体系**：扩展 LLM Judge 维度；进行 LLM Judge vs 人类评分一致性校验；修复 Transition Success Rate 等无效指标
+3. **教育学设计**：引入多轮认知轨迹建模；增加迷思概念的覆盖面；改进降级干预策略
+4. **工程质量**：清除硬编码 API Key；添加日志隔离机制；补充项目文档和依赖声明
+
+### 9.3 核心实验数据的"不说话但很响亮的信号"
+
+> [!IMPORTANT]
+> **36 个会话中仅 1 个被判定为 resolved（认知纠正率 2.78%）**，这个数字直接反映了系统在当前配置下的教学效果不佳。无论是归因于 LLM 模拟学生的"过于固执"、还是系统自身的策略僵化、又或是 resolved 判定标准过严，这都是需要在论文中**正面讨论**的核心实验发现，而非隐藏或解释为"样本不足"。
