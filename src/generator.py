@@ -184,3 +184,49 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "strategy": decision.strategy,
         "assembled_prompt": assembled_prompt
     }
+
+def generate_learning_report(memory: SessionMemory) -> str:
+    """当会话解决（resolved == True）时生成学习报告"""
+    if not config.DASHSCOPE_API_KEY:
+        return "（Mocked Report）学生已成功克服迷思概念，掌握了相关知识点。"
+
+    llm = ChatOpenAI(
+        model=config.TUTOR_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
+    )
+
+    history_text = ""
+    for msg in memory.messages:
+        role = "学生" if msg["role"] == "user" else "老师"
+        history_text += f"{role}: {msg['content']}\n"
+
+    prompt = f"""请根据以下师生对话历史，生成一份简短的学生学习报告。
+报告需要包含以下几点：
+1. 初始迷思概念：学生一开始的错误观念是什么。
+2. 认知转变过程：学生在哪个环节、因为什么例子或引导产生了认知冲突并发生转变。
+3. 最终掌握情况：学生最终建立的正确物理认知是什么。
+
+对话历史：
+{history_text}
+
+请以客观、专业的教师视角撰写，字数控制在200-300字左右。"""
+
+    messages = [HumanMessage(content=prompt)]
+
+    @retry(
+        stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+        wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+        reraise=True
+    )
+    def _invoke_llm():
+        return llm.invoke(messages)
+
+    try:
+        response = _invoke_llm()
+        return _clean_reply(response.content)
+    except Exception as e:
+        from logger import logger_instance
+        logger_instance.error(f"Failed to generate learning report: {e}")
+        return "生成学习报告失败，请稍后重试。"

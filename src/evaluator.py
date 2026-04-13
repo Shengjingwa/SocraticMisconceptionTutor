@@ -6,6 +6,10 @@ import os
 
 def evaluate() -> None:
     base_dir = os.path.dirname(__file__)
+    with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
+        misconceptions = json.load(f)
+        name_to_id = {m["misconception_name"]: m["id"] for m in misconceptions}
+
     turn_logs = []
     with open(os.path.join(base_dir, '..', 'logs', 'turn_logs.jsonl'), 'r') as f:
         for line in f:
@@ -45,7 +49,9 @@ def evaluate() -> None:
         
         if t["misconception_pred"] != "Unknown" and t["misconception_pred"] is not None:
             metrics[v]["total_identification_turns"] += 1
-            if t["misconception_pred"] == t["misconception_gt"]:
+            gt = t["misconception_gt"]
+            gt_id = name_to_id.get(gt, gt)
+            if t["misconception_pred"] == gt or t["misconception_pred"] == gt_id:
                 metrics[v]["correct_identification_turns"] += 1
                 
         if t["intent_pred"] == "Direct_Answer_Seek":

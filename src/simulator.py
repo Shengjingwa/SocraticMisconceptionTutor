@@ -18,12 +18,19 @@ class SimulatedStudent:
         self.is_mock = not self.api_key
         
         if not self.is_mock:
+            import copy
+            kwargs = copy.deepcopy(config.DEFAULT_LLM_KWARGS)
+            if "extra_body" in kwargs and "enable_thinking" in kwargs["extra_body"]:
+                kwargs["extra_body"]["enable_thinking"] = False
+            else:
+                kwargs.setdefault("extra_body", {})["enable_thinking"] = False
+
             self.llm = ChatOpenAI(
                 model=config.TUTOR_MODEL, 
                 temperature=0.7,
                 api_key=self.api_key,
                 base_url=config.LLM_BASE_URL,
-                **config.DEFAULT_LLM_KWARGS
+                **kwargs
             )
         self.history: List[Any] = []
         self._setup_system_prompt()
@@ -81,13 +88,15 @@ class SimulatedStudent:
             
         self.history.append(HumanMessage(content=f"老师说：{teacher_message}\n请根据你的性格和迷思概念回复（1-2句话）："))
 
+        temp_history = [self.history[0]] + self.history[-(config.MAX_HISTORY_TURNS):] if len(self.history) > config.MAX_HISTORY_TURNS + 1 else self.history
+
         @retry(
             stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
             wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
             reraise=True
         )
         def _invoke_llm():
-            return self.llm.invoke(self.history)
+            return self.llm.invoke(temp_history)
 
         try:
             response = _invoke_llm()
@@ -127,7 +136,7 @@ def run_simulation() -> None:
                     app.student_profile = p['profile_id']
                     app.memory.topic = m['topic']
                     app.memory.current_misconception = m['id']
-                    app.misconception_init = m['misconception_name']
+                    app.misconception_init = m['id']
                     
                     student = SimulatedStudent(p, m)
                     

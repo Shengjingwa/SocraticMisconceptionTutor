@@ -34,6 +34,14 @@ def main():
             
     app.end_session("test_completed")
     print("\nTest completed successfully!")
+    
+    # Generate and print the learning report
+    print("\nGenerating learning report...")
+    from src.generator import generate_learning_report
+    report = generate_learning_report(app.memory)
+    print("\n========== 学习报告 ==========")
+    print(report)
+    print("=============================\n")
 
 if __name__ == "__main__":
     main()

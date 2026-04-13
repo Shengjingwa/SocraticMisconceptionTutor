@@ -68,6 +68,11 @@ class SocraticTutorApp:
         }
         logger_instance.log_turn(turn_log)
 
+        learning_report = None
+        if self.memory.resolved:
+            from generator import generate_learning_report
+            learning_report = generate_learning_report(self.memory)
+
         if turn_log["guardrail_triggered"]:
             self.guardrail_trigger_count += 1
         if turn_log["answer_leakage_flag"]:
@@ -78,7 +83,8 @@ class SocraticTutorApp:
             "decision": {"state": decision.state, "state_name": decision.state_name, "strategy": decision.strategy, "need_guardrail": decision.need_guardrail, "next_goal": decision.next_goal, "meta": decision.meta},
             "generation": generation,
             "memory": {"session_id": self.memory.session_id, "topic": self.memory.topic, "current_misconception": self.memory.current_misconception, "turn_count": self.memory.turn_count, "resolved": self.memory.resolved},
-            "guardrail": guardrail_result
+            "guardrail": guardrail_result,
+            "learning_report": learning_report
         }
 
     def step(self, user_input: str) -> Dict[str, Any]:
@@ -163,6 +169,10 @@ class SocraticTutorApp:
             print("-" * 60)
             if self.memory.resolved:
                 print("会话已解决，自动结束。")
+                if result.get("learning_report"):
+                    print("\n========== 学习报告 ==========")
+                    print(result["learning_report"])
+                    print("=============================\n")
                 self.end_session("resolved")
                 break
 

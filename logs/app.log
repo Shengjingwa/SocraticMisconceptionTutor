@@ -36,3 +36,5 @@
 2026-04-13 08:27:11,272 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-002_8fc5fb on Unknown for Unknown with version FSM+Guardrail
 2026-04-13 08:45:37,878 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-002_a7eedf on Unknown for Unknown with version FSM+Guardrail
 2026-04-13 09:08:34,399 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-002_f874f6 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 02:58:33,346 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-13 03:02:05,461 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
