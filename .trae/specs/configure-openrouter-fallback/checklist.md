@@ -1,0 +1,4 @@
+- [x] `src/config.py` 中 `get_tutor_llm()` 已正确配置 `qwen/qwen3.6-plus:free`（OpenRouter），并具备 `with_fallbacks([dashscope_llm])` 功能。
+- [x] `src/config.py` 中 `get_judge_llm()` 保持不变，并使用 `DEEPSEEK_API_KEY`。
+- [x] API Key 全部由 `os.environ.get()` 加载，无明文硬编码。
+- [x] `import_smoke_test.py` 或 `simple_test.py` 执行成功，无模型调用崩溃或异常。

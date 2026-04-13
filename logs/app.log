@@ -2980,3 +2980,964 @@
 2026-04-13 14:01:55,524 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
 2026-04-13 14:01:55,527 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
 2026-04-13 14:01:55,527 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:01:56,739 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:01:56,742 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_fb05fb] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:01:56,742 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_fb05fb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:01:57,034 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:01:57,036 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_81d91b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:01:57,036 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_81d91b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:01:57,231 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:01:57,233 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:01:57,234 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:01:57,502 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:01:57,504 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_50aee8] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:01:57,504 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_50aee8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:01:57,973 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:01:57,976 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_d97912] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:01:57,976 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_d97912] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:00,326 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:00,329 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:00,329 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:01,433 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:01,436 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_fb05fb] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:01,436 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_fb05fb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:01,722 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:01,724 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:01,724 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:02,002 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:02,006 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_81d91b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:02,007 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_81d91b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:02,283 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:02,288 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_50aee8] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:02,288 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_50aee8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:02,805 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:03,075 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:03,076 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_d97912] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:03,076 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-001_d97912] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:03,076 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Starting session
+2026-04-13 14:02:03,076 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-001_6cd3be on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:03,076 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:05,042 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:05,277 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:05,277 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:05,277 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-001_21cf46] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:05,278 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Starting session
+2026-04-13 14:02:05,278 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-001_85b95b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:05,278 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:06,013 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:06,245 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:06,245 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_fb05fb] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:06,245 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-001_fb05fb] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:06,246 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Starting session
+2026-04-13 14:02:06,246 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-001_d54aaf on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:06,246 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:06,261 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:06,534 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:06,534 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:06,534 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-001_011e2c] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:06,534 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Starting session
+2026-04-13 14:02:06,535 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-001_3f4515 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:06,535 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:06,959 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:07,092 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:07,233 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:07,233 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_81d91b] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:07,233 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-001_81d91b] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:07,234 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Starting session
+2026-04-13 14:02:07,234 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-001_cb0de9 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:07,234 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:07,364 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:07,364 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-001_50aee8] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:07,364 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-001_50aee8] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:07,364 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Starting session
+2026-04-13 14:02:07,364 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-001_d5cf30 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:07,365 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:08,395 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:08,398 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:08,398 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:10,106 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:10,109 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:10,109 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:10,910 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:10,912 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:10,913 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:11,325 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:11,327 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:11,328 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:12,059 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:12,062 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:12,062 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:12,236 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:12,238 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:12,238 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:13,139 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:13,145 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:13,145 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:14,794 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:14,797 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:14,797 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:15,740 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:15,743 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:15,743 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:16,119 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:16,122 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:16,122 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:16,901 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:16,904 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:16,904 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:17,131 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:17,134 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:17,134 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:18,041 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:18,043 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:18,043 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:19,404 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:19,409 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:19,409 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:20,384 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:20,387 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:20,387 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:20,777 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:20,779 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:20,780 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:21,648 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:21,650 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:21,650 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:21,898 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:21,901 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:21,901 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:22,666 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:22,669 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:22,670 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:24,268 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:24,271 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:24,271 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:25,021 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:25,024 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:25,024 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:25,343 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:25,346 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:25,346 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:26,434 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:26,438 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:26,439 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:26,731 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:26,736 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:26,737 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:27,140 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:27,143 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:27,143 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:29,172 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:29,175 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:29,175 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:29,738 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:29,740 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:29,740 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:30,175 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:30,178 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:30,178 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:31,023 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:31,026 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:31,026 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:31,590 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:31,592 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:31,592 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:31,898 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:31,900 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:31,901 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:33,739 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:33,742 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:33,742 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:34,452 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:34,456 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:34,456 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:34,930 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:34,933 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:34,933 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:35,801 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:35,804 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:35,804 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:36,370 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:36,372 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:36,373 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:36,790 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:37,020 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:37,020 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_6cd3be] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:37,020 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-001_6cd3be] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:37,020 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Starting session
+2026-04-13 14:02:37,020 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-001_423ab7 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:37,021 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:38,657 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:38,883 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:38,883 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_85b95b] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:38,883 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-001_85b95b] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:38,884 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Starting session
+2026-04-13 14:02:38,884 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-001_080496 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:38,884 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:38,899 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:39,191 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:39,191 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-001_d54aaf] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:39,191 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-001_d54aaf] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:39,192 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Starting session
+2026-04-13 14:02:39,192 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-001_e10c26 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:39,192 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:40,094 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:40,365 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:40,365 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:40,365 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-001_3f4515] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:40,366 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Starting session
+2026-04-13 14:02:40,366 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-001_276b2b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:40,366 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:40,540 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:40,714 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:40,714 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:40,714 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-001_cb0de9] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:40,715 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Starting session
+2026-04-13 14:02:40,715 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-001_d46580 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:40,715 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:40,936 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:41,078 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:02:41,078 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:02:41,078 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-001_d5cf30] Error in session: Tutor agent encountered an error
+2026-04-13 14:02:41,079 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Starting session
+2026-04-13 14:02:41,079 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-001_f8d1c6 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:02:41,079 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:02:41,799 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:41,801 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:41,801 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:43,781 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:43,784 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:43,784 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:43,999 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:44,002 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:44,002 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:45,212 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:45,215 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:45,215 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:45,469 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:45,471 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:45,471 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:45,749 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:45,752 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:45,752 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:46,513 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:46,516 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:46,516 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:48,633 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:48,635 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:48,635 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:48,692 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:48,694 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:48,694 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:49,798 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:49,801 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:49,801 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:50,251 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:50,254 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:50,254 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:50,654 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:50,656 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:50,657 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:51,126 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:51,131 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:51,131 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:53,302 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:53,306 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:53,306 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:53,602 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:53,604 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:53,605 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:54,456 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:54,459 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:54,460 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:54,992 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:54,995 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:54,995 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:55,281 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:55,283 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:55,283 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:55,753 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:55,756 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:55,756 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:58,044 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:58,047 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:58,047 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:58,139 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:58,141 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:02:58,142 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:59,280 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:59,283 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:59,284 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:02:59,776 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:02:59,780 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:02:59,780 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:00,041 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:00,043 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:00,043 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:00,682 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:00,686 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:00,686 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:02,789 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:02,792 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:02,792 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:02,873 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:02,875 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:02,875 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:03,803 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:03,805 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:03,806 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:04,606 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:04,609 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:04,609 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:04,844 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:04,847 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:04,847 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:05,488 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:05,490 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:05,490 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:07,595 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:07,598 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:07,599 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:07,769 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:07,772 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:07,772 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:08,546 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:08,549 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:08,549 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:09,324 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:09,327 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:09,327 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:09,661 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:09,663 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:09,663 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:10,324 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:10,643 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:10,643 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_423ab7] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:10,644 - SessionLogger - ERROR - [sim_Baseline_P3_M-BUO-001_423ab7] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:10,644 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Starting session
+2026-04-13 14:03:10,644 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-BUO-001_135a48 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:10,644 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:12,491 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:12,587 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:12,764 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:12,764 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_080496] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:12,764 - SessionLogger - ERROR - [sim_Baseline_P3_M-BUO-001_080496] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:12,765 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Starting session
+2026-04-13 14:03:12,765 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-BUO-001_7c318a on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:12,765 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:12,864 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:12,864 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-001_e10c26] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:12,865 - SessionLogger - ERROR - [sim_Baseline_P3_M-BUO-001_e10c26] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:12,865 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Starting session
+2026-04-13 14:03:12,865 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-BUO-001_833ecb on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:12,865 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:13,330 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:13,603 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:13,604 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_276b2b] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:13,604 - SessionLogger - ERROR - [sim_FSM_P3_M-BUO-001_276b2b] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:13,604 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Starting session
+2026-04-13 14:03:13,604 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-002_d9197c on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:13,604 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:13,937 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:14,167 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:14,168 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_d46580] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:14,168 - SessionLogger - ERROR - [sim_FSM_P3_M-BUO-001_d46580] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:14,168 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Starting session
+2026-04-13 14:03:14,168 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-002_778364 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:14,168 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:14,435 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:14,712 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:14,712 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-001_f8d1c6] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:14,713 - SessionLogger - ERROR - [sim_FSM_P3_M-BUO-001_f8d1c6] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:14,713 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Starting session
+2026-04-13 14:03:14,713 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-002_15351b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:14,713 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:15,463 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:15,465 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:15,466 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:17,374 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:17,376 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:17,377 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:17,704 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:17,706 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:17,706 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:18,392 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:18,395 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:18,395 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:18,990 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:18,992 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:18,992 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:19,560 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:19,563 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:19,564 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:20,349 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:20,351 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:20,351 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:21,946 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:21,949 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:21,949 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:22,531 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:22,533 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:22,533 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:22,927 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:22,930 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:22,930 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:23,693 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:23,696 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:23,696 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:24,451 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:24,454 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:24,454 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:25,061 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:25,064 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:25,064 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:26,826 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:26,831 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:26,831 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:27,620 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:27,623 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:27,623 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:27,797 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:27,799 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:27,799 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:28,431 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:28,434 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:28,434 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:29,158 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:29,161 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:29,162 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:29,882 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:29,885 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:29,885 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:31,616 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:31,619 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:31,619 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:32,485 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:32,487 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:32,489 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:32,489 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:32,495 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:32,496 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:33,100 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:33,103 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:33,104 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:34,031 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:34,034 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:34,034 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:34,658 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:34,661 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:34,661 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:36,436 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:36,442 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:36,442 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:37,337 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:37,340 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:37,340 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:37,379 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:37,381 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:37,381 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:37,931 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:37,934 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:37,934 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:38,843 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:38,846 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:38,846 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:39,311 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:39,314 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:39,314 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:41,175 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:41,179 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:41,179 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:41,785 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:41,788 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:41,788 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:42,260 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:42,264 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:42,264 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:42,460 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:42,463 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:42,463 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:43,634 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:43,636 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:03:43,636 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:44,013 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:44,302 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:44,302 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:44,302 - SessionLogger - ERROR - [sim_FSM+Guardrail_P3_M-BUO-001_135a48] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:44,303 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Starting session
+2026-04-13 14:03:44,303 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-002_4cf7f2 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:44,303 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:45,819 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:45,965 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:45,965 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:45,965 - SessionLogger - ERROR - [sim_FSM+Guardrail_P3_M-BUO-001_7c318a] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:45,965 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Starting session
+2026-04-13 14:03:45,965 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-002_566606 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:45,966 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:46,610 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:46,925 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:46,926 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_d9197c] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:46,926 - SessionLogger - ERROR - [sim_Baseline_P1_M-BUO-002_d9197c] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:46,927 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Starting session
+2026-04-13 14:03:46,927 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-002_9d77d4 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:46,927 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:47,307 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:47,507 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:47,512 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:47,514 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:47,514 - SessionLogger - ERROR - [sim_FSM+Guardrail_P3_M-BUO-001_833ecb] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:47,514 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Starting session
+2026-04-13 14:03:47,514 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-002_df321a on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:47,514 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:47,659 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:47,659 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_778364] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:47,659 - SessionLogger - ERROR - [sim_Baseline_P1_M-BUO-002_778364] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:47,660 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Starting session
+2026-04-13 14:03:47,660 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-002_848588 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:47,660 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:48,448 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:48,727 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:03:48,727 - SessionLogger - INFO - [sim_Baseline_P1_M-BUO-002_15351b] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:03:48,727 - SessionLogger - ERROR - [sim_Baseline_P1_M-BUO-002_15351b] Error in session: Tutor agent encountered an error
+2026-04-13 14:03:48,728 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Starting session
+2026-04-13 14:03:48,728 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-002_8dd8be on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:03:48,728 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:03:49,196 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:49,200 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:49,200 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:50,815 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:50,818 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:50,818 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:51,872 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:51,875 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:51,875 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:52,285 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:52,288 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:52,288 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:52,457 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:52,460 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:52,460 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:53,649 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:53,652 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:53,652 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:53,938 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:53,940 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:53,941 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:55,551 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:55,555 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:55,556 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:56,673 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:56,676 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:56,676 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:57,194 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:57,199 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:57,199 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:57,313 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:57,318 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:57,318 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:58,551 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:58,554 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:58,554 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:03:59,130 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:03:59,132 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:03:59,132 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:00,186 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:00,189 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:00,189 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:01,505 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:01,507 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:01,507 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:02,082 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:02,085 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:02,085 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:02,144 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:02,146 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:02,146 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:03,266 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:03,269 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:03,269 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:03,947 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:03,950 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:03,950 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:05,011 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:05,014 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:05,014 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:06,321 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:06,323 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:06,323 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:06,737 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:06,739 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:06,740 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:07,154 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:07,157 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:07,157 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:07,975 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:07,978 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:07,978 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:08,727 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:08,730 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:08,730 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:09,795 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:09,798 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:09,798 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:11,151 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:11,157 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:11,157 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:11,611 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:11,616 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:11,616 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:11,766 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:11,770 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:11,770 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:12,580 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:12,586 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:12,586 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:13,604 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:13,608 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:13,608 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:14,628 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:14,634 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:14,634 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:15,111 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-13 14:04:15,996 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:15,999 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:15,999 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:16,417 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:16,420 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:16,420 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:16,807 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:16,809 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:16,810 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:17,322 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:17,325 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:17,325 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:18,413 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:18,603 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:18,603 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_4cf7f2] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:18,603 - SessionLogger - ERROR - [sim_FSM_P1_M-BUO-002_4cf7f2] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:18,604 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Starting session
+2026-04-13 14:04:18,604 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-BUO-002_329009 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:18,604 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:19,205 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:19,421 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:19,421 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_566606] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:19,421 - SessionLogger - ERROR - [sim_FSM_P1_M-BUO-002_566606] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:19,422 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Starting session
+2026-04-13 14:04:19,422 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-BUO-002_192bad on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:19,422 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:20,533 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:20,681 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:20,681 - SessionLogger - INFO - [sim_FSM_P1_M-BUO-002_9d77d4] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:20,681 - SessionLogger - ERROR - [sim_FSM_P1_M-BUO-002_9d77d4] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:20,682 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Starting session
+2026-04-13 14:04:20,682 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-BUO-002_c1acdf on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:20,682 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:21,250 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:21,483 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:21,483 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:21,483 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-002_df321a] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:21,484 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Starting session
+2026-04-13 14:04:21,484 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-002_2cd461 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:21,484 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:21,613 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:22,025 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:22,254 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:22,254 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:22,254 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-002_8dd8be] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:22,255 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Starting session
+2026-04-13 14:04:22,255 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-002_f07304 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:22,255 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:22,294 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:22,294 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:22,294 - SessionLogger - ERROR - [sim_FSM+Guardrail_P1_M-BUO-002_848588] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:22,294 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Starting session
+2026-04-13 14:04:22,294 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-002_8ee542 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:22,294 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:23,256 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:23,259 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:23,259 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:24,027 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:24,030 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:24,030 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:25,305 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:25,307 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:25,307 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:26,205 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:26,208 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:26,208 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:26,938 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:26,943 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:26,943 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:27,156 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:27,158 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:27,159 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:28,110 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:28,112 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:28,113 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:28,848 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:28,850 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:28,850 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:30,098 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:30,100 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:30,100 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:30,922 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:30,924 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:30,924 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:31,745 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:31,747 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:31,747 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:31,958 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:31,961 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:31,961 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:32,977 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:32,980 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:32,980 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:33,860 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:33,862 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:33,863 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:34,902 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:34,905 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:34,905 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:35,774 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:35,776 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:35,776 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:36,355 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:36,358 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:36,358 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:36,529 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:36,532 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:36,532 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:37,785 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:37,787 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:37,788 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:38,597 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:38,599 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:38,599 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:39,594 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:39,597 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:39,597 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:40,392 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:40,395 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:40,395 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:41,072 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:41,075 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:41,075 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:41,392 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:41,394 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:41,394 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:42,608 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:42,611 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:42,611 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:43,163 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:43,166 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:43,166 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:44,260 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:44,263 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:44,263 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:45,109 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:45,112 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:45,112 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:45,951 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:45,953 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:45,954 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:46,002 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:46,004 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:46,004 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:47,162 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:47,165 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:47,165 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:47,957 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:47,960 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:47,960 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:49,110 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:49,113 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:49,114 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:49,642 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:49,644 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:49,644 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:50,727 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:50,729 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:50,730 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:50,785 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:50,790 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:50,790 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:51,932 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:52,163 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:52,164 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_329009] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:52,164 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-002_329009] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:52,164 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Starting session
+2026-04-13 14:04:52,165 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:52,165 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:52,739 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:53,213 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:53,213 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_192bad] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:53,213 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-002_192bad] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:53,214 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Starting session
+2026-04-13 14:04:53,214 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-002_22bae8 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:53,214 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:53,865 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:54,050 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:54,050 - SessionLogger - INFO - [sim_Baseline_P2_M-BUO-002_c1acdf] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:54,051 - SessionLogger - ERROR - [sim_Baseline_P2_M-BUO-002_c1acdf] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:54,051 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Starting session
+2026-04-13 14:04:54,051 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-002_2af796 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:54,051 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:54,421 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:54,674 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:54,674 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_2cd461] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:54,674 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-002_2cd461] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:54,675 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Starting session
+2026-04-13 14:04:54,675 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-002_f2348c on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:54,675 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:55,521 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:55,701 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:55,974 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:55,974 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_8ee542] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:55,974 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-002_8ee542] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:55,975 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Starting session
+2026-04-13 14:04:55,975 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-002_3e8553 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:55,975 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:56,345 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:04:56,345 - SessionLogger - INFO - [sim_FSM_P2_M-BUO-002_f07304] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:04:56,345 - SessionLogger - ERROR - [sim_FSM_P2_M-BUO-002_f07304] Error in session: Tutor agent encountered an error
+2026-04-13 14:04:56,346 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Starting session
+2026-04-13 14:04:56,346 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-002_0b121d on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:04:56,346 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:04:56,817 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:56,820 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:56,820 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:57,768 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:57,771 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:57,771 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:58,983 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:58,986 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:04:58,987 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:04:59,259 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:04:59,261 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:04:59,261 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:00,751 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:00,754 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:00,754 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:01,125 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:01,127 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:01,127 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:02,142 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:02,145 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:02,145 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:02,523 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:02,526 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:02,526 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:03,803 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:03,806 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:03,806 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:04,111 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:04,113 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:04,113 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:05,362 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:05,365 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:05,365 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:05,925 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:05,927 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:05,928 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:06,758 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:06,761 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:06,761 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:07,363 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:07,366 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:07,366 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:08,668 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:08,674 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:08,674 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:08,901 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:08,903 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:08,903 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:10,171 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:10,174 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:10,174 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:10,504 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:10,507 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:10,507 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:11,540 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:11,543 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:11,543 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:12,060 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:12,063 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:12,063 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:13,251 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:13,254 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Cognitive_Conflict，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:13,254 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:13,615 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:13,618 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:13,618 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:14,795 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:14,798 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:14,798 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:14,911 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:14,914 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:14,914 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:16,375 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:16,378 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:16,378 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:16,830 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:16,833 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:16,833 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:18,073 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:18,076 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:18,076 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:18,406 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:18,409 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:18,409 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:19,564 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:19,567 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:19,570 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:19,828 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:19,830 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:19,831 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:21,225 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:21,229 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:21,229 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:21,710 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:21,713 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:21,713 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:22,799 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:22,802 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: （Mocked teacher response）我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗（电流消耗模型）。你能再多说说你的想法吗？
+2026-04-13 14:05:22,802 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:23,031 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:23,033 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:23,034 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:24,369 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:24,372 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:24,372 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_3e8553] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:24,730 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:24,733 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 14:05:24,733 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_0b121d] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 14:05:26,013 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:26,249 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:05:26,249 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:05:26,249 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-002_c5b9a9] Error in session: Tutor agent encountered an error
+2026-04-13 14:05:26,249 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_e0b522] Starting session
+2026-04-13 14:05:26,250 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-002_e0b522 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:05:26,250 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_e0b522] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:05:26,461 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:26,750 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:05:26,750 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:05:26,750 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-002_22bae8] Error in session: Tutor agent encountered an error
+2026-04-13 14:05:26,751 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_1cfffd] Starting session
+2026-04-13 14:05:26,751 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-002_1cfffd on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:05:26,751 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_1cfffd] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:05:27,487 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:27,638 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:05:27,638 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:05:27,638 - SessionLogger - ERROR - [sim_FSM+Guardrail_P2_M-BUO-002_2af796] Error in session: Tutor agent encountered an error
+2026-04-13 14:05:27,639 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_b5f0bc] Starting session
+2026-04-13 14:05:27,639 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-002_b5f0bc on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:05:27,639 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_b5f0bc] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:05:27,661 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:27,968 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}
+2026-04-13 14:05:27,968 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_f2348c] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 14:05:27,968 - SessionLogger - ERROR - [sim_Baseline_P3_M-BUO-002_f2348c] Error in session: Tutor agent encountered an error
+2026-04-13 14:05:27,969 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_932195] Starting session
+2026-04-13 14:05:27,969 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-BUO-002_932195 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 14:05:27,969 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_932195] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 14:05:29,237 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
+2026-04-13 14:05:29,541 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': 'No cookie auth credentials found', 'code': 401}}. Falling back to rule-based only.
