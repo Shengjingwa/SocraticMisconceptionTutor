@@ -9,8 +9,8 @@ if not DASHSCOPE_API_KEY and DEEPSEEK_API_KEY:
 
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
-TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen-plus")
-JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-chat")
+TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen3.6-plus")
+JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
 
 # Legacy fallback for older code
 LLM_MODEL = os.environ.get("LLM_MODEL", TUTOR_MODEL)
@@ -30,14 +30,6 @@ SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "6"))
 from langchain_openai import ChatOpenAI
 
 def get_tutor_llm(**kwargs):
-    openrouter_api_key = os.environ.get("OPENROUTER_API_KEY", "")
-    openrouter_llm = ChatOpenAI(
-        model="qwen/qwen3.6-plus:free",
-        base_url="https://openrouter.ai/api/v1",
-        api_key=openrouter_api_key,
-        **kwargs
-    )
-    
     dashscope_llm = ChatOpenAI(
         model=TUTOR_MODEL,
         base_url=LLM_BASE_URL,
@@ -45,8 +37,7 @@ def get_tutor_llm(**kwargs):
         **kwargs
     )
     
-    # if openrouter api key is missing, maybe it just falls back to dashscope
-    return openrouter_llm.with_fallbacks([dashscope_llm])
+    return dashscope_llm
 
 def get_judge_llm(**kwargs):
     return ChatOpenAI(

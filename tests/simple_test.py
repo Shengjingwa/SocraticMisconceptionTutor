@@ -12,8 +12,8 @@ if not dashscope_api_key:
     raise ValueError("Missing DASHSCOPE_API_KEY environment variable.")
 
 os.environ["LLM_BASE_URL"] = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
-os.environ["TUTOR_MODEL"] = os.environ.get("TUTOR_MODEL", "qwen-plus")
-os.environ["JUDGE_MODEL"] = os.environ.get("JUDGE_MODEL", "deepseek-chat")
+os.environ["TUTOR_MODEL"] = os.environ.get("TUTOR_MODEL", "qwen3.6-plus")
+os.environ["JUDGE_MODEL"] = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
 
 from src.main import SocraticTutorApp
 
