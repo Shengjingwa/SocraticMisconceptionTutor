@@ -43,9 +43,9 @@ MISCONCEPTIONS = {item["id"]: item for item in misconceptions_data}
 KNOWLEDGE_CHUNKS = {item["misconception_tag"]: item for item in knowledge_chunks_data}
 
 REFUSAL_REDIRECT_TEMPLATES = [
-    "我不会直接给你标准答案，但我们可以一步一步想。{follow_up}",
-    "我先不直接代答，我们一起把关键关系想清楚。{follow_up}",
-    "这题我不直接给结论，不过我可以陪你把思路搭出来。{follow_up}",
+    "我理解你现在可能有些卡壳，不过别着急，我不能直接把结论喂给你。我们换个简单的角度：{follow_up}",
+    "直接告诉你答案可能帮不到你真正弄懂。咱们退一步，看看这个现象：{follow_up}",
+    "我知道这有点绕，但我直接说出结论你就没法自己推导了。我们把问题拆开，你觉得：{follow_up}",
 ]
 
 def _pick_one(items: List[Any], default: Any = None) -> Any:
@@ -81,8 +81,14 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
     sentiment = decision.meta.get("sentiment", "")
     empathy_scaffolding = ""
+    fallback_strategy = ""
+
     if sentiment in ["焦虑/挫败", "困惑"]:
         empathy_scaffolding = "\n\n【情感支架】\n检测到学生当前处于焦虑、挫败或困惑的情绪状态。请在回复的开头，先用简短、自然的话语进行共情和鼓励（例如：“没关系，这个问题确实有点绕”、“卡在这里很正常”等），然后再进行提问或引导。"
+        
+    # 针对多次卡壳或严重挫败的降级干预
+    if decision.state == "S5" and memory.recent_states.count("S5") >= 3 or sentiment == "焦虑/挫败":
+        fallback_strategy = "\n\n【降级干预策略】\n学生目前多次卡壳或极度挫败，请放宽引导要求。允许你先直接给出部分浅显的物理原理解释或实验现象说明，以此作为脚手架，然后再就下一步进行确认性提问。避免单纯的拒绝和反问。"
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
 
@@ -102,14 +108,14 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 - {analogies if analogies else '无'}
 
 【安全护栏规则 - 必须绝对遵守】
-1. 绝不直接给出最终结论或标准答案。
+1. 绝不直接给出本题最终结论或标准答案。
 2. 绝不代替学生完成关键的逻辑推理过程。
-3. 只能通过提问、制造矛盾（认知冲突）或提供类比来进行引导。
+3. 只能通过提问、制造矛盾（认知冲突）或提供类比来进行引导（除降级干预外）。
 4. 回复必须简短、自然，符合日常口语习惯（1-3句话即可）。
 5. 绝不要向学生暴露“反例”、“类比”、“知识点”、“支架”、“策略”等教学设计术语，必须将它们自然地转化为对话。
-6. 当学生表现出困惑或多次卡壳时，绝不要重复相同的反问，必须提供一个具体的生活类比（如水流、跑步、木块等）或将问题拆解为更小的分步提问。
+6. 当学生表现出困惑或多次卡壳时，绝不要重复相同的反问，必须提供一个具体的生活类比（如水流、跑步、木块等）或将问题拆解为更小的分步提问。若学生对当前类比感到困惑或排斥（如“电不是水”），必须立即停止该类比，改用直观物理现象或拆解后的分步逻辑推导。
 7. 绝对不要在回复中包含任何内部思考过程、策略说明或动作提示（如括号内的心理活动）。如果需要思考，请将思考过程写在 <think>...</think> 标签内。
-8. 每次回复只能提出一个清晰的问题，严禁自问自答，严禁同时抛出多个维度的变量（如同时混杂重量、形状和体积）。{empathy_scaffolding}"""
+8. 每次回复只能提出一个清晰的问题，严禁自问自答，严禁同时抛出多个维度的变量（如同时混杂重量、形状和体积）。{empathy_scaffolding}{fallback_strategy}"""
 
     assembled_prompt = {
         "role_identity": "你是引导思考的初中物理苏格拉底式助教",
