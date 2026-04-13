@@ -29,6 +29,7 @@ class SocraticTutorApp:
         self.misconception_init = None
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
+        self.abnormal_end_flag = False
         logger_instance.info(f"Initialized Session {session_id} on {topic} for {student_profile} with version {system_version}")
 
     def _process_graph_result(self, final_state: Dict[str, Any], user_input: str) -> Dict[str, Any]:
@@ -40,7 +41,8 @@ class SocraticTutorApp:
         understanding_verified = (
             (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8)
         )
-        self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
+        self.memory = final_state.get("memory", self.memory)
+        self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=None, understanding_verified=understanding_verified)
 
         turn_log = {
             "timestamp": _timestamp(),
@@ -101,6 +103,7 @@ class SocraticTutorApp:
             final_state = app_graph.invoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during graph execution: {e}")
+            self.abnormal_end_flag = True
             return {
                 "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
@@ -124,6 +127,7 @@ class SocraticTutorApp:
             final_state = await app_graph.ainvoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during async graph execution: {e}")
+            self.abnormal_end_flag = True
             return {
                 "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
@@ -147,7 +151,7 @@ class SocraticTutorApp:
             "final_cognitive_state": "概念掌握验证" if self.memory.resolved else "认知僵局",
             "guardrail_trigger_count": self.guardrail_trigger_count,
             "answer_leakage_count": self.answer_leakage_count,
-            "abnormal_end_flag": False,
+            "abnormal_end_flag": getattr(self, "abnormal_end_flag", False),
             "termination_reason": termination_reason
         }
         logger_instance.log_session(summary_log)

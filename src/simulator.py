@@ -76,7 +76,7 @@ class SimulatedStudent:
         except Exception as e:
             from logger import logger_instance
             logger_instance.error(f"Simulated student failed to generate opening: {e}")
-            reply_text = f"老师，我不明白 {self.misconception['misconception_name']} 这个概念，能解释一下吗？"
+            raise e
 
         self.history.append(AIMessage(content=reply_text))
         return reply_text
@@ -105,15 +105,16 @@ class SimulatedStudent:
         except Exception as e:
             from logger import logger_instance
             logger_instance.error(f"Simulated student failed to reply: {e}")
-            reply_text = "老师，网络有点卡，你能再解释一下吗？"
+            raise e
 
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 
 async def run_single_session(v, m, p, i, sem):
+    from logger import logger_instance
     async with sem:
         session_id = f"sim_{v}_{p['profile_id']}_{m['id']}_{uuid.uuid4().hex[:6]}"
-        print(f"Starting session: {session_id}")
+        logger_instance.info(f"[{session_id}] Starting session")
         
         app = SocraticTutorApp(session_id=session_id)
         app.system_version = v
@@ -126,7 +127,7 @@ async def run_single_session(v, m, p, i, sem):
         
         try:
             user_input = student.generate_opening()
-            print(f"Student Opening: {user_input}")
+            logger_instance.info(f"[{session_id}] Student Opening: {user_input}")
             
             max_turns = 10
             turn = 0
@@ -136,19 +137,23 @@ async def run_single_session(v, m, p, i, sem):
                 turn += 1
                 result = await app.astep(user_input)
                 teacher_reply = result['generation']['final_reply']
-                print(f"Teacher: {teacher_reply}")
+                logger_instance.info(f"[{session_id}] Teacher: {teacher_reply}")
                 
+                if getattr(app, "abnormal_end_flag", False):
+                    raise Exception("Tutor agent encountered an error")
+
                 if app.memory.resolved:
                     resolved = True
                     break
                     
                 user_input = await student.areply(teacher_reply)
-                print(f"Student: {user_input}")
+                logger_instance.info(f"[{session_id}] Student: {user_input}")
                 
             app.end_session("resolved" if resolved else "max_turns_reached")
-            print(f"Session {session_id} finished. Resolved: {resolved}")
+            logger_instance.info(f"[{session_id}] Session finished. Resolved: {resolved}")
         except Exception as e:
-            print(f"Error in session {session_id}: {e}")
+            logger_instance.error(f"[{session_id}] Error in session: {e}")
+            app.abnormal_end_flag = True
             app.end_session("error")
 
 async def run_simulation() -> None:

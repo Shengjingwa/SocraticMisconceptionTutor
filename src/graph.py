@@ -105,6 +105,8 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     memory = state["memory"]
     messages = state.get("messages", [])
     
+    new_memory = memory.model_copy(deep=True)
+    
     # 存入本轮 AI 回复
     final_reply = generation["final_reply"]
     new_message = AIMessage(content=final_reply)
@@ -125,18 +127,18 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
         msgs_to_compress = messages[:-4]
         
         text_to_compress = "\n".join([f"{msg.type}: {msg.content}" for msg in msgs_to_compress])
-        prompt = f"你是一个教育助手的记忆摘要模块。请将以下之前的对话摘要与最新的一段对话记录合并，写成一段简洁的上下文总结（不超过300字）。重点保留学生表现出的物理误概念、老师的引导策略以及学生情绪状态的变化。\n\n之前的摘要: {memory.history_summary}\n\n最新的对话记录:\n{text_to_compress}\n\n请输出新的合并摘要："
+        prompt = f"你是一个教育助手的记忆摘要模块。请将以下之前的对话摘要与最新的一段对话记录合并，写成一段简洁的上下文总结（不超过300字）。重点保留学生表现出的物理误概念、老师的引导策略以及学生情绪状态的变化。\n\n之前的摘要: {new_memory.history_summary}\n\n最新的对话记录:\n{text_to_compress}\n\n请输出新的合并摘要："
         
         response = llm.invoke(prompt)
         new_summary = response.content.strip()
         
         # 更新状态中的 summary
-        memory.history_summary = new_summary
-        updates["memory"] = memory
+        new_memory.history_summary = new_summary
         
         # 返回 RemoveMessage 剔除已经被压缩的消息
         updates["messages"] = [RemoveMessage(id=m.id) for m in msgs_to_compress] + [new_message]
         
+    updates["memory"] = new_memory
     return updates
 def baseline_node(state: GraphState) -> Dict[str, Any]:
     from generator import generate_reply
@@ -145,16 +147,22 @@ def baseline_node(state: GraphState) -> Dict[str, Any]:
     memory = state["memory"]
     messages = state.get("messages", [])
 
+    new_memory = memory.model_copy(deep=True)
+    new_memory.turn_count += 1
+    new_memory.current_state = "S5"
+    new_memory.recent_states.append("S5")
+
     # 填充假的 perception 和 decision
-    perception = PerceptionResult(intent="Unknown", misconception_tag=memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
+    perception = PerceptionResult(intent="Unknown", misconception_tag=new_memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
     decision = RouteDecision(state="S5", state_name="Scaffolding_Guidance", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
 
-    generation = generate_reply(user_input, decision, memory, messages=messages)
+    generation = generate_reply(user_input, decision, new_memory, messages=messages)
 
     return {
         "perception": perception,
         "decision": decision,
-        "generation": generation
+        "generation": generation,
+        "memory": new_memory
     }
 
 workflow = StateGraph(GraphState)
