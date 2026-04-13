@@ -2,10 +2,17 @@ import asyncio
 import json
 import time
 import uuid
+from pathlib import Path
+import sys
 from typing import Dict, Any, List
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from tenacity import retry, stop_after_attempt, wait_exponential
+
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
 import config
 
 from main import SocraticTutorApp
@@ -129,7 +136,8 @@ async def run_single_session(v, m, p, i, sem):
             user_input = student.generate_opening()
             logger_instance.info(f"[{session_id}] Student Opening: {user_input}")
             
-            max_turns = 10
+            import os
+            max_turns = int(os.getenv("SIMULATION_MAX_TURNS", "10"))
             turn = 0
             resolved = False
             
@@ -166,6 +174,12 @@ async def run_simulation() -> None:
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
     num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
+
+    if os.getenv("SIMULATION_SMOKE") == "1":
+        misconceptions = misconceptions[:1]
+        profiles = profiles[:1]
+        versions = versions[:1]
+        num_runs = 1
     
     sem = asyncio.Semaphore(config.SIMULATION_CONCURRENCY)
     tasks = []
