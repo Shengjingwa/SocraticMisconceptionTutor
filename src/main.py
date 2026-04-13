@@ -38,9 +38,15 @@ class SocraticTutorApp:
         generation = final_state["generation"]
         guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
-        understanding_verified = (
-            (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8)
-        )
+        understanding_verified = False
+        if (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8):
+            from classifiers import verify_post_test
+            understanding_verified = verify_post_test(
+                user_input=user_input,
+                misconception_tag=perception.misconception_tag or self.memory.current_misconception,
+                messages=final_state.get("messages", [])
+            )
+
         self.memory = final_state.get("memory", self.memory)
         self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=None, understanding_verified=understanding_verified)
 

@@ -40,6 +40,82 @@ class NLUOutput(BaseModel):
     
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
+class PostTestOutput(BaseModel):
+    passed: bool = Field(description="学生是否已经用自己的话正确地解释了物理原理，且没有事实错误")
+    reason: str = Field(description="判断理由")
+
+def verify_post_test(user_input: str, misconception_tag: str, messages: list = None) -> bool:
+    if not config.DASHSCOPE_API_KEY:
+        return True
+        
+    if not misconception_tag:
+        return False
+
+    from generator import MISCONCEPTIONS, KNOWLEDGE_CHUNKS
+    misconception = MISCONCEPTIONS.get(misconception_tag, {})
+    knowledge = KNOWLEDGE_CHUNKS.get(misconception_tag, {})
+    
+    llm = ChatOpenAI(
+        model=config.TUTOR_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
+    )
+    
+    structured_llm = llm.with_structured_output(PostTestOutput, method="json_mode")
+    
+    core_points = "\n- ".join(knowledge.get("core_science_points", []))
+    
+    system_prompt = f"""你是一个物理老师，正在进行“教后测”评估。
+请判断学生最新的回答是否已经用自己的话正确解释了相关物理原理，且没有事实错误。
+当前主题相关的核心科学知识点是:
+{core_points}
+学生的初始错误观念是:
+{misconception.get('misconception_name', '')}
+
+要求:
+1. 学生必须用自己的话进行解释或推理。
+2. 如果学生只是简单说“我懂了”、“是的”、“对的”，没有给出具体解释，视为未通过 (passed: false)。
+3. 如果学生的解释依然包含错误观念，视为未通过 (passed: false)。
+4. 只有当学生的解释基本符合核心科学知识点，且逻辑自洽时，才视为通过 (passed: true)。
+
+请返回 JSON 格式结果，包含 passed (布尔值) 和 reason (判断理由的字符串)。"""
+
+    if messages is None:
+        messages = []
+    
+    from langchain_core.messages import HumanMessage, AIMessage
+    formatted_messages = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            formatted_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            formatted_messages.append({"role": "assistant", "content": msg.content})
+        else:
+            formatted_messages.append(msg)
+            
+    recent_text = "\n".join([f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}" for m in formatted_messages[-4:]])
+
+    @retry(
+        stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+        wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+        reraise=True
+    )
+    def _invoke_eval():
+        prompt_messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=f"近期对话:\n{recent_text}\n\n请评估学生最新输入: {user_input}")
+        ]
+        return structured_llm.invoke(prompt_messages)
+
+    try:
+        result = _invoke_eval()
+        return result.passed
+    except Exception as e:
+        from logger import logger_instance
+        logger_instance.error(f"Post-test evaluation failed: {e}")
+        return False
+
 def classify_input(user_input: str, messages: list = None, history_summary: str = "") -> PerceptionResult:
     if messages is None:
         messages = []

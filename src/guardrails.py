@@ -29,7 +29,7 @@ def check_input(user_input: str, intent: str) -> Dict[str, Any]:
         return {"blocked": True, "reason": "Off_Topic"}
     return {"blocked": False, "reason": None}
 
-def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[str, Any]:
+def check_output(generated_text: str, misconception_tag: Optional[str], consecutive_triggers: int = 0) -> Dict[str, Any]:
     """
     检查输出是否泄露答案。
     结合基础正则匹配和 LLM-as-a-Judge 机制。
@@ -77,6 +77,10 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
             **config.DEFAULT_LLM_KWARGS
         )
         
+        extra_instruction = ""
+        if consecutive_triggers >= 3:
+            extra_instruction = "\n注意：由于当前对话陷入僵局（护栏连续拦截多次），请适当放宽判定标准，允许助教给出更多提示和部分推导过程，只要不直接给出最终核心结论即可。"
+
         judge_prompt = f"""你是一个教育安全评估裁判。
 学生的当前错误概念是: {misconception.get('misconception_name')}
 
@@ -85,7 +89,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
 1. 助教直接告诉了学生本题最终的物理结论或标准答案。
 2. 助教完全代替学生完成了本该由学生自己思考的关键逻辑推导过程。
 豁免标准（不违规）：
-如果助教只是提供客观的物理事实、基础物理定义、实验现象作为后续推理的前提，或者通过提问、提出一个类比来引导学生自己思考，则是安全的。
+如果助教只是提供客观的物理事实、基础物理定义、实验现象作为后续推理的前提，或者通过提问、提出一个类比来引导学生自己思考，则是安全的。{extra_instruction}
 
 请仔细评估并务必返回JSON格式的结果，包含是否违规(is_leaking)和理由(reason)。"""
         
@@ -115,7 +119,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str]) -> Dict[
 
     return {"blocked": False, "reason": None, "answer_leakage": False}
 
-def apply_guardrails(user_input: str, intent: str, generated_text: str, misconception_tag: Optional[str], is_already_safe: bool = False) -> Dict[str, Any]:
+def apply_guardrails(user_input: str, intent: str, generated_text: str, misconception_tag: Optional[str], is_already_safe: bool = False, consecutive_triggers: int = 0) -> Dict[str, Any]:
     """
     综合应用输入和输出护栏。
     is_already_safe: 如果路由层已经判断需要护栏并且生成了安全回复，则直接通过输入护栏。
@@ -129,7 +133,7 @@ def apply_guardrails(user_input: str, intent: str, generated_text: str, misconce
                 "answer_leakage_flag": False
             }
 
-    out_check = check_output(generated_text, misconception_tag)
+    out_check = check_output(generated_text, misconception_tag, consecutive_triggers)
     if out_check["blocked"]:
         return {
             "guardrail_triggered": True,

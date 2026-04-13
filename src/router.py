@@ -24,6 +24,7 @@ class SessionMemory(BaseModel):
     recent_states: List[str] = Field(default_factory=list)
     risk_events: List[str] = Field(default_factory=list)
     resolved: bool = False
+    consecutive_guardrail_triggers: int = 0
 
 @dataclass
 class RouteDecision:

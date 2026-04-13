@@ -9,8 +9,8 @@ if not DASHSCOPE_API_KEY and DEEPSEEK_API_KEY:
 
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
 
-TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen3.6-plus")
-JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
+TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "qwen-plus")
+JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-chat")
 
 # Legacy fallback for older code
 LLM_MODEL = os.environ.get("LLM_MODEL", TUTOR_MODEL)

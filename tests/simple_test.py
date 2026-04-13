@@ -7,14 +7,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # 设置 API 密钥
-os.environ["OPENROUTER_API_KEY"] = os.environ.get(
-    "OPENROUTER_API_KEY",
-    "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",
-)
-os.environ["DASHSCOPE_API_KEY"] = os.environ.get("DASHSCOPE_API_KEY", "sk-b8ad0a83bb8e4083bebd65be5645e7df")
-os.environ["LLM_BASE_URL"] = os.environ.get("LLM_BASE_URL", "https://openrouter.ai/api/v1")
-os.environ["TUTOR_MODEL"] = os.environ.get("TUTOR_MODEL", "qwen/qwen3.6-plus")
-os.environ["JUDGE_MODEL"] = os.environ.get("JUDGE_MODEL", os.environ["TUTOR_MODEL"])
+dashscope_api_key = os.environ.get("DASHSCOPE_API_KEY")
+if not dashscope_api_key:
+    raise ValueError("Missing DASHSCOPE_API_KEY environment variable.")
+
+os.environ["LLM_BASE_URL"] = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+os.environ["TUTOR_MODEL"] = os.environ.get("TUTOR_MODEL", "qwen-plus")
+os.environ["JUDGE_MODEL"] = os.environ.get("JUDGE_MODEL", "deepseek-chat")
 
 from src.main import SocraticTutorApp
 

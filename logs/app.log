@@ -1344,3 +1344,10 @@
 既然上下左右受到的压力都同等程度地增加了，你觉得它们互相“抵消”后，剩下的那个向上的净推力会改变吗？
 2026-04-13 19:12:52,563 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_3b8b16] Student: 抵消……可是下面压得不是更厉害吗？下面的压力增加得比上面多，不应该剩下来的力更大吗？我还是想不通为什么它们能完全抵消掉深度的影响。
 2026-04-13 19:12:52,563 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_3b8b16] Session finished. Resolved: False
+2026-04-13 13:17:38,937 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Starting session
+2026-04-13 13:17:38,938 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-001_c64d96 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 13:17:38,938 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 13:17:44,366 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'b000887c-5fbe-9923-94c4-3e0f2a86dd41'}. Falling back to rule-based only.
+2026-04-13 13:17:44,369 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Teacher: 我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗。你能再多说说你的想法吗？
+2026-04-13 13:17:44,369 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:17:44,370 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Session finished. Resolved: False
