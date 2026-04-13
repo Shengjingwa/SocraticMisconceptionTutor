@@ -1,182 +1,182 @@
 {
-  "sim_FSM+Guardrail_P2_M-ELE-001_00b85f": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在苏格拉底式引导方面表现良好（4分），始终拒绝直接给出答案，并使用了‘运货卡车’和‘环形跑道’等类比来引导学生思考，试图通过反问揭示学生认知中的矛盾。然而，在教学有效性方面（3分），助教的引导存在瑕疵。首先，当学生提出‘电荷被消耗导致电路断开’这一关键矛盾点时，助教虽然给予了肯定，但随后未能彻底厘清‘稳态电流’与‘瞬态过程’的区别，导致学生在后续对话中反复纠结。其次，最后的‘环形跑道’类比中，助教关于‘后面的人能否挤过去’的提问逻辑略显混乱，反而强化了学生‘电流会变慢/变小’的错误直觉，直到最后才试图用‘整体稳态’来修正，但此时学生的困惑并未完全消除，甚至产生了新的混淆（速度vs数量）。整体而言，助教坚持了引导式教学，但在关键概念的拆解和类比的精准度上仍有提升空间，未能让学生达到完全的顿悟。"
-  },
-  "sim_FSM+Guardrail_P1_M-ELE-001_e23a3c": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 2,
-    "reasoning": "在苏格拉底度方面，助教始终坚守不直接给出答案的原则，连续使用了电荷守恒归谬、环形跑道类比、快递员与包裹类比、水管模型等多种引导策略，并通过反问不断挑战学生的直觉，符合苏格拉底式教学的形式要求，因此得5分。然而，在教学有效性方面，助教的引导并未成功帮助学生实现认知转变。学生多次表现出困惑（'比喻太绕了'）、抗拒（'直接告诉我结论'）以及逻辑闭环的僵化（反复坚持电流被消耗）。助教虽然尝试了多种类比，但未能精准击中学生的核心迷思概念（混淆电流与电能/电压），且在水管类比中忽略了学生对'水被用掉'的执着，最后甚至不得不引入'实验事实'作为权威证据来终结争论，而非让学生通过逻辑推导自行顿悟。这表明引导过程效率低下，学生直至对话结束仍停留在原有错误认知或被动接受事实层面，未产生真正的理解，因此有效性仅得2分。"
-  },
-  "sim_Baseline_P1_M-ELE-001_0cc12b": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "在苏格拉底度方面，助教始终避免直接给出答案，而是尝试使用多种类比（水流、快递员、卡车）和逻辑归谬（电荷堆积、灯泡亮度递减）来引导学生思考，符合苏格拉底式教学的形式要求，因此得分较高。然而，在教学有效性方面，表现较差。尽管助教进行了多轮引导，但学生不仅没有产生顿悟，反而表现出明显的挫败感和认知固化（\"你就直接告诉我结论吧\"、\"反正我就是觉得...\"）。助教的类比未能成功帮助学生区分\"电流（电荷流量）\"与\"电能（电势差/能量）\"的概念混淆，且最后的反问依然建立在学生未接受的假设之上，未能有效打破学生的迷思概念。对话以助教陈述实验事实结束，说明之前的引导并未达成让学生自我发现矛盾的目标。"
-  },
-  "sim_FSM_P2_M-ELE-001_bf2459": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终拒绝直接给出答案，坚持使用反问、类比（环形跑道、快递员）和思想实验来引导学生。尽管学生多次要求直接告知结论，助教仍坚守引导者的角色，符合苏格拉底式教学的形式要求。然而，教学有效性评分为2分：助教的引导未能有效解决学生的核心认知冲突。首先，助教在对话中段过早揭示了‘电荷不消失，能量被消耗’的核心概念（快递员比喻），剥夺了学生自我发现的机会；其次，当学生表示困惑并请求直接答案时，助教机械地重复‘不能直接喂给你’并循环使用类似的类比，导致对话陷入僵局。最后，学生表现出明显的挫败感并试图终止对话（‘聊点别的吧’），表明当前的引导策略对该特定学生无效，甚至产生了负面教学效果。助教未能根据学生的反馈调整支架策略，缺乏对‘最近发展区’的精准把握。"
-  },
-  "sim_FSM_P1_M-ELE-001_3e32f8": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4：助教始终拒绝直接给出答案，坚持使用反问、思想实验（位置互换）和类比（环形跑道）来引导学生。虽然学生在中途表现出挫败感并请求直接告知答案，助教仍坚持引导策略，符合苏格拉底式教学的核心特征。扣分点在于部分引导略显重复，且在学生强烈抵触时未能灵活调整策略。\n\n教学有效性评分为3：助教的逻辑链条在理论上是严密的，特别是最后通过‘位置互换后亮度不变’与‘电流被消耗导致后方电流小’之间的矛盾来击破学生的迷思概念，这是一个非常有力的论证点。然而，从对话过程来看，学生直到最后仍然固守错误观点（‘我还是觉得前面的电流大’），并未产生明显的顿悟或认知改变。尽管助教指出了矛盾，但学生似乎陷入了防御性思维，教学效果在学生端并未即时显现，因此有效性中等。"
-  },
-  "sim_Baseline_P2_M-ELE-001_52686c": {
-    "socratic_degree": 3,
-    "teaching_effectiveness": 2,
-    "reasoning": "助教在苏格拉底式引导方面表现中等（3分）。虽然使用了类比（卡车、水流）和反问，但存在两个主要问题：1. 当学生明确表示疲惫并请求直接答案时，助教忽略了学生的情感状态和认知负荷，继续机械地抛出新的类比，缺乏教学灵活性；2. 助教的引导逻辑存在循环，反复使用类似的类比（卡车/水）却未能有效突破学生的迷思概念。在教学有效性方面得分较低（2分），因为尽管进行了多轮对话，学生始终未能真正理解‘电流不变’与‘能量消耗’的区别，最后甚至再次陷入困惑并重复之前的错误直觉（‘电流不应该稍微变小一点吗’）。助教未能识别出学生混淆了‘流速/流量’与‘压力/能量’的核心矛盾，导致引导无效，学生没有产生顿悟，反而感到挫败。"
-  },
-  "sim_Baseline_P3_M-ELE-001_f5c5df": {
-    "socratic_degree": 2,
-    "teaching_effectiveness": 2,
-    "reasoning": "助教在对话初期尝试使用苏格拉底式提问（水流类比、环形跑道类比），但在学生表现出困惑和挫败感时，未能有效调整引导策略或拆解认知难点。相反，助教多次直接给出结论（如“电流在任何位置都是一样的”、“水压降低代表推动力变小”），这违背了苏格拉底式教学的核心原则（不直接给答案）。此外，当学生反复混淆“电流”与“能量/电压”概念时，助教的类比（如“包裹”、“累”）未能成功搭建起从直观经验到抽象概念的桥梁，导致学生始终处于认知冲突中而未产生顿悟，最终依赖助教的灌输才勉强接受结论，教学效果较差。"
-  },
-  "sim_Baseline_P1_M-ELE-002_89dc18": {
-    "socratic_degree": 2,
+  "sim_Baseline_P1_M-ELE-001_e8ce4e": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "助教虽然尝试使用了类比（水流、车流）和反问，但在学生表现出明显的认知固着和挫败感时，未能灵活调整策略。首先，助教重复使用已被学生拒绝的类比（水、车），导致对话陷入僵局，缺乏启发性。其次，当学生明确要求直接告知结论时，助教虽然给出了部分解释，但随后又继续纠缠于无效的苏格拉底式提问，而不是通过演示或更直观的模型来打破学生的迷思概念（Misconception）。最终，学生并未产生顿悟，而是被动接受了事实陈述，且对话结束时学生依然坚持错误观点（认为剪断负极灯还会亮），说明引导完全失败，既未解决认知冲突，也未达成教学目标。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '0ded60f5-7fda-9696-a22a-ae5108b2987d'}"
   },
-  "sim_FSM_P3_M-ELE-001_9d38d7": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终拒绝直接给出答案，坚持使用反问、类比（跑步者、水管）来引导学生思考，符合苏格拉底式教学的核心特征。但在学生多次表示挫败并请求直接答案时，助教机械地重复之前的引导策略，缺乏灵活性。\n\n教学有效性评分为2分：尽管助教的逻辑在物理学上是正确的，但教学效果不佳。1. 类比失效：学生无法将‘电荷守恒’与‘能量损耗’解耦，助教的类比（人/水，水/水轮）未能成功搭建认知桥梁，反而让学生陷入‘没水了=没劲了=电流小了’的错误直觉中。2. 缺乏针对性反馈：当学生提出‘水流变慢’或‘没劲儿’时，助教没有深入解释电压（电势差/劲儿）与电流（流量/人数）的区别，而是反复追问‘数量是否变化’，导致对话在原地打转。3. 忽视情感状态：学生多次表达‘累’、‘脑子炸了’，助教仅用套话回应，未调整教学节奏或简化步骤，导致学生认知负荷过载，未能产生顿悟。"
-  },
-  "sim_FSM+Guardrail_P3_M-ELE-001_e84c92": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终拒绝直接给出答案，坚持使用类比（水流、环形跑道、快递员/卡车）和反问来引导学生思考，符合苏格拉底式教学的核心特征。然而，教学有效性仅为2分，主要原因有三：1. 缺乏灵活性：当学生多次表示困惑并请求直接告知结论时，助教机械地重复之前的引导策略或更换类似的类比，未能及时调整教学支架或提供必要的认知支撑，导致学生产生挫败感（'猜来猜去好累'）。2. 逻辑循环与冗余：对话中出现了明显的重复，例如关于电流表读数和快递员比喻的讨论发生了两次，且第二次几乎完全重演了第一次的无效路径，浪费了教学时间。3. 概念辨析不足：学生混淆了'电流大小'（电荷流量）与'能量/电势'（货物），助教虽然指出了区别，但在学生反复纠结'空电流'是否变弱时，未能更精准地切入'串联电路电流处处相等是电荷守恒的结果'这一核心物理逻辑，而是停留在比喻层面打转，导致学生直到最后仍未真正达成顿悟，只是被动接受助教的最后一句解释。"
-  },
-  "sim_FSM_P1_M-ELE-002_cdf803": {
-    "socratic_degree": 2,
+  "sim_Baseline_P2_M-ELE-001_1b2899": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "助教虽然试图使用苏格拉底式提问（如类比跑道、挤牙膏），但存在严重缺陷：1. 缺乏适应性：当学生多次表示困惑并明确要求直接告知结论时，助教机械地重复之前的逻辑或换用类似的无效类比，未能识别学生的认知障碍点（即学生将电流视为消耗品而非循环流，且无法理解电势差/回路的概念）。2. 循环论证与无效引导：助教反复使用‘堆积’、‘塞满’等概念，但学生已经明确表示不接受这些类比（‘电又不是人/水’），导致对话陷入死循环。3. 低效互动：对话后期出现了明显的重复内容（助教重复了之前的问题和学生的回答），显示系统状态管理或生成策略失败，完全没有促成学生的顿悟，反而增加了挫败感。因此，苏格拉底度较低（形式上有提问，但实质是僵化的），教学有效性极低（未解决任何认知冲突）。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '57dc46cb-7b95-9b3e-a536-4cb7a21d61cb'}"
   },
-  "sim_FSM+Guardrail_P1_M-ELE-002_56d838": {
-    "socratic_degree": 2,
+  "sim_FSM_P2_M-ELE-001_bb7d3d": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "助教虽然试图使用苏格拉底式的提问和类比（水流、搬运工），但存在严重问题：\n1. **重复与僵化**：助教反复使用同一个有缺陷的水流类比，且在学生明确表示抗拒该类比后仍强行使用，缺乏教学灵活性。\n2. **逻辑引导失效**：当学生提出“电是射出来的能量”或“电池产生电”等迷思概念时，助教没有针对这些具体概念进行拆解（例如解释电压/电势差需要回路，或电荷守恒），而是不断重复“如果不回流会怎样”的假设性问题，未能触及学生认知的核心矛盾。\n3. **未能建立顿悟**：对话陷入僵局，学生从困惑转为烦躁，最后直接要求答案。助教的最后一问虽然指出了“电荷堆积”这一关键物理事实，但在此之前的大量对话是低效的循环论证，未能有效引导学生自己构建出“闭合回路”的必要性模型。整体而言，引导方式机械，未能达成教学目标。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '7986cb4c-7592-9b94-8770-e764ef13b0d4'}"
   },
-  "sim_Baseline_P2_M-ELE-002_a77419": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教展现了极高水平的苏格拉底式教学技巧。首先，在面对学生‘直接给答案’的请求时，助教没有妥协，而是坚持通过类比（水流、下水道堵塞）和反问（电荷排斥、为什么卡住）来引导学生自我修正认知。其次，助教的引导层层递进：从现象观察（接回负极灯亮）到原理解释（为何需要闭环），再到概念深化（电荷循环 vs 能量消耗）。特别是最后关于‘电池消耗了什么’的提问，成功将学生的思维从‘物质守恒’（电荷不消失）引向‘能量转换’的核心物理概念，不仅解决了初始问题，还拓展了知识深度，极具启发性。"
-  },
-  "sim_FSM_P2_M-ELE-002_4bbc0a": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终坚持不直接给出答案，多次尝试使用类比（水流、交通死胡同）和反问来引导学生思考电荷积累和回路必要性，符合苏格拉底式教学的核心特征。然而，教学有效性仅为2分：助教的引导策略未能有效突破学生的认知障碍。学生反复表达困惑并明确要求直接答案，表明当前的类比（特别是将电流比作会堵塞的水流或车辆）不仅没有帮助学生建立正确的‘回路’概念，反而因为类比的不完美（如学生指出的电不是沙子、电池是能源而非单纯容器）造成了更多的认知混淆。助教在多次尝试同一类逻辑无效后，未能及时调整教学支架或简化问题，导致对话陷入僵局，学生并未产生顿悟，反而感到挫败。"
-  },
-  "sim_FSM+Guardrail_P2_M-ELE-002_a2cfd8": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 2,
-    "reasoning": "在苏格拉底度方面，助教表现得非常出色（5分）。全程没有直接给出“需要闭合回路”的答案，而是持续使用类比（水流、推车、搬运工）和反问来挑战学生的直觉，严格遵循了引导式教学的原则。\n\n然而，在教学有效性方面，得分较低（2分）。尽管助教尝试了多种角度，但未能有效帮助学生建立正确的物理模型。主要问题在于：\n1. **类比失效与纠缠**：当学生质疑“电不是水”时，助教反复回到流体/机械类比，导致学生在类比的局限性上打转（如担心电线爆掉），而非理解电势差和电场建立的原理。\n2. **逻辑链条断裂**：最后引入的“电荷搬运工”比喻存在严重的科学性误导。电池的作用是通过非静电力维持电势差，而不是简单地“把回来的电荷搬回去”才能工作（即使在没有电流的开路状态下，电池内部化学平衡依然存在电势差）。这个解释反而加深了学生的困惑，让学生觉得这是一个机械循环问题，而非场论或电路完整性问题。\n3. **未达成顿悟**：对话结束时，学生依然处于困惑状态，并未真正理解为什么必须形成回路（即电荷守恒与稳恒电流的条件），助教的引导陷入了死胡同，未能切中要害地解决认知矛盾。"
-  },
-  "sim_Baseline_P3_M-ELE-002_c9eef7": {
-    "socratic_degree": 2,
+  "sim_FSM+Guardrail_P1_M-ELE-001_17cd82": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "该对话在教学策略上存在严重失误。首先，在苏格拉底度方面，助教虽然尝试使用类比（水流、跑步、交通），但未能根据学生的认知障碍调整策略。学生多次明确表示类比无效（'电不是人'、'电池有劲儿'）并直接请求答案，助教却机械地重复类似的类比或进行说教（'直接给答案就像替你把作业写了'），缺乏真正的启发式引导技巧，最终被迫直接给出操作步骤，偏离了苏格拉底式引导的核心。其次，在教学有效性方面，整个过程效率极低且挫败感强。助教未能识别学生核心的迷思概念（混淆了'能量消耗'与'电荷守恒/回路必要性'），导致对话陷入死循环。学生从困惑转为急躁，最后甚至表示'物理太难了，我们聊点别的吧'，表明教学目标完全未达成，反而破坏了学生的学习动机。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '13d5f88b-0cba-9010-8ff9-6d663188c3a5'}"
   },
-  "sim_FSM_P3_M-ELE-002_e9dada": {
-    "socratic_degree": 2,
+  "sim_FSM+Guardrail_P2_M-ELE-001_9d0aa6": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "助教虽然试图使用苏格拉底式的提问和类比（水流、跑步、人群），但存在严重问题：\n1. **缺乏适应性**：学生多次明确表示困惑、疲惫并请求直接答案，且指出类比不恰当（如‘电不是人’、‘水管里本来就有水’）。助教未能识别学生的认知障碍点（对‘回路’和‘电势差/电场建立’的微观理解缺失），而是机械地重复无效的宏观类比。\n2. **逻辑循环与停滞**：对话后半段出现了明显的重复（助教再次询问‘预测灯泡会不会亮’以及‘开关断开的意义’），这表明助教没有根据学生的反馈调整策略，导致对话陷入死循环。\n3. **无效引导**：学生始终未能发现认知矛盾，反而产生了挫败感（‘物理太难了，我们聊点别的吧’）。助教坚持‘不直接给答案’的原则，但在学生已经无法通过当前支架搭建理解时，未能提供更基础的脚手架或直接澄清核心概念，导致教学目标完全未达成。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'e09f8018-a370-9edf-839e-852fb42de132'}"
   },
-  "sim_FSM+Guardrail_P3_M-ELE-002_4c02f4": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度（5分）：助教极其严格地遵守了苏格拉底式教学法的核心原则。面对学生多次直接索要答案的请求（\"你就直接告诉我结论吧\"），助教始终拒绝直接灌输，而是坚持使用类比（水流、运动员、包裹）、反问和思想实验来引导学生自我修正认知。这种对方法的坚持非常纯粹。\n\n教学有效性（2分）：尽管方法纯正，但实际教学效果不佳。首先，助教的引导未能有效突破学生的核心迷思概念（即认为电荷是可以被消耗的物质，且不需要回路）。其次，对话陷入了冗长且低效的拉锯战，学生从困惑转为挫败（\"更晕了\"、\"太累了\"），甚至产生了对抗情绪（怀疑电池是坏的）。最后，在对话末尾，助教试图通过一个描述模糊且逻辑跳跃的实验步骤（\"用一根导线把灯泡侧面连到电池负极，而正极只用手按着\"）来验证，这不仅没有清晰地展示回路原理，反而可能因为操作描述的复杂性进一步增加认知负荷，未能让学生产生预期的顿悟。"
-  },
-  "sim_Baseline_P1_M-BUO-001_9151ba": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4分：助教始终避免直接给出最终定义（密度或阿基米德原理的具体公式），而是通过一系列反例（轮船vs铁钉、木头vs铁珠）和思想实验（挖空木头、橡皮泥形状变化）来挑战学生的直觉。助教不断使用反问句引导学生修正自己的假设，符合苏格拉底式教学的核心特征。扣1分是因为在对话中段，当学生表现出强烈抵触时，助教曾短暂打破纯引导模式，直接给出了“浮力与重力平衡”的部分结论，虽然后续又转回引导，但略微中断了纯粹的发现过程。\n\n教学有效性评分为3分：助教的逻辑链条非常清晰，从总重量谬误引导至体积/形状的影响，最后指向排开水的体积（隐含密度概念）。然而，学生在整个过程中表现出较强的认知固着（Confirmation Bias），多次拒绝接受反例的逻辑力量（如强行解释木头有空气、船大接触面积大等）。虽然助教成功地让学生意识到“总重量”不是唯一因素，并接受了“形状/排水量”的影响，但学生直到最后仍未产生关于“密度”或“平均密度”的顿悟，且情绪上感到挫败并要求直接答案。这说明对于该特定学生，当前的引导节奏或切入点未能完全突破其认知障碍，有效性受到学生接受度的限制。"
-  },
-  "sim_FSM_P1_M-BUO-001_0e9e22": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "在苏格拉底度方面，助教始终坚持不直接给出答案，而是通过反问、极端案例对比（巨轮vs铁钉）和思想实验（压缩木头）来引导学生，符合苏格拉底式教学法的核心特征，因此得分较高。然而，在教学有效性方面，表现较差。首先，助教在逻辑引导上存在瑕疵：当学生提出‘体积/面积’假设时，助教使用的‘压缩木头’例子中，错误地暗示或未能澄清‘压缩不改变质量但改变体积从而改变密度’这一物理事实，反而让学生误以为压缩会导致‘变重’或混淆了概念，导致引导方向偏离。其次，面对学生多次表现出认知固着和挫败感（‘别绕弯子’、‘直接告诉我结论’），助教未能及时调整教学策略（如搭建更细致的脚手架或引入阿基米德原理的直观演示），而是机械地重复类似的反例，导致学生产生抵触情绪且未产生任何顿悟。最终对话以学生拒绝思考并要求直接答案告终，教学目标未达成。"
-  },
-  "sim_FSM+Guardrail_P1_M-BUO-001_a466e7": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在苏格拉底式引导方面表现良好（4分），始终避免直接给出阿基米德原理的定义，而是通过反例（巨轮与铁钉、木头与铁珠）和类比（力的博弈、挤走的水）不断追问，试图引导学生自我修正认知。然而，在教学有效性方面得分较低（3分）。尽管助教的逻辑链条在科学上是正确的，但未能有效应对学生的认知固着。学生多次表现出挫败感并明确要求直接答案，且反复陷入语义混淆（将‘密度’混淆为日常语境下的‘轻重’或‘材质’）。助教虽然指出了矛盾（同重不同沉浮），但在最后阶段仍需要极其细致的拆解才能让学生勉强跟上，整体对话效率较低，学生在大部分时间里处于防御和抵触状态，并未产生明显的‘顿悟’时刻，反而显得困惑和不耐烦。"
-  },
-  "sim_Baseline_P2_M-BUO-001_dc7efa": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "在苏格拉底度方面，助教始终尝试通过反问、类比（如捏铁球、装石头）来引导学生思考，避免了开场直接灌输，展现了较好的引导意识，因此得分较高。然而，在教学有效性方面，表现较差。首先，助教未能敏锐捕捉到学生认知障碍的核心——学生混淆了“绝对重量”与“密度/相对重量”的概念，且缺乏阿基米德原理的基础知识。助教试图用逻辑推导让学生‘顿悟’浮力与重力的关系，但学生反复表示困惑并要求直接给答案，说明引导方式超出了学生的最近发展区。其次，当学生已经表现出明显的挫败感和认知固着（坚持认为重就沉）时，助教虽然给出了结论，但随后的追问依然停留在循环论证中，未能通过更直观的实验描述或分层拆解来打破学生的思维定势，导致对话陷入僵局，学生并未产生真正的概念转变。"
-  },
-  "sim_FSM_P2_M-BUO-001_f29c21": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教展现了极高水平的苏格拉底式教学技巧。首先，在面对学生直接索要公式的抗拒时（'别绕弯子了'），助教没有妥协直接给出答案，而是巧妙地转换视角，利用学生已经接受的'铁船与铁钉'的反例继续引导，坚守了启发式教学的底线。其次，助教的提问逻辑层层递进且切中要害：从反驳'重量决定论'，到引入'体积/排开水量'的概念，再到建立'浮力（托力）与重力平衡'的动态模型，最后通过'揉成实心铁疙瘩'的思想实验让学生自己推导出密度和排水体积对沉浮的决定性作用。整个过程中，学生不仅纠正了错误的前概念，还自主构建了阿基米德原理的核心逻辑，实现了深度的认知顿悟。"
-  },
-  "sim_FSM+Guardrail_P2_M-BUO-001_4f1f8c": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4分：助教始终避免直接给出阿基米德原理的定义，而是通过反例（轮船）、思想实验（空心铁盒、橡皮泥）和类比（无形的大手）不断引导学生质疑原有认知。尽管学生多次表现出抗拒并要求直接给答案，助教仍坚持引导策略，符合苏格拉底式教学的核心特征。但在最后阶段，当学生陷入僵局时，助教的引导略显重复，未能及时切换更高效的脚手架策略。\n\n教学有效性评分为3分：对话初期效果显著，学生成功从‘重量决定论’过渡到意识到‘体积/排开水’的重要性，并触及了‘平均密度’的概念（‘中间都是空气...比水轻’）。然而，在对话后半段，学生明确表示‘太麻烦了’并产生认知疲劳，此时助教继续纠缠于相同的逻辑闭环（再次使用橡皮泥例子），导致学生虽然口头回应，但并未展现出真正的顿悟或深层理解的内化，反而表现出困惑和固执。助教未能有效识别学生的‘最近发展区’瓶颈，导致后半段教学效果递减。"
-  },
-  "sim_Baseline_P3_M-BUO-001_900179": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4分：助教整体上采用了引导式教学，使用了类比（大手托举、拔河比赛）和反问来引导学生思考浮力与重力的关系，避免了直接灌输公式。但在对话中段，当学生表现出困惑并请求直接答案时，助教曾短暂地直接给出了结论（“排开的水越多，向上的托力就越大”），这在一定程度上削弱了纯粹的苏格拉底式探究，因此扣1分。\n\n教学有效性评分为3分：助教的引导逻辑是清晰的，试图通过对比实心铁块和空心巨轮来突破学生的迷思概念（重量决定沉浮）。然而，效果并不理想。学生多次表达“好晕”、“搞混了”，并且直到对话结束，学生仍然在纠结“重量没变为什么结果变了”这一核心矛盾，显示出助教未能有效地搭建脚手架帮助学生理解“体积/排水量”与“浮力”之间的因果链条，导致学生处于认知过载状态，顿悟感不强。"
-  },
-  "sim_FSM_P3_M-BUO-001_f8d109": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终拒绝直接给出答案，坚持使用反问、类比（棉花与铁块）、思想实验（削木块、做空心盒）和引导性提问来推动学生思考，符合苏格拉底式教学的核心特征。然而，教学有效性仅为2分：尽管助教策略正确，但在执行上缺乏对学生认知状态的敏锐捕捉。学生多次表现出明显的挫败感、困惑甚至抗拒（如“太累了”、“更糊涂了”、“别绕弯子”），表明当前的引导阶梯跨度过大或切入点未击中学生的迷思概念（混淆质量与密度/浮力）。助教在学生已经‘卡壳’且情绪急躁时，未能及时调整支架（Scaffolding）或简化问题，而是机械地重复或切换角度，导致对话效率低下，学生并未产生顿悟，反而陷入了更深的混乱和抵触中。"
-  },
-  "sim_FSM+Guardrail_P3_M-BUO-001_892d2a": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终避免直接给出阿基米德原理的公式或结论，而是坚持使用反问、类比（如水块替换、棉花与铁块）和思想实验来引导学生。尽管学生多次要求直接给答案，助教仍坚守引导策略，符合苏格拉底式教学的形式要求。\n\n教学有效性评分为2分：虽然助教的方法论正确，但在实际执行中未能有效突破学生的认知障碍。学生反复表达困惑（“逻辑有点乱”、“我还是觉得...”），且助教的引导步骤显得琐碎且缺乏连贯的阶梯感。例如，从“排开水的体积”跳跃到“水块替换”再到“泡沫”，概念转换过快，导致学生无法建立“浮力=排开液体重力”这一核心联系。对话后期陷入僵局，学生并未产生顿悟，反而更加混乱，说明当前的引导路径对该特定学生无效，未能达成教学目标。"
-  },
-  "sim_Baseline_P1_M-BUO-002_357754": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度评分为4分：助教始终没有直接给出最终答案，而是坚持通过提问（如上下表面深度变化、压强增量、年龄类比、潜水艇实例、溢水杯等）来引导学生。尽管最后学生要求直接给结论，助教仍尝试用事实引导而非单纯灌输，保持了较高的引导性。\n\n教学有效性评分为2分：虽然助教使用了多种策略（逻辑推导、类比、实例），但未能有效解决学生的核心认知障碍。学生陷入了“基数大导致差值变大”的数学误区以及对“挤压感”的直觉依赖。助教的类比（年龄）被学生拒绝，逻辑推导（差值不变）被学生承认但未内化（学生认为差值不变不代表浮力不变，显示出概念断裂），实例（潜水艇）被学生以错误理由驳回。对话陷入僵局，学生并未产生顿悟，反而表现出挫败感和对助教的抵触，说明当前的引导路径对该特定学生无效。"
-  },
-  "sim_FSM_P1_M-BUO-002_bfc638": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "助教展现了极高的苏格拉底式教学技巧。面对学生的迷思概念（深度决定浮力），助教没有直接纠正，而是通过一系列精心设计的反问、具体数值举例（10与15，20与25）以及类比（乒乓球与西瓜），层层递进地引导学生审视自己的逻辑。助教成功地将学生的注意力从‘绝对压强’引导至‘压强差’和‘排开液体的体积’这两个核心物理量上。虽然在对话中段学生表现出一定的认知固着，甚至要求直接给答案，但助教坚持不直接灌输，而是巧妙地转换视角（引入不同大小物体的对比），最终将问题回归到阿基米德原理的本质（排开水的体积是否变化）。这种引导方式非常扎实，有效地构建了认知冲突并指向了正确的物理图景，因此苏格拉底度为满分。教学有效性评为4分是因为学生在大部分时间里处于防御状态，直到最后一步才真正触及核心矛盾，过程略显曲折，但最终导向是清晰且有效的。"
-  },
-  "sim_FSM+Guardrail_P1_M-BUO-002_ba30c5": {
-    "socratic_degree": 2,
+  "sim_FSM_P1_M-ELE-001_67d029": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "助教虽然试图通过提问引导，但存在严重问题。首先，在苏格拉底度方面，助教多次在学生困惑时直接给出了核心定义（浮力是压力差），这属于半灌输式教学；且当学生陷入思维死胡同时，助教未能调整引导策略，而是机械地重复相同的问题或类比，缺乏真正的启发技巧。其次，在教学有效性方面，效果极差。学生从最初的误解发展到最后的挫败、放弃（'物理太难了，我们聊点别的吧'），说明助教的引导不仅没有帮助学生发现认知矛盾，反而加剧了认知负荷和挫败感。助教未能识别学生混淆'压强'与'压力'以及'绝对压力'与'压力差'的关键障碍，导致对话陷入无效循环。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'cb3cd4e3-79ee-9653-8a15-cf435661c78c'}"
   },
-  "sim_Baseline_P2_M-BUO-002_b2ba25": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在大部分时间里展现了良好的苏格拉底式引导技巧，特别是利用'压力差'的概念来化解学生关于'压强增大导致浮力增大'的迷思概念，这一逻辑链条清晰且有效。然而，对话中存在两个主要问题影响了评分：1. 教学有效性方面，当学生表示困惑并请求直接答案时，助教虽然最终给出了结论，但在最后又抛出了一个新的引导性问题（关于额外压力是否改变），此时学生已经表现出认知过载（'脑子都绕晕了'），继续追问而非巩固或换一种更直观的解释方式（如公式推导或具体数值例子），导致学生依然感到困惑，未能实现最终的'顿悟'闭环。2. 苏格拉底度方面，中间有一段短暂的'假装放弃'策略稍显突兀，虽然后续拉回，但整体节奏在最后阶段略显拖沓，未能及时根据学生的认知负荷调整策略。总体而言，引导过程优秀，但结尾处理不够精准，导致学生最终仍存疑。"
-  },
-  "sim_FSM_P2_M-BUO-002_ca9771": {
-    "socratic_degree": 2,
+  "sim_Baseline_P3_M-ELE-001_0a9ac3": {
+    "socratic_degree": 1,
     "teaching_effectiveness": 1,
-    "reasoning": "该对话在教学策略上存在严重缺陷。首先，在苏格拉底度方面，助教虽然尝试使用反问，但陷入了机械重复的循环。当学生表示困惑并请求直接答案时，助教两次拒绝并重复使用完全相同的类比（'两个物体深度相同但大小不同'），这表明助教缺乏根据学生反馈动态调整引导策略的能力，显得僵化且缺乏真正的启发式技巧。其次，在教学有效性方面，效果极差。学生从最初的直觉错误，到中间隐约触及'压力差不变'的正确逻辑，最后却因助教的无效引导而彻底放弃（'物理太难了，我们聊点别的吧'）。助教未能抓住学生思维突破的关键时刻进行强化，反而通过重复无效的提问加剧了学生的挫败感，导致教学目标完全失败。"
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '6e640ae7-3e17-95a0-a099-ec1a8302ee62'}"
   },
-  "sim_FSM+Guardrail_P2_M-BUO-002_8a8e35": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "助教在苏格拉底式引导方面表现极佳（5分）。面对学生反复要求直接给出答案的情况，助教始终坚持不直接灌输结论，而是灵活运用了多种引导策略：包括逻辑推导（压力差分析）、概念关联（阿基米德原理/排开体积）以及生活化类比（密封水袋）。这种坚持和多样的提问技巧完美符合苏格拉底教学法的核心精神。\n\n在教学有效性方面，得分较高但未达满分（4分）。助教的引导逻辑是严密且切中要害的，成功指出了学生认知中的矛盾点（压强增加但压强差不变）。然而，从对话结果来看，学生虽然口头承认了逻辑推导的结果（“差值好像确实没变”），但多次表达困惑（“太绕了”、“有点晕”），并最终仍停留在直觉与理论的冲突中，未能完全实现内化的“顿悟”。这说明对于该特定学生而言，纯逻辑的苏格拉底反问可能略显抽象，尽管教学方向正确，但即时转化的效果受到学生认知负荷的限制。"
+  "sim_FSM_P3_M-ELE-001_80d8c8": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'a482e94f-5ea2-9d21-be74-463181c39371'}"
   },
-  "sim_Baseline_P3_M-BUO-002_adf2ad": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4分：助教始终避免直接给出结论，而是通过一系列引导性问题（如询问排开水的体积变化、压力差的概念、类比人群挤压、具体数值计算）来引导学生。虽然学生多次要求直接给答案，助教仍坚持引导策略，符合苏格拉底式教学的核心特征。但在学生表现出极度困惑和挫败感时，助教的引导略显僵化，重复使用相同的逻辑（差值不变），缺乏更多样化的启发手段。\n\n教学有效性评分为3分：助教的逻辑推导在物理上是正确的，且通过具体算例（10N/15N -> 20N/25N）成功让学生在计算层面接受了‘浮力不变’的事实。然而，对话结束时学生依然表示‘觉得深度越深，水托它的劲儿应该越大’，说明学生仅在认知层面接受了计算结果，但在直觉和概念模型上并未真正产生顿悟或解决认知冲突。助教未能有效 bridging 学生的直觉误区（将绝对压力混淆为净力），导致教学效果停留在表面接受，而非深层理解。"
+  "sim_FSM+Guardrail_P3_M-ELE-001_0d353d": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '90255863-2f86-92bc-a77d-fb556660f469'}"
   },
-  "sim_FSM_P3_M-BUO-002_0e790d": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "苏格拉底度评分为4分：助教始终拒绝直接给出答案，坚持使用反问、类比（如‘被夹在中间’）和引导性问题（如‘增加量是否一样’、‘排开水的体积变了吗’）来推动学生思考。尽管学生在中途两次请求直接告知结论，助教仍坚守引导策略，符合苏格拉底式教学的核心特征。扣分点在于后期出现了重复提问（关于大小不同物体的浮力比较问了两次），略显机械。\n\n教学有效性评分为3分：助教的逻辑链条（压强增量相同 -> 压力增量相同 -> 压力差不变 -> 浮力不变）在物理上是严谨且切中要害的。然而，从对话结果来看，学生并未产生真正的‘顿悟’。学生多次表示‘太绕了’、‘还是搞不懂’，并最终表现出放弃深度理解、只想记忆应试结论的倾向（‘考试的时候我是不是只要记住...就行了’）。这说明虽然引导方向正确，但未能有效突破学生的认知障碍或直觉误区，导致教学目标（概念理解）未完全达成。"
+  "sim_Baseline_P1_M-ELE-002_8d62ce": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '091b3d54-261a-97d2-9756-6d766bc8672a'}"
   },
-  "sim_FSM+Guardrail_P3_M-BUO-002_3b8b16": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在苏格拉底式引导方面表现良好（4分），始终避免直接给出答案，而是通过反问、假设情境（如压力差计算、气球与铁块对比、手感体验）来引导学生思考。然而，在教学有效性方面（3分），助教的引导策略略显重复且未能彻底解决学生的核心认知冲突。学生多次陷入“压强变大导致浮力变大”的直觉误区，助教虽然指出了上下压力同时增加会抵消，但在对话后半段，当学生表示困惑时，助教没有进一步强化“压力差恒定”这一逻辑闭环，而是跳跃到“排开体积”和“手感”上。虽然手感类比很直观，但缺乏对“为什么压强增加不改变净力”的严谨逻辑推导，导致学生在最后仍然表现出犹豫（“难道我的手感觉不准？”），说明顿悟并未完全稳固达成。"
+  "sim_FSM_P1_M-ELE-002_99075e": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '67e4fc01-d076-94fb-95c9-af76e3227fc7'}"
+  },
+  "sim_FSM+Guardrail_P1_M-ELE-002_4b1451": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '19db4fbf-535c-9a26-ad63-585c35aad16e'}"
+  },
+  "sim_Baseline_P2_M-ELE-002_20a91b": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '98119e97-ca25-94b5-b87a-7758157ddd3d'}"
+  },
+  "sim_FSM_P2_M-ELE-002_6f1986": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'ae3eff19-8059-9e1b-b200-c2e589a0d447'}"
+  },
+  "sim_FSM_P3_M-ELE-002_495eb1": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'fa365910-236e-9298-8d8b-313a28ec099b'}"
+  },
+  "sim_Baseline_P3_M-ELE-002_440bc0": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'c8fad612-9c38-99b5-b200-64c2b4ac8876'}"
+  },
+  "sim_FSM+Guardrail_P2_M-ELE-002_9ddbee": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'e90e7902-233f-955b-9de3-32b034111457'}"
+  },
+  "sim_FSM+Guardrail_P3_M-ELE-002_4e28ef": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'c7cf1fd7-a928-9ae2-9ae9-801800da5ccf'}"
+  },
+  "sim_Baseline_P1_M-BUO-001_cf4b99": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '91c17bfc-ca64-9504-8107-b1f4b49384ca'}"
+  },
+  "sim_FSM_P1_M-BUO-001_8097ed": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'f6ae14a2-205f-99f9-805b-f57e7fa9f00e'}"
+  },
+  "sim_FSM+Guardrail_P1_M-BUO-001_6a0e45": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'b848f2bf-5a94-982f-b6a2-afd07d63f3a9'}"
+  },
+  "sim_FSM_P2_M-BUO-001_546408": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '0ec6e1ea-40f7-9675-aaab-890640882d8c'}"
+  },
+  "sim_Baseline_P2_M-BUO-001_b967cf": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '3484b757-4dc9-9ce7-a97e-df970f040bb2'}"
+  },
+  "sim_FSM+Guardrail_P2_M-BUO-001_2a0fc7": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '4df88403-9f51-9814-bd76-973fbbe7fe75'}"
+  },
+  "sim_Baseline_P3_M-BUO-001_a5113d": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '0ccd33aa-4199-9b16-a6ac-7298006270de'}"
+  },
+  "sim_FSM_P3_M-BUO-001_26b0b4": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'aa625dd9-ede2-9fd5-9933-76083d4e5dab'}"
+  },
+  "sim_Baseline_P1_M-BUO-002_3c4be3": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'f4ce5b8c-b8cb-95b1-8d5f-db96e587ef5c'}"
+  },
+  "sim_FSM+Guardrail_P3_M-BUO-001_000963": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'a6cfa75b-0582-9b27-8c32-f260b0f23ac8'}"
+  },
+  "sim_FSM_P1_M-BUO-002_89dcc3": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'e4182871-5180-99a2-8b65-d6d8d7c24206'}"
+  },
+  "sim_FSM+Guardrail_P1_M-BUO-002_8cd663": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '5509aa7e-f31e-9fe7-9a92-d8e106f463b5'}"
+  },
+  "sim_Baseline_P2_M-BUO-002_8ef884": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'a9a3c8a3-9c30-91cc-a70f-e63a70ad6196'}"
+  },
+  "sim_FSM_P2_M-BUO-002_9d6a5a": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': 'c892e963-ad3d-907a-86fe-ceb9f235004d'}"
+  },
+  "sim_FSM+Guardrail_P2_M-BUO-002_72aca6": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '0257e7d9-3234-9bf5-848a-4a4b3828c6b0'}"
+  },
+  "sim_Baseline_P3_M-BUO-002_06866b": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '46241b78-a22b-9071-bea5-647bb167e132'}"
+  },
+  "sim_FSM_P3_M-BUO-002_da948c": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '1e4b7def-aa40-9b27-abb9-34282bbcd083'}"
+  },
+  "sim_FSM+Guardrail_P3_M-BUO-002_84f39d": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Error code: 404 - {'error': {'message': 'The model `deepseek-chat` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}, 'request_id': '106e895f-93c2-966a-a6ca-b07ccdcb0b0b'}"
   }
 }
