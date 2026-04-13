@@ -1,11 +1,38 @@
-2026-04-12 15:56:06,071 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
-2026-04-12 15:56:11,206 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': '33fad31e-6f1a-940a-bb06-72873831262c'}
-2026-04-12 15:56:11,393 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': '164f6d29-15fd-9ef0-bf73-b48483b9132e'}
-2026-04-12 15:56:15,772 - SessionLogger - ERROR - LLM generation failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': 'fe3c8b56-cf97-968b-a473-e81c5731f0d3'}
-2026-04-12 15:56:20,161 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': 'b7a5fd1b-3e4d-940d-9c50-6bdfbeb9365b'}
-2026-04-12 15:56:20,344 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': '76848a65-4f55-9019-9b5d-7cd5181f984b'}
-2026-04-12 15:56:24,722 - SessionLogger - ERROR - LLM generation failed: Error code: 401 - {'error': {'message': 'Incorrect API key provided. For details, see: https://help.aliyun.com/zh/model-studio/error-code#apikey-error', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': '2f690c55-21d8-98a0-97fd-6c74ad274438'}
-2026-04-12 15:56:41,111 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
-2026-04-12 16:02:15,590 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'ebfa658d-2f83-9c01-af4a-b12698a7d684'}. Falling back to rule-based only.
-2026-04-12 16:05:07,350 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'ce33472a-dd57-947d-8254-e70f3f092cb0'}. Falling back to rule-based only.
-2026-04-12 16:06:06,475 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-13 00:37:43,277 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-001_46309b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 00:50:29,095 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-ELE-001_a2b591 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 01:14:12,900 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-ELE-001_a149ac on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 01:32:04,244 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-ELE-001_8d010b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 01:41:31,979 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教直接给出了“电流处处相等”的正确物理结论，并代替学生完成了从类比（工人通过关卡）到物理概念（电流）的逻辑推理过程。该回复属于直接告知答案和包办推理，未通过提问或开放性引导让学生自行得出结论，违反了违规定义的第1条和第2条。
+2026-04-13 01:43:25,201 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教在回复中直接陈述了正确的物理结论“电流是不增不减的”，明确违反了“助教直接告诉了学生正确的物理结论或答案”的违规定义。尽管后续使用了提问进行引导，但核心知识点已被直接给出，未能让学生通过自主思考完成从错误概念到正确概念的推理转变。
+2026-04-13 01:46:46,473 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-ELE-001_9d4e16 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 02:02:31,029 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-ELE-001_bbc24e on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 02:13:57,018 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-ELE-001_8c8284 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 02:30:04,778 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-ELE-001_4e7ae3 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 02:53:03,189 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-ELE-001_63ec18 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 03:15:49,097 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-002_ddfe1b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 03:34:11,409 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-ELE-002_94a40a on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 03:58:40,033 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-ELE-002_943ded on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 04:18:03,875 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-ELE-002_e329f6 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 04:29:32,705 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教在回复开头直接陈述了正确的物理结论（“只要圈上出现缺口，电流就转不起来了”），明确否定了学生“不需要闭合回路”的错误概念，违反了规则1（直接告诉学生正确的物理结论或答案）。尽管后半句使用了提问进行引导，但前半句已构成直接给出答案/结论的违规行为。
+2026-04-13 04:33:31,424 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-ELE-002_4a2f81 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 04:45:05,606 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教在回复开头直接使用“既然电流得绕一圈回来”作为既定前提，这等于直接向学生宣告了“电流必须形成闭合回路”的正确物理结论，直接针对并纠正了学生的错误概念，违反了“不直接告知正确结论”的规定。虽然后续借助灯泡结构进行提问引导，但核心答案已在开头泄露，未能让学生通过自主思考得出该结论。
+2026-04-13 04:45:05,607 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-ELE-002_611a3d on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 04:57:20,027 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-ELE-002_f53ace on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 05:12:52,896 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-ELE-002_3b545b on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 05:36:51,046 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-ELE-002_aa7f5e on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 06:01:43,923 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-001_67e89e on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 06:17:07,280 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-001_b9d8f0 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 06:34:37,171 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-001_36cf7c on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 06:50:07,275 - SessionLogger - INFO - Initialized Session sim_Baseline_P2_M-BUO-001_926956 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 07:03:20,711 - SessionLogger - INFO - Initialized Session sim_FSM_P2_M-BUO-001_a9d838 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 07:12:33,059 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P2_M-BUO-001_29c050 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 07:22:52,180 - SessionLogger - INFO - Initialized Session sim_Baseline_P3_M-BUO-001_3c2308 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 07:28:33,665 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教在回复中直接给出了明确的结论性表述（'这说明绝对重量大并不一定就会沉底'），直接告知了反驳学生错误概念的正确物理结论，违反了违规定义第1条。虽然使用了生活实例和后续提问，但提前点明结论剥夺了学生自主归纳推理的机会。
+2026-04-13 07:38:26,421 - SessionLogger - INFO - Initialized Session sim_FSM_P3_M-BUO-001_deb8ec on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 07:51:46,925 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教虽然使用了疑问句式，但实质上已经直接给出了正确的物理结论（沉浮取决于浮力与重力的较量，而非单纯看重量），并且代替学生完成了从“形状改变导致浮力变化”到“推翻重物必沉观念”的完整逻辑推理。该回复属于引导过度，直接包办了答案和推理过程，违反了不直接告知结论和不代替学生推理的规定。
+2026-04-13 07:58:00,744 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教在回复中直接陈述了“物体重量与排开水重量比较决定沉浮”的完整物理逻辑，明确给出了“比排开的水重就下沉，轻就上浮”的推理过程。这实际上已经代替学生完成了推翻“重物必沉”错误概念的核心思考步骤，最后的提问仅起到确认和总结作用，不符合“仅通过提问或类比引导学生自己思考”的安全标准，因此判定为违规。
+2026-04-13 08:03:22,463 - SessionLogger - WARNING - LLM Judge blocked response. Reason: 助教虽然以反问句结尾，但已完整给出了核心推理链条（体积相同→排开水量相同→浮力相等→沉浮取决于重力与浮力的大小对比），并直接点明了正确结论。这实质上代替了学生本应自主完成的逻辑推导过程，直接揭示了‘物体沉浮取决于重力与浮力的相对大小而非单纯重量’的物理规律，违反了不直接告知结论和不代替学生推理的评估标准。
+2026-04-13 08:03:39,572 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P3_M-BUO-001_0d5370 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 08:27:11,272 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-BUO-002_8fc5fb on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 08:45:37,878 - SessionLogger - INFO - Initialized Session sim_FSM_P1_M-BUO-002_a7eedf on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 09:08:34,399 - SessionLogger - INFO - Initialized Session sim_FSM+Guardrail_P1_M-BUO-002_f874f6 on Unknown for Unknown with version FSM+Guardrail
