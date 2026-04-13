@@ -5,7 +5,6 @@ import uuid
 from pathlib import Path
 import sys
 from typing import Dict, Any, List
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from tenacity import retry, stop_after_attempt, wait_exponential
 
@@ -33,11 +32,8 @@ class SimulatedStudent:
             else:
                 kwargs.setdefault("extra_body", {})["enable_thinking"] = False
 
-            self.llm = ChatOpenAI(
-                model=config.TUTOR_MODEL, 
+            self.llm = config.get_tutor_llm(
                 temperature=0.7,
-                api_key=self.api_key,
-                base_url=config.LLM_BASE_URL,
                 **kwargs
             )
         self.history: List[Any] = []

@@ -64,7 +64,6 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
 
     # 2. LLM-as-a-Judge 深度语义检测
     try:
-        from langchain_openai import ChatOpenAI
         from langchain_core.messages import SystemMessage, HumanMessage
         from pydantic import BaseModel, Field
         from tenacity import retry, wait_exponential, stop_after_attempt
@@ -73,10 +72,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             is_leaking: bool = Field(description="该回复是否直接给出了最终的物理结论，或者代替学生完成了推导过程。")
             reason: str = Field(description="判断理由")
 
-        llm = ChatOpenAI(
-            model=config.TUTOR_MODEL,
-            api_key=config.DASHSCOPE_API_KEY,
-            base_url=config.LLM_BASE_URL,
+        llm = config.get_tutor_llm(
             temperature=0.0,
             **config.DEFAULT_LLM_KWARGS
         )

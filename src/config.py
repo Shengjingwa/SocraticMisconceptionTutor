@@ -26,3 +26,33 @@ RETRY_STOP_ATTEMPT = 3
 # Memory / History Configuration
 MAX_HISTORY_TURNS = int(os.environ.get("MAX_HISTORY_TURNS", "6"))
 SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "6"))
+
+from langchain_openai import ChatOpenAI
+
+def get_tutor_llm(**kwargs):
+    openrouter_api_key = os.environ.get("OPENROUTER_API_KEY", "")
+    openrouter_llm = ChatOpenAI(
+        model="qwen/qwen3.6-plus:free",
+        base_url="https://openrouter.ai/api/v1",
+        api_key=openrouter_api_key,
+        **kwargs
+    )
+    
+    dashscope_llm = ChatOpenAI(
+        model=TUTOR_MODEL,
+        base_url=LLM_BASE_URL,
+        api_key=DASHSCOPE_API_KEY,
+        **kwargs
+    )
+    
+    # if openrouter api key is missing, maybe it just falls back to dashscope
+    return openrouter_llm.with_fallbacks([dashscope_llm])
+
+def get_judge_llm(**kwargs):
+    return ChatOpenAI(
+        model=JUDGE_MODEL,
+        base_url=LLM_BASE_URL,
+        api_key=DASHSCOPE_API_KEY,
+        **kwargs
+    )
+

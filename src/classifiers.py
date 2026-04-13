@@ -1,7 +1,6 @@
 from langchain_core.messages import SystemMessage, HumanMessage
 from typing import Optional, Literal, List, Dict
 from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from router import PerceptionResult
 import config
@@ -55,12 +54,7 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
     misconception = MISCONCEPTIONS.get(misconception_tag, {})
     knowledge = KNOWLEDGE_CHUNKS.get(misconception_tag, {})
     
-    llm = ChatOpenAI(
-        model=config.TUTOR_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
     
     structured_llm = llm.with_structured_output(PostTestOutput, method="json_mode")
     
@@ -144,12 +138,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
             confidence=0.8
         )
         
-    llm = ChatOpenAI(
-        model=config.TUTOR_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
     
     structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")
     

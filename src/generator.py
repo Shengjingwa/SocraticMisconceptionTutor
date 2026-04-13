@@ -6,7 +6,6 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from router import RouteDecision, SessionMemory
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import config
@@ -150,12 +149,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "assembled_prompt": assembled_prompt
         }
 
-    llm = ChatOpenAI(
-        model=config.TUTOR_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
     
     # 组装对话历史
     history_messages = []
@@ -240,12 +234,7 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
             "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
         }
 
-    llm = ChatOpenAI(
-        model=config.TUTOR_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
     
     history_messages = []
     if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, 'history_summary', None):
@@ -293,12 +282,7 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
     if not config.DASHSCOPE_API_KEY:
         return "（Mocked Report）学生已成功克服迷思概念，掌握了相关知识点。"
 
-    llm = ChatOpenAI(
-        model=config.TUTOR_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
 
     if messages is None:
         messages = []

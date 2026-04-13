@@ -2,7 +2,6 @@ import json
 import os
 from pathlib import Path
 from pydantic import BaseModel, Field
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 import sys
 
@@ -21,12 +20,7 @@ def evaluate_session(session_id: str, messages: list) -> EvaluationOutput:
         print("未配置 DEEPSEEK_API_KEY，使用 Mock 结果")
         return EvaluationOutput(socratic_degree=3, teaching_effectiveness=3, reasoning="Mock evaluation due to missing API key")
 
-    llm = ChatOpenAI(
-        model=config.JUDGE_MODEL,
-        api_key=config.DASHSCOPE_API_KEY,
-        base_url=config.LLM_BASE_URL,
-        **config.DEFAULT_LLM_KWARGS
-    )
+    llm = config.get_judge_llm(**config.DEFAULT_LLM_KWARGS)
     
     structured_llm = llm.with_structured_output(EvaluationOutput, method="json_mode")
     

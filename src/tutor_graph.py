@@ -123,14 +123,8 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     
     # 动态压缩机制：如果历史轮次过长
     if len(messages) > config.MAX_HISTORY_TURNS * 2:
-        from langchain_openai import ChatOpenAI
         import json
-        llm = ChatOpenAI(
-            model=config.TUTOR_MODEL,
-            api_key=config.DASHSCOPE_API_KEY,
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-            max_tokens=500
-        )
+        llm = config.get_tutor_llm(max_tokens=500)
         
         # 把前段需要被清理的 messages (保留最近的2个对话，即4条消息) 提取出来合并到旧摘要
         msgs_to_compress = messages[:-4]
