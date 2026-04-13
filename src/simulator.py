@@ -1,3 +1,4 @@
+import asyncio
 import json
 import time
 import uuid
@@ -80,7 +81,7 @@ class SimulatedStudent:
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 
-    def reply(self, teacher_message: str) -> str:
+    async def areply(self, teacher_message: str) -> str:
         if self.is_mock:
             mock_resp = "哦，原来是这样。（Mocked response）"
             self.history.append(AIMessage(content=mock_resp))
@@ -95,11 +96,11 @@ class SimulatedStudent:
             wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
             reraise=True
         )
-        def _invoke_llm():
-            return self.llm.invoke(temp_history)
+        async def _invoke_llm():
+            return await self.llm.ainvoke(temp_history)
 
         try:
-            response = _invoke_llm()
+            response = await _invoke_llm()
             reply_text = response.content
         except Exception as e:
             from logger import logger_instance
@@ -109,7 +110,48 @@ class SimulatedStudent:
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 
-def run_simulation() -> None:
+async def run_single_session(v, m, p, i, sem):
+    async with sem:
+        session_id = f"sim_{v}_{p['profile_id']}_{m['id']}_{uuid.uuid4().hex[:6]}"
+        print(f"Starting session: {session_id}")
+        
+        app = SocraticTutorApp(session_id=session_id)
+        app.system_version = v
+        app.student_profile = p['profile_id']
+        app.memory.topic = m['topic']
+        app.memory.current_misconception = m['id']
+        app.misconception_init = m['id']
+        
+        student = SimulatedStudent(p, m)
+        
+        try:
+            user_input = student.generate_opening()
+            print(f"Student Opening: {user_input}")
+            
+            max_turns = 10
+            turn = 0
+            resolved = False
+            
+            while turn < max_turns:
+                turn += 1
+                result = await app.astep(user_input)
+                teacher_reply = result['generation']['final_reply']
+                print(f"Teacher: {teacher_reply}")
+                
+                if app.memory.resolved:
+                    resolved = True
+                    break
+                    
+                user_input = await student.areply(teacher_reply)
+                print(f"Student: {user_input}")
+                
+            app.end_session("resolved" if resolved else "max_turns_reached")
+            print(f"Session {session_id} finished. Resolved: {resolved}")
+        except Exception as e:
+            print(f"Error in session {session_id}: {e}")
+            app.end_session("error")
+
+async def run_simulation() -> None:
     import os
     base_dir = os.path.dirname(__file__)
     with open(os.path.join(base_dir, '..', 'data', 'simulation_profiles.json'), 'r', encoding='utf-8') as f:
@@ -120,57 +162,18 @@ def run_simulation() -> None:
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
     num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
     
-    total_sessions = len(misconceptions) * len(profiles) * len(versions) * num_runs
-    current_session = 0
+    sem = asyncio.Semaphore(config.SIMULATION_CONCURRENCY)
+    tasks = []
     
     for m in misconceptions:
         for p in profiles:
             for v in versions:
                 for i in range(num_runs):
-                    current_session += 1
-                    session_id = f"sim_{v}_{p['profile_id']}_{m['id']}_{uuid.uuid4().hex[:6]}"
-                    print(f"[{current_session}/{total_sessions}] Starting session: {session_id}")
+                    tasks.append(run_single_session(v, m, p, i, sem))
                     
-                    app = SocraticTutorApp(session_id=session_id)
-                    app.system_version = v
-                    app.student_profile = p['profile_id']
-                    app.memory.topic = m['topic']
-                    app.memory.current_misconception = m['id']
-                    app.misconception_init = m['id']
-                    
-                    student = SimulatedStudent(p, m)
-                    
-                    try:
-                        user_input = student.generate_opening()
-                        print(f"Student Opening: {user_input}")
-                        
-                        max_turns = 10
-                        turn = 0
-                        resolved = False
-                        
-                        while turn < max_turns:
-                            turn += 1
-                            result = app.step(user_input)
-                            teacher_reply = result['generation']['final_reply']
-                            print(f"Teacher: {teacher_reply}")
-                            
-                            if app.memory.resolved:
-                                resolved = True
-                                break
-                                
-                            user_input = student.reply(teacher_reply)
-                            print(f"Student: {user_input}")
-                            
-                            if not student.is_mock:
-                                time.sleep(1)  # 缓解API限速
-                            
-                        app.end_session("resolved" if resolved else "max_turns_reached")
-                        print(f"Session {session_id} finished. Resolved: {resolved}")
-                    except Exception as e:
-                        print(f"Error in session {session_id}: {e}")
-                        app.end_session("error")
+    await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
     print("开始批量仿真实验...")
-    run_simulation()
+    asyncio.run(run_simulation())
     print("仿真实验完成。")

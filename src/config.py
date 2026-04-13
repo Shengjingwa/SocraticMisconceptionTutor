@@ -24,4 +24,5 @@ RETRY_MAX_WAIT = 10
 RETRY_STOP_ATTEMPT = 3
 
 # Memory / History Configuration
-MAX_HISTORY_TURNS = 6  # Keep last 6 messages (3 user, 3 system)
+MAX_HISTORY_TURNS = int(os.environ.get("MAX_HISTORY_TURNS", "6"))
+SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "5"))
