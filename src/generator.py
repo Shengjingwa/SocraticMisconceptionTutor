@@ -87,7 +87,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     if (decision.state == "S5" and memory.recent_states.count("S5") >= 3) or sentiment == "焦虑/挫败":
         fallback_strategy += "\n\n【降级干预策略】\n学生目前多次卡壳或极度挫败，请放宽引导要求。允许你先直接给出部分浅显的物理原理解释或实验现象说明，以此作为脚手架，然后再就下一步进行确认性提问。避免单纯的拒绝和反问。"
 
-    if decision.state in ["S4", "S5"]:
+    if decision.state == "S4" or (decision.state == "S5" and memory.recent_states.count("S5") >= 3):
         fallback_strategy += "\n\n【深度认知冲突策略】\n检测到学生处于连续卡壳状态，要求你强制采用“归谬法（Reductio ad absurdum）”或“极端情境法”，顺应学生的错误逻辑推导出一个明显荒谬的后果，以此制造认知冲突并打破僵局。"
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
