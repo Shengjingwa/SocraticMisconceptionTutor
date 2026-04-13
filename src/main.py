@@ -12,7 +12,7 @@ if str(SRC_DIR) not in sys.path:
 from langchain_core.messages import HumanMessage
 from router import SessionMemory, update_after_turn
 from logger import logger_instance
-from graph import app_graph
+from tutor_graph import app_graph
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"
