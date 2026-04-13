@@ -1,5 +1,8 @@
 from langgraph.graph import StateGraph, END, START
+from langgraph.checkpoint.memory import MemorySaver
+from langchain_core.messages import AIMessage, RemoveMessage, SystemMessage
 from typing import Dict, Any
+import config
 
 from state import GraphState
 from classifiers import classify_input
@@ -10,7 +13,8 @@ from guardrails import apply_guardrails
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     memory = state["memory"]
-    perception = classify_input(user_input, messages=memory.messages, history_summary=memory.history_summary)
+    messages = state.get("messages", [])
+    perception = classify_input(user_input, messages=messages, history_summary=memory.history_summary)
     return {"perception": perception}
 
 def route_node(state: GraphState) -> Dict[str, Any]:
@@ -23,9 +27,8 @@ def generate_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
     decision = state["decision"]
     memory = state["memory"]
-    generation = generate_reply(user_input, decision, memory, history_summary=memory.history_summary)
-    # 每次重新生成都需要清除 regeneration_required 标志，防止死循环。
-    # 这里我们不用在 graph state 返回里清空，因为如果再次进入 guardrail 并且 safe, guardrail node 会置 False。
+    messages = state.get("messages", [])
+    generation = generate_reply(user_input, decision, memory, messages=messages)
     return {"generation": generation}
 
 def route_start(state: GraphState) -> str:
@@ -40,7 +43,7 @@ def route_after_generate(state: GraphState) -> str:
 def route_after_guardrail(state: GraphState) -> str:
     if state.get("regeneration_required", False):
         return "generate"
-    return "end"
+    return "finalize"
 
 def guardrail_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -97,17 +100,56 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
 
     return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
+def finalize_node(state: GraphState) -> Dict[str, Any]:
+    generation = state["generation"]
+    memory = state["memory"]
+    messages = state.get("messages", [])
+    
+    # 存入本轮 AI 回复
+    final_reply = generation["final_reply"]
+    new_message = AIMessage(content=final_reply)
+    updates = {"messages": [new_message]}
+    
+    # 动态压缩机制：如果历史轮次过长
+    if len(messages) > config.MAX_HISTORY_TURNS * 2:
+        from langchain_openai import ChatOpenAI
+        import json
+        llm = ChatOpenAI(
+            model=config.TUTOR_MODEL,
+            api_key=config.DASHSCOPE_API_KEY,
+            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+            max_tokens=500
+        )
+        
+        # 把前段需要被清理的 messages (保留最近的2个对话，即4条消息) 提取出来合并到旧摘要
+        msgs_to_compress = messages[:-4]
+        
+        text_to_compress = "\n".join([f"{msg.type}: {msg.content}" for msg in msgs_to_compress])
+        prompt = f"你是一个教育助手的记忆摘要模块。请将以下之前的对话摘要与最新的一段对话记录合并，写成一段简洁的上下文总结（不超过300字）。重点保留学生表现出的物理误概念、老师的引导策略以及学生情绪状态的变化。\n\n之前的摘要: {memory.history_summary}\n\n最新的对话记录:\n{text_to_compress}\n\n请输出新的合并摘要："
+        
+        response = llm.invoke(prompt)
+        new_summary = response.content.strip()
+        
+        # 更新状态中的 summary
+        memory.history_summary = new_summary
+        updates["memory"] = memory
+        
+        # 返回 RemoveMessage 剔除已经被压缩的消息
+        updates["messages"] = [RemoveMessage(id=m.id) for m in msgs_to_compress] + [new_message]
+        
+    return updates
 def baseline_node(state: GraphState) -> Dict[str, Any]:
     from generator import generate_reply
     from router import PerceptionResult, RouteDecision
     user_input = state["user_input"]
     memory = state["memory"]
+    messages = state.get("messages", [])
 
     # 填充假的 perception 和 decision
     perception = PerceptionResult(intent="Unknown", misconception_tag=memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
     decision = RouteDecision(state="S5", state_name="Scaffolding_Guidance", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
 
-    generation = generate_reply(user_input, decision, memory)
+    generation = generate_reply(user_input, decision, memory, messages=messages)
 
     return {
         "perception": perception,
@@ -122,6 +164,7 @@ workflow.add_node("route", route_node)
 workflow.add_node("generate", generate_node)
 workflow.add_node("guardrail", guardrail_node)
 workflow.add_node("baseline", baseline_node)
+workflow.add_node("finalize", finalize_node)
 
 workflow.add_conditional_edges(
     START,
@@ -149,10 +192,12 @@ workflow.add_conditional_edges(
     route_after_guardrail,
     {
         "generate": "generate",
-        "end": END
+        "finalize": "finalize"
     }
 )
 
+workflow.add_edge("finalize", END)
 workflow.add_edge("baseline", "guardrail")
 
-app_graph = workflow.compile()
+memory_saver = MemorySaver()
+app_graph = workflow.compile(checkpointer=memory_saver)

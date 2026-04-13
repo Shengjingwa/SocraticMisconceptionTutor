@@ -9,6 +9,7 @@ SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
+from langchain_core.messages import HumanMessage
 from router import SessionMemory, update_after_turn
 from logger import logger_instance
 from graph import app_graph
@@ -71,7 +72,7 @@ class SocraticTutorApp:
         learning_report = None
         if self.memory.resolved:
             from generator import generate_learning_report
-            learning_report = generate_learning_report(self.memory)
+            learning_report = generate_learning_report(self.memory, messages=final_state.get("messages", []))
 
         if turn_log["guardrail_triggered"]:
             self.guardrail_trigger_count += 1
@@ -91,11 +92,13 @@ class SocraticTutorApp:
         initial_state = {
             "system_version": self.system_version,
             "user_input": user_input,
-            "memory": self.memory
+            "memory": self.memory,
+            "messages": [HumanMessage(content=user_input)]
         }
+        config = {"configurable": {"thread_id": self.memory.session_id}}
         
         try:
-            final_state = app_graph.invoke(initial_state)
+            final_state = app_graph.invoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during graph execution: {e}")
             return {
@@ -112,11 +115,13 @@ class SocraticTutorApp:
         initial_state = {
             "system_version": self.system_version,
             "user_input": user_input,
-            "memory": self.memory
+            "memory": self.memory,
+            "messages": [HumanMessage(content=user_input)]
         }
+        config = {"configurable": {"thread_id": self.memory.session_id}}
         
         try:
-            final_state = await app_graph.ainvoke(initial_state)
+            final_state = await app_graph.ainvoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during async graph execution: {e}")
             return {

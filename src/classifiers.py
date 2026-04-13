@@ -40,9 +40,22 @@ class NLUOutput(BaseModel):
     
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
-def classify_input(user_input: str, messages: List[Dict[str, str]] = None, history_summary: str = "") -> PerceptionResult:
+def classify_input(user_input: str, messages: list = None, history_summary: str = "") -> PerceptionResult:
     if messages is None:
         messages = []
+        
+    # 将 AnyMessage 列表转换为适合 prompt 的文本形式
+    from langchain_core.messages import HumanMessage, AIMessage
+    
+    formatted_messages = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            formatted_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            formatted_messages.append({"role": "assistant", "content": msg.content})
+        else:
+            formatted_messages.append(msg)
+    messages = formatted_messages
         
     if not config.DASHSCOPE_API_KEY:
         # Mock mode if API key is missing

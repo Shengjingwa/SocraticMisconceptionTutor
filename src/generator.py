@@ -54,7 +54,23 @@ def _pick_one(items: List[Any], default: Any = None) -> Any:
 def _reply_type_from_state(state: str) -> str:
     return {"S2":"refusal_and_guidance","S4":"cognitive_conflict_question","S5":"scaffolded_prompt","S6":"verification_prompt"}.get(state, "guiding_question")
 
-def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemory, history_summary: str = "") -> Dict[str, Any]:
+def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemory, messages: list = None) -> Dict[str, Any]:
+    if messages is None:
+        messages = []
+    
+    from langchain_core.messages import HumanMessage, AIMessage
+    formatted_messages = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            formatted_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            formatted_messages.append({"role": "assistant", "content": msg.content})
+        else:
+            formatted_messages.append(msg)
+            
+    recent_history_text = "\n".join(
+        [f"{msg['role']}: {msg['content']}" for msg in formatted_messages[-config.MAX_HISTORY_TURNS*2:]]
+    )
     knowledge = KNOWLEDGE_CHUNKS.get(memory.current_misconception, {})
     misconception = MISCONCEPTIONS.get(memory.current_misconception, {})
     
@@ -140,11 +156,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     # 组装对话历史
     history_messages = []
     
-    if len(memory.messages) > config.MAX_HISTORY_TURNS and history_summary:
-        summary_prompt = f"【早期对话总结】\n{history_summary}\n\n【近期对话】"
+    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, 'history_summary', None):
+        summary_prompt = f"【早期对话总结】\n{memory.history_summary}\n\n【近期对话】"
         history_messages.append(SystemMessage(content=summary_prompt))
 
-    for msg in memory.messages[-config.MAX_HISTORY_TURNS:]:
+    for msg in formatted_messages[-config.MAX_HISTORY_TURNS:]:
         if msg["role"] == "user":
             history_messages.append(HumanMessage(content=msg["content"]))
         else:
@@ -185,7 +201,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "assembled_prompt": assembled_prompt
     }
 
-def generate_learning_report(memory: SessionMemory) -> str:
+def generate_learning_report(memory: SessionMemory, messages: list = None) -> str:
     """当会话解决（resolved == True）时生成学习报告"""
     if not config.DASHSCOPE_API_KEY:
         return "（Mocked Report）学生已成功克服迷思概念，掌握了相关知识点。"
@@ -197,8 +213,24 @@ def generate_learning_report(memory: SessionMemory) -> str:
         **config.DEFAULT_LLM_KWARGS
     )
 
+    if messages is None:
+        messages = []
+    
+    from langchain_core.messages import HumanMessage, AIMessage
+    formatted_messages = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            formatted_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            formatted_messages.append({"role": "assistant", "content": msg.content})
+        else:
+            formatted_messages.append(msg)
+
     history_text = ""
-    for msg in memory.messages:
+    if getattr(memory, 'history_summary', None):
+        history_text += f"早期对话摘要：\n{memory.history_summary}\n\n"
+
+    for msg in formatted_messages:
         role = "学生" if msg["role"] == "user" else "老师"
         history_text += f"{role}: {msg['content']}\n"
 

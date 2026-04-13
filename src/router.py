@@ -20,7 +20,6 @@ class SessionMemory(BaseModel):
     current_misconception: Optional[str] = None
     turn_count: int = 0
     history_summary: str = ""
-    messages: List[Dict[str, str]] = Field(default_factory=list)
     used_strategies: List[str] = Field(default_factory=list)
     recent_states: List[str] = Field(default_factory=list)
     risk_events: List[str] = Field(default_factory=list)
@@ -204,10 +203,6 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
 
 def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
     new_memory = memory.model_copy(deep=True)
-    new_memory.messages.append({"role": "user", "content": user_input})
-    new_memory.messages.append({"role": "assistant", "content": final_reply})
-    added_summary = history_summary if history_summary is not None else final_reply[:120]
-    new_memory.history_summary = (new_memory.history_summary + " " + added_summary).strip()[:1000]
     if understanding_verified:
         new_memory.resolved = True
     new_memory.recent_states = new_memory.recent_states[-10:]
