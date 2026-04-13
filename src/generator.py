@@ -72,9 +72,34 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     misconception = MISCONCEPTIONS.get(memory.current_misconception, {})
     
     # 构建自然语言系统提示词
-    core_points = "\n- ".join(knowledge.get("core_science_points", []))
-    counterexamples = "\n- ".join(knowledge.get("counterexamples", []))
-    analogies = "\n- ".join([a.get("analogy") for a in knowledge.get("analogies", []) if isinstance(a, dict) and a.get("analogy")])
+    core_points = "\n- ".join(misconception.get("core_science_points", []))
+    
+    # 解析反例 (Counterexamples)
+    ce_list = []
+    for ce in misconception.get("counterexamples", []):
+        if isinstance(ce, dict):
+            ce_list.append(f"情境: {ce.get('scenario')} | 错误预测: {ce.get('misconception_prediction')} | 科学事实: {ce.get('actual_scientific_outcome')} | 冲突焦点: {ce.get('conflict_focus')}")
+        else:
+            ce_list.append(str(ce))
+    counterexamples = "\n- ".join(ce_list)
+    
+    # 解析类比 (Analogies)
+    ana_list = []
+    for a in misconception.get("analogies", []):
+        if isinstance(a, dict):
+            ana_list.append(f"模型: {a.get('model')} | 用途: {a.get('use_for')} | 局限性: {a.get('boundary')}")
+        else:
+            ana_list.append(str(a))
+    analogies = "\n- ".join(ana_list)
+    
+    # 解析推理漏洞 (Reasoning Flaws)
+    rf_list = []
+    for rf in misconception.get("reasoning_flaws", []):
+        if isinstance(rf, dict):
+            rf_list.append(f"漏洞类型: {rf.get('flaw_type')} | 描述: {rf.get('description')}")
+        else:
+            rf_list.append(str(rf))
+    reasoning_flaws = "\n- ".join(rf_list)
 
     sentiment = decision.meta.get("sentiment", "")
     empathy_scaffolding = ""
@@ -106,6 +131,9 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
 可用的类比: 
 - {analogies if analogies else '无'}
+
+学生可能的推理漏洞:
+- {reasoning_flaws if reasoning_flaws else '无'}
 
 【安全护栏规则 - 必须绝对遵守】
 1. 绝不直接给出本题最终结论或标准答案。

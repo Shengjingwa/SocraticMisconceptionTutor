@@ -40,13 +40,23 @@ class SimulatedStudent:
         self._setup_system_prompt()
 
     def _setup_system_prompt(self):
+        traits = self.profile.get('traits', {})
+        dynamic_states = self.profile.get('dynamic_states', {})
+        
+        traits_str = f"认知灵活性：{traits.get('cognitive_flexibility', '未知')} | 防御性：{traits.get('defensiveness', '未知')}" if traits else "未知"
+        states_str = f"- 后撤行为：{dynamic_states.get('fallback_behavior', '未知')}\n- 改变触发点：{dynamic_states.get('trigger_for_change', '未知')}\n- 软化状态表现：{dynamic_states.get('relaxed_state', '未知')}" if dynamic_states else "未知"
+        
         sys_prompt = f"""你现在扮演一个初中生，正在学习物理。
 你的性格特点是：{self.profile['name']} - {self.profile['behavior_rule']}。
 你的对话风格：{self.profile['followup_style']}。
+你的心理特征：{traits_str}
+你的动态状态变化规则：
+{states_str}
+
 你目前存在一个物理迷思概念：{self.misconception['misconception_name']}
 具体表现：{self.misconception['misconception_summary']}
 
-请严格按照你的性格特点和迷思概念与老师对话。
+请严格按照你的性格特点、心理特征、动态状态变化规则和迷思概念与老师对话。
 不要轻易给出正确答案，除非老师的引导真的说服了你（取决于你的性格：固执型很难被单次挑战说动，动摇型遇到反例容易开始修正，困惑型需要澄清和类比）。
 除非老师拿出了让你无法反驳的具体物理现象或严密的逻辑推导，否则不要轻易说自己懂了。如果老师只是提问，请顺着你的错误思路继续回答，不要马上附和老师。
 如果你觉得老师只是在空洞地反问，并没有给你新的启发，请明确表示你依然很困惑，并要求老师举个例子或进一步解释。不要轻易用“我懂了”结束对话。
