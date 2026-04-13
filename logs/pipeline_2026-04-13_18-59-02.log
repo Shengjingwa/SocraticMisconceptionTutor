@@ -1344,31 +1344,81 @@
 既然上下左右受到的压力都同等程度地增加了，你觉得它们互相“抵消”后，剩下的那个向上的净推力会改变吗？
 2026-04-13 19:12:52,563 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_3b8b16] Student: 抵消……可是下面压得不是更厉害吗？下面的压力增加得比上面多，不应该剩下来的力更大吗？我还是想不通为什么它们能完全抵消掉深度的影响。
 2026-04-13 19:12:52,563 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_3b8b16] Session finished. Resolved: False
-2026-04-13 20:19:17,718 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_ffb068] Starting session
-2026-04-13 20:19:17,719 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-001_ffb068 on Unknown for Unknown with version FSM+Guardrail
-2026-04-13 20:19:24,680 - SessionLogger - ERROR - Simulated student failed to generate opening: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:19:24,680 - SessionLogger - ERROR - [sim_Baseline_P1_M-ELE-001_ffb068] Error in session: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:27,627 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
-2026-04-13 20:20:35,869 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:35,968 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:40,231 - SessionLogger - ERROR - LLM generation failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:44,573 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:44,678 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:48,970 - SessionLogger - ERROR - LLM generation failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:20:53,284 - SessionLogger - ERROR - Failed to generate learning report: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:23:47,407 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
-2026-04-13 20:23:54,509 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:23:54,613 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:23:58,993 - SessionLogger - ERROR - LLM generation failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:24:03,306 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:24:03,402 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:24:07,714 - SessionLogger - ERROR - LLM generation failed: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:24:12,182 - SessionLogger - ERROR - Failed to generate learning report: Error code: 404 - {'error': {'message': 'The free model has been deprecated. Transition to qwen/qwen3.6-plus for continued paid access.', 'code': 404}, 'user_id': 'user_3CIfnLvsBXvm6xQWzsEfuf7womQ'}
-2026-04-13 20:29:25,503 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
-2026-04-13 20:29:32,384 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:32,480 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:36,782 - SessionLogger - ERROR - LLM generation failed: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:41,095 - SessionLogger - WARNING - Structured NLU parsing failed, falling back to raw parsing: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:41,183 - SessionLogger - ERROR - Fallback NLU parsing failed: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:45,478 - SessionLogger - ERROR - LLM generation failed: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
-2026-04-13 20:29:49,788 - SessionLogger - ERROR - Failed to generate learning report: Error code: 402 - {'error': {'message': 'Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits', 'code': 402}}
+开始批量仿真实验...
+仿真实验完成。
+Metrics calculated and saved to results/summary_metrics.csv
+Created results/manual_audit.csv
+找到 36 个会话，开始评估...
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-001_00b85f (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-001_e23a3c (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 2
+正在评估会话: sim_Baseline_P1_M-ELE-001_0cc12b (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM_P2_M-ELE-001_bf2459 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM_P1_M-ELE-001_3e32f8 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P2_M-ELE-001_52686c (10 轮对话)
+  -> 苏格拉底度: 3, 有效性: 2
+正在评估会话: sim_Baseline_P3_M-ELE-001_f5c5df (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 2
+正在评估会话: sim_Baseline_P1_M-ELE-002_89dc18 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_FSM_P3_M-ELE-001_9d38d7 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-001_e84c92 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM_P1_M-ELE-002_cdf803 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-002_56d838 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_Baseline_P2_M-ELE-002_a77419 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P2_M-ELE-002_4bbc0a (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-002_a2cfd8 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 2
+正在评估会话: sim_Baseline_P3_M-ELE-002_c9eef7 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_FSM_P3_M-ELE-002_e9dada (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-002_4c02f4 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 2
+正在评估会话: sim_Baseline_P1_M-BUO-001_9151ba (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P1_M-BUO-001_0e9e22 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-001_a466e7 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P2_M-BUO-001_dc7efa (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM_P2_M-BUO-001_f29c21 (8 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-001_4f1f8c (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P3_M-BUO-001_900179 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P3_M-BUO-001_f8d109 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-001_892d2a (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_Baseline_P1_M-BUO-002_357754 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM_P1_M-BUO-002_bfc638 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-002_ba30c5 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_Baseline_P2_M-BUO-002_b2ba25 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P2_M-BUO-002_ca9771 (10 轮对话)
+  -> 苏格拉底度: 2, 有效性: 1
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-002_8a8e35 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_Baseline_P3_M-BUO-002_adf2ad (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P3_M-BUO-002_0e790d (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-002_3b8b16 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+评估完成，结果已保存至 /data/zzc/agent_test/logs/evaluation_results.json
