@@ -1351,3 +1351,36 @@
 2026-04-13 13:17:44,369 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Teacher: 我看到你现在的状态是 Scaffolding_Guidance，我们在探讨 电流会被灯泡消耗。你能再多说说你的想法吗？
 2026-04-13 13:17:44,369 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Student: 哦，原来是这样。（Mocked response）
 2026-04-13 13:17:44,370 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_c64d96] Session finished. Resolved: False
+2026-04-13 13:40:30,898 - SessionLogger - INFO - Initialized Session chat_main on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 13:43:00,462 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_1ef452] Starting session
+2026-04-13 13:43:00,462 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-001_1ef452 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 13:43:00,463 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_1ef452] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 13:43:06,182 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '2ebc151c-5251-9743-b00d-dd0171c1d2c2'}. Falling back to rule-based only.
+2026-04-13 13:43:06,185 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_1ef452] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:06,185 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_1ef452] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:06,185 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_1ef452] Session finished. Resolved: False
+2026-04-13 13:43:29,828 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Starting session
+2026-04-13 13:43:29,829 - SessionLogger - INFO - Initialized Session sim_Baseline_P1_M-ELE-001_b4bec0 on Unknown for Unknown with version FSM+Guardrail
+2026-04-13 13:43:29,829 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student Opening: 老师，我不明白这个知识点。（Mocked response）
+2026-04-13 13:43:34,945 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '902510a4-7c3e-951a-8016-f7b178fa656c'}. Falling back to rule-based only.
+2026-04-13 13:43:34,948 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:34,948 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:39,454 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '866be82b-c223-9955-8bc1-ca74750384de'}. Falling back to rule-based only.
+2026-04-13 13:43:39,457 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:39,457 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:44,054 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '91283b57-3a85-915d-9168-2f895996a579'}. Falling back to rule-based only.
+2026-04-13 13:43:44,056 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:44,057 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:48,568 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '59755b59-41f0-9945-bcfb-54fa8984c70a'}. Falling back to rule-based only.
+2026-04-13 13:43:48,571 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:48,571 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:52,997 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': '260d80cc-eb7c-975e-b01a-870e52bc9c74'}. Falling back to rule-based only.
+2026-04-13 13:43:53,000 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:53,000 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:43:57,512 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'cb0a6c09-7f20-99b1-85d3-5cea79367e05'}. Falling back to rule-based only.
+2026-04-13 13:43:57,515 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: （Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？
+2026-04-13 13:43:57,515 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Student: 哦，原来是这样。（Mocked response）
+2026-04-13 13:44:02,110 - SessionLogger - WARNING - LLM Judge failed: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'c6fcb733-940c-9e86-92ab-830a71395417'}. Falling back to rule-based only.
+2026-04-13 13:44:02,336 - SessionLogger - ERROR - Global exception during async graph execution: Error code: 401 - {'error': {'message': "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY). ", 'type': 'invalid_request_error', 'param': None, 'code': None}, 'request_id': 'fb7c34e3-649c-9789-8c5f-5d2936523d96'}
+2026-04-13 13:44:02,336 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_b4bec0] Teacher: 抱歉，系统遇到了一些问题，请稍后再试。
+2026-04-13 13:44:02,336 - SessionLogger - ERROR - [sim_Baseline_P1_M-ELE-001_b4bec0] Error in session: Tutor agent encountered an error

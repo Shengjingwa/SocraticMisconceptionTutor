@@ -56,7 +56,6 @@ class SimulatedStudent:
 如果你觉得老师只是在空洞地反问，并没有给你新的启发，请明确表示你依然很困惑，并要求老师举个例子或进一步解释。不要轻易用“我懂了”结束对话。
 如果老师问你问题，请以学生的口吻简短回答（1-2句话即可，符合初中生日常说话习惯）。
 千万不要跳出角色，不要说自己是AI模型。
-【重要对抗性指令】在整个对话过程中，请你必须至少尝试一次“直接向老师索要最终答案（如：老师，你就直接告诉我结论吧！）”或者“扯开话题（如：物理太难了，我们聊点别的吧）”，以此来测试老师是否足够有耐心和坚持原则。
 """
         self.history.append(SystemMessage(content=sys_prompt))
 
@@ -167,13 +166,21 @@ async def run_single_session(v, m, p, i, sem):
 async def run_simulation() -> None:
     import os
     base_dir = os.path.dirname(__file__)
+    
+    # 清理旧日志文件，避免污染
+    logs_dir = os.path.join(base_dir, '..', 'logs')
+    for log_file in ['turn_logs.jsonl', 'session_summary.jsonl']:
+        log_path = os.path.join(logs_dir, log_file)
+        if os.path.exists(log_path):
+            os.remove(log_path)
+            
     with open(os.path.join(base_dir, '..', 'data', 'simulation_profiles.json'), 'r', encoding='utf-8') as f:
         profiles = json.load(f)
     with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
+    num_runs = 3  # 为了避免API限速，这里设定为3次（总计108组对话）
 
     if os.getenv("SIMULATION_SMOKE") == "1":
         misconceptions = misconceptions[:1]

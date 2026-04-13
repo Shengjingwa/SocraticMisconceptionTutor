@@ -209,4 +209,5 @@ def demo() -> None:
     app.end_session("demo_completed")
 
 if __name__ == "__main__":
-    demo()
+    app = SocraticTutorApp(session_id="chat_main")
+    app.chat()

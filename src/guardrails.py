@@ -35,9 +35,13 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
     结合基础正则匹配和 LLM-as-a-Judge 机制。
     """
     if not misconception_tag or misconception_tag not in MISCONCEPTIONS:
-        return {"blocked": False, "reason": None, "answer_leakage": False}
+        misconception = {
+            "misconception_name": "物理问题",
+            "forbidden_direct_answers": []
+        }
+    else:
+        misconception = MISCONCEPTIONS[misconception_tag]
 
-    misconception = MISCONCEPTIONS[misconception_tag]
     forbidden_phrases = misconception.get("forbidden_direct_answers", [])
     
     # 1. 快速正则和子串匹配拦截（前置规则防御）

@@ -20,8 +20,6 @@ def _clean_reply(text: str) -> str:
         text = re.sub(r'^.*?<think>', '<think>', text, flags=re.DOTALL)
         # 移除 <think>...</think> 标签及其内容，同时处理未闭合的情况
         text = re.sub(r'<think>.*?(?:</think>|回复：|回答：|回复:|回答:|$)', '', text, flags=re.DOTALL)
-    # 去除括号包裹的内容（中文或英文括号），例如（思考一下）、(确认学生意图)
-    text = re.sub(r'[（\(].*?[）\)]', '', text)
     return text.strip()
 
 def _load_json(filename: str) -> Any:
@@ -87,7 +85,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         empathy_scaffolding = "\n\n【情感支架】\n检测到学生当前处于焦虑、挫败或困惑的情绪状态。请在回复的开头，先用简短、自然的话语进行共情和鼓励（例如：“没关系，这个问题确实有点绕”、“卡在这里很正常”等），然后再进行提问或引导。"
         
     # 针对多次卡壳或严重挫败的降级干预
-    if decision.state == "S5" and memory.recent_states.count("S5") >= 3 or sentiment == "焦虑/挫败":
+    if (decision.state == "S5" and memory.recent_states.count("S5") >= 3) or sentiment == "焦虑/挫败":
         fallback_strategy = "\n\n【降级干预策略】\n学生目前多次卡壳或极度挫败，请放宽引导要求。允许你先直接给出部分浅显的物理原理解释或实验现象说明，以此作为脚手架，然后再就下一步进行确认性提问。避免单纯的拒绝和反问。"
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
@@ -205,6 +203,89 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "state": decision.state,
         "strategy": decision.strategy,
         "assembled_prompt": assembled_prompt
+    }
+
+def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: list = None) -> Dict[str, Any]:
+    if messages is None:
+        messages = []
+    
+    from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+    formatted_messages = []
+    for msg in messages:
+        if isinstance(msg, HumanMessage):
+            formatted_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            formatted_messages.append({"role": "assistant", "content": msg.content})
+        else:
+            formatted_messages.append(msg)
+            
+    system_prompt = """你是引导思考的初中物理苏格拉底式助教。
+请通过提问或举例的方式引导学生自己思考物理问题。
+注意：
+1. 绝不直接给出最终结论或标准答案。
+2. 绝不代替学生完成关键的逻辑推理过程。
+3. 回复必须简短、自然，符合日常口语习惯（1-3句话即可）。
+4. 如果需要思考，请将思考过程写在 <think>...</think> 标签内。"""
+
+    if not config.DASHSCOPE_API_KEY:
+        reply_text = f"（Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？"
+        final_reply = _clean_reply(reply_text)
+        return {
+            "raw_reply": reply_text,
+            "final_reply": final_reply,
+            "reply_type": "guiding_question",
+            "knowledge_used": "Unknown",
+            "state": "Baseline",
+            "strategy": "General_Reply",
+            "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
+        }
+
+    llm = ChatOpenAI(
+        model=config.TUTOR_MODEL,
+        api_key=config.DASHSCOPE_API_KEY,
+        base_url=config.LLM_BASE_URL,
+        **config.DEFAULT_LLM_KWARGS
+    )
+    
+    history_messages = []
+    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, 'history_summary', None):
+        summary_prompt = f"【早期对话总结】\n{memory.history_summary}\n\n【近期对话】"
+        history_messages.append(SystemMessage(content=summary_prompt))
+
+    for msg in formatted_messages[-config.MAX_HISTORY_TURNS:]:
+        if msg["role"] == "user":
+            history_messages.append(HumanMessage(content=msg["content"]))
+        else:
+            history_messages.append(AIMessage(content=msg["content"]))
+            
+    final_messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
+    
+    @retry(
+        stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
+        wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
+        reraise=True
+    )
+    def _invoke_llm():
+        return llm.invoke(final_messages)
+
+    try:
+        response = _invoke_llm()
+        reply_text = response.content
+    except Exception as e:
+        from logger import logger_instance
+        logger_instance.error(f"LLM baseline generation failed: {e}")
+        reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
+
+    final_reply = _clean_reply(reply_text)
+
+    return {
+        "raw_reply": reply_text,
+        "final_reply": final_reply,
+        "reply_type": "guiding_question",
+        "knowledge_used": "Unknown",
+        "state": "Baseline",
+        "strategy": "General_Reply",
+        "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
     }
 
 def generate_learning_report(memory: SessionMemory, messages: list = None) -> str:

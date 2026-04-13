@@ -61,7 +61,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation, "memory": new_memory}
 
-    is_already_safe = decision.need_guardrail or decision.state == "S2"
+    is_already_safe = not decision.need_guardrail
     guardrail_result = apply_guardrails(
         user_input=user_input,
         intent=perception.intent,
@@ -150,7 +150,7 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     updates["memory"] = new_memory
     return updates
 def baseline_node(state: GraphState) -> Dict[str, Any]:
-    from generator import generate_reply
+    from generator import generate_baseline_reply
     from router import PerceptionResult, RouteDecision
     user_input = state["user_input"]
     memory = state["memory"]
@@ -158,14 +158,14 @@ def baseline_node(state: GraphState) -> Dict[str, Any]:
 
     new_memory = memory.model_copy(deep=True)
     new_memory.turn_count += 1
-    new_memory.current_state = "S5"
-    new_memory.recent_states.append("S5")
+    new_memory.current_state = "Baseline"
+    new_memory.recent_states.append("Baseline")
 
     # 填充假的 perception 和 decision
     perception = PerceptionResult(intent="Unknown", misconception_tag=new_memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
-    decision = RouteDecision(state="S5", state_name="Scaffolding_Guidance", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
+    decision = RouteDecision(state="Baseline", state_name="Baseline_Chat", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
 
-    generation = generate_reply(user_input, decision, new_memory, messages=messages)
+    generation = generate_baseline_reply(user_input, new_memory, messages=messages)
 
     return {
         "perception": perception,
@@ -199,8 +199,7 @@ workflow.add_conditional_edges(
     "generate",
     route_after_generate,
     {
-        "guardrail": "guardrail",
-        "end": END
+        "guardrail": "guardrail"
     }
 )
 
