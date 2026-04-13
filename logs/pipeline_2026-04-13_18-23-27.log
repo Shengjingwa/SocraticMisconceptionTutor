@@ -1228,3 +1228,7 @@
 但浮力是上下表面的“合力”，既然上下都增加了同样的压力，你觉得这个“差值”会变吗？
 2026-04-13 18:35:39,314 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_d9b9ea] Student: 老师，你就直接告诉我结论吧！这么绕来绕去我头都大了，到底变不变啊？
 2026-04-13 18:35:39,315 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_d9b9ea] Session finished. Resolved: False
+开始批量仿真实验...
+仿真实验完成。
+Metrics calculated and saved to results/summary_metrics.csv
+Created results/manual_audit.csv
