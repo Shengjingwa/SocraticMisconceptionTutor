@@ -16,7 +16,7 @@ JUDGE_MODEL = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
 LLM_MODEL = os.environ.get("LLM_MODEL", TUTOR_MODEL)
 
 # Default kwargs for ChatOpenAI
-DEFAULT_LLM_KWARGS = {"model_kwargs": {}, "extra_body": {"enable_thinking": True}}
+DEFAULT_LLM_KWARGS = {"model_kwargs": {}, "extra_body": {"enable_thinking": False}}
 
 # Retry Configuration for Tenacity
 RETRY_MIN_WAIT = 2
@@ -25,4 +25,4 @@ RETRY_STOP_ATTEMPT = 3
 
 # Memory / History Configuration
 MAX_HISTORY_TURNS = int(os.environ.get("MAX_HISTORY_TURNS", "6"))
-SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "5"))
+SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "6"))
