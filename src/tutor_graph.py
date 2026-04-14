@@ -19,9 +19,16 @@ from guardrails import apply_guardrails
 from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from router import SessionMemory, PerceptionResult, RouteDecision
 
-serializer = JsonPlusSerializer()
-if hasattr(serializer, '_msgpack_allowlist'):
-    serializer._msgpack_allowlist.update([SessionMemory, PerceptionResult, RouteDecision])
+try:
+    serializer = JsonPlusSerializer(allowed_msgpack_modules={
+        ("router", "SessionMemory"), 
+        ("router", "PerceptionResult"), 
+        ("router", "RouteDecision")
+    })
+except TypeError:
+    serializer = JsonPlusSerializer()
+    if hasattr(serializer, '_msgpack_allowlist'):
+        serializer._msgpack_allowlist.update([SessionMemory, PerceptionResult, RouteDecision])
 
 def _get_serializer() -> JsonPlusSerializer:
     return serializer

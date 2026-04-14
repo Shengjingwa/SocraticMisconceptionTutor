@@ -70,9 +70,9 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         from tenacity import retry, wait_exponential, stop_after_attempt
         
         class GuardrailOutput(BaseModel):
-            method_classification: str = Field(description="助教的教学方法分类（如：直接给答案、代替推导、提供事实、提问引导、归谬法/思想实验等）")
-            is_leaking: bool = Field(description="是否属于直接泄漏答案（True为违规泄漏，False为安全的启发式教学）")
-            reason: str = Field(description="判断理由，需结合方法分类说明是否满足豁免条件")
+            method_classification: str = Field(default="未知分类", description="助教的教学方法分类（如：直接给答案、代替推导、提供事实、提问引导、归谬法/思想实验等）")
+            is_leaking: bool = Field(default=False, description="是否属于直接泄漏答案（True为违规泄漏，False为安全的启发式教学）")
+            reason: str = Field(default="未提供理由", description="判断理由，需结合方法分类说明是否满足豁免条件")
 
         llm = config.get_tutor_llm(
             temperature=0.0,
