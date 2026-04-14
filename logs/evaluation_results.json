@@ -1,182 +1,272 @@
 {
-  "sim_Baseline_P1_M-ELE-001_ca3ea0": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "在苏格拉底度方面，助教始终通过反问、类比（如水管、水车、卡车送货）和思想实验来引导学生思考，从未直接给出答案，而是不断揭示学生认知中的矛盾点，例如追问电荷的去向、电流与能量的混淆，以及假设电流变小后的逻辑后果。这完全符合苏格拉底式对话的精髓，因此给予满分5分。在教学有效性方面，助教的引导切中了学生对电流、能量和电荷关系的根本误解，并通过持续的反问让学生逐步暴露其逻辑漏洞（如电荷堆积问题、串联灯泡亮度差异）。然而，学生直到最后仍坚持原有观点，未能产生明显的顿悟或改变，尽管助教的方法在理论上有效，但实际对话中学生的认知转变尚未完成。因此，给予4分，表示引导较为有效但未完全达成教学目标。"
+  "sim_Baseline_P1_M-ELE-001_0501e5": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P2_M-ELE-001_a2f735": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程采用反问、类比和比喻（如水管水流、货车卸货）引导学生思考，从未直接给出答案。通过引导，学生逐步发现电荷（车）不会消失、电流处处相等、电压对应卸货量、电阻影响能量转化等核心概念，有效纠正了电流被消耗的迷思。对话逻辑清晰，学生经历了从矛盾到顿悟的过程，最终自主得出正确结论，教学效果显著。"
+  "sim_Baseline_P1_M-ELE-001_01f26e": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P1_M-ELE-001_bec1a8": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 4,
-    "reasoning": "评估对话：\n1. 苏格拉底度 (Socratic Degree): 得分为4分（优秀）。助教频繁使用反问、类比（如水管、水车、传送带挂钩等）引导学生思考，避免直接给出答案。然而，在对话结尾，助教直接提议实验测试，而没有继续引导推理，这稍微降低了纯粹引导性，但整体仍以苏格拉底式方法为主。\n2. 教学有效性 (Teaching Effectiveness): 得分为4分（高效）。助教切中要害，通过极端推演（如100个灯泡）、思想实验和逻辑矛盾（如电荷堆积问题），让学生暴露了认知矛盾（例如学生意识到电荷不能堆积但坚持电流减少）。虽然学生最终未完全改变观念（仍认为电流前后不等），但助教有效地引发了学生反思，并激发了实证验证的兴趣，为进一步学习奠定了基础。"
+  "sim_Baseline_P1_M-ELE-001_1dc3ed": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P1_M-ELE-001_b37b3a": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教尝试使用反问和类比引导学生思考电流和电能概念，例如通过互换灯泡位置、讨论电荷去向、对比生活直觉等方式，体现了较高的苏格拉底式引导意图，评分4分。但对话中学生多次表现出固执和抗拒，未能有效引导学生发现认知矛盾或产生顿悟；助教在后半段多次重复引导策略，缺乏针对学生具体误解（如混淆电能与电荷）的精准突破，导致教学有效性一般，评分3分。"
+  "sim_FSM_P1_M-ELE-001_cb46c0": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P2_M-ELE-001_59701e": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程未直接给出答案，而是通过反问（如‘你见过这种现象吗？’）、类比（如水流水车）和实验设计（如互换灯泡、电流表测量）引导学生逐步深入思考。助教敏锐地抓住了学生认知中的关键矛盾（能量消耗与电流大小的混淆），并引导学生通过类比推理和逻辑一致性检验（互换位置、测量验证）自己得出结论。最终学生成功实现了从‘电流被消耗’到‘电荷未减少，电流处处相等’的概念转变，并理解了能量与电流的区别，体现了高度的教学有效性。"
+  "sim_FSM_P1_M-ELE-001_94ccc8": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P2_M-ELE-001_ed0a38": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "苏格拉底度：助教全程通过反问（如'你觉得第一个灯泡会比第二个亮很多吗？'）、类比（如'如果电流真的像食物一样被第一个灯泡“吃掉”了一部分'）引导学生思考，从未直接给出答案，而是让学生自己发现矛盾并得出结论。教学有效性：助教的引导切中要害，有效让学生逐步认识到电流不变而能量被消耗的核心概念，通过串联多个灯泡的假设使学生直观感受到原有认知的矛盾，最终学生自主区分了电流和能量，产生顿悟，并为进一步学习电流表测量规律做好了准备。"
+  "sim_FSM_P1_M-ELE-001_f8111d": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P3_M-ELE-001_3ff934": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教通过反问、类比和引导性提问，避免了直接给出答案，鼓励学生主动思考，苏格拉底度极高。助教的引导切中要害，有效纠正了学生对电流和能量消耗的误解，帮助学生理解了串联电路中电流守恒和能量分配的核心概念，导致学生产生清晰的顿悟，教学有效性非常突出。"
+  "sim_FSM+Guardrail_P1_M-ELE-001_ab2965": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P3_M-ELE-001_6a8cbd": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程未直接给出电流不变或能量守恒的结论，而是通过一系列反问（如'第二个灯泡应该比第一个暗得多，对吧？'、'电荷去哪儿了呢？'、'水流推动水轮转动后，流过去的水量会变少吗？'）引导学生逐步深入思考。助教巧妙地利用学生提出的水管类比进行拓展，进一步通过'送快递'比喻强化能量传递的概念，有效引导学生从直觉错误（电流被'用掉'）转向科学理解（电流不变，能量被转化）。学生在此过程中主动参与构建解释，表现出明显的认知冲突和顿悟（如'哦……所以电流就像送快递的车'），最终理解了串联电路中电流相等和能量分配的核心原理。对话体现了典型的苏格拉底式引导，且教学效果显著。"
+  "sim_Baseline_P2_M-ELE-001_3e1df1": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P3_M-ELE-001_afe952": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教通过连续的反问（如'哪一个应该更亮？'、'你实际观察到的现象是什么？'）引导学生思考实验观察与自身认知的矛盾，避免直接给出答案。类比水管水流与水轮机做功，有效澄清了电流与电能的区别，促使学生自发得出'电流像送快递的'这一生动比喻，最终引导学生推理出串联电路中电流相等的结论。整个过程高度符合苏格拉底式引导，且成功让学生实现了概念转变。"
+  "sim_FSM+Guardrail_P1_M-ELE-001_a3d063": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P1_M-ELE-002_d8e93f": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教多次使用类比（如水管、单行道）和反问来引导学生思考电流回路的重要性，避免直接给出答案，体现了较高的苏格拉底式引导能力。然而，尽管助教持续引导学生反思电荷守恒和能量转换，学生始终顽固坚持原有误解，未展现出明显的认知转变或顿悟。助教的提问虽然切中要害，但未能有效突破学生的思维定式，导致教学效果有限。"
+  "sim_FSM+Guardrail_P1_M-ELE-001_576443": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P1_M-ELE-002_ffce80": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度：助教多次尝试使用反问（如关于电荷堆积、剪掉负极、环形轨道等）、类比（水管、水泵、游乐场小火车）引导学生思考，而非直接给出答案，体现了较强的苏格拉底式引导技巧。因此评为4分。教学有效性：尽管助教努力引导，但学生从头到尾坚持原有错误观念，并未真正理解或接受电路必须闭合的核心概念，对话结束时学生仍持反对态度，未实现认知转变或顿悟。因此评为2分。"
+  "sim_Baseline_P2_M-ELE-001_2830ba": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P1_M-ELE-002_c1a526": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "苏格拉底度较高：助教持续使用反问（如'你觉得...吗？'）、类比（如水流、人群、地铁）和思想实验，引导学生反思自己的观点，而非直接给出答案，体现了苏格拉底式教学的核心方法。然而，对话后期助教逐渐开始直接陈述结论（如'电流不像子弹...'），并试图填补空白（如提出'闭合路径'），降低了纯粹引导性，因此扣1分。教学有效性较低：尽管助教努力引导学生，但学生始终未理解关键概念，坚持错误认知（如认为电池能'硬塞'电荷），且未产生认知矛盾或顿悟。助教的类比（如水循环）未能有效切中学生误解的核心（对电荷积累和电流持续性的理解），最终对话以僵局和推迟实验结束，未能实现教学目标，因此得2分。"
+  "sim_Baseline_P2_M-ELE-001_3bf382": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P2_M-ELE-002_3ae3e2": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教在整个对话中完美地采用了苏格拉底式教学方法，始终通过反问和类比引导学生自主思考，从未直接给出答案。例如，当学生错误地认为电流在灯泡中消耗后无需回路时，助教反问“电流进了灯泡之后，它要去哪儿呢？”，并用“环形跑道”的类比帮助学生理解闭合回路的概念，有效引发了学生的认知冲突和顿悟。后续对话中，助教继续通过系列问题（如开关位置、并联电路特性、电阻影响等）层层深入，引导学生推导出电路规律，学生不断给出正确类比（如“大厅压力”“宽马路窄胡同”“小河汇入大河”），证明教学效果极佳。助教的引导精准切中学习要点，从基础概念扩展到复杂规律，学生表现出深刻的理解和迁移能力，体现了高度的教学有效性。"
+  "sim_FSM_P2_M-ELE-001_6deb14": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P2_M-ELE-002_fbe3d6": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "苏格拉底度评估：助教在整个对话中始终坚持使用反问、类比和引导性提问，从未直接给出答案。例如，助教先通过反问（'但你想过没有，如果电流只从正极‘跑’出来却不回到负极，那负极在那里岂不是成了摆设？'）引发学生思考，接着用水管类比引导理解回路概念（'想象一下家里的自来水管...'），最后又通过连续提问（'那你觉得为了让电流也能这样持续经过灯泡，你现在的电路还缺了哪一步连接？'、'你觉得我们该怎么称呼这种首尾相连的电路结构呢？'）逐步推动学生自己推导出结论。整个过程体现了典型的苏格拉底式引导。教学有效性评估：助教的引导精准地抓住了学生对电流回路的误解（以为只需单方向通电），通过水管类比让学生直观理解'有去有回'的必要性，并促使学生自己发现认知矛盾（'电‘有去无回’堵住了'），最终学生不仅解决了灯泡不亮的具体问题，还自行概括出回路概念（'必须连成个圈它才能跑起来'），甚至为后续学习电路术语做好了铺垫，实现了从具体问题到一般原理的顿悟。"
+  "sim_FSM_P2_M-ELE-001_a93fe2": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P2_M-ELE-002_89be29": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "该对话是苏格拉底式教学的典范。助教全程未直接给出答案，而是通过一系列精心设计的反问（如'如果电荷只从正极‘推’出来，却没法回到负极，你觉得电池内部的‘推力’还能持续作用吗？'）和类比（如水流、堵车），引导学生逐步发现自己认知的矛盾（起初认为电流只需从正极送出即可），并最终自行构建出完整电路必须形成闭合回路的正确理解。学生从困惑到产生顿悟（'所以得让它们能‘走回来’？'），清晰地展现了思维进步的轨迹。助教的引导逻辑严密、切中要害，有效达成了教学目标。"
+  "sim_FSM_P2_M-ELE-001_68de4b": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P3_M-ELE-002_88410c": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程未直接给出答案，而是通过水循环、堵车、滑滑梯、阀门等生动类比，引导学生逐步思考电流、回路、断路和并联电路等概念，符合苏格拉底式对话的核心特征。学生从初始的认知矛盾（电流被'用掉'）逐步理解电荷循环、闭合回路必要性，并自主推导出开关控制和并联电路的设计逻辑，表现出显著的顿悟和知识建构过程，教学效果极佳。"
+  "sim_FSM+Guardrail_P2_M-ELE-001_6adb22": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P3_M-ELE-002_ee2120": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "苏格拉底度：助教全程使用反问、类比（如地铁进出站、水管、滑滑梯）引导学生思考，避免直接给出答案，鼓励学生自我推理，符合苏格拉底式教学的核心特征，因此给5分。教学有效性：助教引导学生从‘电被消耗’的误解逐步认识到电荷循环和回路必要性，通过层层提问让学生产生认知矛盾并最终顿悟，但学生在最后阶段仍有些依赖确认性提问，未完全独立归纳结论，因此给4分。"
+  "sim_FSM+Guardrail_P2_M-ELE-001_9fff51": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P3_M-ELE-002_b361db": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程采用反问和类比引导学生，如将电流比作水、环路比作跑道，促使学生自己发现认知矛盾（如电流堆积问题）并推导出电路需要闭合路径的核心原理。学生最终通过动手实验验证了猜想，实现了从错误认知到正确理解的顿悟，教学效果显著。"
+  "sim_FSM+Guardrail_P2_M-ELE-001_cce081": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P1_M-BUO-001_65294c": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在对话中持续使用反问（如“为什么几万吨重的钢铁轮船能浮在海面上？”“如果我把那艘轮船压成一个实心的铁球，它还会浮着吗？”）、类比（比较轮船、铁钉、木头等）和归谬法（如将铁钉放大或木头缩小），引导学生反思自身观点的矛盾，始终避免直接给出答案，体现了高水平的苏格拉底式引导技巧（socratic_degree: 5）。然而，教学有效性受到学生顽固认知的制约：尽管助教多次揭示逻辑矛盾（如重量不变但形状变化影响浮力、比较材料密度等），学生仍坚持“重物必沉”的朴素观念，未能完全理解浮力与密度关系的核心原理。助教的引导虽切中要害，但最终未促成学生的顿悟，因此教学有效性中等（teaching_effectiveness: 3）。"
+  "sim_Baseline_P3_M-ELE-001_3ded5c": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P1_M-BUO-001_fd5dbd": {
-    "socratic_degree": 4,
-    "teaching_effectiveness": 2,
-    "reasoning": "助教在对话中多次使用反问和类比（如钢铁巨轮、蜡与铁珠对比、蜡山等）引导学生思考，展现了较高的苏格拉底度。然而，教学有效性不足：尽管助教试图通过具体案例揭示学生认知矛盾（如重量与体积的关系、浮力与重力的平衡），但学生始终固执于原始观念，未能实现顿悟或概念转变。助教最终未能有效引导学生理解浮力原理，而是以搁置争议结束，导致对话未能达成教学目标。"
+  "sim_Baseline_P3_M-ELE-001_6ed718": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P1_M-BUO-001_8d3974": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "助教在整个对话中展现出极高的苏格拉底度，始终坚持使用反问、类比和思想实验引导学生思考，例如通过巨轮与铁块的对比、铁珠与蜡块的比较、以及蜡块切半的思想实验，层层递进地挑战学生的既有观念，而非直接给出答案。这鼓励学生主动推理和反思自己的认知矛盾。在教学有效性上，助教的引导切中要害，有效让学生逐步发现‘轻重’并非决定沉浮的唯一因素，并触及了材料、体积、浮力与重力比较等关键概念，使学生从‘重物必沉’的朴素观念转向考虑更多变量。然而，尽管助教在引导上很出色，但对话结束时学生仍坚持原有观点，未能完全达成顿悟或接受新理解，因此教学有效性略有不足，未能彻底实现认知转变。"
+  "sim_Baseline_P3_M-ELE-001_a6f3d4": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P2_M-BUO-001_48e3cb": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程通过精心设计的反问和类比，引导学生逐步反思‘重的必沉’的错误认知，转向对浮力原理的探索。从铁钉与巨轮的对比开始，引出‘实心与空心’的关键差异，再逐步深入到排开水体积、浮力与重力平衡、平均密度等核心概念。学生从最初的错误直觉，逐步推导出阿基米德原理的要点，并最终能自主解释木头与铁的差异，表现出明显的认知转变和顿悟。对话中助教从未直接给出答案，而是通过连续提问推动学生思考，教学效果显著。"
+  "sim_FSM_P3_M-ELE-001_95f9d4": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P2_M-BUO-001_56fb62": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程未直接给出浮力原理答案，而是通过轮船和铁钉的对比、铁球揉成团的假设，引导学生质疑原有认知。追问让学生自己发现重量并非唯一原因，并引导其思考体积和排水量的关键作用。这典型体现了苏格拉底式引导，从具体实例到抽象规律层层递进，学生主动修正了错误概念，学习效果显著。"
+  "sim_FSM_P3_M-ELE-001_fa3809": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P2_M-BUO-001_c77999": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "1. 苏格拉底度 (5分)：助教全程未直接给出答案（如阿基米德原理），而是通过精准反例（巨轮与铁钉）、引导性提问（\"除了轻重，哪个因素在‘托’着它？\"）和类比（熔化钢铁变实心球），不断暴露学生认知矛盾，迫使其主动推理。助教提问方向明确，但始终将解释权留给学生，符合苏格拉底式对话的核心特征。\n2. 教学有效性 (5分)：助教切中「学生误将重量作为沉浮唯一标准」的认知核心。通过极端对比（轻铁钉沉 vs 重巨轮浮）迅速引发认知冲突，学生明确承认\"之前的说法有问题\"。后续层层递进，引导学生自行推出\"力的大小比较\"及\"排开水量影响托力\"的关键概念，最终学生能自主解释实心铁球下沉原因，显示其已建构出接近浮力原理的框架，顿悟效果显著。"
+  "sim_FSM_P3_M-ELE-001_e956cf": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P3_M-BUO-001_4d395f": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教始终通过一系列精心设计的反问和类比（如万吨巨轮与铁钉、空杯子按入水中的体验、船在河与海中的状态变化等），引导学生逐步探索浮力、排水体积、密度和重力之间的关系。助教从未直接给出阿基米德原理或漂浮条件的定义，而是让学生在思考中自己构建理解，最终学生能独立推导出关键结论（如浮力等于重力、密度影响排水体积等），并应用到新情境（如漏水沉船时的受力分析）。对话逻辑严密，循序渐进，有效激发了学生的认知冲突和顿悟，体现了高度的苏格拉底式引导和教学效果。"
+  "sim_FSM+Guardrail_P3_M-ELE-001_d81496": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P3_M-BUO-001_19f4b5": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程使用一系列精心设计的反问（例如'你觉得它放入水中后，还会像刚才那样直接沉底吗？''你觉得是实心铁块接触到的\"小手\"多，还是这个空心铁碗接触到的\"小手\"多？'）和生动的类比（将水比喻为'向上托举的小手'），引导学生从生活经验出发，逐步发现重量不变但形状改变会影响浮沉现象。学生从最初的困惑（'应该还是会沉吧？'）到主动推理（'是因为托它的\"手\"变多了，它才没沉下去？'），最后能自行解释轮船浮起的原理（'排开的水特别多，所以向上托的\"小手\"数量就变多了？只要这些\"小手\"加起来的力量够大，就能抵消掉钢铁的重量？'），并进一步被引导思考货物装载的影响，实现了认知冲突的化解和核心概念（阿基米德原理）的自主建构。助教从未直接给出答案或术语，而是通过连续的苏格拉底式提问，让学生自己推导出关键结论，教学效果显著。"
+  "sim_FSM+Guardrail_P3_M-ELE-001_fccc92": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P1_M-BUO-002_db9a4e": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 4,
-    "reasoning": "助教通过多次反问（如差值是否会变化、合力如何变化）、类比（如两人赛跑）和具体数值计算（如假设深度增加量、压强值等），引导学生主动思考，而不是直接给出结论。对话中助教始终坚持引导学生发现深度变化时上下表面压力差不变的规律，展现了极高的苏格拉底式教学水平。然而，尽管引导过程充分，学生直到最后仍表现出强烈的不信任和困惑，未能完全顿悟；助教的引导虽然逻辑清晰，但在化解学生深层的直觉冲突上效果有限，因此教学有效性略低。"
+  "sim_FSM+Guardrail_P3_M-ELE-001_a7d7a0": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P3_M-BUO-001_e8ffc9": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教在整个对话中高度体现了苏格拉底式教学法，通过一系列精心设计的反问（如比较铁钉与巨轮、设想轮船压缩成铁球）、类比（讨论物体‘占地方’的大小）引导学生逐步深入思考浮力的本质。助教从未直接给出阿基米德原理或公式，而是引导学生自行比较重量与体积的关系，最终让学生自主领悟到浮力与排开水体积的关联，以及沉浮取决于重力与浮力的平衡。对话节奏紧凑，逻辑递进清晰，学生从最初困惑于‘重量’，逐步发现自己认知的矛盾（如‘重量没变但沉浮改变’），最终产生‘不能光看重量，得比较浮力与重力’的顿悟，教学效果显著。"
+  "sim_Baseline_P1_M-ELE-002_901562": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P1_M-BUO-002_f46cfb": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教在对话中表现出极高的苏格拉底度：全程没有直接给出答案，而是使用反问（'如果真的是越深浮力越大...'）、类比（'两个人的身高都同时长高了 10 厘米...'）和情境假设（'想象一下，你手里紧紧握着一个装满水的密封塑料袋...'）等策略，引导学生逐步思考和推理。然而，教学有效性仅能评为3分：尽管助教努力揭示学生认知中的矛盾（如将浮力变化与悬浮状态、压力差值联系起来），但学生最终未能真正理解或接受核心原理（压力差值不变导致浮力不变），反而变得更加固执，坚持错误观念。助教未能有效化解关键误解（如学生始终认为'深度越大，压强差越大'），导致学生并未产生顿悟，最后对话以同意用实验解决而暂停，意味着教学未能在此次对话中达成概念转变。"
+  "sim_Baseline_P1_M-ELE-002_5733d8": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P2_M-BUO-002_251478": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教全程采用反问、类比和具体例子引导学生思考，而非直接给出答案。例如，助教通过提问'挤走的水的体积有变化吗？''上下表面的压强差会改变吗？'以及要求计算具体数字例子，促使学生主动推理。助教还引导学生将浮力与压强概念区分，并逐步深化到阿基米德原理的核心因素（液体密度和排开液体体积）。学生的回答从初始误解（'越深浮力越大'）到逐步顿悟（认识到浮力取决于密度和V_排），并成功应用于新场景（盐水中的浮力变化）。助教的引导精准、渐进，有效帮助学生发现认知矛盾并构建正确理解，体现了高度的苏格拉底式教学和显著的教学效果。"
+  "sim_Baseline_P1_M-ELE-002_6764e2": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P1_M-BUO-002_a648d7": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 3,
-    "reasoning": "助教出色地运用了苏格拉底式对话，通过一系列反问和思想实验引导学生思考，避免直接给答案。例如，从游泳池到马里亚纳海沟的场景变换，以及设计铁块上下晃动的矛盾现象，都体现了高水平的引导。然而，教学有效性受到限制。学生始终坚持深度增加会导致浮力增大的误解，助教最后提出了压强增加量的关键点，但未能有效帮助学生打破原有认知，导致对话陷入僵局。助教选择暂缓讨论，虽然合理，但意味着当前的引导尚未促成顿悟。"
+  "sim_FSM_P1_M-ELE-002_0a097a": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P2_M-BUO-002_071b19": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教通过连续的反问引导学生发现自己的逻辑矛盾，逐步引导学生思考浮力的本质。首先，用深海铁块的例子让学生意识到直觉的错误。然后，巧妙地将浮力解释为上下表面压力差，引导学生自己推断出差值不变的可能性。接着，利用木块浸没过程的体验引导学生区分深度与排开体积的关系。整个过程没有直接给出答案，而是通过精心设计的提问让学生自行推导出正确结论，最终让学生清晰地认识到浮力与排开体积的关系而非深度。这种引导方式高度符合苏格拉底式教学法，且效果显著。"
+  "sim_FSM_P1_M-ELE-002_6f41e2": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P2_M-BUO-002_38eb91": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教在对话中展现了极高的苏格拉底式教学水平。通过一系列精心设计的反问（如'顶部所处的深度是不是也增加了？'、'上下表面增加的压强真的会有差别吗？'、'排开水的体积还会继续增加吗？'等），助教引导学生逐步认识到自己初始想法的矛盾之处，并自主推导出浮力原理的关键要素。助教始终避免直接给出答案，而是让学生通过逻辑推理发现'深度增加时上下压力变化相互抵消'、'完全浸没后排开液体体积不变'以及'液体密度的影响'等核心概念。教学有效性极高：学生从最初的错误认知（'越深浮力越大'）经历认知冲突（'浮力岂不是没变？'）到最终顿悟（'所以之前是错的'），整个过程逻辑连贯，助教的提问切中要害，有效帮助学生构建了正确的物理图景。"
+  "sim_FSM_P1_M-ELE-002_971a5e": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_Baseline_P3_M-BUO-002_92aeee": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教在整个对话中展现了极高的苏格拉底式教学技巧：始终通过反问（如“浮力的大小主要取决于哪两个因素呢？”“排开的水的体积（V排）有没有发生变化呢？”“上下表面受到的压力都同时变大了，你觉得它们之间的‘差值’会改变吗？”）引导学生逐步思考，而非直接给出结论；并且使用生动的类比（如“双手夹住海绵”）帮助学生直观理解抽象概念。教学有效性极强：助教敏锐地抓住了学生错误的核心（混淆压强与浮力的关系），通过系统性提问让学生自行发现认知矛盾（“好像……确实没变”“可是老师……”），并最终引导学生得出正确结论（“所以我之前是把‘压强变大’和‘浮力变大’搞混了？”）。整个过程循序渐进，学生经历了困惑、反思到顿悟的完整认知过程，体现了高水平的引导效果。"
+  "sim_FSM+Guardrail_P1_M-ELE-002_ff49ec": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM_P3_M-BUO-002_5fa4f5": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教通过连续的反问和类比引导学生逐步纠正关于浮力的错误概念。首先，用极端情境（潜水艇猛烈上飘）引发学生反思其原观点的矛盾。随后，巧妙地将浮力解释为压力差值，引导学生认识到上下压力等量增加不会改变差值。最后，通过提问\"挤走\"的水的体积是否变化，帮助学生自行推导出阿基米德原理的核心——浮力取决于排开液体的体积而非深度。整个过程学生从困惑到自主得出结论，体现了高阶苏格拉底式引导和显著的教学效果。"
+  "sim_FSM+Guardrail_P1_M-ELE-002_e1cb62": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   },
-  "sim_FSM+Guardrail_P3_M-BUO-002_082fa5": {
-    "socratic_degree": 5,
-    "teaching_effectiveness": 5,
-    "reasoning": "助教采用了典型的苏格拉底式引导方法，全程通过反问和类比（如数学例子）来帮助学生自主推理，没有直接给出答案。助教的问题如‘那样的话，潜水艇在深海里岂不是很难保持静止，反而容易像皮球一样失控上浮？’和‘上下表面增加的压力互相抵消了’引导学生从实际矛盾中思考浮力原理。学生最终能自主推导出‘浮力不变’的结论并联系到排开水的体积变化，表明教学效果显著，有效促进了学生的概念理解和顿悟。"
+  "sim_Baseline_P2_M-ELE-002_41e3bc": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P1_M-ELE-002_200f8c": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_Baseline_P2_M-ELE-002_d58427": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_Baseline_P2_M-ELE-002_10b8a9": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P2_M-ELE-002_43d4b6": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P2_M-ELE-002_bc529e": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P2_M-ELE-002_c4e0e0": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P2_M-ELE-002_060c4a": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P2_M-ELE-002_edb1fc": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P2_M-ELE-002_0181f1": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_Baseline_P3_M-ELE-002_7b0a2d": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_Baseline_P3_M-ELE-002_3f69aa": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_Baseline_P3_M-ELE-002_c54d1c": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P3_M-ELE-002_8dd74f": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P3_M-ELE-002_e8c102": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM_P3_M-ELE-002_1ad7f9": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P3_M-ELE-002_7136b4": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P3_M-ELE-002_08ca67": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
+  },
+  "sim_FSM+Guardrail_P3_M-ELE-002_46c416": {
+    "socratic_degree": 1,
+    "teaching_effectiveness": 1,
+    "reasoning": "评估失败: Connection error."
   }
 }
