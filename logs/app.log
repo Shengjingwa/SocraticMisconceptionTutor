@@ -1324,3 +1324,10 @@ reason
 2026-04-14 17:50:31,130 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_b9f2c1] Student: 排开水的体积……就是物体占的地方吧？既然完全浸没后，不管怎么下沉，它占的地方大小都没变，所以排开的水也一样多？
 2026-04-14 17:50:47,338 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_b9f2c1] Teacher: 你说得很对，物体占的空间没变，排开的水量也就固定了。那如果现在有一个体积比它大一倍的铁块也完全浸没在水里，你觉得这个大家伙受到的浮力会跟刚才那个小铁块一样吗？
 2026-04-14 17:50:47,339 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_b9f2c1] Session finished. Resolved: True
+2026-04-14 10:19:43,453 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-14 10:20:28,545 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 10:21:08,584 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 10:22:44,783 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 10:23:37,577 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 10:24:15,398 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 10:24:42,284 - SessionLogger - INFO - Initialized Session test_s8_abort_001 on Unknown for Unknown with version FSM+Guardrail

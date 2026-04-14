@@ -38,7 +38,7 @@ def classify_node(state: GraphState) -> Dict[str, Any]:
     memory = state["memory"]
     messages = state.get("messages", [])
     
-    valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6"]]
+    valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6", "S7", "S8"]]
     current_state = valid_states[-1] if valid_states else "S3"
     
     perception = classify_input(user_input, messages=messages, history_summary=memory.history_summary, current_state=current_state)

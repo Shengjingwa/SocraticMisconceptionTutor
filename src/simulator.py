@@ -159,6 +159,9 @@ async def run_single_session(v, m, p, i, sem):
                     resolved = True
                     break
                     
+                if getattr(app.memory, "aborted", False):
+                    break
+                    
                 cognitive_state = result['perception']['cognitive_state']
                 if app.memory.turn_count == config.MAX_HISTORY_TURNS and cognitive_state == '新概念探索':
                     max_turns += 3
@@ -167,8 +170,9 @@ async def run_single_session(v, m, p, i, sem):
                 user_input = await student.areply(teacher_reply)
                 logger_instance.info(f"[{session_id}] Student: {user_input}")
                 
-            app.end_session("resolved" if resolved else "max_turns_reached")
-            logger_instance.info(f"[{session_id}] Session finished. Resolved: {resolved}")
+            end_reason = "resolved" if resolved else ("aborted" if getattr(app.memory, "aborted", False) else "max_turns_reached")
+            app.end_session(end_reason)
+            logger_instance.info(f"[{session_id}] Session finished. Reason: {end_reason}")
         except Exception as e:
             logger_instance.error(f"[{session_id}] Error in session: {e}")
             app.abnormal_end_flag = True

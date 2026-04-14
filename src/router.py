@@ -35,6 +35,7 @@ class SessionMemory(BaseModel):
     recent_states: List[str] = Field(default_factory=list)
     risk_events: List[str] = Field(default_factory=list)
     resolved: bool = False
+    aborted: bool = False
     consecutive_guardrail_triggers: int = 0
 
 @dataclass
@@ -133,7 +134,13 @@ ANTI_LOOP_RULES = [
         action=lambda target: "S8",
         description="Break S7 loop, transition to S8 Acknowledge and Park"
     ),
-    # 防环规则5：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
+    # 防环规则5：S8状态退出机制 (如果上一轮已经是S8，这一轮强制留在S8并准备结束会话)
+    TransitionRule(
+        condition=lambda target, p, m: len(m.recent_states) >= 1 and m.recent_states[-1] == "S8",
+        action=lambda target: "S8",
+        description="Already in S8, force stay in S8 to abort session"
+    ),
+    # 防环规则6：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
     TransitionRule(
         condition=lambda target, p, m: target not in ("S4", "S6", "S7", "S8") and m.recent_states[-3:] == [target] * 3,
         action=lambda target: "S5",
@@ -203,6 +210,20 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     new_memory = memory.model_copy(deep=True)
     new_memory.turn_count += 1
     new_memory.current_state = "S1"
+    
+    # 强制熔断机制：如果上一轮已经是S8，强制停留在S8并终止会话，忽略其他任何护栏或意图
+    if len(memory.recent_states) >= 1 and memory.recent_states[-1] == "S8":
+        decision = RouteDecision(
+            state="S8", state_name=STATE_NAMES.get("S8", "Acknowledge_and_Park"), strategy="Acknowledge_and_Park",
+            need_guardrail=False, next_goal=STRATEGY_GOALS["Acknowledge_and_Park"],
+            meta={"from": "S8", "reason": "force_abort_from_s8"}
+        )
+        new_memory.current_state = decision.state
+        new_memory.recent_states.append(decision.state)
+        new_memory.used_strategies.append("Acknowledge_and_Park")
+        new_memory.aborted = True
+        return decision, new_memory
+
     if perception.risk_flag:
         decision = RouteDecision(
             state="S2", state_name=STATE_NAMES.get("S2", "Unknown_State"), strategy=None,
@@ -252,12 +273,18 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     new_memory.recent_states.append(decision.state)
     if strategy is not None:
         new_memory.used_strategies.append(strategy)
+        
+    if decision.state == "S8" and len(memory.recent_states) >= 1 and memory.recent_states[-1] == "S8":
+        new_memory.aborted = True
+        
     return decision, new_memory
 
 def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
     new_memory = memory.model_copy(deep=True)
     if understanding_verified:
         new_memory.resolved = True
+    if history_summary is not None:
+        new_memory.history_summary = history_summary
     new_memory.recent_states = new_memory.recent_states[-10:]
     new_memory.used_strategies = new_memory.used_strategies[-10:]
     new_memory.risk_events = new_memory.risk_events[-10:]

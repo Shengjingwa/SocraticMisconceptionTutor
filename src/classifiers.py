@@ -155,7 +155,8 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 - S4 (Cognitive_Conflict): 学生开始对自己的原始错误想法产生怀疑，或者发现自己的想法导致了矛盾，表示“好像不对”。
 - S5 (Scaffolding_Guidance): 学生在引导下，能够提出新的、向正确方向靠拢的假设或解释。
 - S6 (Verification_Deepening): 学生能够用自己的话准确、完整地解释物理原理，没有事实错误。
-- 其他状态(S0, S1, S2): 默认设为 false。
+- S7 (Direct_Instruction_with_Check): 学生能够正确填空或选择出大模型留白的20%关键知识点，且逻辑自洽。
+- 其他状态(S0, S1, S2, S8): 默认设为 false。
 
 你需要严格判断学生当前的回复是否满足了【{current_state}】状态的退出条件。如果满足，设置 transition_approved 为 true，并给出 reasoning；如果不满足，设为 false，并给出 reasoning。
 
