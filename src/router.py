@@ -3,6 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any, Callable, Tuple
 from pydantic import BaseModel, Field
+from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+import builtins
+
+# Try to silence the warning by setting the module level allowed types
+if hasattr(builtins, "allowed_msgpack_modules"):
+    builtins.allowed_msgpack_modules.extend([('router', 'SessionMemory'), ('router', 'PerceptionResult'), ('router', 'RouteDecision')])
+else:
+    builtins.allowed_msgpack_modules = [('router', 'SessionMemory'), ('router', 'PerceptionResult'), ('router', 'RouteDecision')]
+
 
 @dataclass
 class PerceptionResult:
@@ -36,6 +45,13 @@ class RouteDecision:
     need_guardrail: bool
     next_goal: str
     meta: Dict[str, Any] = field(default_factory=dict)
+
+# Explicitly register to the global JsonPlusSerializer module namespace
+try:
+    from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+    JsonPlusSerializer.with_msgpack_allowlist(None, [SessionMemory, PerceptionResult, RouteDecision])
+except Exception:
+    pass
 
 STATE_NAMES = {
     "S0": "Listen_And_Analyze",
@@ -92,13 +108,19 @@ ANTI_LOOP_RULES = [
         action=lambda target: "S5",
         description="Break S4 loop"
     ),
-    # 防环规则2：S5死循环防备 -> 退回S4重新激发思考
+    # 防环规则2：用户拒绝思想实验（在S4且表现出焦虑/挫败情绪） -> 降级到S5
+    TransitionRule(
+        condition=lambda target, p, m: target == "S4" and p.sentiment == "焦虑/挫败",
+        action=lambda target: "S5",
+        description="User rejects thought experiment (negative sentiment in S4), downgrade to S5"
+    ),
+    # 防环规则3：S5死循环防备 -> 退回S4重新激发思考
     TransitionRule(
         condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
         action=lambda target: "S4",
         description="Break S5 loop"
     ),
-    # 防环规则3：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
+    # 防环规则4：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
     TransitionRule(
         condition=lambda target, p, m: target not in ("S4", "S6") and m.recent_states[-3:] == [target] * 3,
         action=lambda target: "S5",
@@ -123,7 +145,7 @@ def apply_transition_rules(initial_target: str, perception: PerceptionResult, me
             
     return target
 
-def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
+def _choose_strategy(state: str, memory: SessionMemory, perception: Optional[PerceptionResult] = None) -> Optional[str]:
     candidates = STATE_STRATEGIES.get(state, [None])
     if not candidates or candidates == [None]:
         return None
@@ -132,6 +154,10 @@ def _choose_strategy(state: str, memory: SessionMemory) -> Optional[str]:
     
     # 启发式动态推荐规则 1: 如果在 S5 (Scaffolding) 状态卡住多次，优先使用类比支架
     if state == "S5":
+        # 如果因为负面情绪从S4降级过来，或者用户明确拒绝思想实验
+        if perception and perception.sentiment == "焦虑/挫败" and len(recent_states) >= 1 and recent_states[-1] == "S4":
+            return "Analogical_Scaffolding"
+        
         if len(recent_states) >= 2 and recent_states[-1] == "S5" and recent_states[-2] == "S5":
             return "Analogical_Scaffolding"
         # 刚从认知冲突(S4)转移过来，先尝试澄清
@@ -197,7 +223,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     # 应用声明式转移与防死循环规则
     target = apply_transition_rules(target, perception, new_memory)
 
-    strategy = _choose_strategy(target, new_memory)
+    strategy = _choose_strategy(target, new_memory, perception)
     decision = RouteDecision(
         state=target, state_name=STATE_NAMES.get(target, "Unknown_State"), strategy=strategy,
         need_guardrail=False, next_goal=STRATEGY_GOALS.get(strategy, "未知目标"),

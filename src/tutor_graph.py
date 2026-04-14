@@ -1,14 +1,29 @@
 from langgraph.graph import StateGraph, END, START
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
 from langchain_core.messages import AIMessage, RemoveMessage, SystemMessage
 from typing import Dict, Any
 import config
 
+import os
+os.environ["LANGCHAIN_ALLOWED_MSGPACK_MODULES"] = "router.SessionMemory,router.PerceptionResult,router.RouteDecision"
+
 from state import GraphState
 from classifiers import classify_input
-from router import route_state, RouteDecision
+from router import route_state, RouteDecision, SessionMemory, PerceptionResult
 from generator import generate_reply
 from guardrails import apply_guardrails
+
+# Use the built-in jsonplus registry extension pattern instead
+from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
+from router import SessionMemory, PerceptionResult, RouteDecision
+
+serializer = JsonPlusSerializer()
+if hasattr(serializer, '_msgpack_allowlist'):
+    serializer._msgpack_allowlist.update([SessionMemory, PerceptionResult, RouteDecision])
+
+def _get_serializer() -> JsonPlusSerializer:
+    return serializer
 
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -214,5 +229,6 @@ workflow.add_conditional_edges(
 workflow.add_edge("finalize", END)
 workflow.add_edge("baseline", "guardrail")
 
-memory_saver = MemorySaver()
+# Initialize Graph with the registered serializer
+memory_saver = MemorySaver(serde=_get_serializer())
 app_graph = workflow.compile(checkpointer=memory_saver)

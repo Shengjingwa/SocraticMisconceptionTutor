@@ -159,6 +159,11 @@ async def run_single_session(v, m, p, i, sem):
                     resolved = True
                     break
                     
+                cognitive_state = result['perception']['cognitive_state']
+                if app.memory.turn_count == config.MAX_HISTORY_TURNS and cognitive_state == '新概念探索':
+                    max_turns += 3
+                    logger_instance.info(f"[{session_id}] Extending max_turns by 3 because cognitive_state is '新概念探索'")
+                    
                 user_input = await student.areply(teacher_reply)
                 logger_instance.info(f"[{session_id}] Student: {user_input}")
                 

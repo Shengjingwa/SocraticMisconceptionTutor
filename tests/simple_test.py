@@ -2,6 +2,8 @@ import os
 import sys
 from pathlib import Path
 
+os.environ["LANGCHAIN_ALLOWED_MSGPACK_MODULES"] = "router.SessionMemory,router.PerceptionResult,router.RouteDecision"
+
 # 添加项目根目录到 sys.path，以便导入 src 模块
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
