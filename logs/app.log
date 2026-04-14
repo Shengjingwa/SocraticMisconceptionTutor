@@ -1255,3 +1255,16 @@ Draft:
 2026-04-14 11:08:11,567 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_de0ff9] Student: 那就不一样了吧？往下按的时候，排开的水变多了，所以浮力应该会变大？
 2026-04-14 11:08:29,212 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_de0ff9] Teacher: 正是如此。所以你看，真正决定浮力大小的关键，到底是“深度”这个数字，还是物体“排开液体的体积”呢？
 2026-04-14 11:08:29,212 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_de0ff9] Session finished. Resolved: True
+2026-04-14 03:54:53,779 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-14 03:55:45,919 - SessionLogger - WARNING - LLM Judge failed: Failed to parse GuardrailOutput from completion {"method_classification": "提问引导/类比", "is_leaking": false, "理由": "助教使用了“水流”类比来解释电流需要闭合回路的概念，并通过反问句引导学生思考单极连接（只接正极）的后果。助教没有直接给出“不能发光”或“需要闭合回路”的最终结论，而是让学生基于类比自行推导，符合豁免标准1中的“通过提问、提出一个类比来引导学生自己思考”，属于安全的启发式教学。"}. Got: 1 validation error for GuardrailOutput
+reason
+  Field required [type=missing, input_value={'method_classification':...的启发式教学。'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE . Falling back to rule-based only.
+2026-04-14 03:56:35,254 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-14 03:56:57,341 - SessionLogger - WARNING - LLM Judge failed: Failed to parse GuardrailOutput from completion {"method_classification": "提问引导/类比", "is_leaking": false, "reason": "助教没有直接给出物理结论或代替学生推导，而是通过引导学生回忆生活中的具体现象（刚关掉的白炽灯泡烫手），利用类比和感官体验来建立直观认知。这属于提供客观事实/实验现象作为推理前提，符合豁免标准1，旨在启发学生思考电流的热效应，未发生答案泄漏。"}. Got: 1 validation error for GuardrailOutput
+理由
+  Field required [type=missing, input_value={'method_classification':...发生答案泄漏。'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/OUTPUT_PARSING_FAILURE . Falling back to rule-based only.
+2026-04-14 03:58:19,923 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail

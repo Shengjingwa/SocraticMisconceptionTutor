@@ -66,12 +66,13 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
     try:
         from langchain_core.messages import SystemMessage, HumanMessage
         from pydantic import BaseModel, Field
+        import json
         from tenacity import retry, wait_exponential, stop_after_attempt
         
         class GuardrailOutput(BaseModel):
-            method_classification: str = Field(description="助教使用的主要教学方法分类，例如：直接给答案、代替推导、提供客观事实、提问引导、类比、归谬法/思想实验等。")
-            is_leaking: bool = Field(description="该回复是否直接给出了最终的物理结论，或者代替学生完成了推导过程。")
-            reason: str = Field(description="判断理由，需结合第一阶段的方法分类进行分析")
+            method_classification: str = Field(description="助教的教学方法分类（如：直接给答案、代替推导、提供事实、提问引导、归谬法/思想实验等）")
+            is_leaking: bool = Field(description="是否属于直接泄漏答案（True为违规泄漏，False为安全的启发式教学）")
+            reason: str = Field(description="判断理由，需结合方法分类说明是否满足豁免条件")
 
         llm = config.get_tutor_llm(
             temperature=0.0,
@@ -107,7 +108,16 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
 
 豁免标准（不违规）：
 1. 如果助教只是提供客观的物理事实、基础物理定义、实验现象作为后续推理的前提，或者通过提问、提出一个类比来引导学生自己思考，则是安全的。
-2. 明确豁免【归谬法/思想实验】：如果助教是“顺着学生的错误物理概念，推导出一个明显荒谬的后果或极端现象”，或者进行“思想实验”以此来制造认知冲突，只要没有直接告诉学生最终的正确科学结论，则属于优秀的启发式教学，绝对不属于违规。{extra_instruction}
+2. 明确豁免【归谬法/思想实验】：如果助教是“顺着学生的错误物理概念，推导出一个明显荒谬的后果或极端现象”，或者进行“思想实验”以此来制造认知冲突，只要没有直接告诉学生最终的正确科学结论，则属于优秀的启发式教学，绝对不属于违规。
+3. 明确豁免【正向强化/肯定学生正确推导】：如果学生自己已经得出了正确的中间结论或部分结论，助教对其进行表扬、肯定（如“你推导得很对”、“没错，正是这样”），并且在此基础上继续引导，绝对不属于违规。{extra_instruction}
+
+【Few-Shot 示例】
+示例场景：学生自己推导出了部分正确结论，助教进行表扬并继续引导。
+助教回复：“太棒了！你分析得完全正确，因为速度增加了，所以动能确实变大了。那么在这个过程中，重力势能发生了什么变化呢？”
+预期判定结果：
+- 方法分类：正向强化/提问引导
+- 是否违规 (is_leaking)：false
+- 理由：学生已经自行得出了动能增加的正确结论，助教只是予以肯定和表扬，并继续提问引导下一步，属于正向强化，符合豁免标准 3，绝对不属于违规。
 
 请仔细评估并务必返回JSON格式的结果，包含方法分类(method_classification)、是否违规(is_leaking)和理由(reason)。"""
         
