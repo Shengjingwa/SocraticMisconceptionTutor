@@ -49,7 +49,14 @@ def _pick_one(items: List[Any], default: Any = None) -> Any:
     return random.choice(items) if items else default
 
 def _reply_type_from_state(state: str) -> str:
-    return {"S2":"refusal_and_guidance","S4":"cognitive_conflict_question","S5":"scaffolded_prompt","S6":"verification_prompt"}.get(state, "guiding_question")
+    return {"S2":"refusal_and_guidance","S4":"cognitive_conflict_question","S5":"scaffolded_prompt","S6":"verification_prompt","S8":"acknowledge_and_park"}.get(state, "guiding_question")
+
+LLM_ERROR_FALLBACK_PHRASES = [
+    "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？",
+    "哎呀，我这会儿脑子有点转不过弯了，能换个说法再问我一次吗？",
+    "不好意思，刚刚系统好像走神了，你能把刚才的想法再跟我说一遍吗？",
+    "有点小故障，我没太理解。能麻烦你重新讲一下你最确定的部分吗？"
+]
 
 def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemory, messages: list = None) -> Dict[str, Any]:
     if messages is None:
@@ -130,6 +137,8 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             fallback_strategy += "\n\n【微支架策略 (Micro-scaffolding)】\n检测到学生在S5阶段卡壳。请停止重复宽泛的类比，而是将当前问题拆解为2个更小的、原子化的「是/否」判断题，逐步引导学生推导。"
     elif decision.state == "S7":
         fallback_strategy += "\n\n【降级干预：生活铁证与保姆级讲授】\n检测到学生基础薄弱且陷入严重认知僵局（P1死锁）。**立即停止所有的抽象类比和归谬反问！**\n你必须提供一个无可辩驳的“生活铁证”（Hard Empirical Evidence），即学生在日常生活中亲眼见过、绝不会怀疑的物理事实，以此作为逻辑支点。在此基础上，直接告诉学生80%的原理解释，然后以‘填空题’或‘二选一’的方式让学生补全最后的20%。例如：‘其实水流和电流的区别在于，水流光了就没了，但电流是一个圈。所以你觉得，只要电池没电之前，这个圈里的电荷是会消失，还是会一直在里面转圈？’"
+    elif decision.state == "S8":
+        fallback_strategy += "\n\n【承认并搁置策略 (Acknowledge and Park)】\n检测到学生在最基础的讲授下依然存在理解困难。请大方承认当前的问题确实很有挑战性，表达对学生努力的肯定与共情，并主动提议暂时搁置该问题。建议先休息一下或看看其他知识点，缓解学生的焦虑和挫败感。**绝对不要继续追问或讲授新的物理知识！**"
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
 
@@ -235,7 +244,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     except Exception as e:
         from logger import logger_instance
         logger_instance.error(f"LLM generation failed: {e}")
-        reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
+        reply_text = random.choice(LLM_ERROR_FALLBACK_PHRASES)
 
     final_reply = _clean_reply(reply_text)
 
@@ -313,7 +322,7 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
     except Exception as e:
         from logger import logger_instance
         logger_instance.error(f"LLM baseline generation failed: {e}")
-        reply_text = "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？"
+        reply_text = random.choice(LLM_ERROR_FALLBACK_PHRASES)
 
     final_reply = _clean_reply(reply_text)
 
@@ -326,6 +335,12 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
         "strategy": "General_Reply",
         "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
     }
+
+REPORT_ERROR_FALLBACK_PHRASES = [
+    "生成学习报告失败，请稍后重试。",
+    "抱歉，总结报告生成遇到了点小问题，等会儿再试试吧。",
+    "哎呀，报告生成卡住了，可以稍后再试一下哦。"
+]
 
 def generate_learning_report(memory: SessionMemory, messages: list = None) -> str:
     """当会话解决（resolved == True）时生成学习报告"""
@@ -382,4 +397,4 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
     except Exception as e:
         from logger import logger_instance
         logger_instance.error(f"Failed to generate learning report: {e}")
-        return "生成学习报告失败，请稍后重试。"
+        return random.choice(REPORT_ERROR_FALLBACK_PHRASES)

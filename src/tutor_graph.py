@@ -8,6 +8,7 @@ import config
 import os
 os.environ["LANGCHAIN_ALLOWED_MSGPACK_MODULES"] = "router.SessionMemory,router.PerceptionResult,router.RouteDecision"
 
+import random
 from state import GraphState
 from classifiers import classify_input
 from router import route_state, RouteDecision, SessionMemory, PerceptionResult
@@ -24,6 +25,13 @@ if hasattr(serializer, '_msgpack_allowlist'):
 
 def _get_serializer() -> JsonPlusSerializer:
     return serializer
+
+GUARDRAIL_FALLBACK_PHRASES = [
+    "为了确保咱们走在正确的思路上，我建议咱们先退回基础概念捋一捋。你能告诉我你目前最确定的部分是什么吗？",
+    "这个问题其实挺容易绕进去的，不如我们换个简单的角度，你觉得最初的核心问题在哪里？",
+    "我发现我们可能有点偏离方向了。咱们重置一下思路，你先说说你最确信的一点是啥？",
+    "为了不把你带偏，咱们不如慢一点。你先说说看，这几个条件里你觉得哪个是最关键的？"
+]
 
 def classify_node(state: GraphState) -> Dict[str, Any]:
     user_input = state["user_input"]
@@ -76,7 +84,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     if retries >= 2:
         new_memory = memory.model_copy(deep=True)
         new_memory.consecutive_guardrail_triggers += 1
-        generation["final_reply"] = "为了确保准确性，我建议我们先从基础概念开始梳理。你能告诉我你目前最确定的部分是什么吗？"
+        generation["final_reply"] = random.choice(GUARDRAIL_FALLBACK_PHRASES)
         guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation, "memory": new_memory}
 

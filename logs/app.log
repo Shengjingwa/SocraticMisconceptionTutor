@@ -1446,3 +1446,4 @@ reason
 
 咦？算出来真的一样！所以只要物体全在水里，不管多深，这个“差值”都不变是吗？
 2026-04-14 16:46:10,195 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_5d6dc9] Session finished. Resolved: False
+2026-04-14 09:20:30,357 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail

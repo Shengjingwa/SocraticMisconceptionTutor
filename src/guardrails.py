@@ -128,7 +128,6 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
     "reason": "你的理由"
 }}"""
         
-        structured_llm = llm.with_structured_output(GuardrailOutput)
         messages = [
             SystemMessage(content=judge_prompt),
             HumanMessage(content=f"助教回复内容:\n{generated_text}")
@@ -140,7 +139,14 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             reraise=True
         )
         def _invoke_judge():
-            return structured_llm.invoke(messages)
+            response = llm.invoke(messages)
+            text = response.content
+            match = re.search(r'\{.*\}', text, re.DOTALL)
+            if not match:
+                raise ValueError("No JSON block found in response")
+            json_str = match.group(0)
+            data = json.loads(json_str)
+            return GuardrailOutput(**data)
             
         judge_result = _invoke_judge()
         if judge_result.is_leaking:
