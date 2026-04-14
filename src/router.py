@@ -63,7 +63,7 @@ STATE_NAMES = {
     "S4": "Cognitive_Conflict",
     "S5": "Scaffolding_Guidance",
     "S6": "Verification_Deepening",
-    "S7": "Direct_Instruction_with_Check",
+    "S7": "Fact_Grounding",
     "S8": "Acknowledge_and_Park",
 }
 MISCONCEPTION_TO_TOPIC = {
@@ -78,7 +78,7 @@ STATE_STRATEGIES = {
     "S4": ["Assumption_Probing", "Consequence_Exploration"],
     "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding", "Sub_goal_Tracking"],
     "S6": ["Evidence_Seeking", "Consequence_Exploration"],
-    "S7": ["Fill_in_the_Blank_Scaffolding"],
+    "S7": ["Fact_Grounding"],
     "S8": ["Acknowledge_and_Park"],
 }
 STRATEGY_GOALS = {
@@ -89,7 +89,7 @@ STRATEGY_GOALS = {
     "Evidence_Seeking": "引导学生用现象、实验或理由支持自己的判断。",
     "Consequence_Exploration": "把学生当前解释继续推演，检验其后果是否合理。",
     "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
-    "Fill_in_the_Blank_Scaffolding": "直接提供80%的原理解释，并以二选一或填空的方式让学生补全最后的20%。",
+    "Fact_Grounding": "直接提供不可反驳的物理实验现象或事实，制造强烈的认知冲突，且绝对不给出原理解释。",
     "Sub_goal_Tracking": "引导学生通过2-3步的微引导路径逐步打破僵局。",
     "Acknowledge_and_Park": "承认当前问题的难度，肯定学生的努力，并主动提议暂时搁置该问题以缓解焦虑。",
 }
@@ -123,11 +123,11 @@ ANTI_LOOP_RULES = [
         action=lambda target: "S5",
         description="User rejects thought experiment (negative sentiment in S4), downgrade to S5"
     ),
-    # 防环规则3：S5深度死循环防备 (近期连续3次以上S5) -> 降级到S7保姆级直接讲授
+    # 防环规则3：S5深度死循环防备 (近期连续3次以上S5) -> 降级到S7事实兜底
     TransitionRule(
         condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
         action=lambda target: "S7",
-        description="Break S5 deep loop, fallback to S7 Direct Instruction"
+        description="Break S5 deep loop, fallback to S7 Fact-Grounding"
     ),
     # 防环规则4：S7死循环防备 (近期在S7卡住2次或以上) -> 转移到S8承认并搁置
     TransitionRule(

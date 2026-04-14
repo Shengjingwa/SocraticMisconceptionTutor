@@ -1211,3 +1211,8 @@ For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/erro
 2026-04-14 21:24:14,600 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_92aeee] Student: 嗯……好像是这么个理儿。
 那是不是只要潜水艇没被压扁，它上下的高度差没变，这个“压力差”也就一直不变啦？
 2026-04-14 21:24:14,600 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_92aeee] Session finished. Reason: max_turns_reached
+2026-04-14 14:08:56,191 - SessionLogger - INFO - Initialized Session test_p1_fact_grounding_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 14:09:14,742 - SessionLogger - INFO - Initialized Session test_p1_fact_grounding_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 14:09:36,295 - SessionLogger - INFO - Initialized Session test_p1_fact_grounding_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 14:10:40,452 - SessionLogger - INFO - Initialized Session test_p1_fact_grounding_001 on Unknown for Unknown with version FSM+Guardrail
+2026-04-14 14:10:57,415 - SessionLogger - INFO - Initialized Session test_p1_fact_grounding_001 on Unknown for Unknown with version FSM+Guardrail

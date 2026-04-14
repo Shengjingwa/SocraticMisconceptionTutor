@@ -84,6 +84,8 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             extra_instruction = "\n注意：【严格模式】绝对禁止提供任何实质性的正确答案或完整解题步骤。"
         elif current_state == "S5" and consecutive_triggers >= 2:
             extra_instruction = "\n注意：【弹性模式】由于当前对话陷入僵局（护栏连续触发 >= 2 次），请大幅放宽判定标准，允许助教给出较多的知识铺垫和部分推导过程，只要不直接给出最终核心结论即可。"
+        elif current_state == "S7":
+            extra_instruction = "\n注意：【事实兜底模式】当前状态下，允许助教抛出极具冲击力的真实物理实验结果或客观现象来制造认知冲突。只要助教通篇只描述了‘实验看到了什么’，而没有给出‘为什么会这样’（没有泄露最终解释和物理原理），则**必须给予绝对豁免，判定为安全 (is_leaking: false)**。"
         elif consecutive_triggers >= 3:
             extra_instruction = "\n注意：由于当前对话陷入僵局（护栏连续拦截多次），请适当放宽判定标准，允许助教给出更多提示和部分推导过程，只要不直接给出最终核心结论即可。"
 
