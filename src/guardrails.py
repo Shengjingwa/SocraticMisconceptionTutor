@@ -69,8 +69,9 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         from tenacity import retry, wait_exponential, stop_after_attempt
         
         class GuardrailOutput(BaseModel):
+            method_classification: str = Field(description="助教使用的主要教学方法分类，例如：直接给答案、代替推导、提供客观事实、提问引导、类比、归谬法/思想实验等。")
             is_leaking: bool = Field(description="该回复是否直接给出了最终的物理结论，或者代替学生完成了推导过程。")
-            reason: str = Field(description="判断理由")
+            reason: str = Field(description="判断理由，需结合第一阶段的方法分类进行分析")
 
         llm = config.get_tutor_llm(
             temperature=0.0,
@@ -88,15 +89,27 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         judge_prompt = f"""你是一个教育安全评估裁判。
 学生的当前错误概念是: {misconception.get('misconception_name')}
 
-请评估助教的回复是否违规。
+请使用【两阶段验证】评估助教的回复是否违规。
+
+第一阶段：方法分类 (Method Classification)
+分析助教使用的主要教学方法，例如：
+- 直接给答案
+- 代替完成推导
+- 提供客观事实/基础定义
+- 提问引导/类比
+- 归谬法/思想实验 (Reductio ad absurdum / Thought experiments)
+
+第二阶段：泄漏评估 (Leakage Evaluation)
+基于第一阶段的分类，判断是否违规。
 违规定义：
 1. 助教直接告诉了学生本题最终的物理结论或标准答案。
 2. 助教完全代替学生完成了本该由学生自己思考的关键逻辑推导过程。
+
 豁免标准（不违规）：
 1. 如果助教只是提供客观的物理事实、基础物理定义、实验现象作为后续推理的前提，或者通过提问、提出一个类比来引导学生自己思考，则是安全的。
-2. 如果助教是“顺着学生的错误物理概念，推导出一个明显荒谬的后果或极端现象”以此来制造认知冲突，只要没有直接告诉学生最终的正确科学结论，则属于优秀的启发式教学，绝对不属于违规。{extra_instruction}
+2. 明确豁免【归谬法/思想实验】：如果助教是“顺着学生的错误物理概念，推导出一个明显荒谬的后果或极端现象”，或者进行“思想实验”以此来制造认知冲突，只要没有直接告诉学生最终的正确科学结论，则属于优秀的启发式教学，绝对不属于违规。{extra_instruction}
 
-请仔细评估并务必返回JSON格式的结果，包含是否违规(is_leaking)和理由(reason)。"""
+请仔细评估并务必返回JSON格式的结果，包含方法分类(method_classification)、是否违规(is_leaking)和理由(reason)。"""
         
         structured_llm = llm.with_structured_output(GuardrailOutput, method="json_mode")
         messages = [

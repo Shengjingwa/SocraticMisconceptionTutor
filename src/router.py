@@ -12,6 +12,8 @@ class PerceptionResult:
     sentiment: str = "平静"
     risk_flag: bool = False
     confidence: float = 0.0
+    transition_approved: bool = False
+    reasoning: str = ""
 
 class SessionMemory(BaseModel):
     session_id: str
@@ -174,18 +176,24 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     if perception.misconception_tag:
         new_memory.current_misconception = perception.misconception_tag
         new_memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, new_memory.topic)
+
+    # State Transition Logic based on Assessor Agent
+    # Find the last valid pedagogical state
+    valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6"]]
+    base_state = valid_states[-1] if valid_states else "S3"
         
-    # State Transition Matrix based on Cognitive State
-    transition_map = {
-        "固守错误概念": "S4",
-        "认知冲突触发": "S4",
-        "认知僵局": "S5",
-        "新概念探索": "S6",
-        "概念掌握验证": "S6"
-    }
-    
-    target = transition_map.get(perception.cognitive_state, "S3")
-    
+    if perception.transition_approved:
+        if base_state == "S3":
+            target = "S4"
+        elif base_state == "S4":
+            target = "S5"
+        elif base_state == "S5":
+            target = "S6"
+        else:
+            target = "S6"
+    else:
+        target = base_state
+
     # 应用声明式转移与防死循环规则
     target = apply_transition_rules(target, perception, new_memory)
 
@@ -194,7 +202,8 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
         state=target, state_name=STATE_NAMES.get(target, "Unknown_State"), strategy=strategy,
         need_guardrail=False, next_goal=STRATEGY_GOALS.get(strategy, "未知目标"),
         meta={"from":"S3","intent":perception.intent,"misconception_tag":perception.misconception_tag,
-              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,"topic":new_memory.topic}
+              "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,
+              "transition_approved":perception.transition_approved, "reasoning":perception.reasoning, "topic":new_memory.topic}
     )
     new_memory.current_state = decision.state
     new_memory.recent_states.append(decision.state)

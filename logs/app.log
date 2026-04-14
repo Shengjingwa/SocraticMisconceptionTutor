@@ -1198,3 +1198,6 @@
 2026-04-14 01:41:33,405 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_478191] Student: 身高差肯定是不变的啊，我又没被压缩。
 所以您的意思是，虽然整体位置变深了，但上下表面的“高度差”没变，导致压力差也没变？
 2026-04-14 01:41:33,405 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-BUO-002_478191] Session finished. Resolved: False
+2026-04-14 01:21:45,419 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
+2026-04-14 01:21:45,771 - SessionLogger - ERROR - Global exception during graph execution: Invalid format specifier ' "Misconception_Expression", "misconception_tag": "M-ELE-001", "cognitive_state": "固守错误概念", "transition_approved": true, "reasoning": "学生表达了具体的错误观念，S3的退出条件已满足", "sentiment": "平静", "confidence": 0.95' for object of type 'str'
+2026-04-14 01:22:13,916 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail

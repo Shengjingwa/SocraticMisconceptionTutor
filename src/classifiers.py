@@ -30,6 +30,9 @@ class NLUOutput(BaseModel):
         "概念掌握验证"
     ] = Field(description="用户当前的认知状态")
 
+    transition_approved: bool = Field(description="用户是否满足了当前教学状态的退出条件，可以进入下一个教学环节")
+    reasoning: str = Field(description="判断是否允许状态转移的理由")
+
     sentiment: Literal[
         "焦虑/挫败",
         "困惑",
@@ -110,7 +113,7 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
         logger_instance.error(f"Post-test evaluation failed: {e}")
         return False
 
-def classify_input(user_input: str, messages: list = None, history_summary: str = "") -> PerceptionResult:
+def classify_input(user_input: str, messages: list = None, history_summary: str = "", current_state: str = "S0") -> PerceptionResult:
     if messages is None:
         messages = []
         
@@ -142,8 +145,19 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
     
     structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")
     
-    system_prompt = """你是一个专门用于物理辅导对话的自然语言理解(NLU)模块。
-你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态、情感状态以及你的置信度。
+    system_prompt = f"""你是一个专门用于物理辅导对话的自然语言理解(NLU)和教学状态评估(Assessor)模块。
+你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态、情感状态，并判断是否允许进入下一个教学环节(transition_approved)。
+
+当前所在的教学状态是: {current_state}
+
+各状态的允许转移(transition_approved=true)退出条件如下:
+- S3 (Misconception_Diagnosis): 已经明确知道学生存在哪个具体的错误概念(Misconception)。
+- S4 (Cognitive_Conflict): 学生开始对自己的原始错误想法产生怀疑，或者发现自己的想法导致了矛盾，表示“好像不对”。
+- S5 (Scaffolding_Guidance): 学生在引导下，能够提出新的、向正确方向靠拢的假设或解释。
+- S6 (Verification_Deepening): 学生能够用自己的话准确、完整地解释物理原理，没有事实错误。
+- 其他状态(S0, S1, S2): 默认设为 false。
+
+你需要严格判断学生当前的回复是否满足了【{current_state}】状态的退出条件。如果满足，设置 transition_approved 为 true，并给出 reasoning；如果不满足，设为 false，并给出 reasoning。
 
 可用的错误概念标签(Misconception):
 - M-ELE-001: 认为电流在电路中会被消耗(如灯泡用掉电流)
@@ -176,32 +190,32 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 【示例1】
 历史对话: 无
 当前用户输入: "灯泡亮了是因为它把电流吃掉了吗？"
-输出: {"intent": "Misconception_Expression", "misconception_tag": "M-ELE-001", "cognitive_state": "固守错误概念", "sentiment": "平静", "confidence": 0.95}
+输出: {{"intent": "Misconception_Expression", "misconception_tag": "M-ELE-001", "cognitive_state": "固守错误概念", "transition_approved": true, "reasoning": "学生表达了具体的错误观念，S3的退出条件已满足", "sentiment": "平静", "confidence": 0.95}}
 
 【示例2】
 历史对话: 助教: 那你觉得如果水压越大浮力越大，为什么深海里的石头不会浮上来呢？
 当前用户输入: "呃……好像也是哦，那到底是怎么回事啊？我不知道了。"
-输出: {"intent": "Cognitive_Stuck", "misconception_tag": "M-BUO-002", "cognitive_state": "认知冲突触发", "sentiment": "困惑", "confidence": 0.90}
+输出: {{"intent": "Cognitive_Stuck", "misconception_tag": "M-BUO-002", "cognitive_state": "认知冲突触发", "transition_approved": true, "reasoning": "学生已经开始怀疑自己水压大浮力大的想法(S4条件满足)", "sentiment": "困惑", "confidence": 0.90}}
 
 【示例3】
 历史对话: 助教: 回想一下我们刚刚讨论的阿基米德原理，排开的水的体积决定了什么？
 当前用户输入: "嗯，所以浮力只和排开的水的体积有关，和深度没有关系，对吧？"
-输出: {"intent": "Hypothesis_Put_Forward", "misconception_tag": "M-BUO-002", "cognitive_state": "新概念探索", "sentiment": "平静", "confidence": 0.85}
+输出: {{"intent": "Hypothesis_Put_Forward", "misconception_tag": "M-BUO-002", "cognitive_state": "新概念探索", "transition_approved": true, "reasoning": "学生提出了向正确方向靠拢的新解释(S5条件满足)", "sentiment": "平静", "confidence": 0.85}}
 
 【示例4】
 历史对话: 助教: 你能总结一下串联电路里各处的电流大小吗？
 当前用户输入: "我懂了，串联电路里处处电流都相等！"
-输出: {"intent": "Knowledge_Inquiry", "misconception_tag": "M-ELE-001", "cognitive_state": "概念掌握验证", "sentiment": "自信", "confidence": 0.95}
+输出: {{"intent": "Knowledge_Inquiry", "misconception_tag": "M-ELE-001", "cognitive_state": "概念掌握验证", "transition_approved": true, "reasoning": "学生用自己的话准确解释了原理(S6条件满足)", "sentiment": "自信", "confidence": 0.95}}
 
 【示例5】
 历史对话: 助教: 你觉得水管里的水流过水车后，水变少了吗？
 当前用户输入: "哦，原来是这样，我懂了！"
-输出: {"intent": "Cognitive_Stuck", "misconception_tag": "M-ELE-001", "cognitive_state": "认知僵局", "sentiment": "平静", "confidence": 0.85}
+输出: {{"intent": "Cognitive_Stuck", "misconception_tag": "M-ELE-001", "cognitive_state": "认知僵局", "transition_approved": false, "reasoning": "学生只说懂了但没有给出具体解释，不满足状态退出条件", "sentiment": "平静", "confidence": 0.85}}
 
 【示例6】
 历史对话: 助教: 再仔细想想，如果电流被消耗了，后面的灯泡应该怎样？
 当前用户输入: "哎呀我不知道！你直接告诉我答案行不行啊，太难了！"
-输出: {"intent": "Direct_Answer_Seek", "misconception_tag": "M-ELE-001", "cognitive_state": "认知僵局", "sentiment": "焦虑/挫败", "confidence": 0.95}
+输出: {{"intent": "Direct_Answer_Seek", "misconception_tag": "M-ELE-001", "cognitive_state": "认知僵局", "transition_approved": false, "reasoning": "学生处于挫败状态，要求直接给答案，不满足认知冲突的推进条件", "sentiment": "焦虑/挫败", "confidence": 0.95}}
 
 请分析用户的输入，并务必返回JSON格式的结果。"""
 
@@ -256,7 +270,9 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 cognitive_state=data.get("cognitive_state") or "认知僵局",
                 sentiment=data.get("sentiment") or "平静",
                 risk_flag=data.get("intent") == "Direct_Answer_Seek",
-                confidence=float(data.get("confidence") or 0.0)
+                confidence=float(data.get("confidence") or 0.0),
+                transition_approved=bool(data.get("transition_approved") or False),
+                reasoning=data.get("reasoning") or ""
             )
         except Exception as fallback_e:
             logger_instance.error(f"Fallback NLU parsing failed: {fallback_e}")
@@ -266,7 +282,9 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 cognitive_state="认知僵局",
                 sentiment="平静",
                 risk_flag=False,
-                confidence=0.0
+                confidence=0.0,
+                transition_approved=False,
+                reasoning="Fallback NLU Error"
             )
     
     # Calculate risk_flag based on intent
@@ -278,5 +296,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
         cognitive_state=result.cognitive_state,
         sentiment=result.sentiment,
         risk_flag=risk_flag,
-        confidence=result.confidence
+        confidence=result.confidence,
+        transition_approved=result.transition_approved,
+        reasoning=result.reasoning
     )
