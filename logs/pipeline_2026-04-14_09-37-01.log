@@ -21,21 +21,48 @@
 
 你觉得在导线里，电荷会凭空消失或者堆积在某个地方吗？
 2026-04-14 09:37:25,613 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 呃……好像确实没地方漏出去？但是灯泡亮了不就是把电“用”掉了吗，那电流难道不会跟着变少吗？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:27,437 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 可是灯泡发光发热肯定是要消耗东西的啊，不然能量从哪来？我觉得电流就是被灯泡“吃掉”了一部分，所以才变小的。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:29,993 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 那如果我们在这个电路里串联10个一样的小灯泡，按你的说法，流到最后一个灯泡的电流岂不是几乎被“吃”光了？你觉得第10个灯泡还会亮吗？
 2026-04-14 09:37:30,113 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 如果按你的说法，电流每经过一个灯泡就被“吃掉”一些，那如果我们把100个小灯泡串联在一起，你觉得最后那个灯泡还会亮吗？
 2026-04-14 09:37:31,155 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 肯定会亮啊，虽然可能暗一点。但电流又不是瞬间消失的，总得剩下一点流到最后吧？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:31,396 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 嗯……照这么说，第10个灯泡应该非常暗，甚至可能不亮吧？毕竟电流都被前面9个分得差不多了。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:31,478 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Teacher: 那如果我们在这个电路里一口气串联50个同样的小灯泡，按照你的想法，流到第50个灯泡的电流还剩多少呢？它还能亮起来吗？
 2026-04-14 09:37:31,579 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 灯泡确实消耗了“能量”，但你可以把电流想象成送货的卡车。卡车把货物（能量）卸在第一个灯泡后，卡车本身（电荷）是会消失，还是继续开往下一个地方？
 2026-04-14 09:37:32,805 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Student: 那……第50个灯泡分到的电流肯定特别少，应该会很暗很暗吧？不过好像确实还能亮一点点？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:33,091 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 噢……卡车卸完货确实还在啊。所以您的意思是，电流只是把能量留下了，但电流本身并没有减少，还是那么多流到后面去？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:34,227 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 你说得对，能量确实被消耗了，变成了光和热。但你想过没，电流像是运送能量的“快递员”，货物送出去了，快递员本人会因此变少吗？
 2026-04-14 09:37:34,314 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 照这个逻辑，如果我们串联100个一样的灯泡，第100个灯泡分到的电流岂不是微乎其微？你觉得它还能正常发光吗？
 2026-04-14 09:37:36,085 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 那肯定啊，流到后面电流都快没了，第100个灯泡估计连丝都烧不红，根本亮不起来。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:36,086 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 可是老师，如果快递员没变少，那为什么灯泡会亮呢？我觉得肯定是电流里的“劲儿”被用掉了，所以流过去的电流肯定变小了呀。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:37,382 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 没错，电荷（卡车）的数量没变。既然流过两个灯泡的电流一样大，你觉得灯泡的亮度主要还跟什么因素有关呢？
 2026-04-14 09:37:38,350 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 既然电流没变，那是不是跟灯泡本身的电阻有关？电阻大的话，卡车卸货就更费劲，所以更亮？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:42,560 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 那如果我们在电路里串联一千个灯泡，按照“每过一个就少一点”的逻辑，最后一个灯泡分到的电流是不是就微乎其微，甚至应该完全不亮了？
 2026-04-14 09:37:43,805 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 这个直觉很敏锐！在串联电路里，电阻大的地方确实“分”到的电压更多。你觉得是电流大更亮，还是每个电荷“卸”下的能量（电压）多更亮呢？
 2026-04-14 09:37:43,808 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 那咱们换个角度，如果“劲儿”指的是电压（电势差），你觉得电荷流过灯泡后，是“人数”变少了，还是每个人身上带的“能量”变少了？
@@ -43,43 +70,100 @@
 
 但在实际实验里，这50个灯泡的亮度其实是一模一样的，并没有出现“前亮后暗”的情况。既然亮度没变，你觉得流过它们的电流大小真的改变了吗？
 2026-04-14 09:37:44,133 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 那……可能确实会变得非常暗，甚至不亮。但这不正好说明电流是被消耗了吗？越往后剩的越少啊。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:46,808 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 嗯……如果电流一样，那肯定是每个电荷卸下的能量越多越亮吧？毕竟刚才说了电流没被消耗嘛。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:46,895 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Student: 啊？真的全都一样亮吗？那……难道电流其实并没有被灯泡“吃掉”？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:47,616 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 我觉得是人数变少了啊，因为灯泡把电流“用”掉了嘛。如果人数没变，那灯泡是怎么把电给消耗掉的？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:49,635 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 这个推论听起来很符合直觉，但如果你去实验室真的连上这10个相同的灯泡，你会发现它们其实是一样亮的。这和你刚才推测的“后面变暗”矛盾了，你觉得问题出在哪？
 2026-04-14 09:37:50,768 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 啊？真的都一样亮吗？那……难道电流其实并没有被灯泡“吃掉”？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:50,798 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 正是如此！每个电荷“卸”下的能量越多，灯泡就越亮。在串联电路里，你觉得电阻大的灯泡，分到的电压（也就是每个电荷卸下的能量）会更多还是更少呢？
 2026-04-14 09:37:52,205 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 应该是更多吧？因为电阻大就像路更难走，电荷得“费劲”才能过去，所以卸下的能量就多了？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:53,913 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 这个直觉很自然，但我们可以做个思想实验：如果电流真的像水流过水车那样被“用掉”变少了，那在两个完全相同的灯泡串联时，你觉得第一个灯泡会比第二个更亮吗？
 2026-04-14 09:37:55,753 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 那肯定啊，第一个灯泡先“吃”掉了大部分电流，剩下的才给第二个，所以第一个应该更亮才对。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:55,774 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 想象一下，如果进灯泡的“快递员”多，出来的少，那多出来的那些人都挤在灯泡里干嘛呢？电路可是个闭合的圈子呀。
 2026-04-14 09:37:56,625 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 那如果我们把第1个和第100个灯泡对调一下位置，原来那个“几乎不亮”的灯泡现在跑到了最前面，它是不是就突然变得很亮了？
 2026-04-14 09:37:57,189 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 那肯定不是挤在里面啊，是被灯泡消耗掉变成光了呗。反正我觉得流过去的电流就是比流进来的少，这是常识。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:37:58,830 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 没错，阻力越大，克服它做的功（释放的能量）就越多。现在结合 $P=UI$ 想想，既然串联时电流 $I$ 相同，电阻大的灯泡电压 $U$ 也大，那它的实际功率 $P$ 会怎样？
 2026-04-14 09:37:58,914 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Teacher: 没错，灯泡消耗的是电能（把它变成了光和热），而不是把电流本身给“吃”没了。
 
 你可以想象一下封闭水管里的水流：如果水管里没有漏水，流进第一个水轮的水量，和流出它去推动第二个水轮的水量，会发生变化吗？
 2026-04-14 09:37:59,680 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 那肯定啊，它排在第一个就能先“吃”到最多的电流，当然就亮了，这有什么好奇怪的。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:00,161 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 那功率 $P$ 肯定也变大了呀，因为 $I$ 没变，$U$ 变大了嘛。所以电阻大的灯泡实际更亮？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:00,582 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 没错，灯泡发光确实需要“消耗”点什么，但电流更像是在管道里循环流动的水流。既然水流没有被“喝掉”，那灯泡到底是从哪里获取能量来发光的呢？
 2026-04-14 09:38:02,460 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Student: 水管里的水确实不会凭空消失……所以电流其实就像水一样，只是转了一圈又流回去了，并没有变少？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:02,527 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 水流……所以电流只是负责运送能量的“搬运工”？那是不是它把能量卸在灯泡里，自己还是原样流走了？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:03,619 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 好，那咱们做个思想实验：如果把两个一模一样的灯泡串联起来，按你的说法，第二个灯泡得到的“人数”更少，它应该比第一个暗很多吧？
 2026-04-14 09:38:04,854 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 但在实际实验中，两个相同的灯泡串联时亮度是一模一样的，并没有出现“前亮后暗”的现象，这和你刚才推测的“第一个更亮”矛盾了，你觉得这是为什么？
 2026-04-14 09:38:05,513 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 对啊，第一个灯泡肯定更亮，因为它先把大部分电流给“用”掉了。剩下的那点电流流到第二个灯泡，肯定就没劲儿了，所以第二个肯定暗很多。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:06,242 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 不可能吧，实验肯定有误差，或者灯泡其实有一点点差别。反正电流流过去肯定变少了，第一个不可能和第二个完全一样亮。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:09,512 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 既然灯泡的亮度完全取决于它“抢”到的电流多少，那如果我把这两个完全一样的灯泡互换位置，原本在后面那个“吃不饱”的灯泡到了前面，它的亮度会瞬间变亮吗？
 2026-04-14 09:38:11,288 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Teacher: 你说得很对，电流就像在封闭管道里循环流动的水，总量保持不变。
 
 既然流进和流出的“水量”（电流）是一样的，那灯泡发光所需要的能量，究竟是靠消耗“水流本身”，还是靠水流推动叶片转动时释放的能量呢？
 2026-04-14 09:38:12,524 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 那肯定啊，它跑到前面就能先“吃”到最多的电流，当然就变亮了，这逻辑没毛病吧？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:12,743 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 这个比喻很形象！既然“搬运工”把货物（能量）卸下后，人数并没有减少，那你觉得在串联电路的不同位置测量电流，数值会发生变化吗？
 2026-04-14 09:38:13,711 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 既然“搬运工”的人数没变，那测出来的电流大小应该也是一样的吧？所以我之前以为后面电流变小是错的？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:14,539 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Student: 哦……所以灯泡是靠水流“推”它来发光的，而不是把水给用掉了？那电流其实就是负责搬运能量的“搬运工”？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:18,572 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 那你回忆一下，或者想象一下，如果把两个一样的小灯泡串在一起接在电池上，你见过的现象是第一个很亮、第二个很暗，还是两个一样亮呢？
 2026-04-14 09:38:19,588 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 如果灯泡真的像你说的那样“吃掉”了电流，那我们在电路不同位置接入电流表时，读数应该是不一样的吧？你觉得实验测出来的结果会支持你的这个预测吗？
 2026-04-14 09:38:21,249 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 那……好像确实是一样亮的。但这可能是因为电池劲儿大，硬推过去的吧？反正我觉得电流肯定还是被第一个灯泡吃掉了一部分。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:23,305 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 电流表测的又不是灯泡里的电流，那玩意儿肯定不准。再说了，电流流过去肯定变少了，这是常识，实验数据肯定是哪里出错了。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:32,719 - SessionLogger - INFO - [sim_FSM_P2_M-ELE-001_e759ec] Teacher: 这个“搬运工”的比喻非常精准！电荷就是那个不知疲倦的搬运工。
 
 既然搬运工在串联电路里只能走这一条路，而且队伍不能断开也不能堆积，你觉得他在电路任何一个位置经过的“快慢”（也就是电流大小）会不一样吗？
@@ -92,26 +176,53 @@
 那如果把它们改成**并联**接在同一个电源上，你觉得此时哪个物理量对两个灯泡来说是相同的？
 2026-04-14 09:38:40,789 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 没错，电流在串联电路中确实是处处相等的。那你现在能试着解释一下，既然电流大小没变，灯泡发光的能量究竟是从哪里来的吗？
 2026-04-14 09:38:41,656 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 并联的话，它们两端的电压应该是一样的吧？毕竟都直接连在电源两头。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:44,074 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Teacher: 想象一下水管里的水流，如果水流过第一个水车后变少了，那多出来的水都去哪儿了呢？
 2026-04-14 09:38:44,126 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 如果电流真的像你说的越往后越少，那“消失”的那部分电荷岂不是会堆积在两个灯泡之间的导线上？你见过导线因为塞满了多余的电荷而鼓起来吗？
 2026-04-14 09:38:44,659 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 哦……所以电流本身没少，但是它流过灯泡时“累”了，把携带的能量交出去了？是电压在推着它做功吗？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:46,704 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 没错，并联时电压 $U$ 相同。那这次用 $P = \frac{U^2}{R}$ 来看，电阻 $R$ 大的灯泡，功率 $P$ 会更大还是更小呢？
 2026-04-14 09:38:47,018 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Student: 呃……水是不是被水车“喝”掉或者变成别的什么了？毕竟灯泡发光发热，肯定得消耗点什么东西吧。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:47,736 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 分母越大，结果应该越小吧？所以电阻大的灯泡功率反而更小？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:47,796 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 电荷那么小，就算堆在导线里我们也看不见啊，怎么可能鼓起来。反正电流就是被灯泡用掉了，这跟导线鼓不鼓没关系吧？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:53,457 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 分析得很到位！所以在并联电路里，电阻大的灯泡反而更暗。
 
 对比一下串联和并联的情况，你觉得决定灯泡亮度的关键，到底是电阻本身的大小，还是它在电路中实际获得的功率？
 2026-04-14 09:38:56,583 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 好像是实际功率吧？毕竟刚才电阻大的在串联里亮，并联里却暗，电阻没变但亮度变了。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:38:56,797 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Teacher: 你说得对，能量确实被消耗变成了光和热。但你想，如果“水流”（电流）真的变少了，那多出来的电荷堆积在哪里了呢？
 2026-04-14 09:38:58,068 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Teacher: 你说得很对，正是电压在推动电荷移动并做功。既然“搬运工”的数量（电流）没变，但每个人出的力（电压/电势能）变了，这能解释为什么灯泡会亮而电流却不减少吗？
 2026-04-14 09:39:00,671 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Student: 啊？电荷会堆积吗……我以为它们流过去就没了或者变少了。那如果没变少，灯泡到底是靠什么发光的呢？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:01,554 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Teacher: 如果电荷真的在中间“堆积”起来，那后面的灯泡很快就会因为没电荷可流而熄灭，但现实中只要开关闭合，两个灯泡就能一直亮着，这中间的电荷是从哪凭空变出来的呢？
 2026-04-14 09:39:01,663 - SessionLogger - INFO - [sim_FSM+Guardrail_P2_M-ELE-001_9252e1] Student: 啊，我好像有点明白了！原来灯泡消耗的是电荷携带的能量（电势能），而不是把电荷本身给“吃掉”了，所以电流大小才保持不变。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:02,305 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Teacher: 太棒了，你抓住了本质！电阻只是灯泡的一个属性，而亮度取决于它实际“吃”进去多少能量。
 
 那现在回想一下，我们最开始担心的“电流流过第一个灯泡会被消耗”，这个想法现在还站得住脚吗？
 2026-04-14 09:39:02,952 - SessionLogger - INFO - [sim_FSM+Guardrail_P1_M-ELE-001_16feda] Student: 那……可能是电源一直在拼命往后推？反正前面的灯泡肯定先分走了一部分，后面的就是会少一点。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:03,659 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Student: 好像有点站不住了……如果电流真被“用掉”变少了，那后面的灯泡分到的电压和功率应该都会受影响吧？但我还是有点乱，电流到底去哪了？
 2026-04-14 09:39:03,660 - SessionLogger - INFO - [sim_Baseline_P2_M-ELE-001_bec8f3] Session finished. Resolved: False
 2026-04-14 09:39:03,660 - SessionLogger - INFO - [sim_FSM_P3_M-ELE-001_68c526] Starting session
@@ -120,16 +231,40 @@
 2026-04-14 09:39:07,019 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Teacher: 电荷就像搬运工，它们本身没少，但把“能量”卸在了灯泡里。你觉得在串联电路里，这两个“搬运工”干活的速度（电流）会不一样吗？
 2026-04-14 09:39:07,023 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 想象一条没有岔路的单行道，车子一辆接一辆紧密行驶。如果入口每分钟进去 10 辆车，你觉得出口每分钟出来的车会少于 10 辆吗？那些“消失”的车去哪了？
 2026-04-14 09:39:08,893 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 车子和电流又不一样，车子是实物，电流是被灯泡“用”掉的能量。你别拿这种不恰当的比喻来糊弄我，灯泡发光发热难道不需要消耗东西吗？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:08,910 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Student: 搬运工？所以它们只是把力气用光了，但人还在队伍里？那……既然人没少，是不是意味着后面那个灯泡得到的“搬运工”数量和前面是一样多的？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:13,798 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 如果电流真的被“吃掉”变少了，那流回电池负极的电流岂不是比正极出来的少？电荷都去哪儿了，难道在灯泡里堆积起来了吗？
 2026-04-14 09:39:15,077 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 没堆积啊，是被转化成光和热散出去了呗。电流就是能量，用掉了当然就变少了，这有什么好奇怪的？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:15,121 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Teacher: 没错，电荷的数量确实没变。那既然流过两个灯泡的“搬运工”数量一样多，你觉得为什么通常离电源正极近的灯泡并不会比远处的更亮呢？
 2026-04-14 09:39:16,618 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Student: 诶？好像确实是……我以前总觉得前面的先“吃”饱了，后面的就饿了。如果搬运工数量一样，那是不是说明它们每个人卸下的“货”（能量）也是一样的？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:19,871 - SessionLogger - INFO - [sim_FSM_P3_M-ELE-001_68c526] Teacher: 那如果我们把一百个完全一样的小灯泡串联在一起，按你的想法，第一百个灯泡得到的电流岂不是微乎其微，甚至根本不亮了？
 2026-04-14 09:39:20,047 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Teacher: 你说得对，灯泡发光确实消耗了能量。但请你想一想：如果电流本身被“烧”没了，那流进第一个灯泡的电荷去了哪里？它们难道在灯丝里凭空消失了吗？
 2026-04-14 09:39:21,772 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Teacher: 那咱们打个比方：电流像不像送快递的小哥？他把手里的包裹（能量）卸在灯泡里变成光和热，但小哥本人（电荷）是不是还得继续往下一个地方走？
 2026-04-14 09:39:22,080 - SessionLogger - INFO - [sim_FSM_P3_M-ELE-001_68c526] Student: 呃……好像是有点道理？但电流流过去肯定得做功发光啊，能量都变成光了，那剩下的电流不就少了吗？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:23,901 - SessionLogger - INFO - [sim_FSM_P1_M-ELE-001_61f297] Student: 电荷肯定没消失，但电流变弱了啊！你就说灯泡亮不亮吧，亮了就是被消耗了，这还用问吗？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:24,011 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Teacher: 如果两个灯泡完全一样，那确实每人卸下的“货”也一样多。但如果一个灯泡电阻大（路难走），另一个电阻小（路好走），你觉得哪个会让搬运工更费力、卸下更多的能量呢？
 2026-04-14 09:39:25,438 - SessionLogger - INFO - [sim_Baseline_P3_M-ELE-001_308cc5] Student: 路难走肯定更费力吧？那是不是电阻大的那个灯泡，搬运工得把更多的能量“卸”在那儿才能挤过去？
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
 2026-04-14 09:39:25,599 - SessionLogger - INFO - [sim_Baseline_P1_M-ELE-001_a40237] Student: 可是快递小哥送完货不就下班回家了吗？怎么可能还继续往下走？我觉得电流就是那个包裹，卸完了就没了。
+Deserializing unregistered type router.SessionMemory from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'SessionMemory')]
+Deserializing unregistered type router.PerceptionResult from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'PerceptionResult')]
+Deserializing unregistered type router.RouteDecision from checkpoint. This will be blocked in a future version. Add to allowed_msgpack_modules to silence: [('router', 'RouteDecision')]
