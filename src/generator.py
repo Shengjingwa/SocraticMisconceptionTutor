@@ -102,8 +102,14 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     reasoning_flaws = "\n- ".join(rf_list)
 
     sentiment = decision.meta.get("sentiment", "")
+    cognitive_state = decision.meta.get("cognitive_state", "")
+    
     empathy_scaffolding = ""
     fallback_strategy = ""
+    subgoal_tracking = ""
+
+    if cognitive_state == "认知僵局":
+        subgoal_tracking = "\n\n【子目标追踪 (Sub-goal Tracking)】\n检测到学生处于“认知僵局”。请在 <think> 标签内规划一个 2-3 步的微引导路径（Micro-journey），并且在接下来的连续几轮对话中严格执行这个路径，不要轻易偏离。每次回复只执行其中一步，逐步引导学生打破僵局。"
 
     if sentiment in ["焦虑/挫败", "困惑"]:
         empathy_scaffolding = "\n\n【认知共情支架】\n检测到学生当前处于焦虑、挫败或困惑的情绪状态。严禁使用“没关系”、“别着急”等生硬套话！你必须通过指出物理概念本身容易混淆或反直觉的地方（例如：“这个现象确实反直觉，因为我们在生活中很少注意到……”）来建立“认知共情”，并将共情与下一个引导问题无缝融合。"
@@ -123,7 +129,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         elif memory.recent_states.count("S5") >= 2:
             fallback_strategy += "\n\n【微支架策略 (Micro-scaffolding)】\n检测到学生在S5阶段卡壳。请停止重复宽泛的类比，而是将当前问题拆解为2个更小的、原子化的「是/否」判断题，逐步引导学生推导。"
     elif decision.state == "S7":
-        fallback_strategy += "\n\n【降级干预：保姆级直接讲授】\n检测到学生基础薄弱且陷入严重认知僵局。**立即停止所有的抽象类比和归谬反问！**\n你必须直接告诉学生80%的原理解释，然后以‘填空题’或‘二选一’的方式让学生补全最后的20%。例如：‘其实水流和电流的区别在于，水流光了就没了，但电流是一个圈。所以你觉得，只要电池没电之前，这个圈里的电荷是会消失，还是会一直在里面转圈？’"
+        fallback_strategy += "\n\n【降级干预：生活铁证与保姆级讲授】\n检测到学生基础薄弱且陷入严重认知僵局（P1死锁）。**立即停止所有的抽象类比和归谬反问！**\n你必须提供一个无可辩驳的“生活铁证”（Hard Empirical Evidence），即学生在日常生活中亲眼见过、绝不会怀疑的物理事实，以此作为逻辑支点。在此基础上，直接告诉学生80%的原理解释，然后以‘填空题’或‘二选一’的方式让学生补全最后的20%。例如：‘其实水流和电流的区别在于，水流光了就没了，但电流是一个圈。所以你觉得，只要电池没电之前，这个圈里的电荷是会消失，还是会一直在里面转圈？’"
 
     system_prompt = f"""你是引导思考的初中物理苏格拉底式助教。
 
@@ -156,7 +162,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 8. 每次回复只能提出一个清晰的问题，严禁自问自答，严禁同时抛出多个维度的变量（如同时混杂重量、形状和体积）。
 
 【红线警告】
-在任何情况下，你的公开回复中绝对不允许直接出现本题的核心物理定论（如‘因此浮力等于排开水的重力’、‘只有闭合回路才能持续有电流’等）。你只能陈述现象，最终的定论必须留给学生自己说出来！{empathy_scaffolding}{fallback_strategy}"""
+在任何情况下，你的公开回复中绝对不允许直接出现本题的核心物理定论（如‘因此浮力等于排开水的重力’、‘只有闭合回路才能持续有电流’等）。你只能陈述现象，最终的定论必须留给学生自己说出来！**请注意：提供充分的物理情境描述、实验现象说明以及中间逻辑推导并不属于泄露，而是必要的引导。**{empathy_scaffolding}{fallback_strategy}{subgoal_tracking}"""
 
     assembled_prompt = {
         "role_identity": "你是引导思考的初中物理苏格拉底式助教",

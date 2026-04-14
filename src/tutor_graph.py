@@ -136,9 +136,9 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     
     new_memory = memory.model_copy(deep=True)
     
-    # 存入本轮 AI 回复
-    final_reply = generation["final_reply"]
-    new_message = AIMessage(content=final_reply)
+    # 存入本轮 AI 回复 (使用 raw_reply 以保留 <think> 标签供后续轮次参考)
+    raw_reply = generation.get("raw_reply", generation["final_reply"])
+    new_message = AIMessage(content=raw_reply)
     updates = {"messages": [new_message]}
     
     # 动态压缩机制：如果历史轮次过长

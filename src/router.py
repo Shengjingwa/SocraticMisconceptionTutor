@@ -73,7 +73,7 @@ STATE_STRATEGIES = {
     "S2": [None],
     "S3": [None],
     "S4": ["Assumption_Probing", "Consequence_Exploration"],
-    "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding"],
+    "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding", "Sub_goal_Tracking"],
     "S6": ["Evidence_Seeking", "Consequence_Exploration"],
     "S7": ["Fill_in_the_Blank_Scaffolding"],
 }
@@ -86,6 +86,7 @@ STRATEGY_GOALS = {
     "Consequence_Exploration": "把学生当前解释继续推演，检验其后果是否合理。",
     "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
     "Fill_in_the_Blank_Scaffolding": "直接提供80%的原理解释，并以二选一或填空的方式让学生补全最后的20%。",
+    "Sub_goal_Tracking": "引导学生通过2-3步的微引导路径逐步打破僵局。",
 }
 
 @dataclass
@@ -154,6 +155,10 @@ def _choose_strategy(state: str, memory: SessionMemory, perception: Optional[Per
         return None
         
     recent_states = memory.recent_states
+    
+    # 启发式动态推荐规则: 认知僵局强制走 Sub_goal_Tracking
+    if perception and perception.cognitive_state == "认知僵局" and "Sub_goal_Tracking" in candidates:
+        return "Sub_goal_Tracking"
     
     # 启发式动态推荐规则 1: 如果在 S5 (Scaffolding) 状态卡住多次，优先使用类比支架
     if state == "S5":
