@@ -84,6 +84,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     if retries >= 2:
         new_memory = memory.model_copy(deep=True)
         new_memory.consecutive_guardrail_triggers += 1
+        new_memory.turn_guardrail_triggers += 1
         generation["final_reply"] = random.choice(GUARDRAIL_FALLBACK_PHRASES)
         guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation, "memory": new_memory}
@@ -106,6 +107,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     new_memory = memory.model_copy(deep=True)
     if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_memory.consecutive_guardrail_triggers += 1
+        new_memory.turn_guardrail_triggers += 1
         
         new_meta = decision.meta.copy()
         new_meta["guardrail_retries"] = retries + 1

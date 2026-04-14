@@ -1353,3 +1353,4 @@ reason
 既然现在理清了完全浸没的情况，那如果物体只有一半在水里，继续往下按直到完全浸没的过程中，浮力会变吗？
 2026-04-14 18:50:14,528 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_ad4372] Student: 这时候 $V_排$ 是在变大的吧？因为浸入水里的部分越来越多了，所以浮力应该会变大，直到完全没入水里为止？
 2026-04-14 18:50:14,528 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_ad4372] Session finished. Reason: max_turns_reached
+2026-04-14 11:35:16,799 - SessionLogger - INFO - Initialized Session test_guardrail_metrics_001 on Unknown for Unknown with version FSM+Guardrail

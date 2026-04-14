@@ -120,8 +120,9 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
 - 理由：学生已经自行得出了动能增加的正确结论，助教只是予以肯定和表扬，并继续提问引导下一步，属于正向强化，符合豁免标准 3，绝对不属于违规。
 
 【输出格式强制要求】
-你必须且只能输出合法的 JSON 对象，绝对不要包含 ```json 或其他 markdown 格式标签。
-返回的 JSON 必须严格包含以下三个字段：
+返回的结果必须是能够被直接解析的纯 JSON 格式对象！
+不要使用 Markdown 格式（绝对不要包含 ```json），也不要加任何前言或后语。
+严格使用如下结构：
 {{
     "method_classification": "你的分类",
     "is_leaking": true 或 false,
@@ -145,6 +146,10 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             if not match:
                 raise ValueError("No JSON block found in response")
             json_str = match.group(0)
+            
+            # Clean up markdown or invisible characters if any
+            json_str = json_str.strip()
+            
             data = json.loads(json_str)
             return GuardrailOutput(**data)
             

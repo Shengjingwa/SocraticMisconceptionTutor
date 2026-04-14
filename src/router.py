@@ -37,6 +37,7 @@ class SessionMemory(BaseModel):
     resolved: bool = False
     aborted: bool = False
     consecutive_guardrail_triggers: int = 0
+    turn_guardrail_triggers: int = 0
 
 @dataclass
 class RouteDecision:
@@ -288,4 +289,5 @@ def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, 
     new_memory.recent_states = new_memory.recent_states[-10:]
     new_memory.used_strategies = new_memory.used_strategies[-10:]
     new_memory.risk_events = new_memory.risk_events[-10:]
+    new_memory.turn_guardrail_triggers = 0
     return new_memory

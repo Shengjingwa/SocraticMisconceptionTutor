@@ -84,6 +84,10 @@ class SocraticTutorApp:
 
         if turn_log["guardrail_triggered"]:
             self.guardrail_trigger_count += 1
+            # 累加拦截次数，避免被最后一次成功生成的未触发状态覆盖
+            if getattr(self.memory, "turn_guardrail_triggers", 0) > 0:
+                 self.guardrail_trigger_count += self.memory.turn_guardrail_triggers - 1
+                 
         if turn_log["answer_leakage_flag"]:
             self.answer_leakage_count += 1
 
