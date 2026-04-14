@@ -1444,3 +1444,4 @@ For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/erro
 
 所以虽然 $h$ 变大了导致压强都变大，但相减之后那个 $\Delta h$ 还是固定的，所以浮力不变？
 2026-04-14 12:21:35,609 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_ac3cb3] Session finished. Resolved: False
+2026-04-14 05:03:18,887 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail

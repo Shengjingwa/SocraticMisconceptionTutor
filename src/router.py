@@ -61,6 +61,7 @@ STATE_NAMES = {
     "S4": "Cognitive_Conflict",
     "S5": "Scaffolding_Guidance",
     "S6": "Verification_Deepening",
+    "S7": "Direct_Instruction_with_Check",
 }
 MISCONCEPTION_TO_TOPIC = {
     "M-ELE-001": "电学",
@@ -74,6 +75,7 @@ STATE_STRATEGIES = {
     "S4": ["Assumption_Probing", "Consequence_Exploration"],
     "S5": ["Clarification", "Evidence_Seeking", "Analogical_Scaffolding"],
     "S6": ["Evidence_Seeking", "Consequence_Exploration"],
+    "S7": ["Fill_in_the_Blank_Scaffolding"],
 }
 STRATEGY_GOALS = {
     None: "引导学生进一步明确自己的想法或提供更多细节。",
@@ -83,6 +85,7 @@ STRATEGY_GOALS = {
     "Evidence_Seeking": "引导学生用现象、实验或理由支持自己的判断。",
     "Consequence_Exploration": "把学生当前解释继续推演，检验其后果是否合理。",
     "Analogical_Scaffolding": "用有边界的类比支架帮助学生跨过理解障碍。",
+    "Fill_in_the_Blank_Scaffolding": "直接提供80%的原理解释，并以二选一或填空的方式让学生补全最后的20%。",
 }
 
 @dataclass
@@ -114,15 +117,15 @@ ANTI_LOOP_RULES = [
         action=lambda target: "S5",
         description="User rejects thought experiment (negative sentiment in S4), downgrade to S5"
     ),
-    # 防环规则3：S5死循环防备 -> 退回S4重新激发思考
+    # 防环规则3：S5深度死循环防备 (近期连续3次以上S5) -> 降级到S7保姆级直接讲授
     TransitionRule(
         condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
-        action=lambda target: "S4",
-        description="Break S5 loop"
+        action=lambda target: "S7",
+        description="Break S5 deep loop, fallback to S7 Direct Instruction"
     ),
     # 防环规则4：其他非验证状态连续卡住3次 -> 强制转移到S5提供支架
     TransitionRule(
-        condition=lambda target, p, m: target not in ("S4", "S6") and m.recent_states[-3:] == [target] * 3,
+        condition=lambda target, p, m: target not in ("S4", "S6", "S7") and m.recent_states[-3:] == [target] * 3,
         action=lambda target: "S5",
         description="Break other loops"
     )
@@ -205,7 +208,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
 
     # State Transition Logic based on Assessor Agent
     # Find the last valid pedagogical state
-    valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6"]]
+    valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6", "S7"]]
     base_state = valid_states[-1] if valid_states else "S3"
         
     if perception.transition_approved:
@@ -213,7 +216,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
             target = "S4"
         elif base_state == "S4":
             target = "S5"
-        elif base_state == "S5":
+        elif base_state in ["S5", "S7"]:
             target = "S6"
         else:
             target = "S6"

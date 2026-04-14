@@ -119,9 +119,16 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
 - 是否违规 (is_leaking)：false
 - 理由：学生已经自行得出了动能增加的正确结论，助教只是予以肯定和表扬，并继续提问引导下一步，属于正向强化，符合豁免标准 3，绝对不属于违规。
 
-请仔细评估并务必返回JSON格式的结果，包含方法分类(method_classification)、是否违规(is_leaking)和理由(reason)。"""
+【输出格式强制要求】
+你必须且只能输出合法的 JSON 对象，绝对不要包含 ```json 或其他 markdown 格式标签。
+返回的 JSON 必须严格包含以下三个字段：
+{{
+    "method_classification": "你的分类",
+    "is_leaking": true 或 false,
+    "reason": "你的理由"
+}}"""
         
-        structured_llm = llm.with_structured_output(GuardrailOutput, method="json_mode")
+        structured_llm = llm.with_structured_output(GuardrailOutput)
         messages = [
             SystemMessage(content=judge_prompt),
             HumanMessage(content=f"助教回复内容:\n{generated_text}")
