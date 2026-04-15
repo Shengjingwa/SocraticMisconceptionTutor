@@ -174,7 +174,7 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     updates = {"messages": [new_message]}
     
     # 动态压缩机制：如果历史轮次过长
-    if len(messages) > config.MAX_HISTORY_TURNS * 2:
+    if config.DASHSCOPE_API_KEY and len(messages) > config.MAX_HISTORY_TURNS * 2:
         import json
         llm = config.get_tutor_llm(max_tokens=500)
         
@@ -196,22 +196,51 @@ def finalize_node(state: GraphState) -> Dict[str, Any]:
     updates["memory"] = new_memory
     return updates
 def baseline_node(state: GraphState) -> Dict[str, Any]:
-    from generator import generate_baseline_reply
-    from router import PerceptionResult, RouteDecision
+    import os
+    from classifiers import classify_input
+    from generator import generate_baseline_reply, generate_reply
+    from router import RouteDecision
     user_input = state["user_input"]
     memory = state["memory"]
     messages = state.get("messages", [])
 
     new_memory = memory.model_copy(deep=True)
     new_memory.turn_count += 1
-    new_memory.current_state = "Baseline"
-    new_memory.recent_states.append("Baseline")
+    current_state = getattr(memory, "current_state", "Baseline") or "Baseline"
 
-    # 填充假的 perception 和 decision
-    perception = PerceptionResult(intent="Unknown", misconception_tag=new_memory.current_misconception, cognitive_state="新概念探索", risk_flag=False, confidence=0.0)
-    decision = RouteDecision(state="Baseline", state_name="Baseline_Chat", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
+    perception = classify_input(
+        user_input,
+        messages=messages,
+        history_summary=new_memory.history_summary,
+        current_state=current_state if current_state != "Baseline" else "S3",
+        prior_misconception_tag=new_memory.current_misconception,
+    )
 
-    generation = generate_baseline_reply(user_input, new_memory, messages=messages)
+    max_turns = int(os.getenv("SIMULATION_MAX_TURNS", "10"))
+    should_trigger_post_test = (
+        (not getattr(new_memory, "post_test_attempted", False))
+        and (not getattr(new_memory, "post_test_pending", False))
+        and (new_memory.turn_count >= max(1, max_turns - 1))
+    )
+
+    if should_trigger_post_test:
+        decision = RouteDecision(
+            state="S6",
+            state_name="Verification_Deepening",
+            strategy="Baseline_PostTest",
+            need_guardrail=False,
+            next_goal="请学生用自己的话解释关键机制（post-test）",
+            meta={"force_safe_template": True, "baseline_post_test": True},
+        )
+        new_memory.current_state = "S6"
+        new_memory.recent_states.append("S6")
+        new_memory.post_test_pending = True
+        generation = generate_reply(user_input, decision, new_memory, messages=messages)
+    else:
+        decision = RouteDecision(state="Baseline", state_name="Baseline_Chat", strategy="General_Reply", need_guardrail=False, next_goal=None, meta={})
+        new_memory.current_state = "Baseline"
+        new_memory.recent_states.append("Baseline")
+        generation = generate_baseline_reply(user_input, new_memory, messages=messages)
 
     return {
         "perception": perception,

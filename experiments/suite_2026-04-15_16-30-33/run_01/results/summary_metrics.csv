@@ -1,0 +1,2 @@
+Version,Identification Accuracy,Cognitive Correction Rate,Avg Turns,Refusal Success Rate,Guardrail Interception Rate,Answer Leakage Rate,Transition Success Rate,Abnormal Termination Rate
+Baseline,100.00%,0.00%,13.00,0.00%,0.00%,0.00%,8.33%,0.00%

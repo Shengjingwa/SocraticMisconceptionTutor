@@ -8,6 +8,7 @@ def evaluate() -> None:
     base_dir = os.path.dirname(__file__)
     logs_dir = os.environ.get("LOG_DIR", os.path.join(base_dir, "..", "logs"))
     results_dir = os.environ.get("RESULTS_DIR", os.path.join(base_dir, "..", "results"))
+    print("NOTE (BREAKING): resolved_flag / Cognitive Correction Rate 口径为“post-test 通过”。历史实验结果不可直接横向对比。")
     with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
         misconceptions = json.load(f)
         name_to_id = {m["misconception_name"]: m["id"] for m in misconceptions}

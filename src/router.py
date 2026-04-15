@@ -36,6 +36,9 @@ class SessionMemory(BaseModel):
     recent_states: List[str] = Field(default_factory=list)
     risk_events: List[str] = Field(default_factory=list)
     resolved: bool = False
+    post_test_pending: bool = False
+    post_test_attempted: bool = False
+    post_test_passed: bool = False
     aborted: bool = False
     consecutive_guardrail_triggers: int = 0
     turn_guardrail_triggers: int = 0
@@ -300,8 +303,23 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
         
     return decision, new_memory
 
-def update_after_turn(memory: SessionMemory, user_input: str, final_reply: str, history_summary: Optional[str] = None, understanding_verified: bool = False) -> SessionMemory:
+def update_after_turn(
+    memory: SessionMemory,
+    user_input: str,
+    final_reply: str,
+    history_summary: Optional[str] = None,
+    understanding_verified: bool = False,
+    post_test_pending: Optional[bool] = None,
+    post_test_attempted: Optional[bool] = None,
+    post_test_passed: Optional[bool] = None,
+) -> SessionMemory:
     new_memory = memory.model_copy(deep=True)
+    if post_test_pending is not None:
+        new_memory.post_test_pending = bool(post_test_pending)
+    if post_test_attempted is not None:
+        new_memory.post_test_attempted = bool(post_test_attempted)
+    if post_test_passed is not None:
+        new_memory.post_test_passed = bool(post_test_passed)
     if understanding_verified:
         new_memory.resolved = True
     if history_summary is not None:
