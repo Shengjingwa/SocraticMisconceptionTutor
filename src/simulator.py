@@ -195,7 +195,7 @@ async def run_simulation() -> None:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
+    num_runs = 3  # 为了避免API限速，这里设定为3次（总计108组对话）
 
     if os.getenv("SIMULATION_SMOKE") == "1":
         misconceptions = misconceptions[:1]
