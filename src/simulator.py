@@ -205,7 +205,7 @@ async def run_simulation() -> None:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = int(os.getenv("SIMULATION_NUM_RUNS", "3"))
+    num_runs = int(os.getenv("SIMULATION_NUM_RUNS", "1"))
 
     if os.getenv("SIMULATION_SMOKE") == "1":
         misconceptions = misconceptions[:1]

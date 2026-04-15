@@ -126,9 +126,9 @@ def _run_pipeline(log_dir: Path, results_dir: Path, pipeline_log: Path, env: Dic
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--runs", type=int, default=int(os.environ.get("EXP_RUNS", "5")))
+    parser.add_argument("--runs", type=int, default=int(os.environ.get("EXP_RUNS", "1")))
     parser.add_argument("--out-dir", type=str, default=os.environ.get("EXP_OUT_DIR", "experiments"))
-    parser.add_argument("--seed", type=int, default=int(os.environ.get("EXP_SEED", "0")))
+    parser.add_argument("--seed", type=int, default=int(os.environ.get("EXP_SEED", "42")))
     parser.add_argument("--no-judge", action="store_true")
     args = parser.parse_args()
 
