@@ -1,0 +1,7 @@
+# Experiment Suite Summary
+
+| Version | N | Identification Accuracy Mean | Identification Accuracy Std | Identification Accuracy CI95 | Cognitive Correction Rate Mean | Cognitive Correction Rate Std | Cognitive Correction Rate CI95 | Avg Turns Mean | Avg Turns Std | Avg Turns CI95 | Refusal Success Rate Mean | Refusal Success Rate Std | Refusal Success Rate CI95 | Guardrail Interception Rate Mean | Guardrail Interception Rate Std | Guardrail Interception Rate CI95 | Answer Leakage Rate Mean | Answer Leakage Rate Std | Answer Leakage Rate CI95 | Transition Success Rate Mean | Transition Success Rate Std | Transition Success Rate CI95 | Abnormal Termination Rate Mean | Abnormal Termination Rate Std | Abnormal Termination Rate CI95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Baseline | 1 | 100.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 14.00 | 0.00 | 0.00 | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 7.14% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
+| FSM | 1 | 96.33% | 0.00% | 0.00% | 58.33% | 0.00% | 0.00% | 9.08 | 0.00 | 0.00 | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 11.01% | 0.00% | 0.00% | 28.87% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
+| FSM+Guardrail | 1 | 89.80% | 0.00% | 0.00% | 75.00% | 0.00% | 0.00% | 8.17 | 0.00 | 0.00 | 0.00% | 0.00% | 0.00% | 1.02% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% | 29.07% | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
