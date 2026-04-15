@@ -17,23 +17,12 @@ class NLUOutput(BaseModel):
     
     misconception_tag: Optional[str] = Field(default=None, description="识别到的错误概念标签（如 M-ELE-001, M-BUO-002 等），如果没有明确的错误概念则必须返回 null")
     
-    cognitive_state: Literal[
-        "认知僵局",
-        "固守错误概念",
-        "认知冲突触发",
-        "新概念探索",
-        "概念掌握验证"
-    ] = Field(description="用户当前的认知状态")
+    cognitive_state: str = Field(description="用户当前的认知状态，必须严格从以下选项中选择：'认知僵局', '固守错误概念', '认知冲突触发', '新概念探索', '概念掌握验证'")
 
     transition_approved: bool = Field(description="用户是否满足了当前教学状态的退出条件，可以进入下一个教学环节")
     reasoning: str = Field(description="判断是否允许状态转移的理由")
 
-    sentiment: Literal[
-        "焦虑/挫败",
-        "困惑",
-        "自信",
-        "平静"
-    ] = Field(description="用户当前的情感状态")
+    sentiment: str = Field(description="用户当前的情感状态，必须严格从以下选项中选择：'焦虑/挫败', '困惑', '自信', '平静'")
     
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 

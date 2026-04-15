@@ -1364,3 +1364,4 @@ For troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/erro
 2026-04-15 10:11:58,607 - SessionLogger - INFO - [sim_FSM+Guardrail_P3_M-BUO-002_b3dc74] Session finished. Reason: resolved
 2026-04-15 10:12:00,904 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_7df5c0] Student: 那应该是重力等于浮力吧？这样合力为零，它就不动了。
 2026-04-15 10:12:00,905 - SessionLogger - INFO - [sim_Baseline_P3_M-BUO-002_7df5c0] Session finished. Reason: max_turns_reached
+2026-04-15 02:40:17,402 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
