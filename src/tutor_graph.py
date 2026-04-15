@@ -94,7 +94,8 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
     memory = state["memory"]
     
     retries = decision.meta.get("guardrail_retries", 0)
-    if retries >= 2:
+    max_retries = 3 if (getattr(memory, "student_profile", None) == "P1" or decision.state == "S7") else 2
+    if retries >= max_retries:
         new_memory = memory.model_copy(deep=True)
         new_memory.consecutive_guardrail_triggers += 1
         new_memory.turn_guardrail_triggers += 1
@@ -134,7 +135,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         if guardrail_result.get("answer_leakage_flag", False):
             # 柔性护栏：不改变原始教学状态，将拦截理由作为反馈要求重新生成
             new_meta["guardrail_feedback"] = guardrail_result.get("guardrail_reason", "Answer Leakage")
-            if retries >= 1:
+            if getattr(memory, "student_profile", None) == "P1" or retries >= 1:
                 new_meta["force_safe_template"] = True
             new_decision = RouteDecision(
                 state=decision.state,

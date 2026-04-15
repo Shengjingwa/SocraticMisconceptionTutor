@@ -144,6 +144,8 @@ async def run_single_session(v, m, p, i, sem):
             
             import os
             max_turns = int(os.getenv("SIMULATION_MAX_TURNS", "10"))
+            if p.get("profile_id") == "P1":
+                max_turns += int(os.getenv("SIMULATION_P1_EXTRA_TURNS", "3"))
             turn = 0
             resolved = False
             

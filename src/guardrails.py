@@ -64,6 +64,8 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         r"浮力.*(和|与).*(深度).*无关",
         r"浮力.*(不变|保持不变)"
     ]
+    if current_state == "S7":
+        direct_conclusion_patterns = [p for p in direct_conclusion_patterns if ("电流" not in p and "闭合" not in p and "浮力" not in p)]
     for pattern in direct_conclusion_patterns:
         if re.search(pattern, generated_text):
              return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
