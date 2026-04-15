@@ -17,7 +17,7 @@ class EvaluationOutput(BaseModel):
 
 def evaluate_session(session_id: str, messages: list) -> EvaluationOutput:
     if not config.DASHSCOPE_API_KEY:
-        print("未配置 DEEPSEEK_API_KEY，使用 Mock 结果")
+        print("未配置 DASHSCOPE_API_KEY，使用 Mock 结果")
         return EvaluationOutput(socratic_degree=3, teaching_effectiveness=3, reasoning="Mock evaluation due to missing API key")
 
     llm = config.get_judge_llm(**config.DEFAULT_LLM_KWARGS)
@@ -45,7 +45,8 @@ def evaluate_session(session_id: str, messages: list) -> EvaluationOutput:
 
 def main():
     base_dir = Path(__file__).resolve().parent.parent
-    logs_dir = base_dir / "logs"
+    logs_dir = Path(os.environ.get("LOG_DIR", str(base_dir / "logs"))).resolve()
+    logs_dir.mkdir(parents=True, exist_ok=True)
     turn_logs_file = logs_dir / "turn_logs.jsonl"
     eval_results_file = logs_dir / "evaluation_results.json"
     

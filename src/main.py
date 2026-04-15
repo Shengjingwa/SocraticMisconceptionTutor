@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict
 import sys
+import os
 
 SRC_DIR = Path(__file__).resolve().parent
 if str(SRC_DIR) not in sys.path:
@@ -15,8 +16,8 @@ from logger import logger_instance
 from tutor_graph import app_graph
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-LOG_DIR = BASE_DIR / "logs"
-LOG_DIR.mkdir(exist_ok=True)
+LOG_DIR = Path(os.environ.get("LOG_DIR", str(BASE_DIR / "logs"))).resolve()
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 def _timestamp() -> str:
     return datetime.now().isoformat(timespec="seconds")

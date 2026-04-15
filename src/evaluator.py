@@ -6,17 +6,19 @@ import os
 
 def evaluate() -> None:
     base_dir = os.path.dirname(__file__)
+    logs_dir = os.environ.get("LOG_DIR", os.path.join(base_dir, "..", "logs"))
+    results_dir = os.environ.get("RESULTS_DIR", os.path.join(base_dir, "..", "results"))
     with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
         misconceptions = json.load(f)
         name_to_id = {m["misconception_name"]: m["id"] for m in misconceptions}
 
     turn_logs = []
-    with open(os.path.join(base_dir, '..', 'logs', 'turn_logs.jsonl'), 'r') as f:
+    with open(os.path.join(logs_dir, 'turn_logs.jsonl'), 'r', encoding="utf-8") as f:
         for line in f:
             turn_logs.append(json.loads(line))
             
     session_logs = []
-    with open(os.path.join(base_dir, '..', 'logs', 'session_summary.jsonl'), 'r') as f:
+    with open(os.path.join(logs_dir, 'session_summary.jsonl'), 'r', encoding="utf-8") as f:
         for line in f:
             session_logs.append(json.loads(line))
 
@@ -75,6 +77,10 @@ def evaluate() -> None:
             metrics[v]["successful_transitions"] += 1
         prev_states[session_id] = current_state
 
+    present_versions = {s.get("system_version") for s in session_logs if s.get("system_version")}
+    if present_versions:
+        versions = [v for v in versions if v in present_versions] + sorted(present_versions - set(versions))
+
     results = []
     for v in versions:
         m = metrics[v]
@@ -102,25 +108,37 @@ def evaluate() -> None:
             "Abnormal Termination Rate": f"{abnormal_rate:.2%}"
         })
 
-    base_dir = os.path.dirname(__file__)
-    results_dir = os.path.join(base_dir, '..', 'results')
     os.makedirs(results_dir, exist_ok=True)
+    fieldnames = results[0].keys() if results else [
+        "Version",
+        "Identification Accuracy",
+        "Cognitive Correction Rate",
+        "Avg Turns",
+        "Refusal Success Rate",
+        "Guardrail Interception Rate",
+        "Answer Leakage Rate",
+        "Transition Success Rate",
+        "Abnormal Termination Rate"
+    ]
     with open(os.path.join(results_dir, 'summary_metrics.csv'), 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=results[0].keys())
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(results)
     
-    print("Metrics calculated and saved to results/summary_metrics.csv")
+    print(f"Metrics calculated and saved to {os.path.join(results_dir, 'summary_metrics.csv')}")
 
 def sample_audit() -> None:
     import random
     base_dir = os.path.dirname(__file__)
-    sessions_by_version = {"Baseline": [], "FSM": [], "FSM+Guardrail": []}
+    logs_dir = os.environ.get("LOG_DIR", os.path.join(base_dir, "..", "logs"))
+    results_dir = os.environ.get("RESULTS_DIR", os.path.join(base_dir, "..", "results"))
+    sessions_by_version = {}
     
-    with open(os.path.join(base_dir, '..', 'logs', 'session_summary.jsonl'), 'r') as f:
+    with open(os.path.join(logs_dir, 'session_summary.jsonl'), 'r', encoding="utf-8") as f:
         for line in f:
             session = json.loads(line)
-            sessions_by_version[session['system_version']].append(session['session_id'])
+            v = session.get("system_version") or "Unknown"
+            sessions_by_version.setdefault(v, []).append(session.get("session_id"))
             
     # Sample 2 sessions per version
     sampled_ids = set()
@@ -129,7 +147,7 @@ def sample_audit() -> None:
             sampled_ids.update(random.sample(sessions_by_version[v], min(2, len(sessions_by_version[v]))))
             
     audit_rows = []
-    with open(os.path.join(base_dir, '..', 'logs', 'turn_logs.jsonl'), 'r') as f:
+    with open(os.path.join(logs_dir, 'turn_logs.jsonl'), 'r', encoding="utf-8") as f:
         for line in f:
             turn = json.loads(line)
             if turn['session_id'] in sampled_ids:
@@ -147,14 +165,13 @@ def sample_audit() -> None:
     audit_rows.sort(key=lambda x: (x["Session ID"], x["Turn ID"]))
     
     if audit_rows:
-        results_dir = os.path.join(base_dir, '..', 'results')
         os.makedirs(results_dir, exist_ok=True)
         with open(os.path.join(results_dir, 'manual_audit.csv'), 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=audit_rows[0].keys())
             writer.writeheader()
             writer.writerows(audit_rows)
             
-        print("Created results/manual_audit.csv")
+        print(f"Created {os.path.join(results_dir, 'manual_audit.csv')}")
 
 if __name__ == "__main__":
     evaluate()
