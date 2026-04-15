@@ -11,4 +11,4 @@ venv/
 env/
 logs/*.log
 logs/app.log
-
+experiments/

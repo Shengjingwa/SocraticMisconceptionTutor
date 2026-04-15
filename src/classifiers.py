@@ -40,7 +40,9 @@ def _heuristic_misconception_override(user_input: str, predicted: Optional[str])
         "单线", "一根线", "少一根线", "不用回路", "不需要回路", "不闭合", "不用闭合",
         "不用回到电池", "不需要回到电池", "不用连回去", "不需要连回去",
         "没必要连回去", "没必要非连回去", "没必要一定连回去",
-        "断开也能", "不闭合也能", "只要碰一下", "接一下就", "另一端不用接"
+        "断开也能", "不闭合也能", "只要碰一下", "接一下就", "另一端不用接",
+        "闭合回路", "闭合电路", "回路", "回到电池", "连回电池", "连回去", "回去",
+        "负极", "正极", "回收站", "回收", "回路不完整", "断路", "短接", "电路断开"
     ]
     ele001_kw = ["电流变少", "电流会变少", "被消耗", "用掉", "吃掉", "前面的灯泡", "后面的灯泡", "后面更暗", "串联", "流入大于流出"]
     if _keyword_hit(text, ele002_kw):
@@ -58,12 +60,14 @@ def _apply_prior_tag(user_input: str, predicted: Optional[str], prior_tag: Optio
         return predicted
     if (predicted, prior_tag) in {("M-ELE-001", "M-ELE-002"), ("M-ELE-002", "M-ELE-001")}:
         text = user_input.strip()
-        ele002_strong = _keyword_hit(text, ["单线", "一根线", "只接", "不用回路", "不闭合", "不用回到电池", "不用连回去", "另一端不用接"])
+        ele002_strong = _keyword_hit(text, ["单线", "一根线", "只接", "不用回路", "不闭合", "闭合回路", "回路", "回到电池", "不用回到电池", "不用连回去", "另一端不用接", "负极", "正极", "回收站"])
         ele001_strong = _keyword_hit(text, ["被消耗", "用掉", "吃掉", "后面更暗", "串联"])
         if prior_tag == "M-ELE-002" and ele002_strong and not ele001_strong:
             return prior_tag
         if prior_tag == "M-ELE-001" and ele001_strong and not ele002_strong:
             return prior_tag
+        if ele002_strong and not ele001_strong:
+            return "M-ELE-002"
         return prior_tag if confidence < 0.85 else predicted
     return predicted
 

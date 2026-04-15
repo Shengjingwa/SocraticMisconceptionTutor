@@ -66,6 +66,10 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
     ]
     if current_state == "S7":
         direct_conclusion_patterns = [p for p in direct_conclusion_patterns if ("电流" not in p and "闭合" not in p and "浮力" not in p)]
+    if current_state == "S6":
+        text = (generated_text or "").strip()
+        if len(text) <= 220 and (text.startswith(("对", "没错", "是的", "很好", "你说得对")) or ("？" in text) or ("?" in text)):
+            direct_conclusion_patterns = [p for p in direct_conclusion_patterns if p not in (r"事实\s*是", r"标准\s*答案", r"正确答案\s*是", r"标准\s*结论")]
     for pattern in direct_conclusion_patterns:
         if re.search(pattern, generated_text):
              return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
@@ -75,6 +79,8 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         return {"blocked": False, "reason": None, "answer_leakage": False}
 
     # 2. LLM-as-a-Judge 深度语义检测
+    if not config.DASHSCOPE_API_KEY:
+        return {"blocked": False, "reason": None, "answer_leakage": False}
     try:
         from langchain_core.messages import SystemMessage, HumanMessage
         from pydantic import BaseModel, Field
