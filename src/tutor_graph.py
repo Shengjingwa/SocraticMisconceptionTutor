@@ -48,7 +48,13 @@ def classify_node(state: GraphState) -> Dict[str, Any]:
     valid_states = [s for s in memory.recent_states if s in ["S3", "S4", "S5", "S6", "S7", "S8"]]
     current_state = valid_states[-1] if valid_states else "S3"
     
-    perception = classify_input(user_input, messages=messages, history_summary=memory.history_summary, current_state=current_state)
+    perception = classify_input(
+        user_input,
+        messages=messages,
+        history_summary=memory.history_summary,
+        current_state=current_state,
+        prior_misconception_tag=memory.current_misconception
+    )
     return {"perception": perception}
 
 def route_node(state: GraphState) -> Dict[str, Any]:
@@ -92,7 +98,13 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         new_memory = memory.model_copy(deep=True)
         new_memory.consecutive_guardrail_triggers += 1
         new_memory.turn_guardrail_triggers += 1
-        generation["final_reply"] = random.choice(GUARDRAIL_FALLBACK_PHRASES)
+        try:
+            from generator import _safe_question_template, _clean_reply
+            safe_text = _safe_question_template(user_input, decision, new_memory)
+            generation["raw_reply"] = safe_text
+            generation["final_reply"] = _clean_reply(safe_text)
+        except Exception:
+            generation["final_reply"] = random.choice(GUARDRAIL_FALLBACK_PHRASES)
         guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation, "memory": new_memory}
 

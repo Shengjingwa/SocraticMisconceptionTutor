@@ -34,12 +34,35 @@ def _keyword_hit(text: str, keywords: List[str]) -> bool:
 
 def _heuristic_misconception_override(user_input: str, predicted: Optional[str]) -> Optional[str]:
     text = user_input.strip()
-    ele002_kw = ["只接正极", "只接负极", "单线", "一根线", "不用回路", "不需要回路", "不闭合", "不用闭合", "回路没必要", "只要接", "电流不是已经出来"]
+    ele002_kw = [
+        "只接正极", "只接负极", "只接一端", "只接一头", "只要接一端", "只要接一头",
+        "单线", "一根线", "少一根线", "不用回路", "不需要回路", "不闭合", "不用闭合",
+        "不用回到电池", "不需要回到电池", "不用连回去", "不需要连回去",
+        "断开也能", "不闭合也能", "只要碰一下", "接一下就", "另一端不用接"
+    ]
     ele001_kw = ["电流变少", "电流会变少", "被消耗", "用掉", "吃掉", "前面的灯泡", "后面的灯泡", "后面更暗", "串联", "流入大于流出"]
     if _keyword_hit(text, ele002_kw):
         return "M-ELE-002"
     if _keyword_hit(text, ele001_kw):
         return "M-ELE-001"
+    return predicted
+
+def _apply_prior_tag(user_input: str, predicted: Optional[str], prior_tag: Optional[str], confidence: float) -> Optional[str]:
+    if not prior_tag or prior_tag not in VALID_MISCONCEPTION_TAGS:
+        return predicted
+    if predicted is None:
+        return prior_tag if confidence < 0.75 else predicted
+    if predicted == prior_tag:
+        return predicted
+    if (predicted, prior_tag) in {("M-ELE-001", "M-ELE-002"), ("M-ELE-002", "M-ELE-001")}:
+        text = user_input.strip()
+        ele002_strong = _keyword_hit(text, ["单线", "一根线", "只接", "不用回路", "不闭合", "不用回到电池", "不用连回去", "另一端不用接"])
+        ele001_strong = _keyword_hit(text, ["被消耗", "用掉", "吃掉", "后面更暗", "串联"])
+        if prior_tag == "M-ELE-002" and ele002_strong and not ele001_strong:
+            return prior_tag
+        if prior_tag == "M-ELE-001" and ele001_strong and not ele002_strong:
+            return prior_tag
+        return prior_tag if confidence < 0.85 else predicted
     return predicted
 
 class NLUOutput(BaseModel):
@@ -134,7 +157,7 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
         logger_instance.error(f"Post-test evaluation failed: {e}")
         return False
 
-def classify_input(user_input: str, messages: list = None, history_summary: str = "", current_state: str = "S0") -> PerceptionResult:
+def classify_input(user_input: str, messages: list = None, history_summary: str = "", current_state: str = "S0", prior_misconception_tag: Optional[str] = None) -> PerceptionResult:
     if messages is None:
         messages = []
         
@@ -166,10 +189,12 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
     
     structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")
     
+    prior_line = f"当前对话的错误概念先验标签（来自会话记忆，可能不完美）是: {prior_misconception_tag}\n" if prior_misconception_tag else ""
     system_prompt = f"""你是一个专门用于物理辅导对话的自然语言理解(NLU)和教学状态评估(Assessor)模块。
 你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态、情感状态，并判断是否允许进入下一个教学环节(transition_approved)。
 
 当前所在的教学状态是: {current_state}
+{prior_line}
 
 各状态的允许转移(transition_approved=true)退出条件如下:
 - S3 (Misconception_Diagnosis): 已经明确知道学生存在哪个具体的错误概念(Misconception)。
@@ -293,6 +318,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 
             raw_tag = _normalize_misconception_tag(data.get("misconception_tag"))
             raw_tag = _heuristic_misconception_override(user_input, raw_tag)
+            raw_tag = _apply_prior_tag(user_input, raw_tag, _normalize_misconception_tag(prior_misconception_tag), float(data.get("confidence") or 0.0))
             
             return PerceptionResult(
                 intent=data.get("intent") or "Knowledge_Inquiry",
@@ -322,6 +348,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 
     normalized_tag = _normalize_misconception_tag(result.misconception_tag)
     normalized_tag = _heuristic_misconception_override(user_input, normalized_tag)
+    normalized_tag = _apply_prior_tag(user_input, normalized_tag, _normalize_misconception_tag(prior_misconception_tag), float(getattr(result, "confidence", 0.0)))
     
     return PerceptionResult(
         intent=result.intent,

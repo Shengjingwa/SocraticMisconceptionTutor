@@ -27,6 +27,7 @@ class PerceptionResult:
 class SessionMemory(BaseModel):
     session_id: str
     topic: Optional[str] = None
+    student_profile: Optional[str] = None
     current_state: str = "S0"
     current_misconception: Optional[str] = None
     turn_count: int = 0
@@ -125,19 +126,28 @@ ANTI_LOOP_RULES = [
     ),
     # 防环规则3：S5深度死循环防备 (近期连续3次以上S5) -> 降级到S7事实兜底
     TransitionRule(
-        condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
+        condition=lambda target, p, m: (
+            target == "S5"
+            and (
+                (m.student_profile == "P1" and len(m.recent_states) >= 4 and m.recent_states[-4:] == ["S5", "S5", "S5", "S5"])
+                or (m.student_profile != "P1" and len(m.recent_states) >= 3 and m.recent_states[-3:] == ["S5", "S5", "S5"])
+            )
+        ),
         action=lambda target: "S7",
         description="Break S5 deep loop, fallback to S7 Fact-Grounding"
     ),
-    # 防环规则4：S7死循环防备 (近期在S7卡住2次或以上) -> 转移到S8承认并搁置
     TransitionRule(
-        condition=lambda target, p, m: target == "S7" and m.recent_states.count("S7") >= 2,
+        condition=lambda target, p, m: target == "S7" and m.student_profile == "P1" and m.recent_states.count("S7") >= 3,
+        action=lambda target: "S5",
+        description="Break S7 loop for P1 by returning to S5"
+    ),
+    TransitionRule(
+        condition=lambda target, p, m: target == "S7" and m.student_profile != "P1" and m.recent_states.count("S7") >= 2,
         action=lambda target: "S8",
         description="Break S7 loop, transition to S8 Acknowledge and Park"
     ),
-    # 防环规则5：S8状态退出机制 (如果上一轮已经是S8，这一轮强制留在S8并准备结束会话)
     TransitionRule(
-        condition=lambda target, p, m: len(m.recent_states) >= 1 and m.recent_states[-1] == "S8",
+        condition=lambda target, p, m: len(m.recent_states) >= 1 and m.recent_states[-1] == "S8" and m.student_profile != "P1",
         action=lambda target: "S8",
         description="Already in S8, force stay in S8 to abort session"
     ),
@@ -214,6 +224,16 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     
     # 强制熔断机制：如果上一轮已经是S8，强制停留在S8并终止会话，忽略其他任何护栏或意图
     if len(memory.recent_states) >= 1 and memory.recent_states[-1] == "S8":
+        if memory.student_profile == "P1":
+            decision = RouteDecision(
+                state="S5", state_name=STATE_NAMES.get("S5", "Scaffolding_Guidance"), strategy="Sub_goal_Tracking",
+                need_guardrail=False, next_goal=STRATEGY_GOALS.get("Sub_goal_Tracking", "未知目标"),
+                meta={"from": "S8", "reason": "recover_from_s8_for_p1"}
+            )
+            new_memory.current_state = decision.state
+            new_memory.recent_states.append(decision.state)
+            new_memory.used_strategies.append("Sub_goal_Tracking")
+            return decision, new_memory
         decision = RouteDecision(
             state="S8", state_name=STATE_NAMES.get("S8", "Acknowledge_and_Park"), strategy="Acknowledge_and_Park",
             need_guardrail=False, next_goal=STRATEGY_GOALS["Acknowledge_and_Park"],

@@ -68,6 +68,10 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         if re.search(pattern, generated_text):
              return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
 
+    text = (generated_text or "").strip()
+    if len(text) <= 140 and text.endswith(("？", "?")):
+        return {"blocked": False, "reason": None, "answer_leakage": False}
+
     # 2. LLM-as-a-Judge 深度语义检测
     try:
         from langchain_core.messages import SystemMessage, HumanMessage

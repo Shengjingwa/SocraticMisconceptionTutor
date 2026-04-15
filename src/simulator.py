@@ -131,6 +131,7 @@ async def run_single_session(v, m, p, i, sem):
         app = SocraticTutorApp(session_id=session_id)
         app.system_version = v
         app.student_profile = p['profile_id']
+        app.memory.student_profile = p['profile_id']
         app.memory.topic = m['topic']
         app.memory.current_misconception = m['id']
         app.misconception_init = m['id']

@@ -24,7 +24,7 @@ def _timestamp() -> str:
 
 class SocraticTutorApp:
     def __init__(self, session_id: str, system_version: str = "FSM+Guardrail", student_profile: str = "Unknown", topic: str = "Unknown"):
-        self.memory = SessionMemory(session_id=session_id, topic=topic)
+        self.memory = SessionMemory(session_id=session_id, topic=topic, student_profile=student_profile)
         self.system_version = system_version
         self.student_profile = student_profile
         self.misconception_init = None
