@@ -69,7 +69,6 @@ export DASHSCOPE_API_KEY="your_api_key_here"
 ### 2. 运行交互式体验 (MVP)
 您可以亲自扮演带有物理迷思概念的学生，与 AI 导师进行实时的终端对话测试：
 ```bash
-export PYTHONPATH="/workspace/src"
 python src/main.py
 ```
 
@@ -78,7 +77,7 @@ python src/main.py
 ```bash
 LOG_FILE="logs/pipeline_$(date +%F_%H-%M-%S).log"
 (
-  export PYTHONPATH="/workspace/src"
+
   export DASHSCOPE_API_KEY="your_api_key_here"
   python src/simulator.py &&
   python src/evaluator.py &&
@@ -91,11 +90,3 @@ echo "实验已完成，完整过程已保存到: $LOG_FILE"
 
 ---
 
-## 📊 实验数据与论文参考 (For Academic Use)
-
-基于本项目当前的架构，在物理电学与浮力测试集上，`FSM+Guardrail` 版本相较于纯通用大模型（`Baseline`）展现出极大的教学优势：
-- **答案泄露率 (Answer Leakage Rate)** 成功从 Baseline 的 3.21% 降至 **0.00%**。
-- **平均对话轮数 (Avg Turns)** 从冗长的 13 轮大幅压缩至 **7.25 轮**。
-- **意图识别准确率 (NLU Accuracy)** 高达 **96.55%**。
-
-在撰写教育技术学相关论文时，可将本项目定位为**“基于多智能体仿真的设计科学研究”**，以 `summary_metrics.csv` 中的消融实验数据作为核心论据，以证明架构设计的有效性。
