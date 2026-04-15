@@ -1,5 +1,0 @@
-- [x] 最新主实验日志文件（例如 `pipeline_*.log`）已被准确读取和分析。
-- [x] `results/summary_metrics.csv`、`manual_audit.csv` 等核心指标的变化已被记录并评估。
-- [x] 护栏拦截指标的假阴性统计覆盖 Bug 已确认被修复，`Guardrail Interception Rate` 能够正确显示累加后的真实拦截数据。
-- [x] 护栏模型 JSON 解析（Schema 报错）问题已确认被彻底根除，未再发生规则降级。
-- [x] 一份详尽的中文分析报告已生成，其中包含了现阶段系统的诊断总结。

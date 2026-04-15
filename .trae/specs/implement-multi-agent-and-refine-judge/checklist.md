@@ -1,5 +1,0 @@
-- [x] LLM Judge in `guardrails.py` uses Two-Stage Verification.
-- [x] Thought experiments and "Reductio ad absurdum" are explicitly exempted from leakage blocks.
-- [x] `classifiers.py` implements a state-aware Assessor Agent evaluating transition criteria.
-- [x] `router.py` uses the Assessor Agent's evaluation to govern state transitions.
-- [x] The system runs without errors.

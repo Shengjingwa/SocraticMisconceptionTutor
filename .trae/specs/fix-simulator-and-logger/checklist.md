@@ -1,5 +1,0 @@
-- [x] 模拟器实例化参数修复：`src/simulator.py` 在 `SocraticTutorApp` 实例化时，不再传递 `system_version` 关键字参数。
-- [x] 模拟器系统版本回填：`src/simulator.py` 在实例化后手动设置了 `app.system_version = v`，保证后续数据统计有正确的版本记录。
-- [x] 日志 `warning` 级别实现：`src/logger.py` 中的 `SessionLogger` 具有 `warning(self, msg: str)` 方法。
-- [x] 日志 `error` 级别实现：`src/logger.py` 中的 `SessionLogger` 具有 `error(self, msg: str)` 方法。
-- [x] 执行验证：通过命令 `python src/simulator.py` 和交互测试不发生 `AttributeError` 和 `TypeError` 异常。

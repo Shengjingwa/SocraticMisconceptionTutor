@@ -1,4 +1,0 @@
-- [ ] `config.py` 中包含 `TUTOR_MODEL` 和 `JUDGE_MODEL` 以及 `DASHSCOPE_API_KEY` 的配置。
-- [ ] `simulator.py` 和 `generator.py` 等教师端代码使用 `qwen` 系列模型。
-- [ ] `llm_judge.py` 明确使用了 `deepseek-v3` 模型。
-- [ ] 系统可以通过阿里云百炼 API 正常完成一轮对话生成和打分（无鉴权或模型找不到错误）。

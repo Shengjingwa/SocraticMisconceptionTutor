@@ -1,4 +1,0 @@
-- [x] No `Deserializing unregistered type` warnings appear when running the graph.
-- [x] Repeated rejections in S4 downgrade to a simpler scaffolding strategy.
-- [x] The simulator extends the maximum turn limit dynamically if the student is exploring new concepts near the limit.
-- [x] `pytest tests/simple_test.py` passes successfully.

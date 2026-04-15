@@ -1,4 +1,0 @@
-- [ ] 已仔细阅读 `/workspace/docs/project_evaluation.md` 和 `/workspace/docs/PROJECT_ISSUES.md`，并与当前代码进行了交叉对比。
-- [ ] 已过滤掉当前代码库中已经被修复的缺陷（例如 API Key 泄露、降级干预逻辑等）。
-- [ ] 成功在 `/workspace/docs/VERIFIED_PROJECT_ISSUES.md` 下输出了结构化的问题列表，并按“严重、中等、轻微”进行了优先级分类。
-- [ ] 所有分析与文档生成过程均未修改任何原有的代码文件。

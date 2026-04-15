@@ -1,6 +1,0 @@
-- [x] 移除了原有 `router.py` 中粗糙的 `SessionMemory.messages`
-- [x] 升级了 `src/state.py` 以原生支持 `add_messages` 追踪。
-- [x] `src/graph.py` 中的图流转被编排以支持 `MemorySaver` 的注入和并发使用。
-- [x] `summarize_node` 已被加入，能在消息过多时触发并返回 `RemoveMessage` 剔除老旧聊天记录。
-- [x] 系统入口在调用时能传递正确的 `thread_id` 以分离并发会话的状态。
-- [x] 完成轻量测试，确认了系统的运转正常且不报序列化错误。

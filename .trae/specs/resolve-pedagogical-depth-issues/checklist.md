@@ -1,4 +1,0 @@
-- [x] P1 students in S7 receive undeniable real-world evidence instead of just fill-in-the-blanks.
-- [x] Tutor provides better context/scaffolding before asking questions (mitigated guardrail passivity).
-- [x] Tutor exhibits multi-turn goal tracking when a student is stuck in a cognitive deadlock.
-- [x] Local tests run successfully.

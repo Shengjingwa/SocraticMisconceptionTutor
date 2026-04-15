@@ -1,5 +1,0 @@
-- [x] The latest experiment log (e.g. `logs/pipeline_2026-04-14_14-50-25.log`) has been thoroughly analyzed.
-- [x] No `Failed to parse GuardrailOutput` warnings appear in the latest logs.
-- [x] `results/summary_metrics.csv` and `results/manual_audit.csv` have been reviewed to track metric changes.
-- [x] The effectiveness of the S7 Direct Instruction fallback for P1 students has been evaluated.
-- [x] A comprehensive analysis report identifying the impact of the recent fixes and any potential new issues has been delivered.
