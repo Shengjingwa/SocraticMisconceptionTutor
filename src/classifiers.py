@@ -15,12 +15,7 @@ class NLUOutput(BaseModel):
         "Hypothesis_Put_Forward"
     ] = Field(description="用户当前的意图")
     
-    misconception_tag: Optional[Literal[
-        "M-ELE-001",
-        "M-ELE-002",
-        "M-BUO-001",
-        "M-BUO-002"
-    ]] = Field(default=None, description="识别到的错误概念，如果没有则为null")
+    misconception_tag: Optional[str] = Field(default=None, description="识别到的错误概念标签（如 M-ELE-001, M-BUO-002 等），如果没有明确的错误概念则必须返回 null")
     
     cognitive_state: Literal[
         "认知僵局",
