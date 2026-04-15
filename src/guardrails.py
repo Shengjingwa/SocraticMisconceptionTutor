@@ -154,7 +154,21 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             # Clean up markdown or invisible characters if any
             json_str = json_str.strip()
             
-            data = json.loads(json_str)
+            # Fix potential unescaped characters in the JSON string
+            try:
+                data = json.loads(json_str)
+            except json.JSONDecodeError:
+                # If standard parsing fails, try to use json_repair if available, 
+                # or fallback to a more aggressive regex cleanup
+                try:
+                    import json_repair
+                    data = json_repair.loads(json_str)
+                except ImportError:
+                    # Fallback regex cleanup for common unescaped quotes/newlines in 'reason' field
+                    json_str = re.sub(r'\\n', ' ', json_str)
+                    json_str = re.sub(r'\\"', "'", json_str)
+                    data = json.loads(json_str)
+                    
             return GuardrailOutput(**data)
             
         judge_result = _invoke_judge()

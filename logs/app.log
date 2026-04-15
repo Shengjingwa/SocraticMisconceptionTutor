@@ -1362,3 +1362,4 @@
 
 但一旦它**完全潜入水中**，排开的水量就不再增加了。你觉得这时候，决定浮力大小的关键因素，是“所在的深度”，还是“排开水的体积”呢？
 2026-04-15 13:23:00,388 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_716b0c] Session finished. Reason: resolved
+2026-04-15 05:43:34,612 - SessionLogger - INFO - Initialized Session test_session_001 on 物理：电路基础 for Unknown with version FSM+Guardrail
