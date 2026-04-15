@@ -1362,3 +1362,81 @@
 
 但一旦它**完全潜入水中**，排开的水量就不再增加了。你觉得这时候，决定浮力大小的关键因素，是“所在的深度”，还是“排开水的体积”呢？
 2026-04-15 13:23:00,388 - SessionLogger - INFO - [sim_FSM_P3_M-BUO-002_716b0c] Session finished. Reason: resolved
+开始批量仿真实验...
+仿真实验完成。
+Metrics calculated and saved to results/summary_metrics.csv
+Created results/manual_audit.csv
+找到 36 个会话，开始评估...
+正在评估会话: sim_Baseline_P1_M-ELE-001_562e42 (13 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P2_M-ELE-001_c93d96 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P1_M-ELE-001_ec9377 (9 轮对话)
+  -> 苏格拉底度: 5, 有效性: 3
+正在评估会话: sim_FSM_P2_M-ELE-001_21a035 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-001_7e7547 (9 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-001_2946c3 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-ELE-001_ee3b74 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-ELE-001_0cd8da (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-ELE-002_3c6ba0 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-001_72b0cc (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P1_M-ELE-002_300b16 (9 轮对话)
+  -> 苏格拉底度: 4, 有效性: 2
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-002_53a095 (10 轮对话)
+  -> 苏格拉底度: 3, 有效性: 1
+正在评估会话: sim_Baseline_P2_M-ELE-002_e60da2 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P2_M-ELE-002_1c0be9 (7 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-002_8bd9ac (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-ELE-002_a4818e (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-ELE-002_11a798 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-002_36e772 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-BUO-001_5dddc6 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 3
+正在评估会话: sim_FSM_P1_M-BUO-001_a0dc52 (9 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-001_105195 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P2_M-BUO-001_9b0dfe (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P2_M-BUO-001_ec18f1 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-001_c69c3e (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-BUO-001_aa8eca (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-BUO-001_1e439b (8 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-001_828111 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-BUO-002_5fc528 (13 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P1_M-BUO-002_37c2db (9 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-002_5537d9 (9 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P2_M-BUO-002_92e3ff (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P2_M-BUO-002_6f1106 (7 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-002_30e744 (7 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-BUO-002_5f43e1 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-002_905403 (4 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-BUO-002_716b0c (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+评估完成，结果已保存至 /data/zzc/agent_test/logs/evaluation_results.json
