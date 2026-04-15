@@ -1,0 +1,4 @@
+- [x] LLM Judge outputs trailing text without breaking the system (JSON parsing is robust).
+- [x] P1 students stuck in S7 gracefully transition to an S8 "Park and Acknowledge" state instead of arguing forever.
+- [x] Fallback phrases are natural and varied, avoiding rigid robotic statements.
+- [x] Tests run successfully.

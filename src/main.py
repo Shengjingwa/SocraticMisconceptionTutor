@@ -12,7 +12,7 @@ if str(SRC_DIR) not in sys.path:
 from langchain_core.messages import HumanMessage
 from router import SessionMemory, update_after_turn
 from logger import logger_instance
-from graph import app_graph
+from tutor_graph import app_graph
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"
@@ -29,6 +29,7 @@ class SocraticTutorApp:
         self.misconception_init = None
         self.guardrail_trigger_count = 0
         self.answer_leakage_count = 0
+        self.abnormal_end_flag = False
         logger_instance.info(f"Initialized Session {session_id} on {topic} for {student_profile} with version {system_version}")
 
     def _process_graph_result(self, final_state: Dict[str, Any], user_input: str) -> Dict[str, Any]:
@@ -37,10 +38,17 @@ class SocraticTutorApp:
         generation = final_state["generation"]
         guardrail_result = final_state.get("guardrail_result", {"guardrail_triggered": False, "guardrail_reason": None})
 
-        understanding_verified = (
-            (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8)
-        )
-        self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=generation["final_reply"], understanding_verified=understanding_verified)
+        understanding_verified = False
+        if (perception.cognitive_state == "概念掌握验证") and (decision.state == "S6") and (getattr(perception, "confidence", 0) >= 0.8):
+            from classifiers import verify_post_test
+            understanding_verified = verify_post_test(
+                user_input=user_input,
+                misconception_tag=perception.misconception_tag or self.memory.current_misconception,
+                messages=final_state.get("messages", [])
+            )
+
+        self.memory = final_state.get("memory", self.memory)
+        self.memory = update_after_turn(self.memory, user_input=user_input, final_reply=generation["final_reply"], history_summary=None, understanding_verified=understanding_verified)
 
         turn_log = {
             "timestamp": _timestamp(),
@@ -76,6 +84,10 @@ class SocraticTutorApp:
 
         if turn_log["guardrail_triggered"]:
             self.guardrail_trigger_count += 1
+            # 累加拦截次数，避免被最后一次成功生成的未触发状态覆盖
+            if getattr(self.memory, "turn_guardrail_triggers", 0) > 0:
+                 self.guardrail_trigger_count += self.memory.turn_guardrail_triggers - 1
+                 
         if turn_log["answer_leakage_flag"]:
             self.answer_leakage_count += 1
 
@@ -101,6 +113,7 @@ class SocraticTutorApp:
             final_state = app_graph.invoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during graph execution: {e}")
+            self.abnormal_end_flag = True
             return {
                 "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
@@ -124,6 +137,7 @@ class SocraticTutorApp:
             final_state = await app_graph.ainvoke(initial_state, config)
         except Exception as e:
             logger_instance.error(f"Global exception during async graph execution: {e}")
+            self.abnormal_end_flag = True
             return {
                 "perception": {"intent": "Unknown", "misconception_tag": None, "cognitive_state": "认知僵局", "risk_flag": False, "confidence": 0.0, "sentiment": "Confused"},
                 "decision": {"state": "S5", "state_name": "Error_State", "strategy": "Error_Handling", "need_guardrail": False, "next_goal": None, "meta": {}},
@@ -147,7 +161,7 @@ class SocraticTutorApp:
             "final_cognitive_state": "概念掌握验证" if self.memory.resolved else "认知僵局",
             "guardrail_trigger_count": self.guardrail_trigger_count,
             "answer_leakage_count": self.answer_leakage_count,
-            "abnormal_end_flag": False,
+            "abnormal_end_flag": getattr(self, "abnormal_end_flag", False),
             "termination_reason": termination_reason
         }
         logger_instance.log_session(summary_log)
@@ -199,4 +213,5 @@ def demo() -> None:
     app.end_session("demo_completed")
 
 if __name__ == "__main__":
-    demo()
+    app = SocraticTutorApp(session_id="chat_main")
+    app.chat()

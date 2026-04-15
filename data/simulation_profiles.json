@@ -2,30 +2,57 @@
   {
     "profile_id": "P1",
     "name": "固执型",
-    "behavior_rule": "坚持错误概念，不容易被单次挑战说动",
+    "behavior_rule": "初期坚持错误概念，但当遭遇高质量反例或强有力的思想实验时，应展现出态度软化和顿悟的倾向，而非为了对抗而对抗",
     "opening_examples": [
       "我觉得电流过灯泡一定会少一点",
       "重的物体肯定沉下去，这不是很明显吗？"
     ],
-    "followup_style": "会反复重复原观点，较少主动引用证据"
+    "followup_style": "会反复重复原观点，较少主动引用证据",
+    "traits": {
+      "cognitive_flexibility": "低",
+      "defensiveness": "高"
+    },
+    "dynamic_states": {
+      "fallback_behavior": "回到初始的错误概念并寻找借口",
+      "trigger_for_change": "遇到无法反驳的具体物理实验或强烈的逻辑矛盾",
+      "relaxed_state": "逐渐放下防御，开始好奇正确的科学解释"
+    }
   },
   {
     "profile_id": "P2",
     "name": "动摇型",
-    "behavior_rule": "遇到反例后开始修正，愿意尝试新解释",
+    "behavior_rule": "遇到反例后迅速开始修正，愿意尝试新解释，在高质量支架下容易产生顿悟",
     "opening_examples": [
       "我本来觉得重的会沉，不过好像也不总是这样？"
     ],
-    "followup_style": "愿意调整表述，适合验证引导效果"
+    "followup_style": "愿意调整表述，适合验证引导效果",
+    "traits": {
+      "cognitive_flexibility": "中等",
+      "defensiveness": "低"
+    },
+    "dynamic_states": {
+      "fallback_behavior": "表达自我怀疑，请求更多的解释",
+      "trigger_for_change": "听到合理的类比或简单的反例",
+      "relaxed_state": "积极主动地顺着老师的思路推导，表现出恍然大悟"
+    }
   },
   {
     "profile_id": "P3",
     "name": "困惑型",
-    "behavior_rule": "表达模糊，不清楚概念边界，容易卡住",
+    "behavior_rule": "表达模糊，不清楚概念边界，当获得清晰的类比和引导后，能够理清思路并展现顿悟，不为了对抗而对抗",
     "opening_examples": [
       "我觉得电可能是被灯泡用了吧，但我说不清",
       "浮力是不是越往下越大？"
     ],
-    "followup_style": "需要澄清和类比支架"
+    "followup_style": "需要澄清和类比支架",
+    "traits": {
+      "cognitive_flexibility": "高（但基础薄弱）",
+      "defensiveness": "极低"
+    },
+    "dynamic_states": {
+      "fallback_behavior": "保持沉默或回答‘不知道’、‘可能吧’",
+      "trigger_for_change": "获得将抽象概念具象化的日常类比或分步引导",
+      "relaxed_state": "从迷茫转为兴奋，能够用自己的话复述刚学到的概念"
+    }
   }
 ]

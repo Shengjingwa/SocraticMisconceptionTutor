@@ -1,0 +1,4 @@
+- [x] 在项目根目录执行 `python src/simulator.py` 不再出现 `ModuleNotFoundError`
+- [x] `src/` 内部模块互相导入口径统一，不依赖偶然的工作目录或外部 PYTHONPATH
+- [x] 最小 Smoke Test 在无有效 API Key 情况下可运行完成，并显式走 fallback/mock
+- [x] 现有 `tests/simple_test.py` 仍可通过

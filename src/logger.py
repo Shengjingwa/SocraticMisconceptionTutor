@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import Any, Dict
 import logging
 from logging.handlers import RotatingFileHandler
+import threading
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"
@@ -12,6 +14,7 @@ class SessionLogger:
     def __init__(self):
         self.turn_log_path = LOG_DIR / "turn_logs.jsonl"
         self.session_log_path = LOG_DIR / "session_summary.jsonl"
+        self.lock = threading.Lock()
         
         self.logger = logging.getLogger("SessionLogger")
         self.logger.setLevel(logging.INFO)
@@ -23,17 +26,20 @@ class SessionLogger:
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
             
-            console_handler = logging.StreamHandler()
-            console_handler.setFormatter(formatter)
-            self.logger.addHandler(console_handler)
+            if os.getenv("SILENT_CONSOLE") != "1":
+                console_handler = logging.StreamHandler()
+                console_handler.setFormatter(formatter)
+                self.logger.addHandler(console_handler)
 
     def log_turn(self, record: Dict[str, Any]) -> None:
-        with self.turn_log_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        with self.lock:
+            with self.turn_log_path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     def log_session(self, record: Dict[str, Any]) -> None:
-        with self.session_log_path.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        with self.lock:
+            with self.session_log_path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
     def warning(self, msg: str):
         self.logger.warning(msg)

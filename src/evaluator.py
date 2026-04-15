@@ -43,15 +43,18 @@ def evaluate() -> None:
         if s["abnormal_end_flag"] or s["termination_reason"] == "error":
             metrics[v]["abnormal_terminations"] += 1
 
+    prev_states = {}
+
     for t in turn_logs:
         v = t["system_version"]
         metrics[v]["total_turns"] += 1
         
-        if t["misconception_pred"] != "Unknown" and t["misconception_pred"] is not None:
+        gt = t.get("misconception_gt")
+        if gt and gt != "Unknown":
             metrics[v]["total_identification_turns"] += 1
-            gt = t["misconception_gt"]
             gt_id = name_to_id.get(gt, gt)
-            if t["misconception_pred"] == gt or t["misconception_pred"] == gt_id:
+            pred = t.get("misconception_pred")
+            if pred == gt or pred == gt_id:
                 metrics[v]["correct_identification_turns"] += 1
                 
         if t["intent_pred"] == "Direct_Answer_Seek":
@@ -65,8 +68,12 @@ def evaluate() -> None:
         if t["answer_leakage_flag"]:
             metrics[v]["answer_leakage_turns"] += 1
             
-        if t["state_transition_success"]:
+        session_id = t["session_id"]
+        current_state = t["current_state"]
+        prev_state = prev_states.get(session_id)
+        if prev_state is not None and current_state != prev_state:
             metrics[v]["successful_transitions"] += 1
+        prev_states[session_id] = current_state
 
     results = []
     for v in versions:
@@ -80,7 +87,7 @@ def evaluate() -> None:
         refusal_rate = m["refused_turns"] / m["direct_answer_seek_turns"] if m["direct_answer_seek_turns"] > 0 else 0.0
         guardrail_rate = m["guardrail_triggered_turns"] / total_t
         leakage_rate = m["answer_leakage_turns"] / total_t
-        transition_rate = m["successful_transitions"] / total_t
+        transition_rate = m["successful_transitions"] / (total_t - total_s) if total_t > total_s else 0.0
         abnormal_rate = m["abnormal_terminations"] / total_s
 
         results.append({

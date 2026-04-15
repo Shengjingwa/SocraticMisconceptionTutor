@@ -2,10 +2,16 @@ import asyncio
 import json
 import time
 import uuid
+from pathlib import Path
+import sys
 from typing import Dict, Any, List
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from tenacity import retry, stop_after_attempt, wait_exponential
+
+SRC_DIR = Path(__file__).resolve().parent
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+
 import config
 
 from main import SocraticTutorApp
@@ -26,30 +32,36 @@ class SimulatedStudent:
             else:
                 kwargs.setdefault("extra_body", {})["enable_thinking"] = False
 
-            self.llm = ChatOpenAI(
-                model=config.TUTOR_MODEL, 
+            self.llm = config.get_tutor_llm(
                 temperature=0.7,
-                api_key=self.api_key,
-                base_url=config.LLM_BASE_URL,
                 **kwargs
             )
         self.history: List[Any] = []
         self._setup_system_prompt()
 
     def _setup_system_prompt(self):
+        traits = self.profile.get('traits', {})
+        dynamic_states = self.profile.get('dynamic_states', {})
+        
+        traits_str = f"认知灵活性：{traits.get('cognitive_flexibility', '未知')} | 防御性：{traits.get('defensiveness', '未知')}" if traits else "未知"
+        states_str = f"- 后撤行为：{dynamic_states.get('fallback_behavior', '未知')}\n- 改变触发点：{dynamic_states.get('trigger_for_change', '未知')}\n- 软化状态表现：{dynamic_states.get('relaxed_state', '未知')}" if dynamic_states else "未知"
+        
         sys_prompt = f"""你现在扮演一个初中生，正在学习物理。
 你的性格特点是：{self.profile['name']} - {self.profile['behavior_rule']}。
 你的对话风格：{self.profile['followup_style']}。
+你的心理特征：{traits_str}
+你的动态状态变化规则：
+{states_str}
+
 你目前存在一个物理迷思概念：{self.misconception['misconception_name']}
 具体表现：{self.misconception['misconception_summary']}
 
-请严格按照你的性格特点和迷思概念与老师对话。
+请严格按照你的性格特点、心理特征、动态状态变化规则和迷思概念与老师对话。
 不要轻易给出正确答案，除非老师的引导真的说服了你（取决于你的性格：固执型很难被单次挑战说动，动摇型遇到反例容易开始修正，困惑型需要澄清和类比）。
 除非老师拿出了让你无法反驳的具体物理现象或严密的逻辑推导，否则不要轻易说自己懂了。如果老师只是提问，请顺着你的错误思路继续回答，不要马上附和老师。
 如果你觉得老师只是在空洞地反问，并没有给你新的启发，请明确表示你依然很困惑，并要求老师举个例子或进一步解释。不要轻易用“我懂了”结束对话。
 如果老师问你问题，请以学生的口吻简短回答（1-2句话即可，符合初中生日常说话习惯）。
 千万不要跳出角色，不要说自己是AI模型。
-【重要对抗性指令】在整个对话过程中，请你必须至少尝试一次“直接向老师索要最终答案（如：老师，你就直接告诉我结论吧！）”或者“扯开话题（如：物理太难了，我们聊点别的吧）”，以此来测试老师是否足够有耐心和坚持原则。
 """
         self.history.append(SystemMessage(content=sys_prompt))
 
@@ -76,7 +88,7 @@ class SimulatedStudent:
         except Exception as e:
             from logger import logger_instance
             logger_instance.error(f"Simulated student failed to generate opening: {e}")
-            reply_text = f"老师，我不明白 {self.misconception['misconception_name']} 这个概念，能解释一下吗？"
+            raise e
 
         self.history.append(AIMessage(content=reply_text))
         return reply_text
@@ -105,15 +117,16 @@ class SimulatedStudent:
         except Exception as e:
             from logger import logger_instance
             logger_instance.error(f"Simulated student failed to reply: {e}")
-            reply_text = "老师，网络有点卡，你能再解释一下吗？"
+            raise e
 
         self.history.append(AIMessage(content=reply_text))
         return reply_text
 
 async def run_single_session(v, m, p, i, sem):
+    from logger import logger_instance
     async with sem:
         session_id = f"sim_{v}_{p['profile_id']}_{m['id']}_{uuid.uuid4().hex[:6]}"
-        print(f"Starting session: {session_id}")
+        logger_instance.info(f"[{session_id}] Starting session")
         
         app = SocraticTutorApp(session_id=session_id)
         app.system_version = v
@@ -126,9 +139,10 @@ async def run_single_session(v, m, p, i, sem):
         
         try:
             user_input = student.generate_opening()
-            print(f"Student Opening: {user_input}")
+            logger_instance.info(f"[{session_id}] Student Opening: {user_input}")
             
-            max_turns = 10
+            import os
+            max_turns = int(os.getenv("SIMULATION_MAX_TURNS", "10"))
             turn = 0
             resolved = False
             
@@ -136,31 +150,58 @@ async def run_single_session(v, m, p, i, sem):
                 turn += 1
                 result = await app.astep(user_input)
                 teacher_reply = result['generation']['final_reply']
-                print(f"Teacher: {teacher_reply}")
+                logger_instance.info(f"[{session_id}] Teacher: {teacher_reply}")
                 
+                if getattr(app, "abnormal_end_flag", False):
+                    raise Exception("Tutor agent encountered an error")
+
                 if app.memory.resolved:
                     resolved = True
                     break
                     
+                if getattr(app.memory, "aborted", False):
+                    break
+                    
+                cognitive_state = result['perception']['cognitive_state']
+                if app.memory.turn_count == config.MAX_HISTORY_TURNS and cognitive_state == '新概念探索':
+                    max_turns += 3
+                    logger_instance.info(f"[{session_id}] Extending max_turns by 3 because cognitive_state is '新概念探索'")
+                    
                 user_input = await student.areply(teacher_reply)
-                print(f"Student: {user_input}")
+                logger_instance.info(f"[{session_id}] Student: {user_input}")
                 
-            app.end_session("resolved" if resolved else "max_turns_reached")
-            print(f"Session {session_id} finished. Resolved: {resolved}")
+            end_reason = "resolved" if resolved else ("aborted" if getattr(app.memory, "aborted", False) else "max_turns_reached")
+            app.end_session(end_reason)
+            logger_instance.info(f"[{session_id}] Session finished. Reason: {end_reason}")
         except Exception as e:
-            print(f"Error in session {session_id}: {e}")
+            logger_instance.error(f"[{session_id}] Error in session: {e}")
+            app.abnormal_end_flag = True
             app.end_session("error")
 
 async def run_simulation() -> None:
     import os
     base_dir = os.path.dirname(__file__)
+    
+    # 清理旧日志文件，避免污染
+    logs_dir = os.path.join(base_dir, '..', 'logs')
+    for log_file in ['turn_logs.jsonl', 'session_summary.jsonl']:
+        log_path = os.path.join(logs_dir, log_file)
+        if os.path.exists(log_path):
+            os.remove(log_path)
+            
     with open(os.path.join(base_dir, '..', 'data', 'simulation_profiles.json'), 'r', encoding='utf-8') as f:
         profiles = json.load(f)
     with open(os.path.join(base_dir, '..', 'data', 'misconceptions.json'), 'r', encoding='utf-8') as f:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = 1  # 为了避免API限速，这里设定为3次（总计108组对话）
+    num_runs = 3  # 为了避免API限速，这里设定为3次（总计108组对话）
+
+    if os.getenv("SIMULATION_SMOKE") == "1":
+        misconceptions = misconceptions[:1]
+        profiles = profiles[:1]
+        versions = versions[:1]
+        num_runs = 1
     
     sem = asyncio.Semaphore(config.SIMULATION_CONCURRENCY)
     tasks = []

@@ -26,3 +26,24 @@ RETRY_STOP_ATTEMPT = 3
 # Memory / History Configuration
 MAX_HISTORY_TURNS = int(os.environ.get("MAX_HISTORY_TURNS", "6"))
 SIMULATION_CONCURRENCY = int(os.environ.get("SIMULATION_CONCURRENCY", "6"))
+
+from langchain_openai import ChatOpenAI
+
+def get_tutor_llm(**kwargs):
+    dashscope_llm = ChatOpenAI(
+        model=TUTOR_MODEL,
+        base_url=LLM_BASE_URL,
+        api_key=DASHSCOPE_API_KEY,
+        **kwargs
+    )
+    
+    return dashscope_llm
+
+def get_judge_llm(**kwargs):
+    return ChatOpenAI(
+        model=JUDGE_MODEL,
+        base_url=LLM_BASE_URL,
+        api_key=DASHSCOPE_API_KEY,
+        **kwargs
+    )
+

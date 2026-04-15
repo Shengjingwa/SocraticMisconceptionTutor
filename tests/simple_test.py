@@ -2,12 +2,20 @@ import os
 import sys
 from pathlib import Path
 
+os.environ["LANGCHAIN_ALLOWED_MSGPACK_MODULES"] = "router.SessionMemory,router.PerceptionResult,router.RouteDecision"
+
 # 添加项目根目录到 sys.path，以便导入 src 模块
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 # 设置 API 密钥
-os.environ["DASHSCOPE_API_KEY"] = os.environ.get("DASHSCOPE_API_KEY", "sk-b8ad0a83bb8e4083bebd65be5645e7df")
+dashscope_api_key = os.environ.get("DASHSCOPE_API_KEY")
+if not dashscope_api_key:
+    raise ValueError("Missing DASHSCOPE_API_KEY environment variable.")
+
+os.environ["LLM_BASE_URL"] = os.environ.get("LLM_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+os.environ["TUTOR_MODEL"] = os.environ.get("TUTOR_MODEL", "qwen3.6-plus")
+os.environ["JUDGE_MODEL"] = os.environ.get("JUDGE_MODEL", "deepseek-v3.2")
 
 from src.main import SocraticTutorApp
 
