@@ -56,7 +56,13 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         r"所以\s*你\s*错\s*了",
         r"不对\s*，\s*因为",
         r"事实\s*是",
-        r"标准\s*答案"
+        r"标准\s*答案",
+        r"串联电路.*电流.*(处处相等|都相等|相等|一样|相同)",
+        r"电流.*(处处相等|都相等|相等|一样|相同)",
+        r"(必须|只有).*(闭合回路|闭合电路|完整回路|完整电路)",
+        r"浮力.*(只|仅).*(排开|排开的).*(水|液体).*(重力|重量)",
+        r"浮力.*(和|与).*(深度).*无关",
+        r"浮力.*(不变|保持不变)"
     ]
     for pattern in direct_conclusion_patterns:
         if re.search(pattern, generated_text):

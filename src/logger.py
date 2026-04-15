@@ -7,8 +7,8 @@ import threading
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-LOG_DIR = BASE_DIR / "logs"
-LOG_DIR.mkdir(exist_ok=True)
+LOG_DIR = Path(os.environ.get("LOG_DIR", str(BASE_DIR / "logs"))).resolve()
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 class SessionLogger:
     def __init__(self):

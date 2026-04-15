@@ -58,6 +58,29 @@ def _pick_one(items: List[Any], default: Any = None) -> Any:
 def _reply_type_from_state(state: str) -> str:
     return {"S2":"refusal_and_guidance","S4":"cognitive_conflict_question","S5":"scaffolded_prompt","S6":"verification_prompt","S8":"acknowledge_and_park"}.get(state, "guiding_question")
 
+def _safe_question_template(user_input: str, decision: RouteDecision, memory: SessionMemory) -> str:
+    tag = memory.current_misconception
+    if decision.state == "S2":
+        follow_up = "你能先把你最确定的那一步说出来吗？"
+        if tag == "M-ELE-002":
+            follow_up = "如果只有一根线连着电池和灯泡，电荷走到灯泡后“回到电池”的那条路在哪里？"
+        elif tag == "M-ELE-001":
+            follow_up = "如果电流真的被前面的灯泡“用掉”变少了，那多出来的电荷会去哪儿？会不会在某段导线里越堆越多？"
+        elif tag == "M-BUO-001":
+            follow_up = "你觉得“重”到底指重量，还是指材料本身的性质？能举一个重但能浮、轻但会沉的例子吗？"
+        elif tag == "M-BUO-002":
+            follow_up = "同一个物体完全没入水里以后继续下沉，它排开水的体积变了吗？"
+        return _pick_one(REFUSAL_REDIRECT_TEMPLATES).format(follow_up=follow_up)
+    if tag == "M-ELE-001":
+        return "如果电流真的会被前面的灯泡“用掉”变少，你觉得那一秒钟流进第一个灯泡的电荷，会有一部分“卡住”不出来吗？"
+    if tag == "M-ELE-002":
+        return "如果只接正极也能一直亮，那电荷从正极出来以后，最后会一直堆在灯泡那一端吗？你觉得会发生什么？"
+    if tag == "M-BUO-001":
+        return "一根很大的木头往往比一颗小石子重，你觉得它一定会沉吗？如果不沉，你的“越重越沉”要怎么解释？"
+    if tag == "M-BUO-002":
+        return "压强越深越大没错，但上表面和下表面都一起变大时，你觉得它们的“差值”一定会变大吗？"
+    return "你愿不愿意先说一个你认为最关键的依据（现象/推理步骤）？我只问一个问题：这个依据在更极端的情况下还成立吗？"
+
 LLM_ERROR_FALLBACK_PHRASES = [
     "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？",
     "哎呀，我这会儿脑子有点转不过弯了，能换个说法再问我一次吗？",
@@ -84,6 +107,19 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
     )
     knowledge = KNOWLEDGE_CHUNKS.get(memory.current_misconception, {})
     misconception = MISCONCEPTIONS.get(memory.current_misconception, {})
+
+    if decision.meta.get("force_safe_template") is True:
+        reply_text = _safe_question_template(user_input, decision, memory)
+        final_reply = _clean_reply(reply_text)
+        return {
+            "raw_reply": reply_text,
+            "final_reply": final_reply,
+            "reply_type": _reply_type_from_state(decision.state),
+            "knowledge_used": misconception.get("misconception_name"),
+            "state": decision.state,
+            "strategy": decision.strategy,
+            "assembled_prompt": {"role_identity": "safe_template"}
+        }
     
     # 构建自然语言系统提示词
     core_points = "\n- ".join(misconception.get("core_science_points", []))

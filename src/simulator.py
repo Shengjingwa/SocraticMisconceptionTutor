@@ -180,14 +180,24 @@ async def run_single_session(v, m, p, i, sem):
 
 async def run_simulation() -> None:
     import os
+    import random
     base_dir = os.path.dirname(__file__)
     
+    seed_str = os.getenv("SIMULATION_SEED", "")
+    if seed_str.strip():
+        try:
+            random.seed(int(seed_str))
+        except ValueError:
+            pass
+
     # 清理旧日志文件，避免污染
-    logs_dir = os.path.join(base_dir, '..', 'logs')
-    for log_file in ['turn_logs.jsonl', 'session_summary.jsonl']:
-        log_path = os.path.join(logs_dir, log_file)
-        if os.path.exists(log_path):
-            os.remove(log_path)
+    logs_dir = os.getenv("LOG_DIR", os.path.join(base_dir, "..", "logs"))
+    os.makedirs(logs_dir, exist_ok=True)
+    if os.getenv("SIMULATION_CLEAN_LOGS", "1") == "1":
+        for log_file in ["turn_logs.jsonl", "session_summary.jsonl", "app.log"]:
+            log_path = os.path.join(logs_dir, log_file)
+            if os.path.exists(log_path):
+                os.remove(log_path)
             
     with open(os.path.join(base_dir, '..', 'data', 'simulation_profiles.json'), 'r', encoding='utf-8') as f:
         profiles = json.load(f)
@@ -195,7 +205,7 @@ async def run_simulation() -> None:
         misconceptions = json.load(f)
         
     versions = ["Baseline", "FSM", "FSM+Guardrail"]
-    num_runs = 3  # 为了避免API限速，这里设定为3次（总计108组对话）
+    num_runs = int(os.getenv("SIMULATION_NUM_RUNS", "3"))
 
     if os.getenv("SIMULATION_SMOKE") == "1":
         misconceptions = misconceptions[:1]

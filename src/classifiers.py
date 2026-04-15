@@ -4,6 +4,43 @@ from pydantic import BaseModel, Field
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from router import PerceptionResult
 import config
+import re
+
+MisconceptionTag = Literal["M-ELE-001", "M-ELE-002", "M-BUO-001", "M-BUO-002"]
+VALID_MISCONCEPTION_TAGS = {"M-ELE-001", "M-ELE-002", "M-BUO-001", "M-BUO-002"}
+
+def _normalize_misconception_tag(tag: Optional[str]) -> Optional[str]:
+    if not tag:
+        return None
+    t = str(tag).strip().upper()
+    t = re.sub(r"\s+", "", t)
+    fixes = {
+        "M-BUO-02": "M-BUO-002",
+        "M-BUO-2": "M-BUO-002",
+        "M-BUO-01": "M-BUO-001",
+        "M-BUO-1": "M-BUO-001",
+        "M-ELE-01": "M-ELE-001",
+        "M-ELE-1": "M-ELE-001",
+        "M-ELE-02": "M-ELE-002",
+        "M-ELE-2": "M-ELE-002",
+    }
+    t = fixes.get(t, t)
+    return t if t in VALID_MISCONCEPTION_TAGS else None
+
+def _keyword_hit(text: str, keywords: List[str]) -> bool:
+    if not text:
+        return False
+    return any(k in text for k in keywords if k)
+
+def _heuristic_misconception_override(user_input: str, predicted: Optional[str]) -> Optional[str]:
+    text = user_input.strip()
+    ele002_kw = ["只接正极", "只接负极", "单线", "一根线", "不用回路", "不需要回路", "不闭合", "不用闭合", "回路没必要", "只要接", "电流不是已经出来"]
+    ele001_kw = ["电流变少", "电流会变少", "被消耗", "用掉", "吃掉", "前面的灯泡", "后面的灯泡", "后面更暗", "串联", "流入大于流出"]
+    if _keyword_hit(text, ele002_kw):
+        return "M-ELE-002"
+    if _keyword_hit(text, ele001_kw):
+        return "M-ELE-001"
+    return predicted
 
 class NLUOutput(BaseModel):
     intent: Literal[
@@ -15,7 +52,7 @@ class NLUOutput(BaseModel):
         "Hypothesis_Put_Forward"
     ] = Field(description="用户当前的意图")
     
-    misconception_tag: Optional[str] = Field(default=None, description="识别到的错误概念标签（如 M-ELE-001, M-BUO-002 等），如果没有明确的错误概念则必须返回 null")
+    misconception_tag: Optional[MisconceptionTag] = Field(default=None, description="识别到的错误概念标签，只能从预设标签中选择；如果没有明确的错误概念则必须返回 null")
     
     cognitive_state: str = Field(description="用户当前的认知状态，必须严格从以下选项中选择：'认知僵局', '固守错误概念', '认知冲突触发', '新概念探索', '概念掌握验证'")
 
@@ -144,7 +181,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 
 你需要严格判断学生当前的回复是否满足了【{current_state}】状态的退出条件。如果满足，设置 transition_approved 为 true，并给出 reasoning；如果不满足，设为 false，并给出 reasoning。
 
-可用的错误概念标签(Misconception):
+可用的错误概念标签(Misconception)（只能从下面四个中选择，禁止输出其他任何字符串；如果无法判断必须输出 null）:
 - M-ELE-001: 认为电流在电路中会被消耗(如灯泡用掉电流)
 - M-ELE-002: 认为电路不需要闭合回路，单线即可工作
 - M-BUO-001: 认为物体越重越容易沉，越轻越容易浮
@@ -253,10 +290,13 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 raw_text = json_match.group(0)
             
             data = json.loads(raw_text)
+
+            raw_tag = _normalize_misconception_tag(data.get("misconception_tag"))
+            raw_tag = _heuristic_misconception_override(user_input, raw_tag)
             
             return PerceptionResult(
                 intent=data.get("intent") or "Knowledge_Inquiry",
-                misconception_tag=data.get("misconception_tag"),
+                misconception_tag=raw_tag,
                 cognitive_state=data.get("cognitive_state") or "认知僵局",
                 sentiment=data.get("sentiment") or "平静",
                 risk_flag=data.get("intent") == "Direct_Answer_Seek",
@@ -279,10 +319,13 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
     
     # Calculate risk_flag based on intent
     risk_flag = result.intent in ["Direct_Answer_Seek", "Off_Topic"]
+
+    normalized_tag = _normalize_misconception_tag(result.misconception_tag)
+    normalized_tag = _heuristic_misconception_override(user_input, normalized_tag)
     
     return PerceptionResult(
         intent=result.intent,
-        misconception_tag=result.misconception_tag,
+        misconception_tag=normalized_tag,
         cognitive_state=result.cognitive_state,
         sentiment=result.sentiment,
         risk_flag=risk_flag,
