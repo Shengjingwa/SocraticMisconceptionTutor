@@ -1,5 +1,0 @@
-- [x] `misconceptions.json` 中 `analogies` 已重构为包含 `model`, `use_for`, `boundary` 的对象。
-- [x] `misconceptions.json` 中 `counterexamples` 已重构为包含 `scenario`, `misconception_prediction`, `actual_scientific_outcome`, `conflict_focus` 的对象。
-- [x] `misconceptions.json` 每个误概念节点新增了 `reasoning_flaws`，包含 `flaw_type` 和 `description`。
-- [x] `simulation_profiles.json` 已柔性化，包含 `traits` (认知灵活性、防御性) 和 `dynamic_states` (顿悟触发机制)。
-- [x] 代码中解析 `misconceptions.json` 的相关逻辑已适配，能够正确提取和格式化新结构的 JSON 数据并注入 Prompt。

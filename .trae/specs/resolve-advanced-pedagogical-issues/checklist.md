@@ -1,4 +1,0 @@
-- [ ] LLM Judge allows the tutor to praise a student's correct deduction without blocking it.
-- [ ] Frustrated students trigger an empathetic "Yes, but..." approach instead of extreme counterexamples.
-- [ ] Students stuck in S5 receive smaller, atomic questions (micro-scaffolding).
-- [ ] Test suite runs without any serialization or parsing errors.

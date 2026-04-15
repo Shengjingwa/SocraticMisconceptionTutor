@@ -17,23 +17,12 @@ class NLUOutput(BaseModel):
     
     misconception_tag: Optional[str] = Field(default=None, description="识别到的错误概念标签（如 M-ELE-001, M-BUO-002 等），如果没有明确的错误概念则必须返回 null")
     
-    cognitive_state: Literal[
-        "认知僵局",
-        "固守错误概念",
-        "认知冲突触发",
-        "新概念探索",
-        "概念掌握验证"
-    ] = Field(description="用户当前的认知状态")
+    cognitive_state: str = Field(description="用户当前的认知状态，必须严格从以下选项中选择：'认知僵局', '固守错误概念', '认知冲突触发', '新概念探索', '概念掌握验证'")
 
     transition_approved: bool = Field(description="用户是否满足了当前教学状态的退出条件，可以进入下一个教学环节")
     reasoning: str = Field(description="判断是否允许状态转移的理由")
 
-    sentiment: Literal[
-        "焦虑/挫败",
-        "困惑",
-        "自信",
-        "平静"
-    ] = Field(description="用户当前的情感状态")
+    sentiment: str = Field(description="用户当前的情感状态，必须严格从以下选项中选择：'焦虑/挫败', '困惑', '自信', '平静'")
     
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
 
@@ -164,17 +153,22 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 意图(Intent)包括:
 - Direct_Answer_Seek: 直接要答案
 - Off_Topic: 偏离物理辅导主题
-- Cognitive_Stuck: 表示不知道、不懂
-- Knowledge_Inquiry: 询问知识点
-- Misconception_Expression: 表达了错误概念
-- Hypothesis_Put_Forward: 提出假设
+- Cognitive_Stuck: 表示不知道、不懂，或者仅表达同意而无实质内容
+- Knowledge_Inquiry: 询问具体的知识点
+- Misconception_Expression: 明确表达了错误的物理想法
+- Hypothesis_Put_Forward: 提出了一个猜测或假设（无论对错）
 
 认知状态(Cognitive State)包括:
 - 认知僵局: 卡壳，不知道怎么做，或者只是含糊地说“我懂了”但没有给出具体解释
-- 固守错误概念: 坚持错误的物理想法
-- 认知冲突触发: 开始怀疑自己的错误想法
-- 新概念探索: 开始向正确的方向思考
-- 概念掌握验证: 已经理解，需要验证（注意：学生不仅要表示同意或懂了，还**必须**用自己的话给出了正确的物理机制解释或推理，否则不能选此项！）
+- 固守错误概念: 依然坚持最初的错误物理想法
+- 认知冲突触发: 开始怀疑自己的错误想法，发现矛盾，或表现出极大的不确定性
+- 新概念探索: 开始尝试用正确的视角思考，尽管可能还不完整
+- 概念掌握验证: 已经完全理解，并且**必须**用自己的话给出了正确的物理机制解释或推理！如果只有同意而无解释，请选“认知僵局”。
+
+### 判定逻辑增强 ###
+1. **化繁为简**：如果学生回复“我明白了”或“对”，但没有任何推理过程，意图直接归为 `Cognitive_Stuck`，认知状态归为“认知僵局”，且 `transition_approved` 必须为 false。不要过度解读学生的顺从。
+2. **优先识别错误概念**：如果回复中包含任何与预设错误标签吻合的内容，优先标记该标签并设为 `Misconception_Expression`。
+3. **识别认知动摇**：如果学生说“难道是因为...吗？”或者“如果那样的话，岂不是...”，这通常意味着“认知冲突触发”，应标记为 transition_approved: true。
 
 情感状态(Sentiment)包括:
 - 焦虑/挫败: 表现出烦躁、气馁或想要放弃

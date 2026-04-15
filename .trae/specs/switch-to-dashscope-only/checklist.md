@@ -1,4 +1,0 @@
-- [ ] `src/config.py` 中 `get_tutor_llm()` 已完全移除 OpenRouter 及其 `with_fallbacks` 机制，仅返回 `dashscope_llm`。
-- [ ] `src/config.py` 中 `TUTOR_MODEL` 默认值为 `qwen3.6-plus`，`JUDGE_MODEL` 默认值为 `deepseek-v3.2`。
-- [ ] API Key 全部由纯环境变量 `os.environ.get()` 加载，无明文硬编码（包括测试脚本）。
-- [ ] `simple_test.py` 执行成功，通过 DashScope 成功调用 `qwen3.6-plus` 和 `deepseek-v3.2`，无模型不存在或崩溃异常。

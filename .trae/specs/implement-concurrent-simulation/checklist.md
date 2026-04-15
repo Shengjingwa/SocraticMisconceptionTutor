@@ -1,3 +1,0 @@
-- [x] `config.py` 中存在配置参数 `SIMULATION_CONCURRENCY`。
-- [x] `SimulatedStudent` 支持通过 `areply` 或原生异步方法进行非阻塞的模拟回复。
-- [x] `simulator.py` 在执行时是并发进行的，并受控于 `asyncio.Semaphore` 超参数。
