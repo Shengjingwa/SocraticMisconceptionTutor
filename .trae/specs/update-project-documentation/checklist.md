@@ -1,5 +1,0 @@
-- [x] README 已更新：包含 experiment_suite 用法、环境变量、实验产物结构
-- [x] CODE_WIKI 已更新：入口清晰、可快速跳转各章节
-- [x] docs/code-wiki 已更新：运行与产物文档与最新脚本一致
-- [x] 文档内关键链接可用（路径存在）
-- [x] 变更已提交并 push 到 GitHub main
