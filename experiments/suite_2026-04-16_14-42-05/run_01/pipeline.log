@@ -1,0 +1,6 @@
+开始批量仿真实验...
+仿真实验完成。
+NOTE (BREAKING): resolved_flag / Cognitive Correction Rate 口径为“post-test 通过”。历史实验结果不可直接横向对比。
+NOTE (BREAKING): Answer Leakage Rate 口径为“候选回复被检测为泄露的比例”（answer_leakage_flag）；Guardrail Interception Rate 口径为“实际执行拦截动作的比例”（guardrail_triggered）。
+Metrics calculated and saved to /data/zzc/agent_test/experiments/suite_2026-04-16_14-42-05/run_01/results/summary_metrics.csv
+Created /data/zzc/agent_test/experiments/suite_2026-04-16_14-42-05/run_01/results/manual_audit.csv
