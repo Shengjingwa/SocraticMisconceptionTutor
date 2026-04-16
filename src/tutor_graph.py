@@ -101,15 +101,24 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         new_memory.turn_guardrail_triggers += 1
         try:
             from generator import _safe_question_template, _clean_reply
-            safe_text = _safe_question_template(user_input, decision, new_memory)
+            prefix = "我们先把核心点抓住："
+            if new_memory.consecutive_guardrail_triggers >= 2:
+                prefix = "我们先暂停一下，把关键矛盾说清楚："
+            safe_text = prefix + _safe_question_template(user_input, decision, new_memory)
             generation["raw_reply"] = safe_text
             generation["final_reply"] = _clean_reply(safe_text)
         except Exception:
             generation["final_reply"] = random.choice(GUARDRAIL_FALLBACK_PHRASES)
-        guardrail_result = {"guardrail_triggered": True, "guardrail_reason": "Max_Retries_Exceeded", "answer_leakage_flag": False}
+        guardrail_result = {
+            "guardrail_triggered": True,
+            "guardrail_reason": "Max_Retries_Exceeded",
+            "guardrail_candidate_blocked": True,
+            "guardrail_candidate_reason": "Max_Retries_Exceeded",
+            "answer_leakage_flag": False
+        }
         return {"guardrail_result": guardrail_result, "regeneration_required": False, "generation": generation, "memory": new_memory}
 
-    is_already_safe = not decision.need_guardrail
+    is_already_safe = decision.need_guardrail or decision.state == "S2"
     guardrail_result = apply_guardrails(
         user_input=user_input,
         intent=perception.intent,
@@ -122,10 +131,11 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
 
     if system_version != "FSM+Guardrail":
         guardrail_result["guardrail_triggered"] = False
+        guardrail_result["guardrail_reason"] = None
         return {"guardrail_result": guardrail_result, "regeneration_required": False}
 
     new_memory = memory.model_copy(deep=True)
-    if guardrail_result["guardrail_triggered"] and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
+    if guardrail_result.get("guardrail_candidate_blocked", False) and (not is_already_safe or guardrail_result.get("answer_leakage_flag", False)):
         new_memory.consecutive_guardrail_triggers += 1
         new_memory.turn_guardrail_triggers += 1
         
@@ -134,7 +144,7 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
         
         if guardrail_result.get("answer_leakage_flag", False):
             # 柔性护栏：不改变原始教学状态，将拦截理由作为反馈要求重新生成
-            new_meta["guardrail_feedback"] = guardrail_result.get("guardrail_reason", "Answer Leakage")
+            new_meta["guardrail_feedback"] = guardrail_result.get("guardrail_candidate_reason", "Answer Leakage")
             if getattr(memory, "student_profile", None) == "P1" or retries >= 1:
                 new_meta["force_safe_template"] = True
             new_decision = RouteDecision(
@@ -145,6 +155,8 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
                 next_goal=decision.next_goal,
                 meta=new_meta
             )
+            guardrail_result["guardrail_triggered"] = True
+            guardrail_result["guardrail_reason"] = guardrail_result.get("guardrail_candidate_reason") or "Answer_Leakage"
         else:
             # 硬拦截（如输入包含不当意图未被前置拦截时）
             new_decision = RouteDecision(
@@ -155,6 +167,8 @@ def guardrail_node(state: GraphState) -> Dict[str, Any]:
                 next_goal=decision.next_goal,
                 meta=new_meta
             )
+            guardrail_result["guardrail_triggered"] = True
+            guardrail_result["guardrail_reason"] = guardrail_result.get("guardrail_candidate_reason")
         return {"guardrail_result": guardrail_result, "decision": new_decision, "regeneration_required": True, "memory": new_memory}
 
     # 如果没有触发护栏，重置连续触发计数器

@@ -39,6 +39,9 @@ class SessionMemory(BaseModel):
     post_test_pending: bool = False
     post_test_attempted: bool = False
     post_test_passed: bool = False
+    clarification_pending: bool = False
+    clarification_candidates: List[str] = Field(default_factory=list)
+    last_clarification_question: Optional[str] = None
     aborted: bool = False
     consecutive_guardrail_triggers: int = 0
     turn_guardrail_triggers: int = 0
@@ -259,6 +262,14 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
         if perception.intent:
             new_memory.risk_events.append(perception.intent)
         return decision, new_memory
+
+    if memory.clarification_pending:
+        if perception.misconception_tag in {"M-ELE-001", "M-ELE-002"}:
+            new_memory.current_misconception = perception.misconception_tag
+            new_memory.topic = MISCONCEPTION_TO_TOPIC.get(perception.misconception_tag, new_memory.topic)
+        new_memory.clarification_pending = False
+        new_memory.clarification_candidates = []
+        new_memory.last_clarification_question = None
         
     new_memory.current_state = "S3"
     if perception.misconception_tag:
@@ -284,6 +295,30 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
 
     # 应用声明式转移与防死循环规则
     target = apply_transition_rules(target, perception, new_memory)
+
+    if (
+        perception.misconception_tag in {"M-ELE-001", "M-ELE-002"}
+        and (memory.current_misconception in {"M-ELE-001", "M-ELE-002"})
+        and (perception.misconception_tag != memory.current_misconception)
+        and (perception.confidence < 0.75)
+        and (not memory.clarification_pending)
+    ):
+        new_memory.clarification_pending = True
+        new_memory.clarification_candidates = [memory.current_misconception, perception.misconception_tag]
+        question = "你更倾向于哪一种想法：A) 电流/电会被前面的灯泡“用掉变少”；B) 电路就算不闭合回到电池也能持续有电流？你选 A 还是 B？为什么？"
+        new_memory.last_clarification_question = question
+        decision = RouteDecision(
+            state="S5",
+            state_name=STATE_NAMES.get("S5", "Scaffolding_Guidance"),
+            strategy="Clarification",
+            need_guardrail=False,
+            next_goal=STRATEGY_GOALS.get("Clarification", "未知目标"),
+            meta={"from": base_state, "clarification_candidates": new_memory.clarification_candidates, "clarification_question": question, "intent": perception.intent, "sentiment": perception.sentiment, "topic": new_memory.topic}
+        )
+        new_memory.current_state = decision.state
+        new_memory.recent_states.append(decision.state)
+        new_memory.used_strategies.append("Clarification")
+        return decision, new_memory
 
     strategy = _choose_strategy(target, new_memory, perception)
     decision = RouteDecision(

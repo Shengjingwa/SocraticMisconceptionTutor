@@ -206,25 +206,26 @@ def apply_guardrails(user_input: str, intent: str, generated_text: str, misconce
     综合应用输入和输出护栏。
     is_already_safe: 如果路由层已经判断需要护栏并且生成了安全回复，则直接通过输入护栏。
     """
+    candidate_reason = None
+    candidate_blocked = False
+    answer_leakage = False
+
     if not is_already_safe:
         in_check = check_input(user_input, intent)
         if in_check["blocked"]:
-            return {
-                "guardrail_triggered": True,
-                "guardrail_reason": in_check["reason"],
-                "answer_leakage_flag": False
-            }
+            candidate_blocked = True
+            candidate_reason = in_check["reason"]
 
     out_check = check_output(generated_text, misconception_tag, consecutive_triggers, current_state)
     if out_check["blocked"]:
-        return {
-            "guardrail_triggered": True,
-            "guardrail_reason": out_check["reason"],
-            "answer_leakage_flag": out_check["answer_leakage"]
-        }
-    
+        candidate_blocked = True
+        candidate_reason = candidate_reason or out_check["reason"]
+        answer_leakage = bool(out_check.get("answer_leakage", False))
+
     return {
         "guardrail_triggered": False,
         "guardrail_reason": None,
-        "answer_leakage_flag": False
+        "guardrail_candidate_blocked": candidate_blocked,
+        "guardrail_candidate_reason": candidate_reason,
+        "answer_leakage_flag": answer_leakage
     }

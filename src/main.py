@@ -92,8 +92,13 @@ class SocraticTutorApp:
             "sentiment_pred": getattr(perception, "sentiment", "Confused"),
             "current_state": decision.state,
             "strategy_used": decision.strategy,
-            "guardrail_triggered": decision.need_guardrail or guardrail_result["guardrail_triggered"],
-            "guardrail_reason": guardrail_result.get("guardrail_reason") or ("Risk Flag" if decision.need_guardrail else None),
+            "guardrail_triggered": bool(decision.need_guardrail) or bool(guardrail_result.get("guardrail_triggered", False)),
+            "guardrail_reason": (
+                guardrail_result.get("guardrail_reason")
+                if (bool(decision.need_guardrail) or bool(guardrail_result.get("guardrail_triggered", False)))
+                else None
+            ),
+            "guardrail_candidate_reason": guardrail_result.get("guardrail_candidate_reason"),
             "raw_reply": generation["raw_reply"],
             "final_reply": generation["final_reply"],
             "answer_leakage_flag": guardrail_result.get("answer_leakage_flag", False),

@@ -140,6 +140,19 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "strategy": decision.strategy,
             "assembled_prompt": {"role_identity": "safe_template"}
         }
+
+    if decision.meta.get("clarification_question"):
+        reply_text = str(decision.meta.get("clarification_question"))
+        final_reply = _clean_reply(reply_text)
+        return {
+            "raw_reply": reply_text,
+            "final_reply": final_reply,
+            "reply_type": _reply_type_from_state(decision.state),
+            "knowledge_used": misconception.get("misconception_name"),
+            "state": decision.state,
+            "strategy": decision.strategy,
+            "assembled_prompt": {"role_identity": "clarification_question"}
+        }
     
     # 构建自然语言系统提示词
     core_points = "\n- ".join(misconception.get("core_science_points", []))
