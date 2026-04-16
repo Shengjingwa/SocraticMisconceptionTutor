@@ -1,5 +1,5 @@
-- [ ] 确保 `git commit` 与 `git checkout main` / `git merge` 执行完毕，且 `main` 分支包含了第四章精修的最新提交。
-- [ ] `/workspace/docs/Chapter04.tex` 中所有的 `\begin{figure}` 都在新文档中有了详细的对应方案。
-- [ ] `/workspace/docs/Chapter04_Figure_Design.md` 已成功创建。
-- [ ] `/workspace/docs/Chapter04_Figure_Design.md` 的方案包含详细的：节点定义、关系描述、中文术语标注。
-- [ ] 所有图片中的标签名称（如 S0, T1, G1 等）均严格与 `Chapter04.tex` 中的最新精修内容一致。
+- [x] 确保 `git commit` 与 `git checkout main` / `git merge` 执行完毕，且 `main` 分支包含了第四章精修的最新提交。
+- [x] `/workspace/docs/Chapter04.tex` 中所有的 `\begin{figure}` 都在新文档中有了详细的对应方案。
+- [x] `/workspace/docs/Chapter04_Figure_Design.md` 已成功创建。
+- [x] `/workspace/docs/Chapter04_Figure_Design.md` 的方案包含详细的：节点定义、关系描述、中文术语标注。
+- [x] 所有图片中的标签名称（如 S0, T1, G1 等）均严格与 `Chapter04.tex` 中的最新精修内容一致。
