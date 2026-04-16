@@ -9,7 +9,7 @@
   - [x] 更新 06_running：新增“实验套件”章节与输出结构说明
   - [x] 更新 05_data_outputs：新增 `experiments/` 与 `aggregate_summary.*` 说明
   - [x] 更新 03_modules（必要时）：补充 `experiment_suite.py` 的模块定位
-- [ ] Task 4: 校验与发布
+- [x] Task 4: 校验与发布
   - [x] 检查 Markdown 链接指向的文件与路径有效
   - [x] `git status` 确认仅文档变更
-  - [ ] 提交并 push 到 GitHub main
+  - [x] 提交并 push 到 GitHub main

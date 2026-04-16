@@ -2,4 +2,4 @@
 - [x] CODE_WIKI 已更新：入口清晰、可快速跳转各章节
 - [x] docs/code-wiki 已更新：运行与产物文档与最新脚本一致
 - [x] 文档内关键链接可用（路径存在）
-- [ ] 变更已提交并 push 到 GitHub main
+- [x] 变更已提交并 push 到 GitHub main
