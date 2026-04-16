@@ -67,41 +67,43 @@ def _heuristic_misconception_override(user_input: str, predicted: Optional[str])
     ]
     ele002_score = _keyword_score(text, ele002_kw)
     ele001_score = _keyword_score(text, ele001_kw)
-    if ele002_score and ele001_score:
-        return "M-ELE-002" if ele002_score >= ele001_score else "M-ELE-001"
-    if ele002_score:
+    
+    if ele002_score == 0 and ele001_score == 0:
+        return predicted
+
+    # 弱化启发式的绝对覆盖权，仅在无预测时或严重冲突时作为备用参考，
+    # 并且我们在返回时通过特定标记让外部知道这是启发式干预，不过这里的返回值仅为 string，
+    # 我们会在调用它的 _apply_prior_tag 处修改 confidence 以触发澄清。
+    if ele002_score > ele001_score:
         return "M-ELE-002"
-    if ele001_score:
+    elif ele001_score > ele002_score:
         return "M-ELE-001"
+    
     return predicted
 
-def _apply_prior_tag(user_input: str, predicted: Optional[str], prior_tag: Optional[str], confidence: float) -> Optional[str]:
+def _apply_prior_tag(user_input: str, predicted: Optional[str], prior_tag: Optional[str], confidence: float) -> tuple[Optional[str], float]:
+    """返回 (tag, confidence)"""
     if not prior_tag or prior_tag not in VALID_MISCONCEPTION_TAGS:
-        return predicted
+        return predicted, confidence
+        
     if predicted is None:
-        return prior_tag if confidence < 0.75 else predicted
+        if confidence < 0.75:
+            return prior_tag, confidence
+        return predicted, confidence
+        
     if predicted == prior_tag:
-        return predicted
+        return predicted, confidence
+        
     if (predicted, prior_tag) in {("M-ELE-001", "M-ELE-002"), ("M-ELE-002", "M-ELE-001")}:
-        text = user_input.strip()
-        ele002_strong = [
-            "单线", "一根线", "只接", "不用回路", "不闭合", "不用闭合", "闭合回路", "回路",
-            "回到电池", "不用回到电池", "不用连回去", "另一端不用接", "电池一端", "电池另一端",
-            "负极", "正极", "回收站", "堆在", "堆积在"
-        ]
-        ele001_strong = ["被消耗", "电流被消耗", "用掉", "用完", "吃掉", "后面更暗", "越往后越暗", "串联", "流入大于流出"]
-        ele002_score = _keyword_score(text, ele002_strong)
-        ele001_score = _keyword_score(text, ele001_strong)
-        if prior_tag == "M-ELE-002" and ele002_score and not ele001_score:
-            return prior_tag
-        if prior_tag == "M-ELE-001" and ele001_score and not ele002_score:
-            return prior_tag
-        if ele002_score and not ele001_score:
-            return "M-ELE-002"
-        if ele002_score and ele001_score and (ele002_score >= ele001_score) and confidence < 0.9:
-            return "M-ELE-002"
-        return prior_tag if confidence < 0.85 else predicted
-    return predicted
+        # 发生了反转，先看启发式
+        heuristic = _heuristic_misconception_override(user_input, predicted)
+        if heuristic and heuristic != predicted:
+            # 启发式结果不同于模型预测结果，我们采用启发式，但强制大幅降低 confidence 以触发 Clarification
+            return heuristic, 0.5
+        # 如果模型预测与启发式一致（或无启发式），但这与 prior_tag 相反，说明有一定动摇，我们适度降低 confidence
+        return predicted, min(confidence, 0.6)
+        
+    return predicted, confidence
 
 class NLUOutput(BaseModel):
     intent: Literal[
@@ -357,7 +359,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 
             raw_tag = _normalize_misconception_tag(data.get("misconception_tag"))
             raw_tag = _heuristic_misconception_override(user_input, raw_tag)
-            raw_tag = _apply_prior_tag(user_input, raw_tag, _normalize_misconception_tag(prior_misconception_tag), float(data.get("confidence") or 0.0))
+            raw_tag, final_confidence = _apply_prior_tag(user_input, raw_tag, _normalize_misconception_tag(prior_misconception_tag), float(data.get("confidence") or 0.0))
             
             return PerceptionResult(
                 intent=data.get("intent") or "Knowledge_Inquiry",
@@ -365,7 +367,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 cognitive_state=data.get("cognitive_state") or "认知僵局",
                 sentiment=data.get("sentiment") or "平静",
                 risk_flag=data.get("intent") == "Direct_Answer_Seek",
-                confidence=float(data.get("confidence") or 0.0),
+                confidence=final_confidence,
                 transition_approved=bool(data.get("transition_approved") or False),
                 reasoning=data.get("reasoning") or ""
             )
@@ -387,7 +389,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 
     normalized_tag = _normalize_misconception_tag(result.misconception_tag)
     normalized_tag = _heuristic_misconception_override(user_input, normalized_tag)
-    normalized_tag = _apply_prior_tag(user_input, normalized_tag, _normalize_misconception_tag(prior_misconception_tag), float(getattr(result, "confidence", 0.0)))
+    normalized_tag, final_confidence = _apply_prior_tag(user_input, normalized_tag, _normalize_misconception_tag(prior_misconception_tag), float(getattr(result, "confidence", 0.0)))
     
     return PerceptionResult(
         intent=result.intent,
@@ -395,7 +397,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
         cognitive_state=result.cognitive_state,
         sentiment=result.sentiment,
         risk_flag=risk_flag,
-        confidence=result.confidence,
+        confidence=final_confidence,
         transition_approved=result.transition_approved,
         reasoning=result.reasoning
     )

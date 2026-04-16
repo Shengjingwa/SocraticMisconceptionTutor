@@ -337,7 +337,7 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
               "transition_approved":perception.transition_approved, "reasoning":perception.reasoning, "topic":new_memory.topic}
     )
     if (
-        decision.state == "S6"
+        (decision.state in {"S5", "S6", "S7", "S8"})
         and new_memory.student_profile == "P1"
         and (not new_memory.post_test_attempted)
         and (not new_memory.post_test_pending)
