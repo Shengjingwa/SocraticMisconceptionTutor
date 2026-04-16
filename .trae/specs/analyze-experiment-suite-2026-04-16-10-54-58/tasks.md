@@ -14,8 +14,14 @@
   - [x] 若 run_02 缺失 evaluation_results.json，则在报告中明确标注
 - [x] Task 4: 输出分析报告（仅对话输出，不落盘）
   - [x] 输出“总体结论（2-3句）+ 指标解读 + 失败模式案例 + 问题清单（证据/原因/建议）+ 未完备 run 的影响说明”
+- [x] Task 5: 基于 run_01/run_02 更新分析报告（run_03 仅标注缺失影响）
+  - [x] 盘点 run_03 产物缺失项（pipeline 是否为空、是否缺 summary_metrics/evaluation_results/results）
+  - [x] 读取 run_02 summary_metrics.csv 与 evaluation_results.json，补全版本指标与盲评汇总
+  - [x] 对比 run_01 vs run_02：关键指标差异（纠错/泄露/护栏/轮数/识别准确率）与差异解释
+  - [x] 输出更新后的完整分析报告（仅对话输出，不落盘）
 
 # Task Dependencies
 - Task 2 depends on Task 1
 - Task 3 depends on Task 1
 - Task 4 depends on Task 2 and Task 3
+- Task 5 depends on Task 1
