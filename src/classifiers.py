@@ -213,10 +213,10 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
     messages = formatted_messages
         
     if not config.DASHSCOPE_API_KEY:
-        # Mock mode if API key is missing
+        tag = _heuristic_misconception_override(user_input, None) or _normalize_misconception_tag(prior_misconception_tag) or "M-ELE-001"
         return PerceptionResult(
             intent="Knowledge_Inquiry",
-            misconception_tag="M-ELE-001",
+            misconception_tag=tag,
             cognitive_state="认知僵局",
             sentiment="平静",
             risk_flag=False,

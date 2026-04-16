@@ -336,6 +336,15 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
               "cognitive_state":perception.cognitive_state,"confidence":perception.confidence,"sentiment":perception.sentiment,
               "transition_approved":perception.transition_approved, "reasoning":perception.reasoning, "topic":new_memory.topic}
     )
+    if (
+        decision.state == "S6"
+        and new_memory.student_profile == "P1"
+        and (not new_memory.post_test_attempted)
+        and (not new_memory.post_test_pending)
+        and (new_memory.turn_count >= 8)
+    ):
+        new_memory.post_test_pending = True
+        decision.meta = {**decision.meta, "force_safe_template": True, "p1_closeout": True}
     new_memory.current_state = decision.state
     new_memory.recent_states.append(decision.state)
     if strategy is not None:
