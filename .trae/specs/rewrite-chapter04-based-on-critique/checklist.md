@@ -1,0 +1,9 @@
+- [ ] FSM states S0-S8 are accurately described (S1: Guardrail Check, S2: Refusal, S7: Fact Grounding, S8: Acknowledge & Park).
+- [ ] A dedicated section/paragraph on "Cognitive Deadlock Downgrade Intervention" is included.
+- [ ] Emotional scaffolding (Positive Reinforcement) and explanatory analogies are added to Guardrail Exemptions.
+- [ ] "Static Teaching Cases" is removed from the Knowledge Base description, replaced with "Micro-scaffolding".
+- [ ] A brief mention of the simulation pipeline log interface is added to Section 4.5.
+- [ ] Explicit FSM state transitions (e.g., `[S3->S4]`) are injected into the case studies in Section 4.6.
+- [ ] Original correct theories (Posner, Chi) and citations are preserved.
+- [ ] All image placeholders (`\begin{figure}...`) are retained.
+- [ ] The final `/workspace/docs/Chapter04.tex` reflects all these changes.
