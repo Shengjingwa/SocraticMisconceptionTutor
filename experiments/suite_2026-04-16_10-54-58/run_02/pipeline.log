@@ -1,0 +1,80 @@
+开始批量仿真实验...
+仿真实验完成。
+NOTE (BREAKING): resolved_flag / Cognitive Correction Rate 口径为“post-test 通过”。历史实验结果不可直接横向对比。
+NOTE (BREAKING): Answer Leakage Rate 口径为“候选回复被检测为泄露的比例”（answer_leakage_flag）；Guardrail Interception Rate 口径为“实际执行拦截动作的比例”（guardrail_triggered）。
+Metrics calculated and saved to /data/zzc/agent_test/experiments/suite_2026-04-16_10-54-58/run_02/results/summary_metrics.csv
+Created /data/zzc/agent_test/experiments/suite_2026-04-16_10-54-58/run_02/results/manual_audit.csv
+找到 36 个会话，开始评估...
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-001_9a5830 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM_P2_M-ELE-001_f06bbc (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_Baseline_P2_M-ELE-001_976226 (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-001_588737 (10 轮对话)
+  -> 苏格拉底度: 4, 有效性: 4
+正在评估会话: sim_FSM_P1_M-ELE-001_6df123 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 3
+正在评估会话: sim_Baseline_P1_M-ELE-001_d74e2b (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_Baseline_P3_M-ELE-001_b1db33 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-ELE-001_8ad5af (7 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-ELE-002_8fdcda (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-001_1efc75 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P1_M-ELE-002_166ace (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_Baseline_P2_M-ELE-002_b2ee68 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P1_M-ELE-002_d692a3 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM_P2_M-ELE-002_91bfb8 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-ELE-002_c54b5d (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-ELE-002_991771 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-ELE-002_e7ebb8 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-ELE-002_33f7bd (8 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-BUO-001_f12280 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-001_6455d1 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P1_M-BUO-001_324421 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_Baseline_P2_M-BUO-001_4e0e1c (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P2_M-BUO-001_6399f2 (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-001_214118 (9 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-BUO-001_afa02b (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-BUO-001_8f1c11 (6 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-001_2f6a05 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P1_M-BUO-002_409930 (13 轮对话)
+  -> 苏格拉底度: 5, 有效性: 4
+正在评估会话: sim_FSM_P1_M-BUO-002_a0ee89 (13 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_Baseline_P2_M-BUO-002_939096 (9 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P1_M-BUO-002_aecbb6 (13 轮对话)
+  -> 苏格拉底度: 4, 有效性: 3
+正在评估会话: sim_FSM_P2_M-BUO-002_416cad (8 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_Baseline_P3_M-BUO-002_f44de6 (10 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P2_M-BUO-002_ea862b (8 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM_P3_M-BUO-002_4dae93 (7 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+正在评估会话: sim_FSM+Guardrail_P3_M-BUO-002_97e38f (5 轮对话)
+  -> 苏格拉底度: 5, 有效性: 5
+评估完成，结果已保存至 /data/zzc/agent_test/experiments/suite_2026-04-16_10-54-58/run_02/logs/evaluation_results.json
