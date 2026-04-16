@@ -1,0 +1,23 @@
+# Tasks
+
+- [x] Task 1: Evaluate Critique vs. Reality - Read `Chapter04问题01.md`, `src/router.py`, and `src/guardrails.py` using `search` agent to confirm that S0-S8, Cognitive Downgrade Intervention, and Guardrail Exemptions are fully implemented. **DO NOT** downgrade the text in `Chapter04.tex` to "本研究拟采用...".
+- [x] Task 2: Inject Real Code Evidence - Use `SearchReplace` or `Search` agent to scan `Chapter04.tex` and inject actual code/prompt snippets into Section 4.3.3 (Cognitive Deadlock Downgrade) using `ANTI_LOOP_RULES` from `router.py`, and into Section 4.4 (Guardrails) using `judge_prompt` from `guardrails.py` as `\begin{lstlisting}[language=Python/YAML]`.
+- [x] Task 3: Align with 2022 Curriculum Standards - In Section 4.1 or 4.2, add a paragraph explicitly mapping Socratic strategies (Clarification/probing -> 证据与解释; Consequence exploration -> 逻辑推理与模型检验; Analogy -> 从生活走向物理的认知桥接; Understanding check -> 形成性评价) to the core competencies in the 2022 Compulsory Education Physics Curriculum Standards.
+- [x] Task 4: Restructure Section 4.2.1 with Tables - Rewrite the text in Section 4.2.1 to include two explicit tables (using LaTeX `\begin{table}`):
+  - Table 1: "初中物理电学与浮力教材知识点、典型迷思与诊断线索映射表"
+  - Table 2: "迷思类型与苏格拉底式对话策略映射关系表"
+- [x] Task 5: Add Rule Table to Section 4.4 - In Section 4.4, add a rule table (Table 3: “引导而非代答”系统护栏与支架豁免规则表) detailing the criteria for "Direct Answer Seeking", "Cognitive Overload", "Exempted Scaffolding", and the corresponding system actions.
+- [x] Task 6: Rewrite Section 4.5 Subheadings and Content - Rename subheadings in 4.5 from technical to educational ("教学功能视角"):
+  - 4.5.1 -> 教学功能构成与诊断—干预闭环 (was: 原型系统模块构成与输入输出链路)
+  - 4.5.2 -> 教学阶段推进逻辑与知识策略映射 (was: 知识库调用与教学状态转换流转实现)
+  - Update the content to reflect this functional perspective while maintaining the evidence-based approach.
+- [x] Task 7: Reformat Case Studies in Section 4.6 - Rewrite the case studies in Section 4.6 to look like actual system logs:
+  - 学生画像 (Student Profile)
+  - 主题 (Topic)
+  - 会话轮次 (Rounds)
+  - 初始迷思 (Initial Misconception)
+  - 系统策略顺序 (Strategy Sequence)
+  - 关键对话节选 (Log transcript format with state transition tags e.g., `[S3->S4]`)
+  - 干预结果 (Intervention Outcome)
+- [x] Task 8: Add Design-Validation Hooks - At the end of sections 4.3, 4.4, and 4.5, add concluding sentences that link the design choices to validation metrics in Chapter 5 (e.g., "本设计将在第五章通过答案泄露率、自我解释完成率等指标进行效果验证。").
+- [x] Task 9: Update Bibliography - Add Chinese educational citations to `Chapter4.bib` (e.g., 义务教育物理课程标准（2022年版）, 初中物理浮力教学研究) and cite them correctly in `Chapter04.tex`.

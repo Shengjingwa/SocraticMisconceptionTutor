@@ -1,0 +1,10 @@
+- [x] Evaluated critique against the actual codebase and confirmed that S0-S8, Cognitive Downgrade Intervention, and Guardrail Exemptions are fully implemented.
+- [x] Assertive tone regarding implemented features is retained, and "本研究拟采用..." downgrades are avoided.
+- [x] Real code evidence (`ANTI_LOOP_RULES` from `router.py`, `judge_prompt` from `guardrails.py`) is injected into Section 4.3 and 4.4/4.5.
+- [x] Section 4.1/4.2 contains a paragraph explicitly mapping Socratic strategies to the 2022 Compulsory Education Physics Curriculum Standards.
+- [x] Section 4.2.1 includes two explicit LaTeX tables (Textbook Knowledge vs. Misconceptions, Misconception Types vs. Strategies).
+- [x] Section 4.4 includes a rule table (Table 3) detailing criteria for "Direct Answer Seeking", "Cognitive Overload", and "Exempted Scaffolding".
+- [x] Section 4.5 subheadings are rewritten to focus on "teaching functions" (e.g., 教学功能构成与诊断—干预闭环).
+- [x] Section 4.6 case studies are formatted as structured system logs (Student Profile, Topic, Rounds, Initial Misconception, Strategy Sequence, Excerpt, Outcome).
+- [x] Concluding sentences linking design choices to Chapter 5 validation metrics are present at the end of sections 4.3, 4.4, and 4.5.
+- [x] Chinese educational references (2022 Curriculum Standards, etc.) are added to `Chapter4.bib` and cited in `Chapter04.tex`.
