@@ -2,7 +2,7 @@ import json
 from collections import defaultdict
 
 records = []
-with open('/workspace/experiments/suite_2026-04-16_12-09-24/run_01/logs/session_summary.jsonl') as f:
+with open('/workspace/experiments/suite_2026-04-16_13-50-53/run_01/logs/session_summary.jsonl') as f:
     for line in f:
         records.append(json.loads(line))
 
