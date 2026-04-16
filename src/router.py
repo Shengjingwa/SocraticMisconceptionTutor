@@ -313,7 +313,8 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
             new_memory.clarification_candidates = [memory.current_misconception, perception.misconception_tag]
         else:
             new_memory.clarification_candidates = ["M-ELE-001", "M-ELE-002"]
-        question = "你更倾向于哪一种想法：A) 电流/电会被前面的灯泡“用掉变少”；B) 电路就算不闭合回到电池也能持续有电流？你选 A 还是 B？为什么？"
+        # 优化澄清策略话术，避免生硬的 A/B 选择诱导误判
+        question = "你是觉得电在灯泡里被用光了，所以才不需要连回去（闭合回路）吗？还是有别的想法？"
         new_memory.last_clarification_question = question
         decision = RouteDecision(
             state="S5",
@@ -345,6 +346,11 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     ):
         new_memory.post_test_pending = True
         decision.meta = {**decision.meta, "force_safe_template": True, "p1_closeout": True}
+        # 强制即时中断：直接跳入总结陈词或后测阶段，不再在 S5/S6/S7 里继续引导拉扯
+        decision.state = "S6"
+        decision.state_name = STATE_NAMES.get("S6", "Verification_Deepening")
+        decision.strategy = "Consequence_Exploration" # 用探索后果或证据作为结束前的话术
+        decision.next_goal = "准备结束引导环节，通过提问直接进入后测（无需纠结对方是否同意）。"
     new_memory.current_state = decision.state
     new_memory.recent_states.append(decision.state)
     if strategy is not None:
