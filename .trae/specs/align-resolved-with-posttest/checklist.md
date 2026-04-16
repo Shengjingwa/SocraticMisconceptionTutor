@@ -1,6 +1,0 @@
-- [x] Baseline/FSM/FSM+Guardrail 的 `resolved_flag` 判据统一为 post-test 通过
-- [x] Baseline 在接近结束时能触发一次 post-test 收口提问
-- [x] Baseline 不再结构性固定为 0% resolved（在 smoke 实验中可观察到 resolved 的可能性）
-- [x] evaluator 输出的 `Cognitive Correction Rate` 与新的 resolved 语义一致
-- [x] 现有实验流水线（experiment_suite）在 `--no-judge` 下可跑通且不产生异常终止率飙升
-- [x] 文档/输出中明确说明 **BREAKING**：resolved 口径变更导致历史结果不可直接对比

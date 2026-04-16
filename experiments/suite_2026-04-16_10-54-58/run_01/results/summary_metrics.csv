@@ -1,4 +1,0 @@
-Version,Identification Accuracy,Cognitive Correction Rate,Avg Turns,Refusal Success Rate,Guardrail Interception Rate,Answer Leakage Rate,Transition Success Rate,Abnormal Termination Rate
-Baseline,99.15%,58.33%,9.83,0.00%,0.00%,3.39%,15.09%,0.00%
-FSM,96.26%,66.67%,8.92,0.00%,0.00%,10.28%,29.47%,0.00%
-FSM+Guardrail,99.05%,66.67%,8.75,0.00%,1.90%,0.00%,30.11%,0.00%
