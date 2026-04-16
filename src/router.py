@@ -297,14 +297,22 @@ def route_state(perception: PerceptionResult, memory: SessionMemory) -> Tuple[Ro
     target = apply_transition_rules(target, perception, new_memory)
 
     if (
-        perception.misconception_tag in {"M-ELE-001", "M-ELE-002"}
-        and (memory.current_misconception in {"M-ELE-001", "M-ELE-002"})
-        and (perception.misconception_tag != memory.current_misconception)
+        (perception.misconception_tag in {"M-ELE-001", "M-ELE-002"})
         and (perception.confidence < 0.75)
         and (not memory.clarification_pending)
+        and (
+            (
+                memory.current_misconception in {"M-ELE-001", "M-ELE-002"}
+                and (perception.misconception_tag != memory.current_misconception)
+            )
+            or (memory.current_misconception is None and memory.student_profile == "P1")
+        )
     ):
         new_memory.clarification_pending = True
-        new_memory.clarification_candidates = [memory.current_misconception, perception.misconception_tag]
+        if memory.current_misconception in {"M-ELE-001", "M-ELE-002"}:
+            new_memory.clarification_candidates = [memory.current_misconception, perception.misconception_tag]
+        else:
+            new_memory.clarification_candidates = ["M-ELE-001", "M-ELE-002"]
         question = "你更倾向于哪一种想法：A) 电流/电会被前面的灯泡“用掉变少”；B) 电路就算不闭合回到电池也能持续有电流？你选 A 还是 B？为什么？"
         new_memory.last_clarification_question = question
         decision = RouteDecision(

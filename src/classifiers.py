@@ -30,7 +30,18 @@ def _normalize_misconception_tag(tag: Optional[str]) -> Optional[str]:
 def _keyword_hit(text: str, keywords: List[str]) -> bool:
     if not text:
         return False
-    return any(k in text for k in keywords if k)
+    t = str(text).strip()
+    return any(k in t for k in keywords if k)
+
+def _keyword_score(text: str, keywords: List[str]) -> int:
+    if not text:
+        return 0
+    t = str(text).strip()
+    score = 0
+    for k in keywords:
+        if k and k in t:
+            score += 1
+    return score
 
 def _heuristic_misconception_override(user_input: str, predicted: Optional[str]) -> Optional[str]:
     text = user_input.strip()
@@ -42,12 +53,25 @@ def _heuristic_misconception_override(user_input: str, predicted: Optional[str])
         "没必要连回去", "没必要非连回去", "没必要一定连回去",
         "断开也能", "不闭合也能", "只要碰一下", "接一下就", "另一端不用接",
         "闭合回路", "闭合电路", "回路", "回到电池", "连回电池", "连回去", "回去",
-        "负极", "正极", "回收站", "回收", "回路不完整", "断路", "短接", "电路断开"
+        "负极", "正极", "回收站", "回收", "回路不完整", "断路", "短接", "电路断开",
+        "电池一端", "电池另一端", "一端接", "一头接", "单端", "接一个头", "只接一个头",
+        "不用接另一端", "不用接回去", "不需要接回去", "不用回来", "不需要回来",
+        "电从正极出来", "从正极出来", "回到负极", "回到正极", "回到负极去",
+        "堆在", "积在", "积累在", "堆积在"
     ]
-    ele001_kw = ["电流变少", "电流会变少", "被消耗", "用掉", "吃掉", "前面的灯泡", "后面的灯泡", "后面更暗", "串联", "流入大于流出"]
-    if _keyword_hit(text, ele002_kw):
+    ele001_kw = [
+        "电流变少", "电流会变少", "电流变弱", "电流越来越小", "电流越来越弱",
+        "被消耗", "电被消耗", "电流被消耗", "用掉", "用完", "用光", "吃掉",
+        "前面的灯泡", "后面的灯泡", "后面更暗", "越往后越暗", "越来越暗",
+        "串联", "流入大于流出", "流进大于流出", "流入大于流出"
+    ]
+    ele002_score = _keyword_score(text, ele002_kw)
+    ele001_score = _keyword_score(text, ele001_kw)
+    if ele002_score and ele001_score:
+        return "M-ELE-002" if ele002_score >= ele001_score else "M-ELE-001"
+    if ele002_score:
         return "M-ELE-002"
-    if _keyword_hit(text, ele001_kw):
+    if ele001_score:
         return "M-ELE-001"
     return predicted
 
@@ -60,13 +84,21 @@ def _apply_prior_tag(user_input: str, predicted: Optional[str], prior_tag: Optio
         return predicted
     if (predicted, prior_tag) in {("M-ELE-001", "M-ELE-002"), ("M-ELE-002", "M-ELE-001")}:
         text = user_input.strip()
-        ele002_strong = _keyword_hit(text, ["单线", "一根线", "只接", "不用回路", "不闭合", "闭合回路", "回路", "回到电池", "不用回到电池", "不用连回去", "另一端不用接", "负极", "正极", "回收站"])
-        ele001_strong = _keyword_hit(text, ["被消耗", "用掉", "吃掉", "后面更暗", "串联"])
-        if prior_tag == "M-ELE-002" and ele002_strong and not ele001_strong:
+        ele002_strong = [
+            "单线", "一根线", "只接", "不用回路", "不闭合", "不用闭合", "闭合回路", "回路",
+            "回到电池", "不用回到电池", "不用连回去", "另一端不用接", "电池一端", "电池另一端",
+            "负极", "正极", "回收站", "堆在", "堆积在"
+        ]
+        ele001_strong = ["被消耗", "电流被消耗", "用掉", "用完", "吃掉", "后面更暗", "越往后越暗", "串联", "流入大于流出"]
+        ele002_score = _keyword_score(text, ele002_strong)
+        ele001_score = _keyword_score(text, ele001_strong)
+        if prior_tag == "M-ELE-002" and ele002_score and not ele001_score:
             return prior_tag
-        if prior_tag == "M-ELE-001" and ele001_strong and not ele002_strong:
+        if prior_tag == "M-ELE-001" and ele001_score and not ele002_score:
             return prior_tag
-        if ele002_strong and not ele001_strong:
+        if ele002_score and not ele001_score:
+            return "M-ELE-002"
+        if ele002_score and ele001_score and (ele002_score >= ele001_score) and confidence < 0.9:
             return "M-ELE-002"
         return prior_tag if confidence < 0.85 else predicted
     return predicted
@@ -237,6 +269,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
 1. **化繁为简**：如果学生回复“我明白了”或“对”，但没有任何推理过程，意图直接归为 `Cognitive_Stuck`，认知状态归为“认知僵局”，且 `transition_approved` 必须为 false。不要过度解读学生的顺从。
 2. **优先识别错误概念**：如果回复中包含任何与预设错误标签吻合的内容，优先标记该标签并设为 `Misconception_Expression`。
 3. **识别认知动摇**：如果学生说“难道是因为...吗？”或者“如果那样的话，岂不是...”，这通常意味着“认知冲突触发”，应标记为 transition_approved: true。
+4. **电学标签判别补充**：如果学生提到“只接一端/只接正负极/一根线/电路不用闭合/电荷不用回到电池/电荷会堆在某一端”等，优先选择 M-ELE-002；如果学生提到“电流被用掉/越往后越暗/后面电流更小/流入大于流出”等，优先选择 M-ELE-001。若两类线索同时出现，请降低 confidence，并优先输出最符合“回路是否闭合”描述的标签。
 
 情感状态(Sentiment)包括:
 - 焦虑/挫败: 表现出烦躁、气馁或想要放弃
