@@ -1,0 +1,23 @@
+# Tasks
+
+- [ ] Task 1: Update Tone and Language - Use `SearchReplace` or `Search` agent to scan `Chapter04.tex` and change assertive engineering statements ("系统实现了...", "系统采用...") to educational abstractions ("本研究将原型的对话过程抽象为...", "结合项目实现意图，可归纳为...", "若对应到系统功能，可视作...").
+- [ ] Task 2: Align with 2022 Curriculum Standards - In Section 4.1 or 4.2, add a paragraph explicitly mapping Socratic strategies (Clarification/probing -> 证据与解释; Consequence exploration -> 逻辑推理与模型检验; Analogy -> 从生活走向物理的认知桥接; Understanding check -> 形成性评价) to the core competencies in the 2022 Compulsory Education Physics Curriculum Standards.
+- [ ] Task 3: Restructure Section 4.2.1 with Tables - Rewrite the text in Section 4.2.1 to include two explicit tables (using LaTeX `\begin{table}`):
+  - Table 1: "初中物理电学与浮力教材知识点、典型迷思与诊断线索映射表"
+  - Table 2: "迷思类型与苏格拉底式对话策略映射关系表"
+- [ ] Task 4: Add Rule Table to Section 4.4 - In Section 4.4, add a rule table (Table 3: “引导而非代答”系统护栏与支架豁免规则表) detailing the criteria for "Direct Answer Seeking", "Cognitive Overload", "Exempted Scaffolding", and the corresponding system actions.
+- [ ] Task 5: Rewrite Section 4.5 Subheadings and Content - Rename subheadings in 4.5 from technical to educational ("教学功能视角"):
+  - 4.5.1 -> 教学功能构成与诊断—干预闭环 (was: 原型系统模块构成与输入输出链路)
+  - 4.5.2 -> 教学阶段推进逻辑与知识策略映射 (was: 知识库调用与教学状态转换流转实现)
+  - Update the content to reflect this functional perspective rather than a strict software engineering architecture.
+- [ ] Task 6: Inject Real Project Artifacts - In Section 4.5, insert a real code/prompt snippet (e.g., using `\begin{lstlisting}[language=Python/YAML]`) from the actual project repository (e.g., from `src/prompts` or `src/guardrails`) to provide concrete evidence of implementation, along with a placeholder for a system interface/log screenshot.
+- [ ] Task 7: Reformat Case Studies in Section 4.6 - Rewrite the case studies in Section 4.6 to look like actual system logs:
+  - 学生画像 (Student Profile)
+  - 主题 (Topic)
+  - 会话轮次 (Rounds)
+  - 初始迷思 (Initial Misconception)
+  - 系统策略顺序 (Strategy Sequence)
+  - 关键对话节选 (Log transcript format)
+  - 干预结果 (Intervention Outcome)
+- [ ] Task 8: Add Design-Validation Hooks - At the end of sections 4.3, 4.4, and 4.5, add concluding sentences that link the design choices to validation metrics in Chapter 5 (e.g., "本设计将在第五章通过答案泄露率、自我解释完成率等指标进行效果验证。").
+- [ ] Task 9: Update Bibliography - Add Chinese educational citations to `Chapter4.bib` (e.g., 义务教育物理课程标准（2022年版）, 初中物理浮力教学研究) and cite them correctly in `Chapter04.tex`.

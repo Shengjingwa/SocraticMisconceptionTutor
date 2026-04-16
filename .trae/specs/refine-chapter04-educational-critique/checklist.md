@@ -1,0 +1,9 @@
+- [ ] Assertive engineering statements have been replaced with educational abstraction statements (e.g., "本研究将原型的对话过程抽象为...").
+- [ ] Section 4.1 or 4.2 contains a paragraph explicitly mapping Socratic strategies to the 2022 Compulsory Education Physics Curriculum Standards.
+- [ ] Section 4.2.1 includes two explicit LaTeX tables (Textbook Knowledge vs. Misconceptions, Misconception Types vs. Strategies).
+- [ ] Section 4.4 includes a rule table (Table 3) detailing criteria for "Direct Answer Seeking", "Cognitive Overload", and "Exempted Scaffolding".
+- [ ] Section 4.5 subheadings have been rewritten to focus on "teaching functions" (e.g., 教学功能构成与诊断—干预闭环).
+- [ ] Section 4.5 contains at least one real code/prompt snippet (e.g., `lstlisting` of YAML/JSON/Python) and a placeholder for a system screenshot.
+- [ ] Section 4.6 case studies are formatted as structured system logs (Student Profile, Topic, Rounds, Initial Misconception, Strategy Sequence, Excerpt, Outcome).
+- [ ] Concluding sentences linking design choices to Chapter 5 validation metrics are present at the end of sections 4.3, 4.4, and 4.5.
+- [ ] Chinese educational references (2022 Curriculum Standards, etc.) are added to `Chapter4.bib` and cited in `Chapter04.tex`.
