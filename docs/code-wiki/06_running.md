@@ -93,3 +93,19 @@ python src/llm_judge.py
 
 Mock 模式的目标是“让流水线可运行”，而不是提供真实评估结论。
 
+## 6.9 一键跑实验套件（Experiment Suite）
+入口：[`src/experiment_suite.py`](file:///workspace/src/experiment_suite.py)
+
+用途：按 “run” 隔离日志与评估产物，并在套件根目录生成聚合统计，适合做多次重复实验与对比。
+
+```bash
+python src/experiment_suite.py
+```
+
+常用参数/环境变量：
+- `--runs` 或 `EXP_RUNS`：运行次数（默认 1）
+- `--out-dir` 或 `EXP_OUT_DIR`：输出根目录（默认 `experiments/`）
+- `--seed` 或 `EXP_SEED`：随机种子（默认 42，会按 run 递增）
+- `--no-judge`：跳过 `src/llm_judge.py`（仅跑仿真+指标）
+
+输出结构见 [数据、日志与评估产物](file:///workspace/docs/code-wiki/05_data_outputs.md) 的 `experiments/` 小节。

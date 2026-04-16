@@ -92,3 +92,26 @@
 - 生成脚本：[`evaluator.py`](file:///workspace/src/evaluator.py#L115-L157)
 - 内容：每个版本抽样若干 session 的逐轮对话，预留人工评分与评语列。
 
+## 5.4 实验套件产物（experiments/）
+当使用 [`experiment_suite.py`](file:///workspace/src/experiment_suite.py) 时，会将每次运行的日志与评估产物隔离到 `experiments/suite_*` 下，避免覆盖仓库根目录的 `logs/` 与 `results/`。
+
+目录结构（示例）：
+
+```text
+experiments/
+  suite_YYYY-MM-DD_HH-MM-SS/
+    run_01/
+      logs/
+        turn_logs.jsonl
+        session_summary.jsonl
+        evaluation_results.json  (若未 --no-judge)
+      results/
+        summary_metrics.csv
+        manual_audit.csv
+      pipeline.log
+    aggregate_summary.csv
+    aggregate_summary.md
+```
+
+- `pipeline.log`：该 run 的完整流水线输出（仿真 → 评估 → 盲评）
+- `aggregate_summary.csv/.md`：对 `runs` 次执行的 `summary_metrics.csv` 做均值/方差/CI95 聚合（按版本汇总）

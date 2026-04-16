@@ -1,0 +1,15 @@
+# Tasks
+- [x] Task 1: 更新 README（快速开始与实验运行）
+  - [x] 补充 `src/experiment_suite.py` 的推荐用法与参数说明
+  - [x] 补充 `LOG_DIR/RESULTS_DIR` 与 `EXP_*` 环境变量说明
+  - [x] 补充 `experiments/suite_*` 目录结构与产物定位
+- [x] Task 2: 更新 CODE_WIKI 入口页
+  - [x] 增加“适合谁读 / 怎么读”的简短导航
+- [x] Task 3: 更新 Code Wiki 文档（docs/code-wiki）
+  - [x] 更新 06_running：新增“实验套件”章节与输出结构说明
+  - [x] 更新 05_data_outputs：新增 `experiments/` 与 `aggregate_summary.*` 说明
+  - [x] 更新 03_modules（必要时）：补充 `experiment_suite.py` 的模块定位
+- [ ] Task 4: 校验与发布
+  - [x] 检查 Markdown 链接指向的文件与路径有效
+  - [x] `git status` 确认仅文档变更
+  - [ ] 提交并 push 到 GitHub main

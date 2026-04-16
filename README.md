@@ -38,6 +38,8 @@ export JUDGE_MODEL="deepseek-v3.2"
 - `SIMULATION_MAX_TURNS`：单会话最大轮数（默认 10）
 - `SIMULATION_SMOKE=1`：只跑 1 个迷思概念 × 1 个画像 × 1 个版本，用于快速冒烟
 - `SILENT_CONSOLE=1`：关闭控制台日志输出
+- `LOG_DIR`：运行日志输出目录（默认 `logs/`，影响 `turn_logs.jsonl` / `session_summary.jsonl` / `evaluation_results.json` / `app.log`）
+- `RESULTS_DIR`：评估产物输出目录（默认 `results/`，影响 `summary_metrics.csv` / `manual_audit.csv`）
 
 未配置 API Key 时，系统会进入 Mock 模式：
 - 学生仿真与部分分类/评分会走 Mock 分支，便于验证流水线是否能跑通（见 [simulator.py](file:///workspace/src/simulator.py)、[classifiers.py](file:///workspace/src/classifiers.py)、[llm_judge.py](file:///workspace/src/llm_judge.py)）。
@@ -55,6 +57,19 @@ python src/simulator.py
 python src/evaluator.py
 python src/llm_judge.py
 ```
+
+### 一键跑实验套件（推荐）
+入口：[experiment_suite.py](file:///workspace/src/experiment_suite.py)。会将每次运行的日志与结果隔离到 `experiments/suite_*` 下，避免覆盖仓库根目录的 `logs/` 与 `results/`。
+
+```bash
+python src/experiment_suite.py
+```
+
+常用参数/环境变量：
+- `--runs` 或 `EXP_RUNS`：运行次数（默认 1）
+- `--out-dir` 或 `EXP_OUT_DIR`：输出根目录（默认 `experiments/`）
+- `--seed` 或 `EXP_SEED`：随机种子（默认 42，会按 run 递增）
+- `--no-judge`：跳过 `llm_judge.py`
 
 也可用日志文件保存完整输出：
 
@@ -78,6 +93,23 @@ echo "Saved to: $LOG_FILE"
 ### 评估产物
 - `results/summary_metrics.csv`：版本维度汇总指标（由 [evaluator.py](file:///workspace/src/evaluator.py) 生成）
 - `results/manual_audit.csv`：抽样会话审计表（由 [evaluator.py](file:///workspace/src/evaluator.py) 生成，便于人工复核）
+
+### 实验套件目录（experiments/）
+当使用 [experiment_suite.py](file:///workspace/src/experiment_suite.py) 时，每次执行会生成：
+
+```text
+experiments/
+  suite_YYYY-MM-DD_HH-MM-SS/
+    run_01/
+      logs/turn_logs.jsonl
+      logs/session_summary.jsonl
+      logs/evaluation_results.json  (若未 --no-judge)
+      results/summary_metrics.csv
+      results/manual_audit.csv
+      pipeline.log
+    aggregate_summary.csv
+    aggregate_summary.md
+```
 
 示例（来自当前仓库一次运行结果）：
 
@@ -111,4 +143,3 @@ results/    评估输出（csv）
 
 ## 许可证
 仓库当前未包含许可证文件。如需开源分发，建议补充 `LICENSE` 并在此处声明许可证类型。
-

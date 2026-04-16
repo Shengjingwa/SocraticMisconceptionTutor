@@ -129,3 +129,9 @@
   - 读取 `turn_logs.jsonl`，按 `session_id` 聚合对话历史。
   - 调用评审 LLM 输出 `socratic_degree / teaching_effectiveness / reasoning`，写入 `logs/evaluation_results.json`。
 
+### src/experiment_suite.py
+链接：[experiment_suite.py](file:///workspace/src/experiment_suite.py)
+
+- 职责：
+  - 一键编排 “仿真 → 指标评估 →（可选）盲评”，并将每次 run 的 `LOG_DIR/RESULTS_DIR` 重定向到 `experiments/suite_*/run_*/` 下。
+  - 在套件根目录输出跨 run 的聚合统计：`aggregate_summary.csv` 与 `aggregate_summary.md`。
