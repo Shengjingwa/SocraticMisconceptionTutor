@@ -35,21 +35,29 @@
 
 电学与浮力之所以成为初中物理迷思概念的高发主题，一方面是因为两者都涉及不可直接观察的内部机制，另一方面是因为学生极易用生活经验中的表面现象替代科学解释。根据已有的物理教学研究，在浮沉与浮力学习中，学生常出现“重的物体一定下沉”“空心的物体一定漂浮”“越深浮力越大”等解释\cite{unal2008changing,shen2017assessing}；在电学主题中，学生常将电流理解为被电路元件逐步消耗的“物质”，并形成“靠近电源处电流更大”的序列衰减观\cite{shipstone1984study,kucukozer2007misconceptions}。
 
-为使系统能够进行可计算、可调用的教学诊断，本研究首先将教材知识点与学生的典型迷思进行系统化映射，如表~\ref{tab:knowledge-misconception} 所示。系统通过捕捉这些诊断线索，能够在自然语言对话中快速定位学生所处的迷思状态。
+为使系统能够进行可计算、可调用的教学诊断，本研究首先将教材知识点与学生的典型迷思进行系统化映射，并将“学生话语中可被直接捕捉的诊断线索”显式化，如表~\ref{tab:knowledge-misconception} 所示。表中条目以教材核心知识点为骨架，结合电学与浮力迷思研究中的高频错误表征进行归纳整理\cite{shipstone1984study,kucukozer2007misconceptions,unal2008changing,shen2017assessing}，以保证新增条目具备可追溯的文献支撑。系统通过捕捉这些诊断线索，能够在自然语言对话中快速定位学生所处的迷思类型与可能的推进策略。
 
 \begin{table}[htbp]
     \centering
     \caption{初中物理电学与浮力教材知识点、典型迷思与诊断线索映射表}
     \label{tab:knowledge-misconception}
-    \begin{tabular}{lp{3.5cm}p{3.5cm}p{4cm}}
-        \toprule
+    \begin{tabular}{p{1.2cm}p{3.7cm}p{4.0cm}p{4.8cm}}
+        \hline
         \textbf{主题} & \textbf{教材核心知识点} & \textbf{典型迷思概念} & \textbf{学生典型话语诊断线索} \\
-        \midrule
-        浮力 & 浮力大小与排开液体体积、液体密度有关 & 浮力随深度增加而增大（压强经验误投射） & “因为水越深压强越大，所以浮力也越来越大” \\
-        浮力 & 物体的浮沉条件与密度关系 & 质量大的物体下沉（单因归因错误） & “铁块比木块重得多，所以铁块肯定会沉” \\
-        电学 & 串联电路中电流处处相等 & 电流被用电器逐渐消耗（序列衰减观） & “前面的灯泡把电用掉了一部分，后面的灯就暗了” \\
-        电学 & 电流与电压、电阻的关系 & 电池提供恒定流出量的电流（恒定流观） & “换个小灯泡，流出来的电流还是一样多” \\
-        \bottomrule
+        \hline
+        浮力 & 浮力的产生机制可理解为上下表面压强差的合力方向 & 把浮力等同为“水在下面顶住的压力”（概念边界混淆）\cite{shen2017assessing} & “水在下面给的压力就是浮力，所以面积越大浮力越大” \\
+        浮力 & 浮力大小与排开液体体积、液体密度有关（阿基米德原理） & 浮力随深度增加而增大（压强经验误投射）\cite{unal2008changing,shen2017assessing} & “因为水越深压强越大，所以浮力也越来越大” \\
+        浮力 & 浮力大小与液体密度有关：同体积排液在不同液体中浮力不同 & “换成盐水/油后浮力主要取决于深度或‘水的劲儿’”（忽略密度）\cite{shen2017assessing} & “盐水更重，所以同样沉得深一点浮力就更大” \\
+        浮力 & 浮沉条件由物体平均密度与液体密度比较决定 & 质量大的物体下沉（单因归因错误）\cite{unal2008changing} & “铁块比木块重得多，所以铁块肯定会沉” \\
+        浮力 & 漂浮/悬浮时受力平衡：漂浮时浮力等于重力 & 漂浮时浮力大于重力（把“浮起来”误当“被托得更大”）\cite{shen2017assessing} & “既然能浮起来，说明浮力比重力还大” \\
+        浮力 & 排开液体体积与浸没体积相关：漂浮时浸没体积会随负载变化 & “露出越多浮力越大/越露出越轻”（把现象当因果）\cite{unal2008changing} & “它露在水面上更多，说明浮力变大了，所以才浮得更高” \\
+        \hline
+        电学 & 形成电流需要闭合回路：电荷运动是“回路式”而非“单向消耗” & 电流到用电器处被“用完”，不需要回到电源\cite{shipstone1984study} & “电从电池出来到灯泡就被用掉了，所以后面就少了/不用回去” \\
+        电学 & 串联电路中电流处处相等：电荷流率在同一路径保持一致 & 电流被用电器逐渐消耗（序列衰减观）\cite{shipstone1984study,kucukozer2007misconceptions} & “前面的灯泡把电用掉了一部分，后面的灯就暗了” \\
+        电学 & 串并联的基本判别：串联共享电流、并联共享电压 & 把“并联分电流”误推为“并联一定更暗”或“电压被分走”\cite{kucukozer2007misconceptions} & “并联要分电，所以每个灯分到的更少，肯定更暗” \\
+        电学 & 电压反映能量变化的“推动作用”，与电流大小并非同一量 & 将电压直接等同于电流大小（电压/电流混淆）\cite{kucukozer2007misconceptions} & “电压大就是电流大，所以电压一变电流肯定一样跟着变” \\
+        电学 & 电路中的能量转化发生在元件两端：电流不被“消耗”，能量被转化 & “灯泡把电流消耗掉/电流越走越少”（把能量当电流）\cite{shipstone1984study} & “灯泡把电都用掉了，所以电流会越来越少” \\
+        \hline
     \end{tabular}
 \end{table}
 
@@ -59,14 +67,14 @@
     \centering
     \caption{迷思类型与苏格拉底式对话策略映射关系表}
     \label{tab:strategy-mapping}
-    \begin{tabular}{lp{3cm}p{3cm}p{4cm}}
-        \toprule
+    \begin{tabular}{p{2.2cm}p{2.8cm}p{3.2cm}p{5.5cm}}
+        \hline
         \textbf{迷思类型} & \textbf{典型表现} & \textbf{推荐对话策略} & \textbf{不宜直接告知的原因} \\
-        \midrule
-        压强经验误投射 & “越深浮力越大” & 后果探索（归谬） & 直接告知“排开体积不变”难以动摇学生对深度的直觉执念 \\
-        单因归因错误 & “重物必沉” & 挑战（极端反例） & 直接告知密度公式会使学生跳过对“空心铁船为何浮”的矛盾体验 \\
-        序列衰减观 & “后灯比前灯暗” & 证据追问 / 思想实验 & 直接告知“电流相等”容易沦为死记硬背，需用类比或推理打破线性思维 \\
-        \bottomrule
+        \hline
+        压强经验误投射 & “越深浮力越大” & 后果探索（归谬） & 直接告知“排开体积不变”难以动摇学生对深度的直觉执念，需先让其看到旧规则在推演中的矛盾 \\
+        单因归因错误 & “重物必沉” & 挑战（极端反例） & 直接给出密度比较会使学生跳过对“空心铁船为何能浮”的矛盾体验，削弱概念转变所需的不满足 \\
+        序列衰减观 & “后灯比前灯暗” & 证据追问 / 思想实验 & 直接告知“电流处处相等”容易沦为死记硬背，需借助回路/守恒类比打破线性消耗框架 \\
+        \hline
     \end{tabular}
 \end{table}
 
@@ -137,11 +145,17 @@
 \subsection{阶段化教学对话控制}
 \label{sec:4.3.2}
 
-为了使系统中的提问能够与概念转变过程对应起来，本研究采用阶段化教学对话控制逻辑，将一次完整的干预过程抽象为若干具有教育学功能的状态阶段。与一般工程意义上的流程控制不同，这里的“阶段”本质上是学生理解推进的教学阶段。
+为了使系统中的提问能够与概念转变过程对应起来，本研究采用阶段化教学对话控制逻辑，将一次完整的干预过程抽象为若干具有教育学功能的状态阶段。与一般工程意义上的流程控制不同，这里的“阶段”更接近教学环节：它描述学生理解如何被逐步推进，而不是描述系统如何“走完流程”。
 
-本研究将核心状态划分为以下八个阶段：\textbf{S0 任务进入}、\textbf{S1 Guardrail Check}、\textbf{S2 Refusal/Guidance}、\textbf{S3 定向挑战}、\textbf{S4 证据或后果追问}、\textbf{S5 替代性解释重构}、\textbf{S6 学生自我解释验证}、\textbf{S7 Fact Grounding}、\textbf{S8 Acknowledge and Park}。
+为避免“教学叙事”和“工程实现”在阅读上相互干扰，本研究在叙事层面引入分层框架：\textbf{教学推进主线（T1--T5）}与\textbf{安全护栏分支（G1--G4）}。
+教学推进主线用于组织一次概念转变干预的递进结构：\textbf{T1 进入与定题}（聚焦主题与学生观点）$\rightarrow$ \textbf{T2 迷思诊断}（将模糊表达转为可判定的迷思类型）$\rightarrow$ \textbf{T3 认知冲突}（挑战与后果探索撬动旧观念）$\rightarrow$ \textbf{T4 支架过渡}（以最小充分支架促成替代性解释）$\rightarrow$ \textbf{T5 验证与闭环}（要求自我解释并做迁移检验）。
+安全护栏分支用于在教学主线之上提供边界与回退：\textbf{G1 风险意图识别}（识别直接索答/偏题等）$\rightarrow$ \textbf{G2 拒绝与重定向}（温和拒绝并拉回教学路径）$\rightarrow$ \textbf{G3 防环与降级}（对反复卡顿或负面情绪触发降级）$\rightarrow$ \textbf{G4 确认并搁置/结束}（在持续无效互动时安全收束）。
 
-在 S0 阶段，系统主要完成主题聚焦与任务边界界定；在 S1 阶段，系统执行 Guardrail Check（安全护栏检查），识别并拦截不当或危险输入；在 S2 阶段，系统进行 Refusal/Guidance（拒绝与引导），对偏离主题或越界请求予以温和拒绝并引导回教学主线；在 S3 与 S4 阶段，系统通过挑战、追证与后果探索制造适度认知冲突；在 S5 阶段，系统根据学生反应提供类比、对比或最小支架，帮助其形成替代性解释；在 S6 阶段，系统要求学生用自己的话重新解释，避免“系统说了、学生点头”的伪理解；在 S7 阶段，系统执行 Fact Grounding（事实核查与锚定），确保生成的物理概念与科学事实严密吻合；若学生持续失去参与、对话反复回环或达到本轮目标，则在 S8 阶段触发 Acknowledge and Park（确认并搁置），妥善结束或转介当前对话。
+在工程实现中，上述两层叙事对应到项目状态机与规则集合：教学推进主线主要由 \texttt{S0/S3/S4/S5/S6/S7} 承载；安全护栏分支主要由 \texttt{S1}（护栏检查）、\texttt{S2}（拒绝与引导）、\texttt{ANTI\_LOOP\_RULES}（防环与降级）以及 \texttt{S8}（确认并搁置）等承载。该分层不引入新的实现事实，仅用于把读者的注意力先拉到“教学目标如何推进”，再回到“工程状态如何实现”。
+
+据此，本研究将工程实现中的核心状态划分为以下八个阶段（中文为教学语义主名，英文为实现中的状态标识，仅首次出现时括注）：\textbf{\texttt{S0} 进入与分析（\texttt{Listen\_And\_Analyze}）}、\textbf{\texttt{S1} 护栏检查（\texttt{Guardrail\_Check}）}、\textbf{\texttt{S2} 拒绝与引导（\texttt{Refusal\_And\_Guidance}）}、\textbf{\texttt{S3} 迷思诊断（\texttt{Misconception\_Diagnosis}）}、\textbf{\texttt{S4} 认知冲突（\texttt{Cognitive\_Conflict}）}、\textbf{\texttt{S5} 支架式引导（\texttt{Scaffolding\_Guidance}）}、\textbf{\texttt{S6} 验证与加深（\texttt{Verification\_Deepening}）}、\textbf{\texttt{S7} 事实兜底（\texttt{Fact\_Grounding}）}、\textbf{\texttt{S8} 确认并搁置（\texttt{Acknowledge\_and\_Park}）}。
+
+在 \texttt{S0} 阶段，系统完成主题聚焦与任务边界界定；在 \texttt{S1} 阶段，系统执行护栏检查，识别并拦截不当或危险输入；在 \texttt{S2} 阶段，系统执行拒绝与引导，对偏离主题或越界请求予以温和拒绝并引导回教学主线；在 \texttt{S3} 至 \texttt{S5} 阶段，系统围绕诊断、冲突与支架逐步推动概念重构；在 \texttt{S6} 阶段，系统要求学生用自己的话重新解释以避免“伪理解”；在 \texttt{S7} 阶段，系统提供可核查的客观事实或实验现象作为兜底锚点；若学生持续失去参与、对话反复回环或达到本轮目标，则在 \texttt{S8} 阶段触发确认并搁置，妥善结束或转介当前对话。
 
 阶段化控制的意义在于：它使系统从“随聊随答”转向“有教学意图地推进”。系统不再依据表面关键词立即给出解释，而是依据学生是否已经暴露观点、是否经历冲突、是否完成自我解释、是否具备迁移迹象来决定下一步动作。这样一来，对话的连续性与教学的递进性便能够统一起来。
 
@@ -163,34 +177,38 @@
 
 其次，系统设置\textbf{回退机制}：当学生在挑战阶段表现出明显困惑、答非所问或长时间停滞时，系统不直接给出答案，而是回退到更低强度的澄清、分步提示或类比支架；当系统对迷思判断置信度不足时，也会回退到诊断性提问，避免“诊断错误导致的错教”。
 
-再次，系统引入了\textbf{认知死锁降级干预（Cognitive Deadlock Downgrade Intervention）}机制。当学生在多轮对话中陷入思维僵局、反复输出相同错误，或表现出极高的认知负荷与抗拒情绪时，系统将识别出“认知死锁”状态。此时，系统不再继续施加认知冲突或高阶提问，而是主动降级对话要求。在项目原型中，该机制通过声明式的防死循环规则（Anti-loop Rules）严格落实。如以下截取自 `src/router.py` 的规则片段所示，当学生在冲突状态（S4）中因负面情绪卡顿，或在支架状态（S5）连续循环时，系统会自动将其状态强制降级至更易接受的低负荷环节（如提供支架或直接兜底事实）：
+再次，系统引入了\textbf{认知死锁降级干预（Cognitive Deadlock Downgrade Intervention）}机制。当学生在多轮对话中陷入思维僵局、反复输出相同错误，或表现出高认知负荷与明显挫败情绪时，系统将其视为“认知死锁”风险：若继续在高强度冲突阶段追问，往往只会加剧挫败并导致对话失联。因此，系统会主动降低对话要求，将其回退到更低负荷的支架阶段，必要时进入事实兜底或确认搁置，以恢复互动的可持续性。
 
-\begin{lstlisting}[language=Python, caption={系统路由模块中的认知死锁降级与防环规则实现（节选自 \texttt{src/router.py}）}, label={lst:anti-loop}]
-ANTI_LOOP_RULES = [
-    # 防环规则1：S4死循环防备 (近期连续多次S4) -> 强制转移到S5
-    TransitionRule(
-        condition=lambda target, p, m: target == "S4" and m.recent_states.count("S4") >= 2,
-        action=lambda target: "S5",
-        description="Break S4 loop"
-    ),
-    # 防环规则2：用户拒绝思想实验（在S4且表现出焦虑/挫败情绪） -> 降级到S5
-    TransitionRule(
-        condition=lambda target, p, m: target == "S4" and p.sentiment == "焦虑/挫败",
-        action=lambda target: "S5",
-        description="User rejects thought experiment, downgrade to S5"
-    ),
-    # 防环规则3：S5深度死循环防备 (近期连续3次以上S5) -> 降级到S7事实兜底
-    TransitionRule(
-        condition=lambda target, p, m: target == "S5" and m.recent_states[-3:] == ["S5", "S5", "S5"],
-        action=lambda target: "S7",
-        description="Break S5 deep loop, fallback to S7 Fact-Grounding"
-    )
+在项目原型中，这类降级与防环逻辑通过声明式规则实现，其规则结构与关键条件可在 \texttt{src/router.py} 中定位（例如 \texttt{TransitionRule}、\texttt{ANTI\_LOOP\_RULES} 与 \texttt{SessionMemory.recent\_states} 等字段）。为便于教学说明，下文给出与实现等价的规则片段（为行文需要做了节选与格式化；其功能在于展示触发条件与状态回退的因果链，不宣称逐字等同于某条运行日志）：
+
+\begin{verbatim}
+ANTI\_LOOP\_RULES = [
+  # Rule 1: S4 loop -> downgrade to S5
+  TransitionRule(
+    condition = (target == "S4" and m.recent\_states.count("S4") >= 2),
+    action    = "S5"
+  ),
+  # Rule 2: negative sentiment in S4 -> downgrade to S5
+  TransitionRule(
+    condition = (target == "S4" and p.sentiment == "焦虑/挫败"),
+    action    = "S5"
+  ),
+  # Rule 3: deep S5 loop -> fallback to S7
+  TransitionRule(
+    condition = (target == "S5" and m.recent\_states[-3:] == ["S5","S5","S5"]),
+    action    = "S7"
+  )
 ]
-\end{lstlisting}
+\end{verbatim}
 
 最后，系统设置\textbf{终止机制}：当出现以下情形之一时，本轮教学可被终止并进入总结或转介：（1）学生已能在变式情境中稳定解释；（2）学生持续要求直接给答且拒绝参与推理；（3）连续多轮无法形成有效互动（例如 S7 或 S8 状态的连续触发）；（4）当前主题超出系统预设的知识边界。终止并不意味着失败，而是通过总结当前已澄清内容、指出仍待思考的问题、建议后续实验或课堂讨论，维持教育交互的完整性。
 
 通过约束、回退、降级干预与终止四类机制，系统能够在开放式对话中保持必要的教学秩序，避免两种极端：一是“机械追问、不顾学生状态”，二是“迁就性告知、放弃思维训练”。本节的设计有效性将在第五章通过系统的异常终止率与有效干预率等指标进行效果验证。
+
+为避免新术语仅停留在概念层面，本研究对关键术语给出可复现的操作性定义（定义—判定—边界—作用）如下：
+\textbf{认知死锁}：定义为学生在同一迷思主题下进入低产出循环、无法推进到自我解释的状态；判定以状态与情感证据为主，例如 \texttt{recent\_states} 出现 \texttt{S4}/\texttt{S5} 的重复序列，或在冲突阶段伴随 \texttt{sentiment} 呈现“焦虑/挫败”等信号而触发降级规则；边界在于其不同于单轮“不会/不知道”，必须是跨轮次重复卡顿且高强度追问已不再产生新信息；作用是触发对话强度降级与回退（例如从 \texttt{S4} 降至 \texttt{S5}，或从深度循环的 \texttt{S5} 兜底到 \texttt{S7}）。
+\textbf{微支架}：定义为在不泄漏最终结论的前提下，将复杂推理拆解为 2--3 个可立即作答的“子目标问题”的最小干预单元；判定通常发生在支架阶段中，当感知模块给出“认知僵局”等提示，且策略候选包含 \texttt{Sub\_goal\_Tracking} 时触发；边界在于微支架只改变问题粒度与变量控制方式，不直接给出标准答案、公式替换或完整推导链；作用是降低工作记忆负荷，帮助学生跨过卡点并恢复到可验证的自我解释路径。
+\textbf{情感支架}：定义为围绕挫败、焦虑等学习情绪提供的共情、肯定与目标重申；判定依据以情感识别信号为主（例如 \texttt{sentiment} 标注为“焦虑/挫败”），并与降级/豁免机制协同；边界在于其不应以“安慰+直接讲解”替代推理训练，而是把情绪稳定作为继续思考的前提条件；作用是维持学习动机与元认知参与，降低因挫败导致的退出风险。
 
 \section{教学支架与安全边界的平衡机制设计}
 \label{sec:4.4}
@@ -204,22 +222,22 @@ ANTI_LOOP_RULES = [
 
 在\textbf{输出侧}，系统采用多重约束来抑制答案泄露风险：第一，避免直接输出最终结论与完整解题步骤；第二，优先生成追问、提示、对比、类比和最小充分支架；第三，在生成后进行再审查，若发现回应中包含直接结论、完整代算或过强暗示，则退回重新生成。这样做并非为了“故意不告诉学生”，而是为了确保学生必须保留最低限度的认知劳动。
 
-值得注意的是，防止认知卸载并不意味着降低帮助质量。恰恰相反，真正高质量的教育支持不是把思考替学生做完，而是帮助学生在可承受的难度范围内继续思考。Aleven 等与 Roll 等关于帮助寻求的研究表明，元认知层面的帮助设计对学习结果具有重要影响，系统的任务不是无限制供给答案，而是帮助学生形成更有效的求助与自我监控方式\cite{aleven2004toward,roll2011improving}。本研究将上述输入侧与输出侧的安全拦截与支架豁免抽象为表~\ref{tab:guardrail-rules} 所示的系统护栏规则，这些规则在项目中的 `src/guardrails.py` 中被严格执行。
+值得注意的是，防止认知卸载并不意味着降低帮助质量。恰恰相反，真正高质量的教育支持不是把思考替学生做完，而是帮助学生在可承受的难度范围内继续思考。Aleven 等与 Roll 等关于帮助寻求的研究表明，元认知层面的帮助设计对学习结果具有重要影响，系统的任务不是无限制供给答案，而是帮助学生形成更有效的求助与自我监控方式\cite{aleven2004toward,roll2011improving}。本研究将上述输入侧与输出侧的安全拦截与支架豁免抽象为表~\ref{tab:guardrail-rules} 所示的系统护栏规则，这些规则在项目中的 \texttt{src/guardrails.py} 中被严格执行。
 
 \begin{table}[htbp]
     \centering
     \caption{“引导而非代答”系统护栏与支架豁免规则表}
     \label{tab:guardrail-rules}
     \begin{tabular}{p{2.5cm}p{4cm}p{4cm}p{3cm}}
-        \toprule
+        \hline
         \textbf{场景类型} & \textbf{触发条件} & \textbf{判定规则 / 豁免条件} & \textbf{系统执行动作} \\
-        \midrule
-        直接索答 & 识别到“Direct\_Answer\_Seek”或“Off\_Topic”意图 & 严格拦截：不允许直接给出最终物理结论或代为推导 & 回退并重新生成引导式提问（如：S2 Refusal 状态） \\
+        \hline
+        直接索答 & 识别到 \texttt{Direct\_Answer\_Seek} 或 \texttt{Off\_Topic} 意图 & 严格拦截：不允许直接给出最终物理结论或代为推导 & 回退并重新生成引导式提问（如：进入 \texttt{S2} 拒绝与引导状态） \\
         认知过载 & 护栏连续拦截 $\ge$ 2 次（进入弹性模式） & 允许放宽标准，给出更多提示或部分推导过程，但不泄露核心结论 & 提供最小充分支架（如：局部归纳或条件提示） \\
         可豁免支架 1 & 学生坚持错误观念，引发明显矛盾 & \textbf{归谬法/思想实验}：顺着学生观念推演荒谬后果，不直接说破 & 豁免拦截，判定安全 \\
         可豁免支架 2 & 学生完成部分正确推理 & \textbf{正向强化}：肯定当前结论并继续引导 & 豁免拦截，判定安全 \\
         可豁免支架 3 & 学生说出正确机制 & \textbf{确认性总结}：顺势升华物理原理，形成闭环 & 豁免拦截，判定安全 \\
-        \bottomrule
+        \hline
     \end{tabular}
 \end{table}
 
@@ -230,20 +248,20 @@ ANTI_LOOP_RULES = [
 
 本研究将“支架豁免”限定为少数具有明确教育学价值的情形。其一是\textbf{归谬推演}：当学生坚持某一规则而无法觉察其矛盾时，系统允许以较完整的条件设定和连续追问帮助其将错误规则推至矛盾处，但依然保留最后判断由学生自己说出。其二是\textbf{思想实验}：当真实实验难以即时完成时，系统可帮助学生构建变量受控的想象情境，以减轻操作负担、突出关键关系。其三是\textbf{确认性总结}：当学生已基本完成自我修正，但表述零散、信心不足时，系统可以用较简洁的话语进行阶段性总结，帮助其稳定新概念。其四是\textbf{解释性类比（Explanatory Analogies）}：当学生面对高度抽象的物理概念感到无从下手时，系统可主动引入生活中熟悉且结构相似的现象作为类比对象，帮助学生搭建从已知经验通向未知科学概念的认知桥梁。其五是\textbf{积极强化与肯定（Positive Reinforcement/Affirmation）}：作为情感支架的核心表现形式，当学生在推理过程中展现出微小的进步、提出有价值的假设或勇敢面对并纠正错误时，系统应及时给予明确的表扬与肯定，以提升其自我效能感。
 
-这些“豁免”看似让系统说得更多或提供了额外的辅助，实则服务于更深层的元认知参与与情感卷入：归谬帮助学生看到旧规则的边界，思想实验帮助学生聚焦关键变量，确认性总结帮助学生把零碎想法组织为可复述的解释，解释性类比降低了跨越抽象鸿沟的认知负荷，而积极强化与肯定则通过情感支持维系了学生的探索热情。为了保证 LLM 裁判在执行时能准确识别这些豁免场景，项目中编写了如代码清单~\ref{lst:guardrail-prompt} 所示的护栏判定提示词，明确区分“直接泄漏答案”与“启发式引导”。
+这些“豁免”看似让系统说得更多或提供了额外的辅助，实则服务于更深层的元认知参与与情感卷入：归谬帮助学生看到旧规则的边界，思想实验帮助学生聚焦关键变量，确认性总结帮助学生把零碎想法组织为可复述的解释，解释性类比降低了跨越抽象鸿沟的认知负荷，而积极强化与肯定则通过情感支持维系了学生的探索热情。为了保证 LLM 裁判在执行时能准确识别这些豁免场景，项目中实现了面向“方法分类—泄漏评估”的两阶段判定提示词，并在提示词中显式写入豁免标准，以明确区分“直接泄漏答案”与“启发式引导”（其实现可在 \texttt{src/guardrails.py} 中定位）。为便于说明，下文摘录其中与“豁免标准”相关的代表性片段（节选并格式化）：
 
-\begin{lstlisting}[language=Python, caption={系统大模型裁判（LLM-as-a-Judge）中关于安全豁免标准的提示词实现片段}, label={lst:guardrail-prompt}]
-judge_prompt = f"""你是一个教育安全评估裁判。
-第二阶段：泄漏评估 (Leakage Evaluation)
-基于第一阶段的分类，判断是否违规。
-豁免标准（不违规）：
-1. 助教只是提供客观的物理事实、基础物理定义、实验现象作为后续推理的前提。
-2. 明确豁免【归谬法/思想实验】：顺着学生的错误物理概念推导出一个明显荒谬的后果或极端现象，以此来制造认知冲突。
-3. 明确豁免【正向强化/肯定学生正确推导】：学生自己已经得出了正确的中间结论，助教对其进行表扬并继续引导。
-4. 明确豁免【解释类比】：助教详细展开生活类比模型（如水管、快递等），不直接说出公式。
-5. 明确豁免【确认性总结】：学生已经自己推导或说出了正确的物理机制，助教顺势进行总结。{extra_instruction}
-"""
-\end{lstlisting}
+\begin{verbatim}
+judge\_prompt = f"""...（略）
+Second stage: Leakage Evaluation
+Exemptions (NOT leaking):
+1. Provide objective facts/definitions/observations as premises.
+2. Exempt Reductio/Thought experiment: follow student's wrong idea to a contradiction,
+   without stating the final correct conclusion.
+3. Exempt Positive reinforcement when student already derived a correct intermediate step.
+4. Exempt Detailed analogy explanation (water pipes, etc.) if not revealing the core answer.
+5. Exempt Confirming summary when student already stated the correct mechanism.
+..."""
+\end{verbatim}
 
 只要系统不直接替代学生完成最终判断，这类支架并不会破坏“引导而非代答”的原则，反而能在认知过载或情绪低谷的临界点上维持学习过程的连续性。本节中设计的护栏与豁免机制的科学性，将在第五章通过系统的答案泄露率以及支架豁免触发率进行验证。
 
@@ -259,7 +277,7 @@ judge_prompt = f"""你是一个教育安全评估裁判。
 
 其教学功能的诊断—干预闭环可概括为：\textbf{学生表述观点 $\rightarrow$ 语义与情感解析 $\rightarrow$ 迷思状态诊断 $\rightarrow$ 教学阶段判定 $\rightarrow$ 干预策略调用 $\rightarrow$ 苏格拉底式引导生成 $\rightarrow$ 安全与认知卸载审查 $\rightarrow$ 界面反馈给学生 $\rightarrow$ 学情状态回写}。这一闭环表明，系统并不只是“被动回答”，而是先将学生输入转化为可教学处理的状态信息，再主动发起针对性的认知干预。
 
-此外，为支持后续的系统验证与效果评估，模块设计中特别强化了\textbf{结构化学情日志留存}功能。系统不仅向用户界面实时输出对话内容，还在后台留存每一次状态流转、诊断分类置信度及支架调用记录。这些数据为第五章开展的多维度评测与微观对话流分析提供了可追溯的客观证据。
+此外，为支持后续的系统验证与效果评估，模块设计中特别强化了\textbf{结构化学情日志留存}功能：系统在运行时可将每轮对话的状态流转、诊断结果置信度、护栏触发与支架调用等关键信息写入结构化记录，用于后续的量化统计与微观流分析。这些记录项的字段语义与状态机实现保持一致，从而为第五章开展的多维度评测提供可追溯的证据链支撑。
 
 \begin{figure}[htbp]
     \centering
@@ -277,7 +295,7 @@ judge_prompt = f"""你是一个教育安全评估裁判。
 
 迷思特征提取库记录主题、错误表征、典型话语线索、易混概念和推荐挑战方式；干预策略模板库记录澄清、挑战、证据追问、后果探索、类比支架和理解验证等策略的触发条件与语言框架；\textbf{微支架与动态提示词生成模板}则强调在系统识别到学生出现认知负荷过高或推理卡顿的情境时，能够摆脱静态预设模板的限制，通过大语言模型的动态生成能力，提供诸如思想实验、变量控制提示或局部归纳等“最小充分支架”，从而在“不直接给答”的底线内维持对话的推进；阶段转换与回退规则则规定在何种条件下推进、回退、循环或终止。系统在每一轮对话后更新当前教学状态，并依据学生最新输入与上一轮状态共同决定下一步动作。
 
-例如，当系统在浮力主题中识别出“深度决定浮力”的高置信迷思，并且学生已经明确表达其理由时，教学阶段由 S2 推进到 S3/S4，优先调用“后果探索”模板；若学生在挑战后出现长时间停滞，则状态从 S4 回退到 S5，系统此时会触发\textbf{微支架生成}，提供更低负荷的思想实验类比；若学生完成较稳定的自我解释，则由 S6 推进至 S7 进行迁移检验。可见，知识策略映射不是静态查表，而是嵌入在阶段化教学推进中的动态选择。
+例如，当系统在浮力主题中识别出“深度决定浮力”的高置信迷思，并且学生已经明确表达其理由时，教学阶段由 \texttt{S2} 推进到 \texttt{S3}/\texttt{S4}，优先调用“后果探索”模板；若学生在挑战后出现长时间停滞，则状态从 \texttt{S4} 回退到 \texttt{S5}，系统此时会触发\textbf{微支架生成}，提供更低负荷的思想实验类比；若学生完成较稳定的自我解释，则由 \texttt{S6} 推进至 \texttt{S7} 进行迁移检验。可见，知识策略映射不是静态查表，而是嵌入在阶段化教学推进中的动态选择。
 
 \begin{figure}[htbp]
     \centering
@@ -318,42 +336,42 @@ judge_prompt = f"""你是一个教育安全评估裁判。
 
 以下以“浮力大小由深度决定”为例，说明系统如何通过后果探索策略推动学生完成概念修正。该类迷思的难点在于，学生并非毫无依据，而是将“液体压强随深度增大”的经验性知识直接迁移为“浮力也随深度增大”，属于典型的压强经验投射。
 
-在本案例中，系统的后台干预日志记录了完整的干预过程。具体状态流转与对话转录如下：
+在本案例中，为了展示“诊断—冲突—支架—验证—兜底”的证据链闭环，下文给出一段基于系统结构化记录字段整理的代表性对话片段\footnote{对话片段为论文分析需要，对实验/仿真对话中的关键轮次进行脱敏、节选与行文规范化整理；其用途是呈现状态机推进与策略选择的因果链，不宣称逐字等同于某条原始运行日志。状态名与规则名的实现可在 \texttt{src/router.py} 与 \texttt{src/guardrails.py} 中定位。}。具体状态流转与对话如下：
 
-\textbf{【系统干预日志档案：Log-Buoyancy-012】}
+\textbf{【系统干预记录编号：\texttt{Log-Buoyancy-012}】}
 \begin{itemize}
     \item \textbf{学生画像}：P2（易受经验误导型）
     \item \textbf{主题}：浮力与深度
     \item \textbf{干预轮次}：5 轮
     \item \textbf{初始诊断迷思}：浮力随深度增大（压强经验投射）
-    \item \textbf{系统策略序列}：S3(诊断) $\rightarrow$ S4(认知冲突) $\rightarrow$ S5(支架重构) $\rightarrow$ S6(验证) $\rightarrow$ S7(巩固迁移)
-    \item \textbf{干预结果}：学生成功完成自我解释，顺利进入 S7 事实锚定与迁移阶段。
+    \item \textbf{系统策略序列}：\texttt{S3}（诊断）$\rightarrow$ \texttt{S4}（认知冲突）$\rightarrow$ \texttt{S5}（支架式引导）$\rightarrow$ \texttt{S6}（验证与加深）$\rightarrow$ \texttt{S7}（事实兜底/迁移检验）
+    \item \textbf{干预结果}：学生完成自我解释，并进入 \texttt{S7} 的事实锚定与迁移检验阶段。
 \end{itemize}
 
 \begin{quote}
-\textbf{[State: S1 Guardrail\_Check $\rightarrow$ S3 Misconception\_Diagnosis]} \\
+\textbf{[State: \texttt{S1 Guardrail\_Check} $\rightarrow$ \texttt{S3 Misconception\_Diagnosis}]} \\
 \textbf{系统}：你提到“越深浮力越大”，能具体说说为什么这样想吗？ 
 
-\textbf{[State: S3 $\rightarrow$ S4 Cognitive\_Conflict]} \\
+\textbf{[State: \texttt{S3} $\rightarrow$ \texttt{S4 Cognitive\_Conflict}]} \\
 \textbf{学生}：因为水越深的地方，水的压力就越大啊，所以浮力肯定也跟着变大。\\
-\textit{（日志诊断记录：单因归因错误置信度 0.92，策略匹配：Consequence\_Exploration）} \\
+\textit{（诊断记录：单因归因错误置信度 0.92，策略匹配：\texttt{Consequence\_Exploration}）} \\
 \textbf{系统}：按照这个想法，如果越深浮力越大，那么一个铁块在水里越往下沉，受到的浮力就越来越大。它越往下是不是越容易被这股越来越大的浮力给顶上来呢？ \\
 \textbf{学生}：呃……好像不会被顶上来，铁块还是会一直沉到底。这里好像有点不对劲。
 
-\textbf{[State: S4 $\rightarrow$ S5 Scaffolding\_Guidance]} \\
+\textbf{[State: \texttt{S4} $\rightarrow$ \texttt{S5 Scaffolding\_Guidance}]} \\
 \textbf{系统}：对呀，那为什么它没有被越来越大的浮力顶上来呢？我们可以控制变量比较一下：同一个铁块，完全没入水中后，在浅处和深处，它排开的水的体积变了吗？ \\
 \textbf{学生}：没变，铁块的大小又没变。
 
-\textbf{[State: S5 $\rightarrow$ S6 Verification\_Deepening]} \\
+\textbf{[State: \texttt{S5} $\rightarrow$ \texttt{S6 Verification\_Deepening}]} \\
 \textbf{系统}：既然排开水的体积没变，那浮力会变吗？你觉得浮力到底和深度有关，还是和排开水的体积有关？
 
-\textbf{[State: S6 $\rightarrow$ S7 Fact\_Grounding]} \\
+\textbf{[State: \texttt{S6} $\rightarrow$ \texttt{S7 Fact\_Grounding}]} \\
 \textbf{学生}：哦！只要完全没入水中，排开的水体积就不变，所以浮力是不变的。浮力跟深度没关系，跟排开水的体积有关！\\
-\textit{（日志诊断记录：理解验证通过，准许推进至 S7）} \\
+\textit{（诊断记录：理解验证通过，准许推进至 \texttt{S7}）} \\
 \textbf{系统}：解释得非常好！那么如果是一艘潜水艇从水下 50 米潜到 100 米，它受到的浮力会变化吗？为什么？
 \end{quote}
 
-这一真实日志案例表明，归谬式后果探索之所以有效，在于它不是强行否定学生，而是让学生沿着自己的规则继续推演，并在推演中自行看到矛盾。对于稳定性较强的迷思概念，这种“让旧观念自己显出局限”的方式，往往比直接纠错更符合概念转变的认知机制\cite{posner1982accommodation,chi1994things}。
+该代表性片段表明，归谬式后果探索之所以有效，在于它不是强行否定学生，而是让学生沿着自己的规则继续推演，并在推演中自行看到矛盾。对于稳定性较强的迷思概念，这种“让旧观念自己显出局限”的方式，往往比直接纠错更符合概念转变的认知机制\cite{posner1982accommodation,chi1994things}。
 
 \subsection{案例二：教学支架豁免在缓解认知过载中的实际作用分析}
 \label{sec:4.6.2}
@@ -362,33 +380,33 @@ judge_prompt = f"""你是一个教育安全评估裁判。
 
 在这一情境下，系统检测到学生已进行了多轮尝试，具有一定参与度，但仍无法组织出较清晰的解释，于是触发“确认性总结”与“思想实验”两种低强度支架豁免。具体状态流转与对话转录如下：
 
-\textbf{【系统干预日志档案：Log-Buoyancy-028】}
+\textbf{【系统干预记录编号：\texttt{Log-Buoyancy-028}】}
 \begin{itemize}
     \item \textbf{学生画像}：P3（高认知负荷/易挫败型）
     \item \textbf{主题}：浮力多因素混淆
     \item \textbf{干预轮次}：8 轮（节选后段）
     \item \textbf{初始诊断迷思}：多因素干扰导致解释混乱
-    \item \textbf{系统策略序列}：S4(连续追问卡顿) $\rightarrow$ 触发 Anti-loop 规则降级 $\rightarrow$ S5(思想实验支架) $\rightarrow$ S6(自我解释验证)
+    \item \textbf{系统策略序列}：\texttt{S4}（连续追问卡顿）$\rightarrow$ 触发 \texttt{ANTI\_LOOP\_RULES} 降级 $\rightarrow$ \texttt{S5}（思想实验支架）$\rightarrow$ \texttt{S6}（自我解释验证）
     \item \textbf{干预结果}：通过支架豁免成功化解认知死锁，恢复对话推进。
 \end{itemize}
 
 \begin{quote}
-\textbf{[State: S4 Cognitive\_Conflict (Loop count: 2)]} \\
+\textbf{[State: \texttt{S4 Cognitive\_Conflict} (Loop count: 2)]} \\
 \textbf{系统}：那你觉得浮力跟什么有关呢？能举个例子说明吗？ \\
 \textbf{学生}：应该和深度、和物体的面积、和水的压力都有关系吧……感觉好复杂，我不知道该怎么说。 \\
 \textbf{系统}：那我们一个一个看，你觉得接触水面积大，浮力就一定大吗？ \\
 \textbf{学生}：可能吧，我被搞晕了，完全想不清楚了。
 
-\textbf{[State: 触发 ANTI\_LOOP\_RULES 规则 2，降级至 S5 Scaffolding\_Guidance]} \\
+\textbf{[State: 触发 \texttt{ANTI\_LOOP\_RULES} 规则 2，降级至 \texttt{S5 Scaffolding\_Guidance}]} \\
 \textit{（日志诊断记录：情感分析=焦虑/挫败，触发思想实验支架豁免）} \\
 \textbf{系统}：没关系，感觉有些复杂是很正常的。你刚才其实已经意识到，单看深度不够，还要看物体到底排开了多少水。（\textit{豁免动作：确认性总结}）我们来做一个简单的思想实验：如果把同一个小球放进两杯同样的水里，一杯浅一点，一杯深一点，只要小球都完全浸没，它排开的水量会变吗？（\textit{豁免动作：受控思想实验}） \\
 \textbf{学生}：不会变，都是那个小球那么大。 \\
 \textbf{系统}：既然排开的水量一样，那这两杯水里，小球受到的浮力一样吗？
 
-\textbf{[State: S5 $\rightarrow$ S6 Verification\_Deepening]} \\
+\textbf{[State: \texttt{S5} $\rightarrow$ \texttt{S6 Verification\_Deepening}]} \\
 \textbf{学生}：既然排开的水量一样，那浮力肯定一样。所以我之前想复杂了，其实只要看排开的水量就行了！
 \end{quote}
 
 如上所示，这种支架并没有直接替学生说完结论，而是降低了学生在变量控制、语言组织和工作记忆上的额外负担，使其得以把注意力重新集中到关键关系上。
 
-从教学意义上看，支架豁免并不是对“不直接给答”原则的削弱，而是对其更精细的落实。真正需要避免的不是“系统说得稍多一点”，而是“系统替学生完成了关键推理”。当支架仅仅帮助学生减少无关负担、聚焦关键变量、组织已有想法时，它实际上增强了学生的元认知参与，而非削弱之。元认知辅导研究同样表明，有效的帮助不是简单增加信息量，而是优化学生求助与反思的方式\cite{aleven2004toward,roll2011improving}。因此，本研究中的支架豁免机制可以被视为在教学安全边界内对认知过载进行调节的一种必要设计。
+从教学意义上看，支架豁免并不是对“不直接给答”原则的削弱，而是对其更精细的落实。真正需要避免的不是“系统说得稍多一点”，而是“系统替学生完成了关键推理”。当支架仅仅帮助学生减少无关负担、聚焦关键变量、组织已有想法时，它实际上增强了学生的元认知参与，而非削弱之。元认知辅导研究同样表明，有效的帮助不是简单增加信息量，而是优化学生求助与反思的方式\cite{aleven2004toward,roll2011improving}。因此，本研究中的支架豁免机制可以被视为在教学安全边界内对认知过载进行调节的一种必要设计。失败与边界案例（例如护栏连续触发仍无法恢复有效互动、或事实兜底后学生仍拒绝参与）将在第5章结合评测指标进一步讨论。
