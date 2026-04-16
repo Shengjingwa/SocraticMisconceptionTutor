@@ -1,0 +1,7 @@
+- [x] 已识别并列出 suite 目录下的关键产物文件，并说明缺失项（如有）
+- [x] 已给出 Baseline/FSM/FSM+Guardrail 的版本级关键指标汇总与解释
+- [x] 已给出按 profile（P1/P2/P3）的 resolved/终止原因/轮数拆解与解读
+- [x] 已给出泄露率、护栏触发率、Max_Retries_Exceeded 触发样例与原因分析
+- [x] 已给出诊断混淆统计（含 M-ELE-002→M-ELE-001）与典型误判样例
+- [x] 若存在 evaluation_results.json，已汇总盲评均值/分布并解释其与 resolved 指标差异
+- [x] 已输出“问题清单：问题→证据→可能原因→下一步验证建议”
