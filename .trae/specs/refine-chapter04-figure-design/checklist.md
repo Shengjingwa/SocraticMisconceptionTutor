@@ -1,0 +1,4 @@
+- [x] `Chapter04_Figure_Design.md` 包含 6 张图表的详细绘制规范，且图表描述符合 `/workspace/docs/Chapter04.tex` 精修版的真实结构。
+- [x] 方案包含每张图的视觉布局、中英文核心节点字典、连线逻辑流与关键技术条件（如 `S4 Cognitive_Conflict`, `ANTI_LOOP_RULES`, `LLM-as-a-Judge`）。
+- [x] 方案中的图表逻辑与项目真实情况相符（包含护栏检查、认知死锁降级、微支架调用等项目特色机制）。
+- [x] 文档格式清晰，具备直接供绘图工具操作的指导性。
