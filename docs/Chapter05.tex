@@ -21,6 +21,8 @@
     \item \textbf{FSM+Guardrail}：第四章所设计的完整原型系统，在阶段化教学主线的基础上，融合了输入侧拦截、输出侧认知卸载审查以及认知死锁降级干预机制（即护栏分支 G1--G4 及 \texttt{ANTI\_LOOP\_RULES}）。
 \end{itemize}
 
+三版本在同一套测试输入、同一套评估脚本与一致的运行上限约束下执行，差异仅体现在对话控制与护栏策略是否启用；版本开关以日志字段 \texttt{system\_version} 记录，并在各 Run 的 \texttt{summary\_metrics.csv} 以版本维度汇总。
+
 每个运行批次中，每种系统版本均与所有（学生画像 $\times$ 迷思主题）组合进行完整会话，各版本在单次 Run 中生成一定数量的对话轮次。汇总五个运行批次的结果，实验共收集了大量带有精细状态标签（如诊断分类置信度、护栏触发次数、答案泄露次数等）的会话记录。这些记录为后续的微观干预轨迹分析和宏观统计比较提供了坚实的数据基础。
 
 \subsection{系统运行层指标结果（异常终止率、响应稳定性等）}
@@ -48,6 +50,21 @@
 在平均对话轮次方面，Baseline 版本的平均轮次最长（$9.95$ 轮），而引入阶段化控制后（FSM 和 FSM+Guardrail），平均对话轮次有所下降（分别为 $9.15$ 轮和 $9.03$ 轮），且 FSM+Guardrail 版本的标准差与置信区间显著缩小（$\pm 0.20$）。这说明阶段化教学主线有效地收束了对话的发散性，使得干预过程更加紧凑、可控；护栏机制的加入进一步避免了冗长且无意义的相互绕圈子。
 
 最显著的差异体现在状态转移成功率上。Baseline 版本的状态转移成功率仅为 $13.76\%$，这说明无结构控制的大模型往往难以自觉地遵循“诊断$\rightarrow$冲突$\rightarrow$重构$\rightarrow$验证”的教学递进逻辑，容易在某一状态中停滞。而 FSM 版本的成功率提升至 $30.19\%$，FSM+Guardrail 版本进一步提升至 $31.10\%$。这有力地验证了第四章中“阶段化教学对话控制（S0--S8 状态机）”设计的有效性，系统能够更顺畅地牵引学生从迷思暴露向概念验证推进。
+
+\subsection{指标口径与数据来源说明}
+\label{subsec:5.1.3}
+
+为避免“同名指标跨实验口径不一致”导致的误读，本章所有核心指标均以本次套件运行的日志与评估脚本为准，且均可追溯至 \texttt{suite\_2026-04-16\_14-42-05} 目录中的具体文件字段（聚合值见 \texttt{aggregate\_summary.csv}，逐 Run 值见各 \texttt{run\_*/results/summary\_metrics.csv}）。
+\begin{itemize}
+    \item \textbf{迷思概念识别准确率（Identification Accuracy）}：在 \texttt{turn\_logs.jsonl} 中，仅统计带有真值标签 \texttt{misconception\_gt} 的轮次；分子为 \texttt{misconception\_pred} 与真值一致的轮次计数，分母为带真值标签的轮次总数。该指标反映“诊断分类”模块在可判定样本上的准确性。
+    \item \textbf{认知修正率（Cognitive Correction Rate）}：会话级的“后测通过率”。分子为 \texttt{session\_summary.jsonl} 中 \texttt{resolved\_flag=true} 的会话数，分母为会话总数。该标记由系统在“概念掌握验证”阶段触发后测核验（\texttt{verify\_post\_test}）通过后置为真，因此口径等价于“post-test 通过”。\footnote{该口径在本次套件运行中被明确为 breaking change，见各 Run 的 \texttt{pipeline.log}。}
+    \item \textbf{平均对话轮次（Avg Turns）}：分子为各版本总轮次数（\texttt{turn\_logs.jsonl} 逐轮累计），分母为会话总数（\texttt{session\_summary.jsonl}）。该口径与“各会话 \texttt{turn\_count} 的平均值”等价。
+    \item \textbf{拒绝索答成功率（Refusal Success Rate）}：在 \texttt{turn\_logs.jsonl} 中仅统计 \texttt{intent\_pred=Direct\_Answer\_Seek} 的轮次；若该轮进入拒答引导状态 \texttt{current\_state=S2} 或触发护栏 \texttt{guardrail\_triggered=true}，记为一次“成功拒答”。分子为成功拒答轮次数，分母为直接索答轮次数。
+    \item \textbf{护栏拦截触发率（Guardrail Interception Rate）}：逐轮粒度的“实际拦截动作发生比例”。分子为 \texttt{guardrail\_triggered=true} 的轮次数，分母为总轮次数。\footnote{该指标统计的是“最终执行拦截动作”的比例，而非仅被启发式/裁判判定为风险的候选比例，见 \texttt{pipeline.log} 的口径说明。}
+    \item \textbf{答案泄露率（Answer Leakage Rate）}：逐轮粒度的“候选回复被检测为泄露的比例”。分子为 \texttt{answer\_leakage\_flag=true} 的轮次数，分母为总轮次数。\footnote{该口径与“最终对学生输出了泄露内容”并不完全等价，尤其在 FSM+Guardrail 版本中，\texttt{answer\_leakage\_flag} 多发生在候选回复阶段并被重生成机制拦截（因此最终泄露率为 0）。}
+    \item \textbf{状态转移成功率（Transition Success Rate）}：在 \texttt{turn\_logs.jsonl} 中，若同一会话相邻两轮的 \texttt{current\_state} 发生变化，则计为一次成功转移；分子为成功转移次数，分母为“理论可变化步数”\,$(\text{总轮次}-\text{会话数})$。该指标可粗略反映对话推进效率。
+    \item \textbf{异常终止率（Abnormal Termination Rate）}：会话级异常终止比例。分子为 \texttt{session\_summary.jsonl} 中 \texttt{abnormal\_end\_flag=true} 或 \texttt{termination\_reason=error} 的会话数，分母为会话总数。
+\end{itemize}
 
 \section{阶段化对话控制对干预引导的影响}
 \label{sec:5.2}
@@ -105,7 +122,7 @@ FSM+Guardrail 版本的修正率（58.33\%）介于两者之间。虽然略低�
 
 在对 \texttt{sim\_Baseline\_P1\_M-ELE-001\_8db7b7} 的审核中，Baseline 系统（评分为 2 分）虽然频繁使用反问和类比（如水车、送货员等），但始终未能切中学生“电能与电荷流动”混淆的要害。由于缺乏阶段控制，系统在学生仍坚持错误观念时便陷入了比喻的堆砌，最终未能帮助 P1（固执型）学生突破认知僵局。
 
-相比之下，在 \texttt{sim\_FSM+Guardrail\_P2\_M-BUO-001\_809f87}（浮力重物必沉迷思）中，系统精准地执行了阶段化控制：首先在 S3 阶段诊断出单因归因错误，随后在 S4 阶段抛出极端反例（“钢铁巨轮为何能浮，小铁钉为何沉底？”）引发认知冲突。在学生产生困惑（“是不是船里面是空的”）后，系统没有直接告知阿基米德原理，而是提供了一个低负荷的思想实验支架（“如果把巨轮揉成实心铁球会怎样？”），成功引导学生认识到“排开液体体积”才是关键。这种步步为营的引导，在人工抽核中获得了较高的教学有效性评分，充分体现了阶段化控制在复杂概念教学中的优势。
+相比之下，在 \texttt{sim\_FSM+Guardrail\_P2\_M-BUO-001\_809f87}（浮力重物必沉迷思）中，系统精准地执行了阶段化控制：在 S4 阶段通过 Assumption\_Probing 将“重的必沉”这一经验规则显化，并以极端反例（“钢铁巨轮为何能浮，小铁钉为何沉底？”）制造认知冲突；随后在 S5/S6 阶段把讨论从“重量”迁移到“体积$\rightarrow$排水$\rightarrow$托力”，用受控思想实验支架（“如果把巨轮揉成实心铁球会怎样？”）帮助学生主动说出关键机制。该轨迹在人工抽核中获得了较高的教学有效性评分，充分体现了阶段化控制在复杂概念教学中的优势。
 
 \section{教学安全约束机制的效果分析}
 \label{sec:5.3}
@@ -154,15 +171,73 @@ FSM+Guardrail 版本的修正率（58.33\%）介于两者之间。虽然略低�
 \subsection{阶段化控制+护栏版本下的优质干预案例}
 \label{subsec:5.4.1}
 
-日志档案中的 \texttt{sim\_FSM+Guardrail\_P3\_M-ELE-002} 展现了一次教科书级别的电学迷思干预。学生 P3 持有典型的“单向电流/无需闭合回路”迷思（“电从正极射出来进到灯泡里就够了”）。
+本节在宏观均值之外，从 \texttt{session\_summary.jsonl} 与 \texttt{turn\_logs.jsonl} 进一步给出按主题（电学/浮力）与学生画像（P1/P2/P3）的分组统计，以识别“总体均值被掩盖”的结构性差异。
 
-在干预过程中，系统首先在 T2 阶段（诊断）澄清了学生的错误表征。随后进入 T3 阶段（认知冲突），系统运用了\textbf{后果探索策略（归谬）}：“如果正极像机关枪一样发射电荷而负极不回收，电池里的电荷能无限发射吗？”当学生意识到电荷会耗尽时，系统进一步引入了\textbf{类比支架}：“就像排队进电影院，只进不出，门很快就会堵死”。最终，在 T4 和 T5 阶段，系统帮助学生明确区分了“电荷流动（快递员）”与“能量转化（包裹）”的核心差异。该案例中，系统既没有泄露答案（Leakage=0），也没有触发异常（Abnormal End=false），仅用 5 轮对话就引导学生完成了从“单向消耗”到“循环回路”的概念转变\cite{kucukozer2007misconceptions}，体现了系统在处理复杂抽象物理概念时的卓越能力。
+\begin{table}[htbp]
+    \centering
+    \caption{按主题与画像分组的认知修正率（合并五次运行；括号内为会话数）}
+    \label{tab:grouped-correction-topic-profile}
+    \begin{tabular}{llccc}
+        \hline
+        \textbf{版本} & \textbf{主题} & \textbf{P1} & \textbf{P2} & \textbf{P3} \\
+        \hline
+        Baseline & 电学 & $0.0\%~(n=10)$ & $70.0\%~(n=10)$ & $80.0\%~(n=10)$ \\
+        Baseline & 浮力 & $0.0\%~(n=10)$ & $100.0\%~(n=10)$ & $90.0\%~(n=10)$ \\
+        \hline
+        FSM & 电学 & $0.0\%~(n=10)$ & $100.0\%~(n=10)$ & $90.0\%~(n=10)$ \\
+        FSM & 浮力 & $0.0\%~(n=10)$ & $100.0\%~(n=10)$ & $70.0\%~(n=10)$ \\
+        \hline
+        FSM+Guardrail & 电学 & $0.0\%~(n=10)$ & $80.0\%~(n=10)$ & $90.0\%~(n=10)$ \\
+        FSM+Guardrail & 浮力 & $0.0\%~(n=10)$ & $100.0\%~(n=10)$ & $80.0\%~(n=10)$ \\
+        \hline
+    \end{tabular}
+\end{table}
 
-\subsection{固执型学生画像（P1）下的引导失败或逻辑熔断案例分析}
+\begin{figure}[htbp]
+    \centering
+    \fbox{\parbox{0.92\linewidth}{\centering 图待补绘：按主题（电学/浮力）分面展示\\
+    不同版本在 P1/P2/P3 上的认知修正率柱状图（含 95\% CI 或自助法误差线）。}}
+    \caption{按主题与画像分组的认知修正率差异（图待补绘）}
+    \label{fig:grouped-correction-topic-profile}
+\end{figure}
+
+绘图要点：横轴为画像（P1/P2/P3），纵轴为认知修正率；用颜色区分版本（Baseline/FSM/FSM+Guardrail），并按主题（电学/浮力）做分面或子图；误差线建议以 Run 为单位做自助法重采样或直接使用各 Run 的比例计算 95\% CI。
+
+表~\ref{tab:grouped-correction-topic-profile} 显示出两个对总体结论具有解释力的现象。第一，P1 在两主题与三版本下的修正率均为 0\%，说明“固执型/逻辑熔断”画像对纯对话式干预构成了主导性难点，其失败并非某个具体机制缺失即可单点修复，而更接近“交互形态与权限上限”导致的结构性瓶颈。第二，FSM 对 P2/P3 的提升在电学主题更为显著：电学任务更依赖“闭合回路/能量与电荷区分”等层级化概念链条，阶段化推进（T1--T5）能够更稳定地组织冲突、支架与验证序列；而在浮力主题中，部分反例与数值类比对 Baseline 也足够有效，因此 FSM 的边际收益相对收敛。对 FSM+Guardrail 而言，其主要增益体现在“零泄露”而非“更高修正率”，这与前述安全约束与教学效率之间的 trade-off 一致（见表~\ref{tab:correction-rate} 与表~\ref{tab:leakage-rate}）。
+
+\subsection{成功案例：FSM+Guardrail 在 P2 浮力主题的认知冲突—支架链路}
 \label{subsec:5.4.2}
 
-尽管系统在多数情况下表现优异，但针对 P1（固执型/逻辑熔断易发者）的干预仍暴露出明显的边界挑战。数据表明，在多个针对 P1 画像的测试中（如 \texttt{sim\_FSM+Guardrail\_P1\_M-ELE-001\_c645fb} 和 \texttt{sim\_FSM+Guardrail\_P1\_M-BUO-002\_627f55}），对话轮次均达到了系统设定的上限（13轮），且最终状态停留在“认知僵局（Cognitive Deadlock）”，终止原因为 \texttt{max\_turns\_reached}。
+本节选取 \texttt{sim\_FSM+Guardrail\_P2\_M-BUO-001\_809f87}（见 \texttt{run\_01/results/manual\_audit.csv} 与对应 \texttt{turn\_logs.jsonl}）作为成功案例，对其“机制$\rightarrow$过程$\rightarrow$结果”的证据链进行补强。
 
-人工抽核意见指出，在这些失败案例中，系统虽然“在苏格拉底度上表现极佳，通过连续反问（如串联100个灯泡、快递员比喻等）引导学生暴露认知矛盾，避免直接给出答案”，但未能有效回应 P1 学生特有的顽固核心困惑（如“能量没了电流为何不变”）。由于护栏机制严格禁止直接告知结论，系统在第四章设计的“认知死锁降级干预机制（\texttt{ANTI\_LOOP\_RULES}）”被触发后，虽然回退到了提供微支架的 S5 阶段，但如果微支架（如受控思想实验）仍无法击穿学生的认知壁垒，系统便会在 S5 与学生原地“拉锯”，最终耗尽轮次。
+\paragraph{选取理由}该会话在人工抽核中被标注为高教学有效性（有效性 5 分），且完整覆盖了从错误规则暴露（“重的必沉”）到反例冲突、再到以学生自述形式产出关键判别关系（$F_{\text{浮}}=G$）的闭环；同时其全程无护栏拦截与无泄露，能较纯粹地体现阶段化控制与策略路由对“认知推进”的贡献。
 
-这一边界现象深刻揭示了完全基于文本对话的智能导师的局限性：对于具有强烈既有经验执念的学生，仅靠语言层面的逻辑归谬和隐喻类比可能不足以动摇其底层解释框架\cite{posner1982accommodation,chi1994things}。在未来的迭代中，此类情形可能需要转介至更直观的多模态交互（如提供可操作的虚拟仿真电路板），或触发更高权限的“直接讲授与事实覆盖”，以打破语言逻辑的死锁。这为教育智能体的发展指明了从单一对话模式向多模态具身认知支持演进的研究方向。
+\paragraph{关键轮次}第 1 轮系统以“巨轮 vs 铁钉”构造极端反例，迫使学生承认经验规则无法解释现实（S4，Assumption\_Probing）。第 3--4 轮进一步将讨论从“重量”转移到“形状$\rightarrow$体积$\rightarrow$排水量”，并用“揉成实心铁球必沉”的反事实推演稳定冲突张力（S6，Evidence\_Seeking/Consequence\_Exploration）。第 5--6 轮系统引导学生自主说出“排开水越多托力越大”与“漂浮时二力平衡”，并追问铁钉为何无法获得足够托力以完成迁移。
+
+\paragraph{机制对应}该过程对应第四章的阶段化教学主线：在 T3（认知冲突）阶段使用后果探索/反事实推演策略稳固矛盾，再在 T4（支架过渡）阶段将“重量”这一表层变量重构为“排开体积$\rightarrow$浮力”这一结构变量，并通过连续证据追问（Evidence\_Seeking）把关键关系以学生口头表达的方式外显，从而避免系统直接讲授结论造成的认知卸载。
+
+\paragraph{结果}该会话共 6 轮即达成 \texttt{resolved} 终止，\texttt{resolved\_flag=true} 且 \texttt{answer\_leakage\_count=0}、\texttt{guardrail\_trigger\_count=0}；其轨迹体现出“用最短路径抵达可验证理解”的理想形态，也解释了表~\ref{tab:system-stability} 中 FSM+Guardrail 平均轮次更短且波动更小的现象。
+
+\subsection{边界/失败案例：P1 电学主题下的逻辑熔断与文本对话上限}
+\label{subsec:5.4.3}
+
+尽管系统在多数情况下表现稳定，但针对 P1（固执型/逻辑熔断易发者）的干预呈现出系统性边界：在本次套件的两主题与三版本下，P1 的认知修正率均为 0\%（表~\ref{tab:grouped-correction-topic-profile}）。以下以 \texttt{sim\_FSM+Guardrail\_P1\_M-ELE-002\_c91ae9}（见 \texttt{run\_05/results/manual\_audit.csv} 与对应 \texttt{turn\_logs.jsonl}）为例说明其失败机制。
+
+\paragraph{选取理由}该会话满足“失败但非系统错误”的典型性：全程无异常终止、无护栏拦截、无答案泄露，却在 13 轮达到上限并以 \texttt{max\_turns\_reached} 结束，说明瓶颈主要来自“学生模型的抵抗性”与“文本交互的证据供给不足”，而非工程稳定性或安全策略误伤。
+
+\paragraph{关键轮次}第 1--3 轮系统尝试用反事实与可观察现象（断开回路灯泡不亮）推动学生承认“仅接正极”不可行（S4$\rightarrow$S5），但学生将失败归因于“绝缘/接触不良”，并坚持“电是能量、用完就消失”。第 5--6 轮系统引入拥堵类比（地铁单向进站）试图显化“载体堆积/无法持续流动”的矛盾，学生明确拒绝类比迁移（“电不是人”）。第 7 轮系统转而采用事实落地（Fact\_Grounding），强调实验结论并请求学生类比吸管堵塞体验，但学生仍以“电不同于空气”回避。此后第 9--13 轮系统在水泵类比、思想实验与追问之间循环，学生回复持续回到“能量被消耗$\rightarrow$无需回路”的单点解释，未形成可被验证阶段吸收的新表征。
+
+\paragraph{机制对应}该失败链条对应第四章中“阶段化控制在高抵抗性画像下可能触发逻辑熔断”的预期：当学生对类比与反事实均不接受时，系统缺乏多模态实证（可操作电路、动态仿真）与更高权限讲授手段，只能在 T3/T4 的语言性支架内反复加压；护栏机制虽成功守住“不直接给答”的底线，但也意味着系统无法用“直接讲授”作为最后手段完成概念覆盖，从而使死锁更容易以轮次耗尽的形式显现。
+
+\paragraph{结果}该会话最终 \texttt{resolved\_flag=false}，后测未通过，终止原因为 \texttt{max\_turns\_reached}。该类失败并不否定阶段化对话与护栏机制的总体价值，而是提示：在 P1 等高抵抗性场景下，仅文本的苏格拉底式提问可能不足以触发概念替换，需要引入更强的证据形态或更明确的教学权限切换，以满足概念转变理论所强调的“可理解性、可接受性与生成性”条件\cite{posner1982accommodation,chi1994things}。
+
+\section{有效性威胁、局限与改进方向}
+\label{sec:5.5}
+
+本章结果建立在一次固定测试套件的五次重复运行之上，仍存在以下有效性威胁与局限。
+\begin{itemize}
+    \item \textbf{样本结构与外推性}：本套件的“主题$\times$画像$\times$迷思”组合是对真实课堂的抽象与离散化模拟，尤其是 P1/P2/P3 的行为生成规则可能与真实学生群体存在系统偏差。因此本章更强调“机制在控制条件下是否按预期工作”，而非直接宣称可对任意真实教学场景外推其绝对增益。
+    \item \textbf{LLM-as-a-Judge 偏差与一致性风险}：\texttt{evaluation\_results.json} 的苏格拉底度与有效性评分依赖裁判模型，其标注偏好可能与人类教师评价标准不完全一致。为降低单一裁判带来的系统偏差，本章在关键断言处优先使用可复核的行为指标（如 \texttt{answer\_leakage\_flag}、\texttt{guardrail\_triggered}、\texttt{resolved\_flag}），并保留 \texttt{manual\_audit.csv} 作为人工抽核入口。
+    \item \textbf{指标间 trade-off 的解释边界}：护栏带来的“零泄露”与教学推进效率之间存在可观的权衡空间。由于本套件并未系统扫参（例如不同护栏阈值、不同重生成次数），因此无法在统计意义上给出最优策略的充分比较，只能就当前实现阐明其行为后果。
+    \item \textbf{文本对话的证据供给上限}：如第~\ref{subsec:5.4.3} 节所示，当学生拒绝类比迁移、拒绝反事实推演或持续诉诸单点经验规则时，纯文本互动缺少可操作实验与可视化反馈，难以满足概念转变对“冲突证据强度”的需求。这提示未来迭代应优先考虑与项目路线一致的能力增强：在不扩大越权给答风险的前提下，引入可控的多模态演示（虚拟电路/浮力仿真）与更精细的“权限升级”策略（例如在连续死锁后切换为更明确的讲授模板，同时保持可追溯的安全审查）。 
+\end{itemize}
