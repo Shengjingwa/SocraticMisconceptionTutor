@@ -105,14 +105,5 @@ pyproject.toml   项目配置文件（Ruff / Pytest 等）
 - 记录模型版本与推理参数：建议在论文附录中记录 `LLM_BASE_URL`、`TUTOR_MODEL`、`JUDGE_MODEL`、温度等信息（见 [config.py](file:///workspace/src/config.py)）。
 - 冒烟验证：使用 `SIMULATION_SMOKE=1` 快速确认环境与 API 配置无误，再扩大规模。
 
-## 贡献
-- 欢迎提交 Issue / PR：状态机策略、护栏豁免规则、评估指标、数据集扩展等。
-- 建议提供：复现步骤、期望/实际行为、相关日志片段（可脱敏）。
 
-## 引用
-- Repo: https://github.com/Shengjingwa/SocraticMisconceptionTutor
-- 建议在论文/报告中附上仓库链接与 commit hash 以便复现（例如：`3ef1ea3`）。
-
-## 许可证
-仓库当前未包含许可证文件。如需开源分发，建议补充 `LICENSE` 并在此处声明许可证类型。
 
