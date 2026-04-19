@@ -1,5 +1,0 @@
-# Tasks
-- [ ] Task 1: Use `search` or `general_purpose_task` sub-agent to thoroughly read `/workspace/docs/Chapter04.tex` and compare its technical descriptions (FSM, Guardrails, LangGraph, etc.) with the actual project codebase (`/workspace/src/router.py`, `/workspace/src/guardrails.py`, etc.).
-- [ ] Task 2: Use `search` or `general_purpose_task` sub-agent to evaluate `/workspace/docs/Chapter04.tex` against the standard requirements of an educational master's thesis chapter (e.g., academic tone, depth of educational theory, alignment with the latest `论文大纲.md`).
-- [ ] Task 3: Synthesize the findings into a structured analysis report covering two main parts: (1) Consistency with the actual project, and (2) Remaining issues as an educational thesis chapter.
-- [ ] Task 4: Write the final analysis report to a new Markdown file, e.g., `/workspace/docs/Chapter04_分析报告.md`, and present the summary to the user.

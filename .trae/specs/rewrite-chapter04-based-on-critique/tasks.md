@@ -1,7 +1,0 @@
-# Tasks
-- [ ] Task 1: Use `search` or `general_purpose_task` sub-agent to read the current `/workspace/docs/Chapter04.tex` and the critique `/workspace/docs/Chapter04_分析报告.md` to identify the exact sections to rewrite (4.3.2, 4.3.3, 4.4.2, 4.5.1, 4.5.2, 4.6.1).
-- [ ] Task 2: Use `search` or `general_purpose_task` sub-agent to rewrite Section 4.3.2 (FSM S0-S8) and 4.3.3 (Constraint & Downgrade). Correct S1/S2 to guardrail/refusal and S7/S8 to "Fact Grounding" and "Acknowledge and Park". Explicitly discuss "Cognitive Deadlock Downgrade Intervention".
-- [ ] Task 3: Use `search` or `general_purpose_task` sub-agent to rewrite Section 4.4.2 (Guardrail Exemptions). Add "Positive Reinforcement/Affirmation" and "Explanatory Analogies" as emotional/cognitive scaffolds.
-- [ ] Task 4: Use `search` or `general_purpose_task` sub-agent to rewrite Section 4.5.1 and 4.5.2 (Knowledge Base). Remove "Static Teaching Cases" and replace it with dynamic prompt generation (Micro-scaffolding). Add a subsection/paragraph on "Simulation Pipeline Interface (Logs)".
-- [ ] Task 5: Use `search` or `general_purpose_task` sub-agent to rewrite Section 4.6 (Case Studies). Inject explicit FSM state transitions (e.g., `[系统由 S3 切换至 S4]`) into the dialogue examples.
-- [ ] Task 6: Compile the rewritten sections back into `/workspace/docs/Chapter04.tex` while preserving all original correct theories, citations, and image placeholders.
