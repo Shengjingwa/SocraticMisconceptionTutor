@@ -1,7 +1,10 @@
+# Core Dependencies
 langchain-core==1.2.28
 langchain-openai==1.1.7
 langgraph==1.1.6
 pydantic==2.12.5
 tenacity==9.1.2
-ruff
+
+# Development Dependencies
+ruff==0.15.8
 pytest
