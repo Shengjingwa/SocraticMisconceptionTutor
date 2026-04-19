@@ -34,7 +34,7 @@
 
 - 职责：定义 LangGraph 的状态结构 `GraphState`（TypedDict），用于约束每个节点读写哪些字段。
 
-### src/graph.py（旧版/备用）
+### src/graph.py
 链接：[graph.py](file:///workspace/src/graph.py)
 
 - 职责：同样定义了一套 LangGraph 工作流，但当前应用层使用的是 `tutor_graph.py`（`main.py` 引用 `tutor_graph.app_graph`）。

@@ -94,6 +94,7 @@ flowchart TB
 - `langchain-core` / `langchain-openai`：消息结构 + OpenAI-compatible LLM 客户端
 - `pydantic`：结构化输出与数据模型
 - `tenacity`：LLM 调用重试
+- `ruff` / `pytest`：开发与格式化工具
 
 ## 7.4 “运行产物”依赖链
 
