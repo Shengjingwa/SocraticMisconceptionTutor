@@ -1,31 +1,34 @@
 import json
+import logging
+import os
+import threading
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any, Dict
-import logging
-from logging.handlers import RotatingFileHandler
-import threading
-import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = Path(os.environ.get("LOG_DIR", str(BASE_DIR / "logs"))).resolve()
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+
 
 class SessionLogger:
     def __init__(self):
         self.turn_log_path = LOG_DIR / "turn_logs.jsonl"
         self.session_log_path = LOG_DIR / "session_summary.jsonl"
         self.lock = threading.Lock()
-        
+
         self.logger = logging.getLogger("SessionLogger")
         self.logger.setLevel(logging.INFO)
-        
+
         if not self.logger.handlers:
             log_file = LOG_DIR / "app.log"
-            handler = RotatingFileHandler(log_file, maxBytes=5*1024*1024, backupCount=5, encoding="utf-8")
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            handler = RotatingFileHandler(
+                log_file, maxBytes=5 * 1024 * 1024, backupCount=5, encoding="utf-8"
+            )
+            formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
-            
+
             if os.getenv("SILENT_CONSOLE") != "1":
                 console_handler = logging.StreamHandler()
                 console_handler.setFormatter(formatter)
@@ -49,5 +52,6 @@ class SessionLogger:
 
     def info(self, msg: str):
         self.logger.info(msg)
+
 
 logger_instance = SessionLogger()

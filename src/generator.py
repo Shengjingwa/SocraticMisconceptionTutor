@@ -1,32 +1,38 @@
 from __future__ import annotations
+
 import json
 import random
-import os
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-from router import RouteDecision, SessionMemory
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from typing import Any, Dict, List
+
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from tenacity import retry, stop_after_attempt, wait_exponential
+
 import config
+from router import RouteDecision, SessionMemory
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
 
 def _clean_reply(text: str) -> str:
     """清理回复文本，去掉思考标签及其前置内容和括号内的动作提示。"""
     if "<think>" in text:
         # 移除第一个 <think> 标签之前的所有内容
-        text = re.sub(r'^.*?<think>', '<think>', text, flags=re.DOTALL)
+        text = re.sub(r"^.*?<think>", "<think>", text, flags=re.DOTALL)
         # 移除 <think>...</think> 标签及其内容，同时处理未闭合的情况
-        text = re.sub(r'<think>.*?(?:</think>|回复：|回答：|回复:|回答:|$)', '', text, flags=re.DOTALL)
-    
+        text = re.sub(
+            r"<think>.*?(?:</think>|回复：|回答：|回复:|回答:|$)", "", text, flags=re.DOTALL
+        )
+
     # 彻底清理可能残留的单个标签
     text = text.replace("<think>", "").replace("</think>", "")
-    
+
     # 清理大模型可能残留的思考过程前缀词
-    text = re.sub(r'^(?:\n)*?(?:优化回复|最终回复|回复|回答|分析|思考)[：:]\s*', '', text).strip()
-    
+    text = re.sub(r"^(?:\n)*?(?:优化回复|最终回复|回复|回答|分析|思考)[：:]\s*", "", text).strip()
+
     return text.strip()
+
 
 def _load_json(filename: str) -> Any:
     path = DATA_DIR / filename
@@ -36,8 +42,10 @@ def _load_json(filename: str) -> Any:
                 return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         from logger import logger_instance
+
         logger_instance.error(f"Failed to load JSON {filename}: {e}")
     return []
+
 
 # Load data
 misconceptions_data = _load_json("misconceptions.json")
@@ -52,11 +60,20 @@ REFUSAL_REDIRECT_TEMPLATES = [
     "我知道这有点绕，但我直接说出结论你就没法自己推导了。我们把问题拆开，你觉得：{follow_up}",
 ]
 
+
 def _pick_one(items: List[Any], default: Any = None) -> Any:
     return random.choice(items) if items else default
 
+
 def _reply_type_from_state(state: str) -> str:
-    return {"S2":"refusal_and_guidance","S4":"cognitive_conflict_question","S5":"scaffolded_prompt","S6":"verification_prompt","S8":"acknowledge_and_park"}.get(state, "guiding_question")
+    return {
+        "S2": "refusal_and_guidance",
+        "S4": "cognitive_conflict_question",
+        "S5": "scaffolded_prompt",
+        "S6": "verification_prompt",
+        "S8": "acknowledge_and_park",
+    }.get(state, "guiding_question")
+
 
 def _safe_question_template(user_input: str, decision: RouteDecision, memory: SessionMemory) -> str:
     tag = memory.current_misconception
@@ -67,7 +84,9 @@ def _safe_question_template(user_input: str, decision: RouteDecision, memory: Se
         elif tag == "M-ELE-001":
             follow_up = "如果电流真的被前面的灯泡“用掉”变少了，那多出来的电荷会去哪儿？会不会在某段导线里越堆越多？"
         elif tag == "M-BUO-001":
-            follow_up = "你觉得“重”到底指重量，还是指材料本身的性质？能举一个重但能浮、轻但会沉的例子吗？"
+            follow_up = (
+                "你觉得“重”到底指重量，还是指材料本身的性质？能举一个重但能浮、轻但会沉的例子吗？"
+            )
         elif tag == "M-BUO-002":
             follow_up = "同一个物体完全没入水里以后继续下沉，它排开水的体积变了吗？"
         return _pick_one(REFUSAL_REDIRECT_TEMPLATES).format(follow_up=follow_up)
@@ -81,18 +100,22 @@ def _safe_question_template(user_input: str, decision: RouteDecision, memory: Se
         return "压强越深越大没错，但上表面和下表面都一起变大时，你觉得它们的“差值”一定会变大吗？"
     return "你愿不愿意先说一个你认为最关键的依据（现象/推理步骤）？我只问一个问题：这个依据在更极端的情况下还成立吗？"
 
+
 LLM_ERROR_FALLBACK_PHRASES = [
     "抱歉，我现在有些卡壳，我们能重新梳理一下刚才的问题吗？",
     "哎呀，我这会儿脑子有点转不过弯了，能换个说法再问我一次吗？",
     "不好意思，刚刚系统好像走神了，你能把刚才的想法再跟我说一遍吗？",
-    "有点小故障，我没太理解。能麻烦你重新讲一下你最确定的部分吗？"
+    "有点小故障，我没太理解。能麻烦你重新讲一下你最确定的部分吗？",
 ]
 
-def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemory, messages: list = None) -> Dict[str, Any]:
+
+def generate_reply(
+    user_input: str, decision: RouteDecision, memory: SessionMemory, messages: list = None
+) -> Dict[str, Any]:
     if messages is None:
         messages = []
-    
-    from langchain_core.messages import HumanMessage, AIMessage
+
+
     formatted_messages = []
     for msg in messages:
         if isinstance(msg, HumanMessage):
@@ -101,9 +124,12 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             formatted_messages.append({"role": "assistant", "content": msg.content})
         else:
             formatted_messages.append(msg)
-            
+
     recent_history_text = "\n".join(
-        [f"{msg['role']}: {msg['content']}" for msg in formatted_messages[-config.MAX_HISTORY_TURNS*2:]]
+        [
+            f"{msg['role']}: {msg['content']}"
+            for msg in formatted_messages[-config.MAX_HISTORY_TURNS * 2 :]
+        ]
     )
     knowledge = KNOWLEDGE_CHUNKS.get(memory.current_misconception, {})
     misconception = MISCONCEPTIONS.get(memory.current_misconception, {})
@@ -118,30 +144,34 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "knowledge_used": misconception.get("misconception_name"),
             "state": decision.state,
             "strategy": decision.strategy,
-            "assembled_prompt": {"role_identity": "safe_template"}
+            "assembled_prompt": {"role_identity": "safe_template"},
         }
-    
+
     # 构建自然语言系统提示词
     core_points = "\n- ".join(misconception.get("core_science_points", []))
-    
+
     # 解析反例 (Counterexamples)
     ce_list = []
     for ce in misconception.get("counterexamples", []):
         if isinstance(ce, dict):
-            ce_list.append(f"情境: {ce.get('scenario')} | 错误预测: {ce.get('misconception_prediction')} | 科学事实: {ce.get('actual_scientific_outcome')} | 冲突焦点: {ce.get('conflict_focus')}")
+            ce_list.append(
+                f"情境: {ce.get('scenario')} | 错误预测: {ce.get('misconception_prediction')} | 科学事实: {ce.get('actual_scientific_outcome')} | 冲突焦点: {ce.get('conflict_focus')}"
+            )
         else:
             ce_list.append(str(ce))
     counterexamples = "\n- ".join(ce_list)
-    
+
     # 解析类比 (Analogies)
     ana_list = []
     for a in misconception.get("analogies", []):
         if isinstance(a, dict):
-            ana_list.append(f"模型: {a.get('model')} | 用途: {a.get('use_for')} | 局限性: {a.get('boundary')}")
+            ana_list.append(
+                f"模型: {a.get('model')} | 用途: {a.get('use_for')} | 局限性: {a.get('boundary')}"
+            )
         else:
             ana_list.append(str(a))
     analogies = "\n- ".join(ana_list)
-    
+
     # 解析推理漏洞 (Reasoning Flaws)
     rf_list = []
     for rf in misconception.get("reasoning_flaws", []):
@@ -153,7 +183,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
     sentiment = decision.meta.get("sentiment", "")
     cognitive_state = decision.meta.get("cognitive_state", "")
-    
+
     empathy_scaffolding = ""
     fallback_strategy = ""
     subgoal_tracking = ""
@@ -163,9 +193,11 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
     if sentiment in ["焦虑/挫败", "困惑"]:
         empathy_scaffolding = "\n\n【认知共情支架】\n检测到学生当前处于焦虑、挫败或困惑的情绪状态。严禁使用“没关系”、“别着急”等生硬套话！你必须通过指出物理概念本身容易混淆或反直觉的地方（例如：“这个现象确实反直觉，因为我们在生活中很少注意到……”）来建立“认知共情”，并将共情与下一个引导问题无缝融合。"
-        
+
     # 针对多次卡壳或严重挫败的降级干预
-    if (decision.state == "S5" and memory.recent_states.count("S5") >= 3) or sentiment == "焦虑/挫败":
+    if (
+        decision.state == "S5" and memory.recent_states.count("S5") >= 3
+    ) or sentiment == "焦虑/挫败":
         fallback_strategy += "\n\n【降级干预策略】\n学生目前多次卡壳或极度挫败，请放宽引导要求。允许你先直接给出部分浅显的物理原理解释或实验现象说明，以此作为脚手架，然后再就下一步进行确认性提问。避免单纯的拒绝和反问。"
 
     if decision.state == "S4":
@@ -179,12 +211,14 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         elif memory.recent_states.count("S5") >= 2:
             fallback_strategy += "\n\n【概念拆解与微支架策略 (Micro-scaffolding)】\n检测到学生在S5阶段卡壳。请停止重复宽泛的类比，而是将当前问题拆解为2个更小的、原子化的「概念区分」问题。例如，明确向学生指出他们可能混淆了哪两个物理量，然后通过一个「是/否」的判断题，逐步引导学生推导。"
     elif decision.state == "S7":
-        fallback_strategy += "\n\n【降级干预：事实兜底与具象体感重构 (Fact-Grounding & Concrete Rebuild)】\n" \
-                             "检测到学生陷入极度顽固的认知僵局（P1死锁）。**立即停止所有的抽象类比、数字计算和极端归谬！**\n" \
-                             "为了绝对不触碰泄题红线且打破学生的防御心理，你必须采取“先陈述客观事实，再引导具象体感”的终极策略：\n" \
-                             "1. 直接抛出一个无可辩驳的、真实的【物理实验现象或硬核事实】。这个事实必须与学生的错误认知形成极强的反差。\n" \
-                             "2. 在陈述完事实后，**严禁诉诸权威或强行说教**！相反，你应该引导学生去想象一个**极其具象的身体感官体验**（Concrete Physical Sensation）。例如：想象用手把一个空矿泉水瓶按进水里时的感受；想象在拥挤的走廊里大家一起往前挤的感受。\n" \
-                             "3. 用这个强烈的体感经验作为“脚手架”，让学生重新思考之前的物理事实。例如：‘真实的物理实验结果是 [陈述打脸现象]。既然结果如此，你回忆一下 [某个身体感官体验] 的时候，是不是和这个现象很像？你觉得这是为什么？’"
+        fallback_strategy += (
+            "\n\n【降级干预：事实兜底与具象体感重构 (Fact-Grounding & Concrete Rebuild)】\n"
+            "检测到学生陷入极度顽固的认知僵局（P1死锁）。**立即停止所有的抽象类比、数字计算和极端归谬！**\n"
+            "为了绝对不触碰泄题红线且打破学生的防御心理，你必须采取“先陈述客观事实，再引导具象体感”的终极策略：\n"
+            "1. 直接抛出一个无可辩驳的、真实的【物理实验现象或硬核事实】。这个事实必须与学生的错误认知形成极强的反差。\n"
+            "2. 在陈述完事实后，**严禁诉诸权威或强行说教**！相反，你应该引导学生去想象一个**极其具象的身体感官体验**（Concrete Physical Sensation）。例如：想象用手把一个空矿泉水瓶按进水里时的感受；想象在拥挤的走廊里大家一起往前挤的感受。\n"
+            "3. 用这个强烈的体感经验作为“脚手架”，让学生重新思考之前的物理事实。例如：‘真实的物理实验结果是 [陈述打脸现象]。既然结果如此，你回忆一下 [某个身体感官体验] 的时候，是不是和这个现象很像？你觉得这是为什么？’"
+        )
     elif decision.state == "S8":
         if memory.aborted:
             fallback_strategy += "\n\n【强制结束会话 (Force Termination)】\n学生拒绝搁置话题或继续纠缠。请直接用一句简短、温和但坚定的结束语结束本次讨论（例如：‘好的，我理解你的坚持。咱们今天先聊到这里，这个问题先放一放，辛苦啦！’）。绝对不要再提问或继续解释物理原理。"
@@ -200,16 +234,16 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
 
 【可参考的知识点(仅供引导参考，请勿直接剧透)】
 核心科学知识点: 
-- {core_points if core_points else '无'}
+- {core_points if core_points else "无"}
 
 可用的反例: 
-- {counterexamples if counterexamples else '无'}
+- {counterexamples if counterexamples else "无"}
 
 可用的类比: 
-- {analogies if analogies else '无'}
+- {analogies if analogies else "无"}
 
 学生可能的推理漏洞:
-- {reasoning_flaws if reasoning_flaws else '无'}
+- {reasoning_flaws if reasoning_flaws else "无"}
 
 【安全护栏规则 - 必须绝对遵守】
 1. 绝不直接给出本题最终结论或标准答案。
@@ -232,11 +266,14 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "role_identity": "你是引导思考的初中物理苏格拉底式助教",
         "current_state_instruction": f"当前状态: {decision.state_name} ({decision.state}) - {decision.next_goal}",
         "current_strategy_instruction": f"当前策略: {decision.strategy}",
-        "guardrail_rules": "禁泄露规则: 绝不直接给出最终结论，绝不代替学生完成关键推理，只使用提问或类比进行引导。"
+        "guardrail_rules": "禁泄露规则: 绝不直接给出最终结论，绝不代替学生完成关键推理，只使用提问或类比进行引导。",
     }
 
     if decision.need_guardrail or decision.state == "S2":
-        follow_up = _pick_one(knowledge.get("verification_questions", []), default="你先说说：你现在最确定的那一步推理是什么？")
+        follow_up = _pick_one(
+            knowledge.get("verification_questions", []),
+            default="你先说说：你现在最确定的那一步推理是什么？",
+        )
         raw_reply = _pick_one(REFUSAL_REDIRECT_TEMPLATES).format(follow_up=follow_up)
         final_reply = _clean_reply(raw_reply)
         return {
@@ -246,7 +283,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "knowledge_used": misconception.get("misconception_name"),
             "state": decision.state,
             "strategy": decision.strategy,
-            "assembled_prompt": assembled_prompt
+            "assembled_prompt": assembled_prompt,
         }
 
     if not config.DASHSCOPE_API_KEY:
@@ -260,35 +297,39 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
             "knowledge_used": misconception.get("misconception_name"),
             "state": decision.state,
             "strategy": decision.strategy,
-            "assembled_prompt": assembled_prompt
+            "assembled_prompt": assembled_prompt,
         }
 
     llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
-    
+
     # 组装对话历史
     history_messages = []
-    
-    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, 'history_summary', None):
+
+    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, "history_summary", None):
         summary_prompt = f"【早期对话总结】\n{memory.history_summary}\n\n【近期对话】"
         history_messages.append(SystemMessage(content=summary_prompt))
 
-    for msg in formatted_messages[-config.MAX_HISTORY_TURNS:]:
+    for msg in formatted_messages[-config.MAX_HISTORY_TURNS :]:
         if msg["role"] == "user":
             history_messages.append(HumanMessage(content=msg["content"]))
         else:
             history_messages.append(AIMessage(content=msg["content"]))
-            
-    messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
-    
+
+    messages = (
+        [SystemMessage(content=system_prompt)]
+        + history_messages
+        + [HumanMessage(content=user_input)]
+    )
+
     guardrail_feedback = decision.meta.get("guardrail_feedback")
     if guardrail_feedback:
         feedback_prompt = f"【系统安全警告】你上一次的回复因违反安全规则被拦截，拦截理由是：{guardrail_feedback}。\n请重新组织语言，坚决避免直接给出最终结论或代替学生推理，而是通过提问或类比来引导学生。请确保你的回复符合当前状态的要求：{decision.state_name} ({decision.strategy})。"
         messages.append(SystemMessage(content=feedback_prompt))
-    
+
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-        reraise=True
+        reraise=True,
     )
     def _invoke_llm():
         return llm.invoke(messages)
@@ -298,6 +339,7 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         reply_text = response.content
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.error(f"LLM generation failed: {e}")
         reply_text = random.choice(LLM_ERROR_FALLBACK_PHRASES)
 
@@ -310,14 +352,18 @@ def generate_reply(user_input: str, decision: RouteDecision, memory: SessionMemo
         "knowledge_used": misconception.get("misconception_name"),
         "state": decision.state,
         "strategy": decision.strategy,
-        "assembled_prompt": assembled_prompt
+        "assembled_prompt": assembled_prompt,
     }
 
-def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: list = None) -> Dict[str, Any]:
+
+def generate_baseline_reply(
+    user_input: str, memory: SessionMemory, messages: list = None
+) -> Dict[str, Any]:
     if messages is None:
         messages = []
-    
-    from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+
+    from langchain_core.messages import SystemMessage
+
     formatted_messages = []
     for msg in messages:
         if isinstance(msg, HumanMessage):
@@ -326,7 +372,7 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
             formatted_messages.append({"role": "assistant", "content": msg.content})
         else:
             formatted_messages.append(msg)
-            
+
     system_prompt = """你是引导思考的初中物理苏格拉底式助教。
 请通过提问或举例的方式引导学生自己思考物理问题。
 注意：
@@ -336,7 +382,7 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
 4. 如果需要思考，请将思考过程写在 <think>...</think> 标签内。"""
 
     if not config.DASHSCOPE_API_KEY:
-        reply_text = f"（Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？"
+        reply_text = "（Mocked Baseline response）我们在探讨这个概念。你能再多说说你的想法吗？"
         final_reply = _clean_reply(reply_text)
         return {
             "raw_reply": reply_text,
@@ -345,28 +391,32 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
             "knowledge_used": "Unknown",
             "state": "Baseline",
             "strategy": "General_Reply",
-            "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
+            "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"},
         }
 
     llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
-    
+
     history_messages = []
-    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, 'history_summary', None):
+    if len(messages) > config.MAX_HISTORY_TURNS and getattr(memory, "history_summary", None):
         summary_prompt = f"【早期对话总结】\n{memory.history_summary}\n\n【近期对话】"
         history_messages.append(SystemMessage(content=summary_prompt))
 
-    for msg in formatted_messages[-config.MAX_HISTORY_TURNS:]:
+    for msg in formatted_messages[-config.MAX_HISTORY_TURNS :]:
         if msg["role"] == "user":
             history_messages.append(HumanMessage(content=msg["content"]))
         else:
             history_messages.append(AIMessage(content=msg["content"]))
-            
-    final_messages = [SystemMessage(content=system_prompt)] + history_messages + [HumanMessage(content=user_input)]
-    
+
+    final_messages = (
+        [SystemMessage(content=system_prompt)]
+        + history_messages
+        + [HumanMessage(content=user_input)]
+    )
+
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-        reraise=True
+        reraise=True,
     )
     def _invoke_llm():
         return llm.invoke(final_messages)
@@ -376,6 +426,7 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
         reply_text = response.content
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.error(f"LLM baseline generation failed: {e}")
         reply_text = random.choice(LLM_ERROR_FALLBACK_PHRASES)
 
@@ -388,14 +439,16 @@ def generate_baseline_reply(user_input: str, memory: SessionMemory, messages: li
         "knowledge_used": "Unknown",
         "state": "Baseline",
         "strategy": "General_Reply",
-        "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"}
+        "assembled_prompt": {"role_identity": "你是引导思考的初中物理苏格拉底式助教"},
     }
+
 
 REPORT_ERROR_FALLBACK_PHRASES = [
     "生成学习报告失败，请稍后重试。",
     "抱歉，总结报告生成遇到了点小问题，等会儿再试试吧。",
-    "哎呀，报告生成卡住了，可以稍后再试一下哦。"
+    "哎呀，报告生成卡住了，可以稍后再试一下哦。",
 ]
+
 
 def generate_learning_report(memory: SessionMemory, messages: list = None) -> str:
     """当会话解决（resolved == True）时生成学习报告"""
@@ -406,8 +459,8 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
 
     if messages is None:
         messages = []
-    
-    from langchain_core.messages import HumanMessage, AIMessage
+
+
     formatted_messages = []
     for msg in messages:
         if isinstance(msg, HumanMessage):
@@ -418,7 +471,7 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
             formatted_messages.append(msg)
 
     history_text = ""
-    if getattr(memory, 'history_summary', None):
+    if getattr(memory, "history_summary", None):
         history_text += f"早期对话摘要：\n{memory.history_summary}\n\n"
 
     for msg in formatted_messages:
@@ -441,7 +494,7 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-        reraise=True
+        reraise=True,
     )
     def _invoke_llm():
         return llm.invoke(messages)
@@ -451,5 +504,6 @@ def generate_learning_report(memory: SessionMemory, messages: list = None) -> st
         return _clean_reply(response.content)
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.error(f"Failed to generate learning report: {e}")
         return random.choice(REPORT_ERROR_FALLBACK_PHRASES)

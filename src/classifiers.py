@@ -1,13 +1,16 @@
-from langchain_core.messages import SystemMessage, HumanMessage
-from typing import Optional, Literal, List, Dict
-from pydantic import BaseModel, Field
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
-from router import PerceptionResult
-import config
 import re
+from typing import List, Literal, Optional
+
+from langchain_core.messages import HumanMessage, SystemMessage
+from pydantic import BaseModel, Field
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+import config
+from router import PerceptionResult
 
 MisconceptionTag = Literal["M-ELE-001", "M-ELE-002", "M-BUO-001", "M-BUO-002"]
 VALID_MISCONCEPTION_TAGS = {"M-ELE-001", "M-ELE-002", "M-BUO-001", "M-BUO-002"}
+
 
 def _normalize_misconception_tag(tag: Optional[str]) -> Optional[str]:
     if not tag:
@@ -27,20 +30,46 @@ def _normalize_misconception_tag(tag: Optional[str]) -> Optional[str]:
     t = fixes.get(t, t)
     return t if t in VALID_MISCONCEPTION_TAGS else None
 
+
 def _keyword_hit(text: str, keywords: List[str]) -> bool:
     if not text:
         return False
     return any(k in text for k in keywords if k)
 
+
 def _heuristic_misconception_override(user_input: str, predicted: Optional[str]) -> Optional[str]:
     text = user_input.strip()
-    ele002_kw = ["只接正极", "只接负极", "单线", "一根线", "不用回路", "不需要回路", "不闭合", "不用闭合", "回路没必要", "只要接", "电流不是已经出来"]
-    ele001_kw = ["电流变少", "电流会变少", "被消耗", "用掉", "吃掉", "前面的灯泡", "后面的灯泡", "后面更暗", "串联", "流入大于流出"]
+    ele002_kw = [
+        "只接正极",
+        "只接负极",
+        "单线",
+        "一根线",
+        "不用回路",
+        "不需要回路",
+        "不闭合",
+        "不用闭合",
+        "回路没必要",
+        "只要接",
+        "电流不是已经出来",
+    ]
+    ele001_kw = [
+        "电流变少",
+        "电流会变少",
+        "被消耗",
+        "用掉",
+        "吃掉",
+        "前面的灯泡",
+        "后面的灯泡",
+        "后面更暗",
+        "串联",
+        "流入大于流出",
+    ]
     if _keyword_hit(text, ele002_kw):
         return "M-ELE-002"
     if _keyword_hit(text, ele001_kw):
         return "M-ELE-001"
     return predicted
+
 
 class NLUOutput(BaseModel):
     intent: Literal[
@@ -49,47 +78,59 @@ class NLUOutput(BaseModel):
         "Cognitive_Stuck",
         "Knowledge_Inquiry",
         "Misconception_Expression",
-        "Hypothesis_Put_Forward"
+        "Hypothesis_Put_Forward",
     ] = Field(description="用户当前的意图")
-    
-    misconception_tag: Optional[MisconceptionTag] = Field(default=None, description="识别到的错误概念标签，只能从预设标签中选择；如果没有明确的错误概念则必须返回 null")
-    
-    cognitive_state: str = Field(description="用户当前的认知状态，必须严格从以下选项中选择：'认知僵局', '固守错误概念', '认知冲突触发', '新概念探索', '概念掌握验证'")
 
-    transition_approved: bool = Field(description="用户是否满足了当前教学状态的退出条件，可以进入下一个教学环节")
+    misconception_tag: Optional[MisconceptionTag] = Field(
+        default=None,
+        description="识别到的错误概念标签，只能从预设标签中选择；如果没有明确的错误概念则必须返回 null",
+    )
+
+    cognitive_state: str = Field(
+        description="用户当前的认知状态，必须严格从以下选项中选择：'认知僵局', '固守错误概念', '认知冲突触发', '新概念探索', '概念掌握验证'"
+    )
+
+    transition_approved: bool = Field(
+        description="用户是否满足了当前教学状态的退出条件，可以进入下一个教学环节"
+    )
     reasoning: str = Field(description="判断是否允许状态转移的理由")
 
-    sentiment: str = Field(description="用户当前的情感状态，必须严格从以下选项中选择：'焦虑/挫败', '困惑', '自信', '平静'")
-    
+    sentiment: str = Field(
+        description="用户当前的情感状态，必须严格从以下选项中选择：'焦虑/挫败', '困惑', '自信', '平静'"
+    )
+
     confidence: float = Field(description="分类置信度，范围0.0到1.0")
+
 
 class PostTestOutput(BaseModel):
     passed: bool = Field(description="学生是否已经用自己的话正确地解释了物理原理，且没有事实错误")
     reason: str = Field(description="判断理由")
 
+
 def verify_post_test(user_input: str, misconception_tag: str, messages: list = None) -> bool:
     if not config.DASHSCOPE_API_KEY:
         return True
-        
+
     if not misconception_tag:
         return False
 
-    from generator import MISCONCEPTIONS, KNOWLEDGE_CHUNKS
+    from generator import KNOWLEDGE_CHUNKS, MISCONCEPTIONS
+
     misconception = MISCONCEPTIONS.get(misconception_tag, {})
     knowledge = KNOWLEDGE_CHUNKS.get(misconception_tag, {})
-    
+
     llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
-    
+
     structured_llm = llm.with_structured_output(PostTestOutput, method="json_mode")
-    
+
     core_points = "\n- ".join(knowledge.get("core_science_points", []))
-    
+
     system_prompt = f"""你是一个物理老师，正在进行“教后测”评估。
 请判断学生最新的回答是否已经用自己的话正确解释了相关物理原理，且没有事实错误。
 当前主题相关的核心科学知识点是:
 {core_points}
 学生的初始错误观念是:
-{misconception.get('misconception_name', '')}
+{misconception.get("misconception_name", "")}
 
 要求:
 1. 学生必须用自己的话进行解释或推理。
@@ -101,8 +142,9 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
 
     if messages is None:
         messages = []
-    
-    from langchain_core.messages import HumanMessage, AIMessage
+
+    from langchain_core.messages import AIMessage
+
     formatted_messages = []
     for msg in messages:
         if isinstance(msg, HumanMessage):
@@ -111,18 +153,23 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
             formatted_messages.append({"role": "assistant", "content": msg.content})
         else:
             formatted_messages.append(msg)
-            
-    recent_text = "\n".join([f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}" for m in formatted_messages[-4:]])
+
+    recent_text = "\n".join(
+        [
+            f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}"
+            for m in formatted_messages[-4:]
+        ]
+    )
 
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-        reraise=True
+        reraise=True,
     )
     def _invoke_eval():
         prompt_messages = [
             SystemMessage(content=system_prompt),
-            HumanMessage(content=f"近期对话:\n{recent_text}\n\n请评估学生最新输入: {user_input}")
+            HumanMessage(content=f"近期对话:\n{recent_text}\n\n请评估学生最新输入: {user_input}"),
         ]
         return structured_llm.invoke(prompt_messages)
 
@@ -131,16 +178,20 @@ def verify_post_test(user_input: str, misconception_tag: str, messages: list = N
         return result.passed
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.error(f"Post-test evaluation failed: {e}")
         return False
 
-def classify_input(user_input: str, messages: list = None, history_summary: str = "", current_state: str = "S0") -> PerceptionResult:
+
+def classify_input(
+    user_input: str, messages: list = None, history_summary: str = "", current_state: str = "S0"
+) -> PerceptionResult:
     if messages is None:
         messages = []
-        
+
     # 将 AnyMessage 列表转换为适合 prompt 的文本形式
-    from langchain_core.messages import HumanMessage, AIMessage
-    
+    from langchain_core.messages import AIMessage
+
     formatted_messages = []
     for msg in messages:
         if isinstance(msg, HumanMessage):
@@ -150,7 +201,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
         else:
             formatted_messages.append(msg)
     messages = formatted_messages
-        
+
     if not config.DASHSCOPE_API_KEY:
         # Mock mode if API key is missing
         return PerceptionResult(
@@ -159,13 +210,13 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
             cognitive_state="认知僵局",
             sentiment="平静",
             risk_flag=False,
-            confidence=0.8
+            confidence=0.8,
         )
-        
+
     llm = config.get_tutor_llm(**config.DEFAULT_LLM_KWARGS)
-    
+
     structured_llm = llm.with_structured_output(NLUOutput, method="json_mode")
-    
+
     system_prompt = f"""你是一个专门用于物理辅导对话的自然语言理解(NLU)和教学状态评估(Assessor)模块。
 你的任务是根据用户的输入和历史对话，提取出用户的意图、错误概念、认知状态、情感状态，并判断是否允许进入下一个教学环节(transition_approved)。
 
@@ -250,22 +301,27 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
     history_text = ""
     if len(messages) > config.MAX_HISTORY_TURNS and history_summary:
         history_text += f"【早期对话总结】\n{history_summary}\n\n【近期对话】\n"
-        
-    recent_text = "\n".join([f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}" for m in messages[-config.MAX_HISTORY_TURNS:]])
+
+    recent_text = "\n".join(
+        [
+            f"{'学生' if m['role'] == 'user' else '助教'}: {m['content']}"
+            for m in messages[-config.MAX_HISTORY_TURNS :]
+        ]
+    )
     if not recent_text:
         recent_text = "无"
-    
+
     history_text += recent_text
 
     @retry(
         stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
         wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-        reraise=True
+        reraise=True,
     )
     def _invoke_chain():
         prompt_messages = [
             SystemMessage(content=system_prompt),
-            HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}")
+            HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}"),
         ]
         return structured_llm.invoke(prompt_messages)
 
@@ -273,27 +329,31 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
         result = _invoke_chain()
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.warning(f"Structured NLU parsing failed, falling back to raw parsing: {e}")
         try:
             import json
             import re
+
             prompt_messages = [
-                SystemMessage(content=system_prompt + "\n请只输出JSON格式的结果，不要包含其他任何字符。"),
-                HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}")
+                SystemMessage(
+                    content=system_prompt + "\n请只输出JSON格式的结果，不要包含其他任何字符。"
+                ),
+                HumanMessage(content=f"历史对话:\n{history_text}\n\n当前用户输入: {user_input}"),
             ]
             raw_response = llm.invoke(prompt_messages)
             raw_text = raw_response.content.strip()
-            
+
             # Use regex to find JSON block
-            json_match = re.search(r'\{[\s\S]*\}', raw_text)
+            json_match = re.search(r"\{[\s\S]*\}", raw_text)
             if json_match:
                 raw_text = json_match.group(0)
-            
+
             data = json.loads(raw_text)
 
             raw_tag = _normalize_misconception_tag(data.get("misconception_tag"))
             raw_tag = _heuristic_misconception_override(user_input, raw_tag)
-            
+
             return PerceptionResult(
                 intent=data.get("intent") or "Knowledge_Inquiry",
                 misconception_tag=raw_tag,
@@ -302,7 +362,7 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 risk_flag=data.get("intent") == "Direct_Answer_Seek",
                 confidence=float(data.get("confidence") or 0.0),
                 transition_approved=bool(data.get("transition_approved") or False),
-                reasoning=data.get("reasoning") or ""
+                reasoning=data.get("reasoning") or "",
             )
         except Exception as fallback_e:
             logger_instance.error(f"Fallback NLU parsing failed: {fallback_e}")
@@ -314,15 +374,15 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
                 risk_flag=False,
                 confidence=0.0,
                 transition_approved=False,
-                reasoning="Fallback NLU Error"
+                reasoning="Fallback NLU Error",
             )
-    
+
     # Calculate risk_flag based on intent
     risk_flag = result.intent in ["Direct_Answer_Seek", "Off_Topic"]
 
     normalized_tag = _normalize_misconception_tag(result.misconception_tag)
     normalized_tag = _heuristic_misconception_override(user_input, normalized_tag)
-    
+
     return PerceptionResult(
         intent=result.intent,
         misconception_tag=normalized_tag,
@@ -331,5 +391,5 @@ def classify_input(user_input: str, messages: list = None, history_summary: str 
         risk_flag=risk_flag,
         confidence=result.confidence,
         transition_approved=result.transition_approved,
-        reasoning=result.reasoning
+        reasoning=result.reasoning,
     )

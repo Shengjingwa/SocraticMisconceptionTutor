@@ -1,9 +1,11 @@
 import json
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 import config
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
 
 def _load_json(filename: str) -> Any:
     path = DATA_DIR / filename
@@ -13,11 +15,14 @@ def _load_json(filename: str) -> Any:
                 return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         from logger import logger_instance
+
         logger_instance.error(f"Failed to load JSON {filename}: {e}")
     return []
 
+
 misconceptions_data = _load_json("misconceptions.json")
 MISCONCEPTIONS = {item["id"]: item for item in misconceptions_data}
+
 
 def check_input(user_input: str, intent: str) -> Dict[str, Any]:
     """
@@ -29,27 +34,31 @@ def check_input(user_input: str, intent: str) -> Dict[str, Any]:
         return {"blocked": True, "reason": "Off_Topic"}
     return {"blocked": False, "reason": None}
 
-def check_output(generated_text: str, misconception_tag: Optional[str], consecutive_triggers: int = 0, current_state: str = "S0") -> Dict[str, Any]:
+
+def check_output(
+    generated_text: str,
+    misconception_tag: Optional[str],
+    consecutive_triggers: int = 0,
+    current_state: str = "S0",
+) -> Dict[str, Any]:
     """
     检查输出是否泄露答案。
     结合基础正则匹配和 LLM-as-a-Judge 机制。
     """
     if not misconception_tag or misconception_tag not in MISCONCEPTIONS:
-        misconception = {
-            "misconception_name": "物理问题",
-            "forbidden_direct_answers": []
-        }
+        misconception = {"misconception_name": "物理问题", "forbidden_direct_answers": []}
     else:
         misconception = MISCONCEPTIONS[misconception_tag]
 
     forbidden_phrases = misconception.get("forbidden_direct_answers", [])
-    
+
     # 1. 快速正则和子串匹配拦截（前置规则防御）
     for phrase in forbidden_phrases:
         if phrase in generated_text:
             return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
-    
+
     import re
+
     direct_conclusion_patterns = [
         r"正确答案\s*是",
         r"标准\s*结论",
@@ -62,32 +71,40 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
         r"(必须|只有).*(闭合回路|闭合电路|完整回路|完整电路)",
         r"浮力.*(只|仅).*(排开|排开的).*(水|液体).*(重力|重量)",
         r"浮力.*(和|与).*(深度).*无关",
-        r"浮力.*(不变|保持不变)"
+        r"浮力.*(不变|保持不变)",
     ]
     for pattern in direct_conclusion_patterns:
         if re.search(pattern, generated_text):
-             return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
+            return {"blocked": True, "reason": "Answer_Leakage", "answer_leakage": True}
 
     # 2. LLM-as-a-Judge 深度语义检测
     try:
-        from langchain_core.messages import SystemMessage, HumanMessage
-        from pydantic import BaseModel, Field
         import json
-        from tenacity import retry, wait_exponential, stop_after_attempt
-        
-        class GuardrailOutput(BaseModel):
-            method_classification: str = Field(default="未知分类", description="助教的教学方法分类（如：直接给答案、代替推导、提供事实、提问引导、归谬法/思想实验等）")
-            is_leaking: bool = Field(default=False, description="是否属于直接泄漏答案（True为违规泄漏，False为安全的启发式教学）")
-            reason: str = Field(default="未提供理由", description="判断理由，需结合方法分类说明是否满足豁免条件")
 
-        llm = config.get_tutor_llm(
-            temperature=0.0,
-            **config.DEFAULT_LLM_KWARGS
-        )
-        
+        from langchain_core.messages import HumanMessage, SystemMessage
+        from pydantic import BaseModel, Field
+        from tenacity import retry, stop_after_attempt, wait_exponential
+
+        class GuardrailOutput(BaseModel):
+            method_classification: str = Field(
+                default="未知分类",
+                description="助教的教学方法分类（如：直接给答案、代替推导、提供事实、提问引导、归谬法/思想实验等）",
+            )
+            is_leaking: bool = Field(
+                default=False,
+                description="是否属于直接泄漏答案（True为违规泄漏，False为安全的启发式教学）",
+            )
+            reason: str = Field(
+                default="未提供理由", description="判断理由，需结合方法分类说明是否满足豁免条件"
+            )
+
+        llm = config.get_tutor_llm(temperature=0.0, **config.DEFAULT_LLM_KWARGS)
+
         extra_instruction = ""
         if current_state in ["S2", "S4"]:
-            extra_instruction = "\n注意：【严格模式】绝对禁止提供任何实质性的正确答案或完整解题步骤。"
+            extra_instruction = (
+                "\n注意：【严格模式】绝对禁止提供任何实质性的正确答案或完整解题步骤。"
+            )
         elif current_state == "S5" and consecutive_triggers >= 2:
             extra_instruction = "\n注意：【弹性模式】由于当前对话陷入僵局（护栏连续触发 >= 2 次），请大幅放宽判定标准，允许助教给出较多的知识铺垫和部分推导过程，只要不直接给出最终核心结论即可。"
         elif current_state == "S7":
@@ -96,7 +113,7 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
             extra_instruction = "\n注意：由于当前对话陷入僵局（护栏连续拦截多次），请适当放宽判定标准，允许助教给出更多提示和部分推导过程，只要不直接给出最终核心结论即可。"
 
         judge_prompt = f"""你是一个教育安全评估裁判。
-学生的当前错误概念是: {misconception.get('misconception_name')}
+学生的当前错误概念是: {misconception.get("misconception_name")}
 
 请使用【两阶段验证】评估助教的回复是否违规。
 
@@ -138,58 +155,72 @@ def check_output(generated_text: str, misconception_tag: Optional[str], consecut
     "is_leaking": true 或 false,
     "reason": "你的理由"
 }}"""
-        
+
         messages = [
             SystemMessage(content=judge_prompt),
-            HumanMessage(content=f"助教回复内容:\n{generated_text}")
+            HumanMessage(content=f"助教回复内容:\n{generated_text}"),
         ]
-        
+
         @retry(
             stop=stop_after_attempt(config.RETRY_STOP_ATTEMPT),
-            wait=wait_exponential(multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT),
-            reraise=True
+            wait=wait_exponential(
+                multiplier=1, min=config.RETRY_MIN_WAIT, max=config.RETRY_MAX_WAIT
+            ),
+            reraise=True,
         )
         def _invoke_judge():
             response = llm.invoke(messages)
             text = response.content
-            match = re.search(r'\{.*\}', text, re.DOTALL)
+            match = re.search(r"\{.*\}", text, re.DOTALL)
             if not match:
                 raise ValueError("No JSON block found in response")
             json_str = match.group(0)
-            
+
             # Clean up markdown or invisible characters if any
             json_str = json_str.strip()
-            
+
             # Fix potential unescaped characters in the JSON string
             try:
                 data = json.loads(json_str)
             except json.JSONDecodeError:
-                # If standard parsing fails, try to use json_repair if available, 
+                # If standard parsing fails, try to use json_repair if available,
                 # or fallback to a more aggressive regex cleanup
                 try:
                     import json_repair
+
                     data = json_repair.loads(json_str)
                 except ImportError:
                     # Fallback regex cleanup for common unescaped quotes/newlines in 'reason' field
-                    json_str = re.sub(r'\\n', ' ', json_str)
+                    json_str = re.sub(r"\\n", " ", json_str)
                     json_str = re.sub(r'\\"', "'", json_str)
                     data = json.loads(json_str)
-                    
+
             return GuardrailOutput(**data)
-            
+
         judge_result = _invoke_judge()
         if judge_result.is_leaking:
             from logger import logger_instance
+
             logger_instance.warning(f"LLM Judge blocked response. Reason: {judge_result.reason}")
             return {"blocked": True, "reason": "Answer_Leakage_LLM", "answer_leakage": True}
-            
+
     except Exception as e:
         from logger import logger_instance
+
         logger_instance.warning(f"LLM Judge failed: {e}. Falling back to rule-based only.")
 
     return {"blocked": False, "reason": None, "answer_leakage": False}
 
-def apply_guardrails(user_input: str, intent: str, generated_text: str, misconception_tag: Optional[str], is_already_safe: bool = False, consecutive_triggers: int = 0, current_state: str = "S0") -> Dict[str, Any]:
+
+def apply_guardrails(
+    user_input: str,
+    intent: str,
+    generated_text: str,
+    misconception_tag: Optional[str],
+    is_already_safe: bool = False,
+    consecutive_triggers: int = 0,
+    current_state: str = "S0",
+) -> Dict[str, Any]:
     """
     综合应用输入和输出护栏。
     is_already_safe: 如果路由层已经判断需要护栏并且生成了安全回复，则直接通过输入护栏。
@@ -200,7 +231,7 @@ def apply_guardrails(user_input: str, intent: str, generated_text: str, misconce
             return {
                 "guardrail_triggered": True,
                 "guardrail_reason": in_check["reason"],
-                "answer_leakage_flag": False
+                "answer_leakage_flag": False,
             }
 
     out_check = check_output(generated_text, misconception_tag, consecutive_triggers, current_state)
@@ -208,11 +239,7 @@ def apply_guardrails(user_input: str, intent: str, generated_text: str, misconce
         return {
             "guardrail_triggered": True,
             "guardrail_reason": out_check["reason"],
-            "answer_leakage_flag": out_check["answer_leakage"]
+            "answer_leakage_flag": out_check["answer_leakage"],
         }
-    
-    return {
-        "guardrail_triggered": False,
-        "guardrail_reason": None,
-        "answer_leakage_flag": False
-    }
+
+    return {"guardrail_triggered": False, "guardrail_reason": None, "answer_leakage_flag": False}

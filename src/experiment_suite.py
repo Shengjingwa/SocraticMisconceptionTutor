@@ -97,7 +97,9 @@ def _write_md(path: Path, rows: List[Dict[str, str]]) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
-def _run_pipeline(log_dir: Path, results_dir: Path, pipeline_log: Path, env: Dict[str, str], include_judge: bool) -> None:
+def _run_pipeline(
+    log_dir: Path, results_dir: Path, pipeline_log: Path, env: Dict[str, str], include_judge: bool
+) -> None:
     cmds = [
         [sys.executable, "src/simulator.py"],
         [sys.executable, "src/evaluator.py"],
@@ -140,7 +142,7 @@ def main() -> None:
     include_judge = not args.no_judge
 
     for i in range(args.runs):
-        run_id = f"run_{i+1:02d}"
+        run_id = f"run_{i + 1:02d}"
         run_dir = root / run_id
         log_dir = run_dir / "logs"
         results_dir = run_dir / "results"
@@ -166,4 +168,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
