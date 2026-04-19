@@ -17,10 +17,14 @@
 
 ## 1.3 仓库目录结构
 ```text
-src/        核心逻辑（工作流编排、分类、FSM、生成、护栏、仿真、评估）
-data/       静态数据（迷思概念库、知识块、学生画像）
-logs/       运行日志（jsonl/json + app.log）
-results/    评估输出（csv）
+src/             核心逻辑（工作流编排、分类、FSM、生成、护栏、仿真、评估）
+data/            静态数据（迷思概念库、知识块、学生画像）
+logs/            运行日志（jsonl/json + app.log）
+results/         评估输出（csv）
+experiments/     实验数据及归档（archive/ 下存放历史运行记录）
+docs/            文档，包括代码百科 (code-wiki/) 和论文笔记 (thesis_notes/)
+ThesisProposal/  学位论文的 LaTeX 源码及参考文献
+pyproject.toml   项目配置文件（Ruff / Pytest）
 ```
 
 ## 1.4 快速定位（按问题）

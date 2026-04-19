@@ -90,10 +90,14 @@ FSM+Guardrail,96.55%,58.33%,7.25,0.00%,1.15%,0.00%,37.33%,0.00%
 
 ## 项目结构
 ```text
-src/        核心逻辑（FSM/分类/生成/护栏/仿真/评估）
-data/       静态数据（迷思概念库、知识块、学生画像）
-logs/       运行与实验日志（jsonl / json）
-results/    评估输出（csv）
+src/             核心逻辑（FSM/分类/生成/护栏/仿真/评估）
+data/            静态数据（迷思概念库、知识块、学生画像）
+logs/            运行与实验日志（jsonl / json）
+results/         评估输出（csv）
+experiments/     实验数据及归档（archive/ 下存放历史运行记录）
+docs/            文档，包括代码百科 (code-wiki/) 和论文笔记 (thesis_notes/)
+ThesisProposal/  学位论文的 LaTeX 源码及参考文献
+pyproject.toml   项目配置文件（Ruff / Pytest）
 ```
 
 ## 复现建议

@@ -11,4 +11,24 @@ venv/
 env/
 logs/*.log
 logs/app.log
+
+# Experiments & Results
 experiments/
+!experiments/archive/
+results/
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.gz
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+ThesisProposal/Thesis.pdf
