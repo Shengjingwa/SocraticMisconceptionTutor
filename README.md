@@ -88,17 +88,8 @@ FSM,84.27%,66.67%,7.42,0.00%,0.00%,0.00%,36.36%,0.00%
 FSM+Guardrail,96.55%,58.33%,7.25,0.00%,1.15%,0.00%,37.33%,0.00%
 ```
 
-## 项目结构
-```text
-src/             核心逻辑（FSM/分类/生成/护栏/仿真/评估）
-data/            静态数据（迷思概念库、知识块、学生画像）
-logs/            运行与实验日志（jsonl / json）
-results/         评估输出（csv）
-experiments/     实验数据及归档（archive/ 下存放历史运行记录）
-docs/            文档，主要包含代码百科 (code-wiki/)
-ThesisProposal/  学位论文的 LaTeX 源码、各章节 (Chapters/) 及参考文献
-pyproject.toml   项目配置文件（Ruff / Pytest 等）
-```
+## Code Wiki
+本仓库的详细架构、模块说明与代码百科存放于 `docs/code-wiki/` 目录下，您可以通过根目录的 [CODE_WIKI.md](file:///workspace/CODE_WIKI.md) 查看。
 
 ## 复现建议
 - 固定实验配置：确保 `data/misconceptions.json`、`data/simulation_profiles.json` 一致。
