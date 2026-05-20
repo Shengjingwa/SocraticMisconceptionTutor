@@ -91,10 +91,7 @@ FSM+Guardrail,96.55%,58.33%,7.25,0.00%,1.15%,0.00%,37.33%,0.00%
 ## Code Wiki
 本仓库的详细架构、模块说明与代码百科存放于 `docs/code-wiki/` 目录下，您可以通过根目录的 [CODE_WIKI.md](file:///workspace/CODE_WIKI.md) 查看。
 
-## 复现建议
-- 固定实验配置：确保 `data/misconceptions.json`、`data/simulation_profiles.json` 一致。
-- 记录模型版本与推理参数：建议在论文附录中记录 `LLM_BASE_URL`、`TUTOR_MODEL`、`JUDGE_MODEL`、温度等信息（见 [config.py](file:///workspace/src/config.py)）。
-- 冒烟验证：使用 `SIMULATION_SMOKE=1` 快速确认环境与 API 配置无误，再扩大规模。
+
 
 
 
